@@ -1,0 +1,9 @@
+language: python
+python: 3.6
+env:
+  - TOXENV=tests
+  - TOXENV=flake8
+install:
+  - pip install tox
+script:
+  - tox
