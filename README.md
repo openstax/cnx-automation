@@ -47,13 +47,31 @@ To run a specific test, pass in a value for `-k`:
 $ tox -- -k=test_my_feature
 ```
 
+### Additional Options
+
 The pytest plugin that we use for running tests has a number of advanced
 command line options available. To see the options available, run
 `py.test --help`. The full documentation for the plugin can be found
 [here][pytest-selenium].
 
+### PageObject Pattern
+
+This testing framework heavily relies on the pypom library. The [PyPOM][pypom]
+library is the Python implementation of the [PageObject][pageobject] design pattern.
+
+The [PageObject][pageobject] pattern creates a nice API abstraction around
+an HTML page allowing the test creator to focus on the intent of a test
+rather than decyphering HTML code.
+
+The inspiration for this framework is based on the [Mozilla Addons Server Project][mozilla]
+and plenty of examples can be gleamed from their fantastic usage of the
+pattern.
+
+
 [git-clone]: https://help.github.com/articles/cloning-a-repository/
 [python]: https://www.python.org/downloads/
-[tox]: http://tox.readthedocs.io/en/latest/install.html
 [flake8]: http://flake8.readthedocs.io/
 [pytest-selenium]: http://pytest-selenium.readthedocs.org/
+[pypom]: https://pypom.readthedocs.io/en/latest/user_guide.html#regions
+[pageobject]: https://martinfowler.com/bliki/PageObject.html
+[mozilla]: https://github.com/mozilla/addons-server
