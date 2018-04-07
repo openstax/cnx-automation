@@ -8,6 +8,14 @@ from pages.home import Home
 
 
 @pytest.mark.nondestructive
-def test_open_home_page(base_url, selenium):
+def test_splash_banner_loads(base_url, selenium):
     page = Home(selenium, base_url).open()
     assert page.header.is_nav_displayed
+    assert 'Discover learning materials in an Open Space' in page.splash
+
+
+@pytest.mark.nondestructive
+def test_featured_books_load(base_url, selenium):
+    page = Home(selenium, base_url).open()
+    assert len(page.featured_books.openstax_list) > 0
+    assert len(page.featured_books.cnx_list) > 0

@@ -1,5 +1,6 @@
 # Tests for cnx-automation
-This repository contains tests for [cnx-automation](https://qa.cnx.org).
+
+This repository contains ui tests for [cnx.org][cnx-org].
 
 ## How to run the tests locally
 
@@ -54,7 +55,7 @@ command line options available. To see the options available, run
 `py.test --help`. The full documentation for the plugin can be found
 [here][pytest-selenium].
 
-### Framework Design
+## Framework Design
 
 This testing framework heavily relies on the [PyPOM][pypom]. The [PyPOM][pypom]
 library is the Python implementation of the [PageObject][pageobject] design pattern.
@@ -89,6 +90,7 @@ The inspiration for this framework is based on the [Mozilla Addons Server Projec
 and plenty of examples can be gleamed from their fantastic usage of the
 pattern.
 
+[cnx-org]: https://cnx.org
 [git-clone]: https://help.github.com/articles/cloning-a-repository/
 [python]: https://www.python.org/downloads/
 [flake8]: http://flake8.readthedocs.io/
