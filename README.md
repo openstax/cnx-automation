@@ -54,19 +54,40 @@ command line options available. To see the options available, run
 `py.test --help`. The full documentation for the plugin can be found
 [here][pytest-selenium].
 
-### PageObject Pattern
+### Framework Design
 
-This testing framework heavily relies on the pypom library. The [PyPOM][pypom]
+This testing framework heavily relies on the [PyPOM][pypom]. The [PyPOM][pypom]
 library is the Python implementation of the [PageObject][pageobject] design pattern.
 
 The [PageObject][pageobject] pattern creates a nice API abstraction around
 an HTML page allowing the test creator to focus on the intent of a test
-rather than decyphering HTML code.
+rather than decyphering HTML code. This design pattern makes the test framework
+much more maintainable as any code changes to the page can occur in the
+[PageObject][pageobject] rather than within the test code.
+
+According to Siman Stewart,
+
+> If you have WebDriver APIs in your test methods, You're Doing It Wrong.
+
+The usage of [pytest][pytest], [pytest-selenium][pytest-selenium] plugin,
+and the [PageObject][pageobject] pattern allows for a succinct test structure
+like so:
+
+```python
+import pytest
+
+from pages.home import Home
+
+
+@pytest.mark.nondestructive
+def test_open_home_page(base_url, selenium):
+    page = Home(selenium, base_url).open()
+    assert page.header.is_nav_displayed
+```
 
 The inspiration for this framework is based on the [Mozilla Addons Server Project][mozilla]
 and plenty of examples can be gleamed from their fantastic usage of the
 pattern.
-
 
 [git-clone]: https://help.github.com/articles/cloning-a-repository/
 [python]: https://www.python.org/downloads/
@@ -74,4 +95,5 @@ pattern.
 [pytest-selenium]: http://pytest-selenium.readthedocs.org/
 [pypom]: https://pypom.readthedocs.io/en/latest/user_guide.html#regions
 [pageobject]: https://martinfowler.com/bliki/PageObject.html
+[pytest]: https://docs.pytest.org/en/latest/
 [mozilla]: https://github.com/mozilla/addons-server
