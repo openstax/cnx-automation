@@ -19,3 +19,30 @@ def test_featured_books_load(base_url, selenium):
     page = Home(selenium, base_url).open()
     assert len(page.featured_books.openstax_list) > 0
     assert len(page.featured_books.cnx_list) > 0
+
+
+@pytest.mark.nondestructive
+def test_read_more_loads_correct_page(base_url, selenium):
+    page = Home(selenium, base_url).open()
+    book = page.featured_books.openstax_list[0]
+    name = book.name
+    content_page = book.click_read_more()
+    assert name == content_page.title
+
+
+@pytest.mark.nondestructive
+def test_book_cover_loads_correct_page(base_url, selenium):
+    page = Home(selenium, base_url).open()
+    book = page.featured_books.openstax_list[0]
+    name = book.name
+    content_page = book.click_book_cover()
+    assert name == content_page.title
+
+
+@pytest.mark.nondestructive
+def test_title_link_loads_correct_page(base_url, selenium):
+    page = Home(selenium, base_url).open()
+    book = page.featured_books.openstax_list[0]
+    name = book.name
+    content_page = book.click_title_link()
+    assert name == content_page.title

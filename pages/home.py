@@ -42,9 +42,29 @@ class Home(Base):
             return [Home.Book(self.page, el) for el in items]
 
     class Book(Region):
-        _read_more_locator = (By.CLASS_NAME, '.read-more')
+        _read_more_locator = (By.CSS_SELECTOR, '.read-more > a')
         _book_name_locator = (By.CSS_SELECTOR, 'h3')
+        _book_cover_link_locator = (By.CSS_SELECTOR, '.book > a')
+        _title_link_locator = (By.CSS_SELECTOR, 'h3 > a')
 
         @property
         def name(self):
-            return self.find_element(*self._book_name_locator)
+            return self.find_element(*self._book_name_locator).text
+
+        def click_read_more(self):
+            self.find_element(*self._read_more_locator).click()
+            from pages.content import Content
+            content = Content(self.driver, self.page.base_url)
+            return content.wait_for_page_to_load()
+
+        def click_book_cover(self):
+            self.find_element(*self._book_cover_link_locator).click()
+            from pages.content import Content
+            content = Content(self.driver, self.page.base_url)
+            return content.wait_for_page_to_load()
+
+        def click_title_link(self):
+            self.find_element(*self._title_link_locator).click()
+            from pages.content import Content
+            content = Content(self.driver, self.page.base_url)
+            return content.wait_for_page_to_load()
