@@ -12,8 +12,8 @@ class Content(Base):
     _title_locator = (By.CSS_SELECTOR, '.media-title h1')
 
     def wait_for_page_to_load(self):
-        self.wait.until(lambda s: self.is_element_displayed(
-            *self._content_locator))
+        self.wait.until(lambda s: self.is_element_present(*self._content_locator))
+        self.wait.until(lambda s: self.is_element_present(*self._title_locator))
         return self
 
     @property

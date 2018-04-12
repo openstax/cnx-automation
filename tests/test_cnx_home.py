@@ -10,8 +10,13 @@ from pages.home import Home
 @pytest.mark.nondestructive
 def test_splash_banner_loads(base_url, selenium):
     page = Home(selenium, base_url).open()
-    assert page.header.is_nav_displayed
     assert 'Discover learning materials in an Open Space' in page.splash
+
+
+@pytest.mark.nondestructive
+def test_nav_is_displayed(base_url, selenium):
+    page = Home(selenium, base_url).open()
+    assert page.header.is_nav_displayed
 
 
 @pytest.mark.nondestructive
