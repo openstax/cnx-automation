@@ -1,4 +1,10 @@
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at http://mozilla.org/MPL/2.0/.
+
 import pytest
+
+from tests.utils import gen_list_from_file
 
 
 def pytest_addoption(parser):
@@ -19,3 +25,21 @@ def chrome_options(chrome_options, pytestconfig):
 def selenium(selenium):
     selenium.implicitly_wait(0)
     return selenium
+
+
+@pytest.fixture
+def content_url(base_url):
+    """Creates contents URL based on the base_url
+
+    Example: https://qa.cnx.org/contents
+    """
+    return '{0}/{1}'.format(base_url, 'contents')
+
+
+@pytest.fixture(params=gen_list_from_file('tests/data/american_gov_uuids.txt'))
+def american_gov_url(content_url, request):
+    """Creates an American history URL based on the content_url fixture and a UUID
+
+    Example: https://qa.cnx.org/contents/
+    """
+    yield '{0}/{1}'.format(content_url, request.param)

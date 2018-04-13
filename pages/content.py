@@ -10,6 +10,7 @@ from pages.base import Base
 class Content(Base):
     _content_locator = (By.ID, 'content')
     _title_locator = (By.CSS_SELECTOR, '.media-title h1')
+    _ncy_locator = (By.CLASS_NAME, 'not-converted-yet')
 
     def wait_for_page_to_load(self):
         self.wait.until(lambda s: self.is_element_present(*self._content_locator))
@@ -19,3 +20,7 @@ class Content(Base):
     @property
     def title(self):
         return self.find_element(*self._title_locator).text
+
+    @property
+    def is_ncy_displayed(self):
+        return self.is_element_displayed(*self._ncy_locator)
