@@ -48,7 +48,7 @@ class Home(Base):
         _title_link_locator = (By.CSS_SELECTOR, 'h3 > a')
 
         @property
-        def name(self):
+        def title(self):
             return self.find_element(*self._book_name_locator).text
 
         def click_read_more(self):

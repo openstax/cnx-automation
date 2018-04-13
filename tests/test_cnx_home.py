@@ -9,45 +9,78 @@ from pages.home import Home
 
 @pytest.mark.nondestructive
 def test_splash_banner_loads(base_url, selenium):
+    # GIVEN the main website URL and the Selenium driver
+
+    # WHEN The home page URL is fully loaded
     page = Home(selenium, base_url).open()
+
+    # THEN The splash text is correct
     assert 'Discover learning materials in an Open Space' in page.splash
 
 
 @pytest.mark.nondestructive
 def test_nav_is_displayed(base_url, selenium):
+    # GIVEN the main website URL and the Selenium driver
+
+    # WHEN The main website URL is fully loaded
     page = Home(selenium, base_url).open()
+
+    # THEN The navbar is displayed
     assert page.header.is_nav_displayed
 
 
 @pytest.mark.nondestructive
 def test_featured_books_load(base_url, selenium):
+    # GIVEN the main website URL and the Selenium driver
+
+    # WHEN The main website URL is fully loaded
     page = Home(selenium, base_url).open()
+
+    # THEN the featured books for OpenStax and CNX are greater than 0
     assert len(page.featured_books.openstax_list) > 0
     assert len(page.featured_books.cnx_list) > 0
 
 
 @pytest.mark.nondestructive
 def test_read_more_loads_correct_page(base_url, selenium):
+    # GIVEN the main website URL and the Selenium driver
+
+    # WHEN The main website URL is fully loaded,
+    #      Find the first OpenStax book and click the Read More link
     page = Home(selenium, base_url).open()
     book = page.featured_books.openstax_list[0]
-    name = book.name
+    book_title = book.title
     content_page = book.click_read_more()
-    assert name == content_page.title
+
+    # THEN The book title from the home page matches the content page title
+    assert book_title == content_page.title
 
 
 @pytest.mark.nondestructive
 def test_book_cover_loads_correct_page(base_url, selenium):
+    # GIVEN the main website URL and the Selenium driver
+
+    # WHEN The main website URL is fully loaded,
+    #      Find the first OpenStax book and click the book cover link
     page = Home(selenium, base_url).open()
     book = page.featured_books.openstax_list[0]
-    name = book.name
+    book_title = book.title
     content_page = book.click_book_cover()
-    assert name == content_page.title
+
+    # THEN The book title from the home page matches the content page title
+    assert book_title == content_page.title
 
 
 @pytest.mark.nondestructive
 def test_title_link_loads_correct_page(base_url, selenium):
+    # GIVEN the main website URL and the Selenium driver
+
+    # WHEN The main website URL is fully loaded,
+    #      Find the first OpenStax book and click the title link
     page = Home(selenium, base_url).open()
     book = page.featured_books.openstax_list[0]
-    name = book.name
+    book_title = book.title
     content_page = book.click_title_link()
-    assert name == content_page.title
+
+    # THEN The book title from the home page matches the content page title
+    assert book_title == content_page.title
