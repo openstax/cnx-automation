@@ -8,8 +8,8 @@ from pages.content import Content
 
 
 @pytest.mark.nondestructive
-def test_ncy_is_not_displayed(selenium, american_gov_url):
-    # GIVEN An American Government URL
+def test_ncy_is_not_displayed(american_gov_url, selenium):
+    # GIVEN An American Government URL and Selenium driver
 
     # WHEN The page is fully loaded using the URL
     page = Content(selenium, american_gov_url).open()
