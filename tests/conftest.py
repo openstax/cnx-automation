@@ -40,6 +40,6 @@ def content_url(base_url):
 def american_gov_url(content_url, request):
     """Creates an American history URL based on the content_url fixture and a UUID
 
-    Example: https://qa.cnx.org/contents/
+    Example: https://qa.cnx.org/contents/c6ee95dd-d10b-430c-8a83-20d5a28334a9
     """
     yield '{0}/{1}'.format(content_url, request.param)
