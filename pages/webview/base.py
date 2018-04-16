@@ -26,5 +26,5 @@ class Base(Page):
 
         def click_browse(self):
             self.find_element(*self._browse_locator).click()
-            from pages.webview.browse import Browse
+            from pages.browse import Browse
             return Browse(self.driver, self.page.base_url).wait_for_page_to_load()
