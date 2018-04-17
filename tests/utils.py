@@ -9,5 +9,5 @@ def gen_list_from_file(location):
     Assumes that each item is on a single line and strips newline characters
     """
     with open(location, 'r') as f:
-        uuids = [uuid.rstrip('\n') for uuid in f.readlines()]
+        uuids = [uuid.strip() for uuid in f.readlines()]
     return uuids
