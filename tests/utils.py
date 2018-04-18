@@ -3,11 +3,12 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 
-def gen_list_from_file(location):
+def gen_list_from_file(filepath):
     """Generates a list from a file
 
-    Assumes that each item is on a single line and strips newline characters
+    Assumes that each item is on a single line and strips leading and trailing characters
     """
-    with open(location, 'r') as f:
-        uuids = [uuid.strip() for uuid in f.readlines()]
-    return uuids
+    with open(filepath, 'r') as f:
+        for line in f:
+            line = line.strip()
+            yield line
