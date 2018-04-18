@@ -107,5 +107,5 @@ venv.bak/
 .idea/
 
 # test report
-/report.html
-/assets/
+report.html
+assets/
