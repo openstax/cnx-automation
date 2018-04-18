@@ -10,5 +10,4 @@ def gen_list_from_file(filepath):
     """
     with open(filepath, 'r') as f:
         for line in f:
-            line = line.strip()
-            yield line
+            yield line.strip()
