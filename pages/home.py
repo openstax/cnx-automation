@@ -14,8 +14,8 @@ class Home(Base):
     _featured_books_locator = (By.ID, 'featured-books')
 
     def wait_for_page_to_load(self):
-        self.wait.until(lambda s: self.is_element_displayed(
-            *self._openstax_books_locator))
+        self.wait.until(
+            lambda s: self.find_elements(*self.featured_books._openstax_books_locator))
         return self
 
     @property
