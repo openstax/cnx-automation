@@ -8,6 +8,8 @@ from pages.base import Base
 
 
 class Browse(Base):
+    URL_TEMPLATE = '/browse'
+
     _search_locator = (By.ID, 'find-content-input')
     _main_content_locator = (By.ID, 'main-content')
     _advanced_search_locator = (By.CLASS_NAME, 'advanced-search')
@@ -16,6 +18,7 @@ class Browse(Base):
 
     def wait_for_page_to_load(self):
         self.wait.until(lambda s: self.is_element_displayed(*self._main_content_locator))
+        self.wait.until(lambda s: self.find_elements(*self._subject_list_locator))
         return self
 
     @property
@@ -32,4 +35,16 @@ class Browse(Base):
         return [Browse.Subject(self, el) for el in items]
 
     class Subject(Region):
-        pass
+        _name_locator = (By.CSS_SELECTOR, 'h2')
+
+        @property
+        def name(self):
+            return self.find_element(*self._name_locator).text
+
+        @property
+        def pages(self):
+            pass
+
+        @property
+        def books(self):
+            pass
