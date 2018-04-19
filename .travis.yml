@@ -1,5 +1,4 @@
 language: python
-
 matrix:
   include:
     - python: 3.6
@@ -9,6 +8,7 @@ matrix:
 addons:
   chrome: stable
 install:
+  - pip install -U pip
   - pip install tox
 script:
   - tox
