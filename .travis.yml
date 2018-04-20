@@ -1,9 +1,23 @@
 language: python
-python: 3.6
-env:
-  - TOXENV=tests
-  - TOXENV=flake8
+sudo: required
+matrix:
+  include:
+    - python: 3.6
+      env: TOXENV=tests
+    - python: 3.6
+      env: TOXENV=flake8
+addons:
+  chrome: stable
 install:
+  - wget -N http://chromedriver.storage.googleapis.com/2.30/chromedriver_linux64.zip -P ~/
+  - unzip ~/chromedriver_linux64.zip -d ~/
+  - rm ~/chromedriver_linux64.zip
+  - sudo mv -f ~/chromedriver /usr/local/share/
+  - sudo chmod +x /usr/local/share/chromedriver
+  - sudo ln -s /usr/local/share/chromedriver /usr/local/bin/chromedriver
+  - pip install -U pip
   - pip install tox
 script:
-  - tox
+  - whereis google-chrome-stable
+  - whereis chromedriver
+  - tox -- --disable-gpu --no-sandbox -k=test_splash_banner_loads
