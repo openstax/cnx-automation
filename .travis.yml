@@ -19,4 +19,4 @@ install:
 script:
   - whereis google-chrome-stable
   - whereis chromedriver
-  - tox -- --disable-gpu --no-sandbox
+  - tox -- --disable-gpu --no-sandbox -k=test_splash_banner_loads
