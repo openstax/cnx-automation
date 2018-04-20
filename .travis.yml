@@ -7,9 +7,11 @@ matrix:
       env: TOXENV=flake8
 addons:
   chrome: stable
+env:
+  - CHROME_DRIVER_PATH=/usr/bin/google-chrome-stable
 install:
   - pip install -U pip
   - pip install tox
 script:
-  - whereis google-chrome-stable
-  - whereis chromedriver
+  - tox
+
