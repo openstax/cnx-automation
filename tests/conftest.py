@@ -14,13 +14,18 @@ def pytest_addoption(parser):
     group = parser.getgroup('selenium', 'selenium')
     group._addoption('--headless',
                      action='store_true',
-                     help='enable headless mode for chrome.')
+                     help='enable headless mode for the chrome driver.')
+    group._addoption('--disable-gpu',
+                     action='store_true',
+                     help='disable the gpu for the chrome driver.')
 
 
 @pytest.fixture
 def chrome_options(chrome_options, pytestconfig):
     if pytestconfig.getoption('headless'):
         chrome_options.add_argument('--headless')
+    if pytestconfig.getoption('disable_gpu'):
+        chrome_options.add_argument('--disable-gpu')
     return chrome_options
 
 
