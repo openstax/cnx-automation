@@ -18,6 +18,9 @@ def pytest_addoption(parser):
     group._addoption('--disable-gpu',
                      action='store_true',
                      help='disable the gpu for the chrome driver.')
+    group._addoption('--no-sandbox',
+                     action='store_true',
+                     help='disable sandbox mode for the chrome driver')
 
 
 @pytest.fixture
@@ -26,6 +29,8 @@ def chrome_options(chrome_options, pytestconfig):
         chrome_options.add_argument('--headless')
     if pytestconfig.getoption('disable_gpu'):
         chrome_options.add_argument('--disable-gpu')
+    if pytestconfig.getoption('no_sandbox'):
+        chrome_options.add_argument('--no-sandbox')
     return chrome_options
 
 
