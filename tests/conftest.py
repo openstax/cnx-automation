@@ -1,10 +1,13 @@
 # This Source Code Form is subject to the terms of the Mozilla Public
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
+import os
 
 import pytest
 
-from tests.utils import generator_from_file
+from tests.utils import gen_from_file
+
+DATA_DIR = os.path.join(os.path.realpath(os.path.dirname(__file__)), 'data')
 
 
 def pytest_addoption(parser):
@@ -36,7 +39,7 @@ def content_url(base_url):
     return '{0}/{1}'.format(base_url, 'contents')
 
 
-@pytest.fixture(params=generator_from_file('./data/american_gov_uuids.txt'))
+@pytest.fixture(params=gen_from_file(os.path.join(DATA_DIR, 'american_gov_uuids.txt')))
 def american_gov_url(content_url, request):
     """Creates an American Government URL based on the content_url fixture and a UUID
 
