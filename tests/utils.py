@@ -3,7 +3,7 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 
-def generator_from_file(filepath):
+def gen_from_file(filepath):
     """Creates a generator from an input file
 
     Assumes that each item is on a single line and strips leading and trailing characters
