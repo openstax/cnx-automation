@@ -7,6 +7,8 @@ matrix:
       env: TOXENV=flake8
 addons:
   chrome: stable
+before_install:
+  - google-chrome-stable --headless --disable-gpu --remote-debugging-port=9222
 install:
   - pip install -U pip
   - pip install tox
