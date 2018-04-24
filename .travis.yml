@@ -1,9 +1,19 @@
 language: python
-python: 3.6
-env:
-  - TOXENV=tests
-  - TOXENV=flake8
+
+sudo: required
+
+services:
+  - docker
+
+before_install:
+  - docker info
+
 install:
-  - pip install tox
+  - docker-compose build
+  - docker-compose up -d
+
 script:
-  - tox
+  - docker-compose exec --user root selenium-chrome tox
+
+after_success:
+  - docker-compose down
