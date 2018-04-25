@@ -7,8 +7,8 @@ import pytest
 from pages.content import Content
 
 
-@pytest.mark.nondestructive
 @pytest.mark.slow
+@pytest.mark.nondestructive
 def test_ncy_is_not_displayed(american_gov_url, selenium):
     # GIVEN An American Government URL and Selenium driver
 
