@@ -11,13 +11,13 @@ RUN apt-get update -qqy \
 # Install python
 RUN apt-get update -qqy \
   && apt-get -qqy install \
-    python-pip \
-    python-dev \
+    python3-pip \
+    python3-dev \
     build-essential \
-  && pip install --upgrade pip
+  && pip3 install --upgrade pip
 
 # Install Tox
-RUN pip install tox
+RUN pip3 install tox
 
 WORKDIR /code
 
