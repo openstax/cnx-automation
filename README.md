@@ -1,5 +1,7 @@
 # Tests for cnx-automation
 
+[![Build Status](https://travis-ci.org/openstax/cnx-automation.svg?branch=master)](https://travis-ci.org/openstax/cnx-automation)
+
 This repository contains ui tests for [cnx.org][cnx-org].
 
 ## How to run the tests locally
