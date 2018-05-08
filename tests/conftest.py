@@ -7,6 +7,7 @@ import pytest
 # Import fixtures from our package so pytest can detect them
 from fixtures.base import chrome_options, selenium # flake8: noqa
 from fixtures.webview import american_gov_url, content_url
+from fixtures.legacy import legacy_base_url
 
 
 def pytest_addoption(parser):
@@ -16,6 +17,13 @@ def pytest_addoption(parser):
                      help='enable headless mode for chrome.')
     parser.addoption('--runslow', action='store_true',
                      default=False, help='run slow tests')
+    # https://github.com/pytest-dev/pytest-base-url/blob/master/pytest_base_url/plugin.py#L51
+    parser.addini('legacy_base_url', help='base url for CNX legacy.')
+    parser.addoption(
+        '--legacy_base-url',
+        metavar='url',
+        default=os.getenv('PYTEST_LEGACY_BASE_URL', None),
+        help='base url for CNX legacy.')
 
 
 def pytest_collection_modifyitems(config, items):

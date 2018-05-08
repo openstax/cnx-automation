@@ -13,9 +13,9 @@ from pages.legacy.login_page import LoginPage
 
 @pytest.mark.slow
 @pytest.mark.nondestructive
-def test_home_login(base_url, selenium):
+def test_home_login(legacy_base_url, selenium):
     # GIVEN the legacy homepage
-    page = Home(selenium, base_url).open()
+    page = Home(selenium, legacy_base_url).open()
 
     # WHEN we login
     username = os.environ['USERNAME']
@@ -29,9 +29,9 @@ def test_home_login(base_url, selenium):
 
 @pytest.mark.slow
 @pytest.mark.nondestructive
-def test_home_login_logout(base_url, selenium):
+def test_home_login_logout(legacy_base_url, selenium):
     # GIVEN the legacy homepage
-    page = Home(selenium, base_url).open()
+    page = Home(selenium, legacy_base_url).open()
 
     # WHEN we login, then logout
     username = os.environ['USERNAME']
@@ -44,9 +44,9 @@ def test_home_login_logout(base_url, selenium):
 
 @pytest.mark.slow
 @pytest.mark.nondestructive
-def test_login_page_login(base_url, selenium):
+def test_login_page_login(legacy_base_url, selenium):
     # GIVEN the legacy login form page
-    page = LoginPage(selenium, base_url).open()
+    page = LoginPage(selenium, legacy_base_url).open()
 
     # WHEN we login
     username = os.environ['USERNAME']
@@ -60,9 +60,9 @@ def test_login_page_login(base_url, selenium):
 
 @pytest.mark.slow
 @pytest.mark.nondestructive
-def test_login_page_login_logout(base_url, selenium):
+def test_login_page_login_logout(legacy_base_url, selenium):
     # GIVEN the legacy login form page
-    page = LoginPage(selenium, base_url).open()
+    page = LoginPage(selenium, legacy_base_url).open()
 
     # WHEN we login, then logout
     username = os.environ['USERNAME']
