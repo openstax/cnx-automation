@@ -5,7 +5,7 @@
 from pypom import Region
 from selenium.webdriver.common.by import By
 
-from pages.base import Base
+from pages.webview.base import Base
 
 
 class Home(Base):
@@ -53,18 +53,18 @@ class Home(Base):
 
         def click_read_more(self):
             self.find_element(*self._read_more_locator).click()
-            from pages.content import Content
+            from pages.webview.content import Content
             content = Content(self.driver, self.page.base_url)
             return content.wait_for_page_to_load()
 
         def click_book_cover(self):
             self.find_element(*self._book_cover_link_locator).click()
-            from pages.content import Content
+            from pages.webview.content import Content
             content = Content(self.driver, self.page.base_url)
             return content.wait_for_page_to_load()
 
         def click_title_link(self):
             self.find_element(*self._title_link_locator).click()
-            from pages.content import Content
+            from pages.webview.content import Content
             content = Content(self.driver, self.page.base_url)
             return content.wait_for_page_to_load()

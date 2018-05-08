@@ -4,7 +4,7 @@
 
 import pytest
 
-from pages.content import Content
+from pages.webview.content import Content
 
 
 @pytest.mark.slow
