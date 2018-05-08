@@ -4,7 +4,7 @@
 from pypom import Region
 from selenium.webdriver.common.by import By
 
-from pages.base import Base
+from pages.webview.base import Base
 
 
 class Browse(Base):
