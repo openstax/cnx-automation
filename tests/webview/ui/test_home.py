@@ -4,7 +4,7 @@
 
 import pytest
 
-from pages.home import Home
+from pages.webview.home import Home
 
 
 @pytest.mark.nondestructive
