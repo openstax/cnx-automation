@@ -85,10 +85,12 @@ like so:
 ```python
 import pytest
 
+from tests import markers
+
 from pages.home import Home
 
 
-@pytest.mark.nondestructive
+@markers.nondestructive
 def test_open_home_page(base_url, selenium):
     page = Home(selenium, base_url).open()
     assert page.header.is_nav_displayed

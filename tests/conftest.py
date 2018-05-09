@@ -9,7 +9,8 @@ import os
 # Load environment variables from .env file
 from dotenv import load_dotenv
 
-DOTENV_PATH = os.path.join(os.path.realpath(os.path.dirname(__file__)), '../.env')
+DOTENV_PATH = os.path.join(
+  os.path.realpath(os.path.dirname(__file__)), '../.env')
 load_dotenv(dotenv_path=DOTENV_PATH)
 
 # Import fixtures from our package so pytest can detect them
@@ -40,13 +41,3 @@ def pytest_addoption(parser):
         '--legacy_password',
         default=os.getenv('LEGACY_PASSWORD'),
         help='password for CNX legacy.')
-
-
-def pytest_collection_modifyitems(config, items):
-    if config.getoption('--runslow'):
-        # --runslow given in cli: do not skip slow tests
-        return
-    skip_slow = pytest.mark.skip(reason='need --runslow option to run')
-    for item in items:
-        if 'slow' in item.keywords:
-            item.add_marker(skip_slow)

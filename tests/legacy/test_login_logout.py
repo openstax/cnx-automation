@@ -4,13 +4,16 @@
 
 import pytest
 
+from tests import markers
+
 from pages.legacy.home import Home
 from pages.legacy.dashboard import Dashboard
 from pages.legacy.login_page import LoginPage
 
 
-@pytest.mark.slow
-@pytest.mark.nondestructive
+@markers.legacy
+@markers.slow
+@markers.nondestructive
 def test_home_login(legacy_base_url, legacy_username,
                     legacy_password, selenium):
     # GIVEN the legacy homepage
@@ -25,8 +28,9 @@ def test_home_login(legacy_base_url, legacy_username,
     assert dashboard.username == legacy_username
 
 
-@pytest.mark.slow
-@pytest.mark.nondestructive
+@markers.legacy
+@markers.slow
+@markers.nondestructive
 def test_home_login_logout(legacy_base_url, legacy_username,
                            legacy_password, selenium):
     # GIVEN the legacy homepage
@@ -40,8 +44,9 @@ def test_home_login_logout(legacy_base_url, legacy_username,
     assert type(login_page) is LoginPage
 
 
-@pytest.mark.slow
-@pytest.mark.nondestructive
+@markers.legacy
+@markers.slow
+@markers.nondestructive
 def test_login_page_login(legacy_base_url, legacy_username,
                           legacy_password, selenium):
     # GIVEN the legacy login form page
@@ -56,8 +61,9 @@ def test_login_page_login(legacy_base_url, legacy_username,
     assert dashboard.username == legacy_username
 
 
-@pytest.mark.slow
-@pytest.mark.nondestructive
+@markers.legacy
+@markers.slow
+@markers.nondestructive
 def test_login_page_login_logout(legacy_base_url, legacy_username,
                                  legacy_password, selenium):
     # GIVEN the legacy login form page
