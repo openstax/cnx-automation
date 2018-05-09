@@ -26,6 +26,12 @@ repository, check out this [help page][git-clone] from GitHub.
 
     $ pip install -r requirements.txt
 
+### Set username and password for legacy tests
+
+If you intend to run the legacy tests, you will need to set the LEGACY_USERNAME
+and LEGACY_PASSWORD environment variables. You can either export them from your
+shell profile or simply add them to a `.env` file in the root dir of this repo.
+
 ### Run the tests
 
 Tests are run using the command line using the `tox` command. By default this
