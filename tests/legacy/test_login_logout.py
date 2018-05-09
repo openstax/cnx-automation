@@ -14,15 +14,15 @@ from pages.legacy.login_page import LoginPage
 def test_home_login(legacy_base_url, legacy_username,
                     legacy_password, selenium):
     # GIVEN the legacy homepage
-    page = Home(selenium, legacy_base_url).open()
+    home = Home(selenium, legacy_base_url).open()
 
     # WHEN we login
-    page = page.login(legacy_username, legacy_password)
+    dashboard = home.login(legacy_username, legacy_password)
 
     # THEN the user is logged in (at their dashboard)
     # and the correct username is displayed
-    assert type(page) is Dashboard
-    assert page.username == legacy_username
+    assert type(dashboard) is Dashboard
+    assert dashboard.username == legacy_username
 
 
 @pytest.mark.slow
@@ -30,14 +30,14 @@ def test_home_login(legacy_base_url, legacy_username,
 def test_home_login_logout(legacy_base_url, legacy_username,
                            legacy_password, selenium):
     # GIVEN the legacy homepage
-    page = Home(selenium, legacy_base_url).open()
+    home = Home(selenium, legacy_base_url).open()
 
     # WHEN we login, then logout
-    page = page.login(legacy_username, legacy_password)
-    page = page.logout()
+    dashboard = home.login(legacy_username, legacy_password)
+    login_page = dashboard.logout()
 
     # THEN the user is logged out (at the login form page)
-    assert type(page) is LoginPage
+    assert type(login_page) is LoginPage
 
 
 @pytest.mark.slow
@@ -45,15 +45,15 @@ def test_home_login_logout(legacy_base_url, legacy_username,
 def test_login_page_login(legacy_base_url, legacy_username,
                           legacy_password, selenium):
     # GIVEN the legacy login form page
-    page = LoginPage(selenium, legacy_base_url).open()
+    login_page = LoginPage(selenium, legacy_base_url).open()
 
     # WHEN we login
-    page = page.login(legacy_username, legacy_password)
+    dashboard = login_page.login(legacy_username, legacy_password)
 
     # THEN the user is logged in (at their dashboard)
     # and the correct username is displayed
-    assert type(page) is Dashboard
-    assert page.username == legacy_username
+    assert type(dashboard) is Dashboard
+    assert dashboard.username == legacy_username
 
 
 @pytest.mark.slow
@@ -61,11 +61,11 @@ def test_login_page_login(legacy_base_url, legacy_username,
 def test_login_page_login_logout(legacy_base_url, legacy_username,
                                  legacy_password, selenium):
     # GIVEN the legacy login form page
-    page = LoginPage(selenium, legacy_base_url).open()
+    login_page = LoginPage(selenium, legacy_base_url).open()
 
     # WHEN we login, then logout
-    page = page.login(legacy_username, legacy_password)
-    page = page.logout()
+    dashboard = login_page.login(legacy_username, legacy_password)
+    login_page = dashboard.logout()
 
     # THEN the user is logged out (at the login form page)
-    assert type(page) is LoginPage
+    assert type(login_page) is LoginPage
