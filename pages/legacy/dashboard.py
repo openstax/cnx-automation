@@ -27,6 +27,11 @@ class Dashboard(Base):
     def logout_form(self):
         return self.find_element(*self._LOGOUT_FORM_LOCATOR_)
 
+    @property
+    def loaded(self):
+        return self.is_element_displayed(*self._USERNAME_SPAN_LOCATOR_) and \
+               self.is_element_displayed(*self._LOGOUT_FORM_LOCATOR_)
+
     def logout(self):
         self.logout_form.submit()
         login_page = pages.legacy.login_page.LoginPage(self.driver,

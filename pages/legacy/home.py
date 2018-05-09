@@ -12,3 +12,7 @@ class Home(LoginPage):
     URL_TEMPLATE = None
 
     _LOGIN_FORM_LOCATOR_ = (By.CSS_SELECTOR, 'form[action$="login_form"]')
+
+    @property
+    def loaded(self):
+        return self.is_element_displayed(*self._LOGIN_FORM_LOCATOR_)

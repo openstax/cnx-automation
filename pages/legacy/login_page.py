@@ -30,6 +30,12 @@ class LoginPage(Base):
     def password_field(self):
         return self.find_element(*self._PASSWORD_FIELD_LOCATOR_)
 
+    @property
+    def loaded(self):
+        return self.is_element_displayed(*self._LOGIN_FORM_LOCATOR_) and \
+               self.is_element_displayed(*self._USERNAME_FIELD_LOCATOR_) and \
+               self.is_element_displayed(*self._PASSWORD_FIELD_LOCATOR_)
+
     def login(self, username, password):
         self.username_field.send_keys(username)
         self.password_field.send_keys(password)
