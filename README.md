@@ -83,8 +83,6 @@ and the [PageObject][pageobject] pattern allows for a succinct test structure
 like so:
 
 ```python
-import pytest
-
 from tests import markers
 
 from pages.home import Home
