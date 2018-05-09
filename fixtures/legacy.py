@@ -1,6 +1,6 @@
 import pytest
 
-__all__ = [ 'legacy_base_url', 'legacy_username', 'legacy_password' ]
+__all__ = ['legacy_base_url', 'legacy_username', 'legacy_password']
 
 
 @pytest.fixture(scope='session')
