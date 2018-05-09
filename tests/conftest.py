@@ -24,8 +24,11 @@ def pytest_addoption(parser):
     group._addoption('--headless',
                      action='store_true',
                      help='enable headless mode for chrome.')
-    parser.addoption('--runslow', action='store_true',
-                     default=False, help='run slow tests')
+    parser.addoption('--runslow',
+                     action='store_true',
+                     default=os.getenv('RUNSLOW', False),
+                     help='run slow tests')
+    # Adapted from:
     # https://github.com/pytest-dev/pytest-base-url/blob/master/pytest_base_url/plugin.py#L51
     parser.addini('legacy_base_url', help='base url for CNX legacy.')
     parser.addoption(
