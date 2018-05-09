@@ -4,6 +4,10 @@ services:
   selenium-chrome:
     environment:
       - DISPLAY=:0
+      - RUNSLOW
+      - LEGACY_BASE_URL
+      - LEGACY_USERNAME
+      - LEGACY_PASSWORD
     build: ./
     volumes:
       - .:/code
