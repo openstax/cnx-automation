@@ -2,11 +2,9 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-from pages.legacy.base import PublicPage
+from pages.legacy.base import PrivatePage
 
 
-class Home(PublicPage):
+class MyDashboard(PrivatePage):
 
-    @property
-    def loaded(self):
-        return super().loaded and self.my_account.loaded
+    URL_TEMPLATE = '/mydashboard'

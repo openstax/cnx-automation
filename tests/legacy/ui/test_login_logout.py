@@ -5,8 +5,8 @@
 from tests import markers
 
 from pages.legacy.home import Home
-from pages.legacy.dashboard import Dashboard
-from pages.legacy.login_page import LoginPage
+from pages.legacy.my_dashboard import MyDashboard
+from pages.legacy.login_form import LoginForm
 
 
 @markers.legacy
@@ -18,12 +18,12 @@ def test_home_login(legacy_base_url, legacy_username,
     home = Home(selenium, legacy_base_url).open()
 
     # WHEN we login
-    dashboard = home.login(legacy_username, legacy_password)
+    my_dashboard = home.login(legacy_username, legacy_password)
 
     # THEN the user is logged in (at their dashboard)
     # and the correct username is displayed
-    assert type(dashboard) is Dashboard
-    assert dashboard.username == legacy_username
+    assert type(my_dashboard) is MyDashboard
+    assert my_dashboard.username == legacy_username
 
 
 @markers.legacy
@@ -35,11 +35,11 @@ def test_home_login_logout(legacy_base_url, legacy_username,
     home = Home(selenium, legacy_base_url).open()
 
     # WHEN we login, then logout
-    dashboard = home.login(legacy_username, legacy_password)
-    login_page = dashboard.logout()
+    my_dashboard = home.login(legacy_username, legacy_password)
+    login_page = my_dashboard.logout()
 
     # THEN the user is logged out (at the login form page)
-    assert type(login_page) is LoginPage
+    assert type(login_page) is LoginForm
 
 
 @markers.legacy
@@ -48,15 +48,15 @@ def test_home_login_logout(legacy_base_url, legacy_username,
 def test_login_page_login(legacy_base_url, legacy_username,
                           legacy_password, selenium):
     # GIVEN the legacy login form page
-    login_page = LoginPage(selenium, legacy_base_url).open()
+    login_page = LoginForm(selenium, legacy_base_url).open()
 
     # WHEN we login
-    dashboard = login_page.login(legacy_username, legacy_password)
+    my_dashboard = login_page.login(legacy_username, legacy_password)
 
     # THEN the user is logged in (at their dashboard)
     # and the correct username is displayed
-    assert type(dashboard) is Dashboard
-    assert dashboard.username == legacy_username
+    assert type(my_dashboard) is MyDashboard
+    assert my_dashboard.username == legacy_username
 
 
 @markers.legacy
@@ -65,11 +65,11 @@ def test_login_page_login(legacy_base_url, legacy_username,
 def test_login_page_login_logout(legacy_base_url, legacy_username,
                                  legacy_password, selenium):
     # GIVEN the legacy login form page
-    login_page = LoginPage(selenium, legacy_base_url).open()
+    login_page = LoginForm(selenium, legacy_base_url).open()
 
     # WHEN we login, then logout
-    dashboard = login_page.login(legacy_username, legacy_password)
-    login_page = dashboard.logout()
+    my_dashboard = login_page.login(legacy_username, legacy_password)
+    login_page = my_dashboard.logout()
 
     # THEN the user is logged out (at the login form page)
-    assert type(login_page) is LoginPage
+    assert type(login_page) is LoginForm

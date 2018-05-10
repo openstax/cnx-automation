@@ -4,13 +4,11 @@
 
 from selenium.webdriver.common.by import By
 
-from pages.legacy.base import Base
-
-# Cyclic import
-import pages.legacy.dashboard
+from pages.legacy.base import Page
+from pages.legacy.my_dashboard import MyDashboard
 
 
-class LoginPage(Base):
+class LoginForm(Page):
 
     URL_TEMPLATE = '/login_form'
 
@@ -31,16 +29,18 @@ class LoginPage(Base):
         return self.find_element(*self._PASSWORD_FIELD_LOCATOR_)
 
     @property
-    def loaded(self):
+    def can_login(self):
         return self.is_element_displayed(*self._LOGIN_FORM_LOCATOR_) and \
                self.is_element_displayed(*self._USERNAME_FIELD_LOCATOR_) and \
                self.is_element_displayed(*self._PASSWORD_FIELD_LOCATOR_)
+
+    @property
+    def loaded(self):
+        return super().loaded and self.can_login
 
     def login(self, username, password):
         self.username_field.send_keys(username)
         self.password_field.send_keys(password)
         self.login_form.submit()
-        dashboard = pages.legacy.dashboard.Dashboard(self.driver,
-                                                     self.base_url,
-                                                     self.timeout)
-        return dashboard.wait_for_page_to_load()
+        my_dashboard = MyDashboard(self.driver, self.base_url, self.timeout)
+        return my_dashboard.wait_for_page_to_load()
