@@ -38,12 +38,6 @@ class Page(pypom.Page):
     def loaded(self):
         return self.is_element_displayed(*self._REGION_CONTENT_LOCATOR_)
 
-    # Backported from PyPOM 2.0.0. Remove when upgrading to PyPOM 2.0.0+
-    def wait_for_page_to_load(self):
-        """Wait for the page to load."""
-        self.wait.until(lambda _: self.loaded)
-        return super().wait_for_page_to_load()
-
 
 class PublicPage(Page):
 
@@ -67,19 +61,5 @@ class PrivatePage(Page):
         return super().loaded and self.has_username and self.can_logout
 
 
-class Region(pypom.Region):
-
-    # Backported from PyPOM 2.0.0. Remove when upgrading to PyPOM 2.0.0+
-    @property
-    def loaded(self):
-        return True
-
-    # Backported from PyPOM 2.0.0. Remove when upgrading to PyPOM 2.0.0+
-    def wait_for_region_to_load(self):
-        """Wait for the page to load."""
-        self.wait.until(lambda _: self.loaded)
-        return super().wait_for_region_to_load()
-
-
 # Cyclic import has to be at the end of the file
-from pages.legacy.my_account import MyAccount # noqa
+from regions.legacy.my_account import MyAccount # noqa

@@ -4,7 +4,7 @@
 
 from selenium.webdriver.common.by import By
 
-from pages.legacy.base import Region
+from regions.legacy.base import Region
 from pages.legacy.my_dashboard import MyDashboard
 from pages.legacy.login_form import LoginForm
 
