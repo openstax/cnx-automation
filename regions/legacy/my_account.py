@@ -5,8 +5,6 @@
 from selenium.webdriver.common.by import By
 
 from regions.legacy.base import Region
-from pages.legacy.my_dashboard import MyDashboard
-from pages.legacy.login_form import LoginForm
 
 
 class MyAccount(Region):
@@ -64,10 +62,12 @@ class MyAccount(Region):
         self.username_field.send_keys(username)
         self.password_field.send_keys(password)
         self.login_form.submit()
+        from pages.legacy.my_dashboard import MyDashboard
         my_dashboard = MyDashboard(self.page.driver, self.page.base_url, self.page.timeout)
         return my_dashboard.wait_for_page_to_load()
 
     def logout(self):
         self.logout_form.submit()
+        from pages.legacy.login_form import LoginForm
         login_form = LoginForm(self.page.driver, self.page.base_url, self.page.timeout)
         return login_form.wait_for_page_to_load()
