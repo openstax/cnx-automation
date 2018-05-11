@@ -11,38 +11,38 @@ from pages.legacy.login_form import LoginForm
 
 class MyAccount(Region):
 
-    _LOGIN_FORM_LOCATOR_ = (By.CSS_SELECTOR, 'form[action$="login_form"]')
-    _USERNAME_FIELD_LOCATOR_ = (By.ID, '__ac_name')
-    _PASSWORD_FIELD_LOCATOR_ = (By.ID, '__ac_password')
+    _login_form_locator = (By.CSS_SELECTOR, 'form[action$="login_form"]')
+    _username_field_locator = (By.ID, '__ac_name')
+    _password_field_locator = (By.ID, '__ac_password')
 
-    _USERNAME_SPAN_LOCATOR_ = (By.ID, 'user-name')
-    _LOGOUT_FORM_LOCATOR_ = (By.CSS_SELECTOR, 'form[action$="logout"]')
+    _username_span_locator = (By.ID, 'user-name')
+    _logout_form_locator = (By.CSS_SELECTOR, 'form[action$="logout"]')
 
     @property
     def can_login(self):
-        return self.is_element_displayed(*self._LOGIN_FORM_LOCATOR_) and \
-               self.is_element_displayed(*self._USERNAME_FIELD_LOCATOR_) and \
-               self.is_element_displayed(*self._PASSWORD_FIELD_LOCATOR_)
+        return self.is_element_displayed(*self._login_form_locator) and \
+               self.is_element_displayed(*self._username_field_locator) and \
+               self.is_element_displayed(*self._password_field_locator)
 
     @property
     def login_form(self):
-        return self.find_element(*self._LOGIN_FORM_LOCATOR_)
+        return self.find_element(*self._login_form_locator)
 
     @property
     def username_field(self):
-        return self.find_element(*self._USERNAME_FIELD_LOCATOR_)
+        return self.find_element(*self._username_field_locator)
 
     @property
     def password_field(self):
-        return self.find_element(*self._PASSWORD_FIELD_LOCATOR_)
+        return self.find_element(*self._password_field_locator)
 
     @property
     def has_username(self):
-        return self.is_element_displayed(*self._USERNAME_SPAN_LOCATOR_)
+        return self.is_element_displayed(*self._username_span_locator)
 
     @property
     def username_span(self):
-        return self.find_element(*self._USERNAME_SPAN_LOCATOR_)
+        return self.find_element(*self._username_span_locator)
 
     @property
     def username(self):
@@ -50,11 +50,11 @@ class MyAccount(Region):
 
     @property
     def can_logout(self):
-        return self.is_element_displayed(*self._LOGOUT_FORM_LOCATOR_)
+        return self.is_element_displayed(*self._logout_form_locator)
 
     @property
     def logout_form(self):
-        return self.find_element(*self._LOGOUT_FORM_LOCATOR_)
+        return self.find_element(*self._logout_form_locator)
 
     @property
     def loaded(self):

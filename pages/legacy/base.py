@@ -9,15 +9,15 @@ from selenium.webdriver.common.by import By
 
 class Page(pypom.Page):
 
-    _REGION_CONTENT_LOCATOR_ = (By.ID, 'region-content')
-    _MY_ACCOUNT_LOCATOR_ = (By.CSS_SELECTOR, '#portlet-login, #portlet-loggedin')
+    _region_content_locator = (By.ID, 'region-content')
+    _my_account_locator = (By.CSS_SELECTOR, '#portlet-login, #portlet-loggedin')
 
     def __init__(self, driver, base_url, timeout=15):
         super().__init__(driver, base_url, timeout)
 
     @property
     def my_account(self):
-        return MyAccount(self, self.find_element(*self._MY_ACCOUNT_LOCATOR_))
+        return MyAccount(self, self.find_element(*self._my_account_locator))
 
     @property
     def can_logout(self):
@@ -36,7 +36,7 @@ class Page(pypom.Page):
 
     @property
     def loaded(self):
-        return self.is_element_displayed(*self._REGION_CONTENT_LOCATOR_)
+        return self.is_element_displayed(*self._region_content_locator)
 
 
 class PublicPage(Page):

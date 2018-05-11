@@ -12,27 +12,27 @@ class LoginForm(Page):
 
     URL_TEMPLATE = '/login_form'
 
-    _LOGIN_FORM_LOCATOR_ = (By.ID, 'login_form')
-    _USERNAME_FIELD_LOCATOR_ = (By.ID, '__ac_name')
-    _PASSWORD_FIELD_LOCATOR_ = (By.ID, '__ac_password')
+    _login_form_locator = (By.ID, 'login_form')
+    _username_field_locator = (By.ID, '__ac_name')
+    _password_field_locator = (By.ID, '__ac_password')
 
     @property
     def login_form(self):
-        return self.find_element(*self._LOGIN_FORM_LOCATOR_)
+        return self.find_element(*self._login_form_locator)
 
     @property
     def username_field(self):
-        return self.find_element(*self._USERNAME_FIELD_LOCATOR_)
+        return self.find_element(*self._username_field_locator)
 
     @property
     def password_field(self):
-        return self.find_element(*self._PASSWORD_FIELD_LOCATOR_)
+        return self.find_element(*self._password_field_locator)
 
     @property
     def can_login(self):
-        return self.is_element_displayed(*self._LOGIN_FORM_LOCATOR_) and \
-               self.is_element_displayed(*self._USERNAME_FIELD_LOCATOR_) and \
-               self.is_element_displayed(*self._PASSWORD_FIELD_LOCATOR_)
+        return self.is_element_displayed(*self._login_form_locator) and \
+               self.is_element_displayed(*self._username_field_locator) and \
+               self.is_element_displayed(*self._password_field_locator)
 
     @property
     def loaded(self):
