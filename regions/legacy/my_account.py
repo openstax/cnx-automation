@@ -20,9 +20,9 @@ class MyAccount(Region):
 
     @property
     def can_login(self):
-        return self.is_element_displayed(*self._login_form_locator) and \
-               self.is_element_displayed(*self._username_field_locator) and \
-               self.is_element_displayed(*self._password_field_locator)
+        return (self.is_element_displayed(*self._login_form_locator) and
+                self.is_element_displayed(*self._username_field_locator) and
+                self.is_element_displayed(*self._password_field_locator))
 
     @property
     def login_form(self):
