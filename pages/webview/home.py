@@ -10,7 +10,7 @@ from pages.webview.base import Base
 
 class Home(Base):
     _splash_locator = (By.ID, 'splash')
-    _openstax_books_locator = (By.CSS_SELECTOR, '.featured-books.openstax .books')
+    _openstax_books_locator = (By.CSS_SELECTOR, 'body .featured-books.openstax .books')
     _featured_books_locator = (By.ID, 'featured-books')
 
     def wait_for_page_to_load(self):

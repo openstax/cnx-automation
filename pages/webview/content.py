@@ -9,7 +9,7 @@ from pages.webview.base import Base
 
 class Content(Base):
     _content_locator = (By.ID, 'content')
-    _title_locator = (By.CSS_SELECTOR, '.media-title h1')
+    _title_locator = (By.CSS_SELECTOR, 'body .media-title h1')
     _ncy_locator = (By.CLASS_NAME, 'not-converted-yet')
 
     def wait_for_page_to_load(self):
