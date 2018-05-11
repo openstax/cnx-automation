@@ -17,6 +17,7 @@ class Page(pypom.Page):
 
     @property
     def my_account(self):
+        from regions.legacy.my_account import MyAccount
         return MyAccount(self, self.find_element(*self._my_account_locator))
 
     @property
@@ -59,7 +60,3 @@ class PrivatePage(Page):
     @property
     def loaded(self):
         return super().loaded and self.has_username and self.can_logout
-
-
-# Cyclic import has to be at the end of the file
-from regions.legacy.my_account import MyAccount # noqa
