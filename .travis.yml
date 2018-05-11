@@ -2,6 +2,10 @@ language: python
 
 sudo: required
 
+env:
+  - MARK=webview
+  - MARK=legacy RUNSLOW=true
+
 services:
   - docker
 
@@ -13,7 +17,7 @@ install:
   - docker-compose up -d
 
 script:
-  - docker-compose exec --user root selenium-chrome tox
+  - docker-compose exec --user root selenium-chrome tox -- -m $MARK
 
 after_success:
   - docker-compose down
