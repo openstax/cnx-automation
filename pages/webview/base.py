@@ -18,6 +18,8 @@ class Base(Page):
     def body(self):
         return self.find_element(*self._body_locator)
 
+    # Subclasses MUST call super().loaded in their own version of loaded() and
+    # it MUST be called after some other page-specific element's presence is checked
     @property
     def loaded(self):
         return 'Loading...' not in self.body.text
