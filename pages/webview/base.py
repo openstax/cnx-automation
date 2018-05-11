@@ -8,9 +8,19 @@ from selenium.webdriver.common.by import By
 
 class Base(Page):
 
+    _body_locator = (By.TAG_NAME, 'body')
+
     @property
     def header(self):
         return self.Header(self)
+
+    @property
+    def body(self):
+        return self.find_element(*self._body_locator)
+
+    @property
+    def loaded(self):
+        return 'Loading...' not in self.body.text
 
     class Header(Region):
 
