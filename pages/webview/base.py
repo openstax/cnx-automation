@@ -7,9 +7,18 @@ from selenium.webdriver.common.by import By
 
 
 class Base(Page):
+    _body_locator = (By.TAG_NAME, 'body')
 
     def __init__(self, selenium, base_url, **kwargs):
         super().__init__(selenium, base_url, timeout=30, **kwargs)
+
+    @property
+    def body(self):
+        return self.find_element(*self._body_locator)
+
+    @property
+    def loaded(self):
+        return 'Loading...' not in self.body.text
 
     @property
     def header(self):
