@@ -14,7 +14,7 @@ class Content(Base):
 
     @property
     def loaded(self):
-        return self.is_content_displayed and self.is_title_displayed
+        return self.is_content_displayed and self.is_title_displayed and super().loaded
 
     @property
     def is_content_displayed(self):
