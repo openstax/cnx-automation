@@ -12,10 +12,19 @@ class Content(Base):
     _title_locator = (By.CSS_SELECTOR, '.media-title h1')
     _ncy_locator = (By.CLASS_NAME, 'not-converted-yet')
 
-    def wait_for_page_to_load(self):
-        self.wait.until(lambda s: self.is_element_present(*self._content_locator))
-        self.wait.until(lambda s: self.is_element_present(*self._title_locator))
-        return self
+    @property
+    def loaded(self):
+        return self.is_content_displayed and self.is_title_displayed
+
+    @property
+    def is_content_displayed(self):
+        content = self.find_element(*self._content_locator)
+        return content.is_displayed()
+
+    @property
+    def is_title_displayed(self):
+        title = self.find_element(*self._title_locator)
+        return title.is_displayed()
 
     @property
     def title(self):
