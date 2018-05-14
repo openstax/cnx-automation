@@ -60,7 +60,7 @@ $ tox -- -k=test_my_feature
 
 The pytest plugin that we use for running tests has a number of advanced
 command line options available. To see the options available, run
-`py.test --help`. The full documentation for the plugin can be found
+`pytest --help`. The full documentation for the plugin can be found
 [here][pytest-selenium].
 
 ## Framework Design
