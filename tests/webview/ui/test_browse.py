@@ -5,10 +5,12 @@
 import pytest
 
 from pages.webview.home import Home
+from tests import markers
 
 
-@pytest.mark.nondestructive
-def test_search_items_are_displayed(base_url, selenium):
+@markers.webview
+@markers.nondestructive
+def test_search_input_and_button_are_displayed(base_url, selenium):
     # GIVEN The base_url and Selenium driver
 
     # WHEN The home page URL is fully loaded,
@@ -21,7 +23,8 @@ def test_search_items_are_displayed(base_url, selenium):
     assert browse_page.is_advanced_search_button_displayed
 
 
-@pytest.mark.nondestructive
+@markers.webview
+@markers.nondestructive
 def test_subject_categories_load(base_url, selenium):
     # GIVEN the base_url and Selenium driver
 
