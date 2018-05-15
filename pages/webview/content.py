@@ -8,14 +8,12 @@ from pages.webview.base import Base
 
 
 class Content(Base):
-    _content_locator = (By.ID, 'content')
-    _title_locator = (By.CSS_SELECTOR, '.media-title h1')
+    _title_locator = (By.CLASS_NAME, 'large-header')
     _ncy_locator = (By.CLASS_NAME, 'not-converted-yet')
 
-    def wait_for_page_to_load(self):
-        self.wait.until(lambda s: self.is_element_present(*self._content_locator))
-        self.wait.until(lambda s: self.is_element_present(*self._title_locator))
-        return self
+    @property
+    def loaded(self):
+        return '@' in self.driver.current_url
 
     @property
     def title(self):

@@ -8,12 +8,14 @@ from selenium.webdriver.common.by import By
 
 class Base(Page):
 
+    def __init__(self, selenium, base_url, **kwargs):
+        super().__init__(selenium, base_url, timeout=30, **kwargs)
+
     @property
     def header(self):
         return self.Header(self)
 
     class Header(Region):
-
         _root_locator = (By.ID, 'header')
         _nav_locator = (By.ID, 'page-nav')
 

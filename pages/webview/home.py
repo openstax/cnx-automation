@@ -13,10 +13,9 @@ class Home(Base):
     _openstax_books_locator = (By.CSS_SELECTOR, '.featured-books.openstax .books')
     _featured_books_locator = (By.ID, 'featured-books')
 
-    def wait_for_page_to_load(self):
-        self.wait.until(
-            lambda s: self.find_elements(*self.featured_books._openstax_books_locator))
-        return self
+    @property
+    def loaded(self):
+        return self.find_elements(*self.featured_books._openstax_books_locator)
 
     @property
     def splash(self):
