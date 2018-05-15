@@ -15,6 +15,6 @@ def selenium(selenium):
 
 @pytest.fixture
 def chrome_options(chrome_options, pytestconfig):
-    if pytestconfig.getoption('headless'):
+    if not pytestconfig.getoption('headed'):
         chrome_options.add_argument('--headless')
     return chrome_options
