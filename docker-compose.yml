@@ -6,6 +6,7 @@ services:
       - DISPLAY=:0
       - HEADLESS
       - RUNSLOW
+      - ARCHIVE_BASE_URL
       - LEGACY_BASE_URL
       - LEGACY_USERNAME
       - LEGACY_PASSWORD

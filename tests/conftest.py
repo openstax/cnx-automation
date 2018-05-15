@@ -15,8 +15,10 @@ load_dotenv(dotenv_path=DOTENV_PATH)
 
 # Import fixtures from our package so pytest can detect them
 from fixtures.base import chrome_options, selenium # flake8: noqa
+from fixtures.archive import archive_base_url
 from fixtures.webview import american_gov_url, content_url
-from fixtures.legacy import legacy_base_url, legacy_username, legacy_password
+from fixtures.legacy import (legacy_base_url, legacy_username, legacy_password,
+                             blank_module_cnxml_filepath)
 
 
 def pytest_addoption(parser):
@@ -31,6 +33,12 @@ def pytest_addoption(parser):
                      help='run slow tests')
     # Adapted from:
     # https://github.com/pytest-dev/pytest-base-url/blob/master/pytest_base_url/plugin.py#L51
+    parser.addini('archive_base_url', help='base url for CNX archive.')
+    parser.addoption(
+        '--archive_base_url',
+        metavar='url',
+        default=os.getenv('ARCHIVE_BASE_URL', None),
+        help='base url for CNX archive.')
     parser.addini('legacy_base_url', help='base url for CNX legacy.')
     parser.addoption(
         '--legacy_base_url',

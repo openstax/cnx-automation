@@ -12,9 +12,6 @@ class Page(pypom.Page):
     _region_content_locator = (By.ID, 'region-content')
     _my_account_locator = (By.CSS_SELECTOR, '#portlet-login, #portlet-loggedin')
 
-    def __init__(self, driver, base_url, timeout=15):
-        super().__init__(driver, base_url, timeout)
-
     @property
     def my_account(self):
         from regions.legacy.my_account import MyAccount
