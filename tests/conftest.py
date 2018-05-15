@@ -23,6 +23,7 @@ def pytest_addoption(parser):
     group = parser.getgroup('selenium', 'selenium')
     group._addoption('--headed',
                      action='store_true',
+                     default=os.getenv('HEADED', False),
                      help='disable headless mode for chrome.')
     parser.addoption('--runslow',
                      action='store_true',
