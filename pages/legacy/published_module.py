@@ -9,14 +9,17 @@ from selenium.webdriver.common.by import By
 
 class PublishedModule(PrivatePage):
 
-    _title_locator = (By.XPATH, ("//table[contains(@class, 'leftheadings']/tbody/tr/"
-                                 "th[text()='Name:']/following-sibling::td/span"))
-    _id_locator = (By.XPATH, ("//table[contains(@class, 'leftheadings']/tbody/tr/"
-                              "th[text()='ID:']/following-sibling::td/span"))
+    _tbody_locator = (By.CSS_SELECTOR, 'table.leftheadings tbody')
+    _title_locator = (By.XPATH, ("./tr/th[text()='Name:']/following-sibling::td/span"))
+    _id_locator = (By.XPATH, ("./tr/th[text()='ID:']/following-sibling::td"))
+
+    @property
+    def tbody(self):
+        return self.find_element(*self._tbody_locator)
 
     @property
     def title_span(self):
-        return self.find_element(*self._title_locator)
+        return self.tbody.find_element(*self._title_locator)
 
     @property
     def title(self):
@@ -24,7 +27,7 @@ class PublishedModule(PrivatePage):
 
     @property
     def id_span(self):
-        return self.find_element(*self._id_locator)
+        return self.tbody.find_element(*self._id_locator)
 
     @property
     def id(self):
@@ -32,6 +35,4 @@ class PublishedModule(PrivatePage):
 
     @property
     def loaded(self):
-        return (super().loaded and
-                self.is_element_displayed(*self._title_locator) and
-                self.is_element_displayed(*self._id_locator))
+        return super().loaded and self.is_element_displayed(*self._tbody_locator)

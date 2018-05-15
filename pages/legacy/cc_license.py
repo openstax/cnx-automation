@@ -10,8 +10,7 @@ from selenium.webdriver.common.by import By
 class CcLicense(PrivatePage):
 
     _cc_license_form_locator = (By.CSS_SELECTOR, 'form[action="cc_license"]')
-    _agree_checkbox_locator = (
-        By.CSS_SELECTOR, 'form[action="cc_license"] input[type="checkbox"][name="agree"]')
+    _agree_checkbox_locator = (By.CSS_SELECTOR, 'input[type="checkbox"][name="agree"]')
 
     @property
     def cc_license_form(self):
@@ -19,13 +18,11 @@ class CcLicense(PrivatePage):
 
     @property
     def agree_checkbox(self):
-        return self.find_element(*self._agree_checkbox_locator)
+        return self.cc_license_form.find_element(*self._agree_checkbox_locator)
 
     @property
     def loaded(self):
-        return (super().loaded and
-                self.is_element_displayed(*self._cc_license_form_locator) and
-                self.is_element_displayed(*self._agree_checkbox_locator))
+        return super().loaded and self.is_element_displayed(*self._cc_license_form_locator)
 
     def agree(self):
         self.agree_checkbox.click()

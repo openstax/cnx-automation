@@ -39,8 +39,8 @@
 </metadata>
 
 <content>
-  <para id="delete_me">
-     <!-- Insert module text here -->
+  <para id="test">
+     Hello World!
   </para>
 </content>
 

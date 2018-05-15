@@ -10,8 +10,7 @@ from selenium.webdriver.common.by import By
 class ModuleMetadata(PrivatePage):
 
     _metadata_form_locator = (By.CSS_SELECTOR, 'form[action="content_title"]')
-    _title_field_locator = (By.CSS_SELECTOR,
-                            'form[action="content_title"] input[type="text"][name="title"]')
+    _title_field_locator = (By.CSS_SELECTOR, 'input[type="text"][name="title"]')
     _submit_button_locator = (By.CSS_SELECTOR, 'input[type="submit"][name="form.button.next"]')
 
     @property
@@ -20,17 +19,15 @@ class ModuleMetadata(PrivatePage):
 
     @property
     def title_field(self):
-        return self.find_element(*self._title_field_locator)
+        return self.metadata_form.find_element(*self._title_field_locator)
 
     @property
     def submit_button(self):
-        return self.find_element(*self._submit_button_locator)
+        return self.metadata_form.find_element(*self._submit_button_locator)
 
     @property
     def loaded(self):
-        return (super().loaded and
-                self.is_element_displayed(*self._metadata_form_locator) and
-                self.is_element_displayed(*self._title_field_locator))
+        return super().loaded and self.is_element_displayed(*self._metadata_form_locator)
 
     def fill_in_title(self, title):
         self.title_field.clear()

@@ -7,12 +7,10 @@ from pages.legacy.base import PrivatePage
 from selenium.webdriver.common.by import By
 
 
-class ModuleImporter(PrivatePage):
+class ModuleImport(PrivatePage):
 
     _import_form_locator = (By.CSS_SELECTOR, 'form[action="module_import_form"][name="import"]')
-    _import_file_field_locator = (
-        By.CSS_SELECTOR,
-        'form[action="module_import_form"][name="import"] input[type="file"][name="importFile"]')
+    _import_file_field_locator = (By.CSS_SELECTOR, 'input[type="file"][name="importFile"]')
 
     @property
     def import_form(self):
@@ -20,13 +18,11 @@ class ModuleImporter(PrivatePage):
 
     @property
     def import_file_field(self):
-        return self.find_element(*self._import_file_field_locator)
+        return self.import_form.find_element(*self._import_file_field_locator)
 
     @property
     def loaded(self):
-        return (super().loaded and
-                self.is_element_displayed(*self._import_form_locator) and
-                self.is_element_displayed(*self._import_file_field_locator))
+        return super().loaded and self.is_element_displayed(*self._import_form_locator)
 
     def fill_in_filename(self, filename):
         self.import_file_field.send_keys(filename)

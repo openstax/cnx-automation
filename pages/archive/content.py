@@ -2,8 +2,6 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-import json
-
 from pages.archive.base import Page
 
 from selenium.webdriver.common.by import By
@@ -11,22 +9,10 @@ from selenium.webdriver.common.by import By
 
 class Content(Page):
 
-    URL_TEMPLATE = '/content{s}/{module_id_or_uuid}.json'
+    URL_TEMPLATE = '/contents/{uuid_and_version}.json'
 
     # The browser automatically wraps the JSON response in some HTML
     _json_locator = (By.TAG_NAME, 'pre')
-
-    def __init__(self, driver, base_url, timeout=10, **url_kwargs):
-        if url_kwargs['uuid']:
-            s = 's'
-            module_id_or_uuid = url_kwargs['uuid']
-        elif url_kwargs['module_id']:
-            s = ''
-            module_id_or_uuid = url_kwargs['module_id']
-        else:
-            raise ValueError('either uuid or module_id must be provided')
-
-        super().__init__(driver, base_url, timeout, s=s, module_id_or_uuid=module_id_or_uuid)
 
     @property
     def json_pre(self):
@@ -38,6 +24,7 @@ class Content(Page):
 
     @property
     def json(self):
+        import json
         return json.loads(self.json_text)
 
     @property

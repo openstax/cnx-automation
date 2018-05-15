@@ -20,8 +20,7 @@ class ModuleEdit(PrivatePage):
     _publish_link_locator = (By.CSS_SELECTOR, 'a[href$="module_publish"]')
 
     _import_form_locator = (By.CSS_SELECTOR, 'form[action="module_import_form"]')
-    _import_select_locator = (By.CSS_SELECTOR,
-                              'form[action="module_import_form"] select[name="format"]')
+    _import_select_locator = (By.CSS_SELECTOR, 'select[name="format"]')
 
     _content_textarea_locator = (By.ID, 'textarea')
 
@@ -44,15 +43,15 @@ class ModuleEdit(PrivatePage):
 
     @property
     def import_select(self):
-        return self.find_element(*self._import_select_locator)
+        return self.import_form.find_element(*self._import_select_locator)
 
     @property
-    def textarea(self):
+    def content_textarea(self):
         return self.find_element(*self._content_textarea_locator)
 
     @property
     def content(self):
-        return ET.fromstring(self.textarea.get_attribute('value')).find(
+        return ET.fromstring(self.content_textarea.get_attribute('value')).find(
             '{http://cnx.rice.edu/cnxml}content')
 
     @property
@@ -68,7 +67,6 @@ class ModuleEdit(PrivatePage):
         return (super().loaded and
                 self.is_element_displayed(*self._title_header_locator) and
                 self.is_element_displayed(*self._import_form_locator) and
-                self.is_element_displayed(*self._import_select_locator) and
                 self.is_element_displayed(*self._publish_link_locator) and
                 self.is_element_present(*self._content_textarea_locator))
 
@@ -78,8 +76,12 @@ class ModuleEdit(PrivatePage):
         module_publish = ModulePublish(self.driver, self.base_url, self.timeout)
         return module_publish.wait_for_page_to_load()
 
-    def select_format(self, format):
-        self.import_select.select_by_value(format)
+    def import_select_option(self, format):
+        css_selector = 'option[value="{format}"]'.format(format=format)
+        return self.import_select.find_element(By.CSS_SELECTOR, css_selector)
+
+    def select_import_format(self, format):
+        self.import_select_option(format).click()
         return self
 
     def click_import(self):

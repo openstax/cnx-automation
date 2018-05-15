@@ -21,6 +21,6 @@ class ModuleConfirmPublish(PrivatePage):
 
     def submit(self):
         self.publish_form.submit()
-        from pages.legacy.module_edit import ModuleEdit
-        module_edit = ModuleEdit(self.driver, self.base_url, self.timeout)
-        return module_edit.wait_for_page_to_load()
+        from pages.legacy.published_module import PublishedModule
+        published_module = PublishedModule(self.driver, self.base_url, self.timeout)
+        return published_module.wait_for_page_to_load()

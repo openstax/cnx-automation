@@ -6,17 +6,16 @@ import os
 
 import pytest
 
-LEGACY_DATA_DIR = os.path.join(os.path.realpath(os.path.dirname(__file__)), 'data')
+LEGACY_DATA_DIR = os.path.join(os.path.realpath(os.path.dirname(__file__)), 'legacy/data')
 
-__all__ = ['legacy_base_url', 'legacy_username', 'legacy_password', 'blank_module_cnxml_filepath']
+__all__ = ['legacy_base_url', 'legacy_username', 'legacy_password', 'hello_world_cnxml_filepath']
 
 
 @pytest.fixture(scope='session')
 def legacy_base_url(request):
     """Return a base URL for CNX legacy"""
     config = request.config
-    base_url = (config.getoption('legacy_base_url') or
-                config.getini('legacy_base_url'))
+    base_url = config.getoption('legacy_base_url') or config.getini('legacy_base_url')
     if base_url is not None:
         return base_url
 
@@ -40,6 +39,6 @@ def legacy_password(request):
 
 
 @pytest.fixture(scope='session')
-def blank_module_cnxml_filepath(request):
-    """Returns the path to the source CNXML file for a blank module (for upload)"""
-    return os.path.join(LEGACY_DATA_DIR, 'blank_module.cnxml')
+def hello_world_cnxml_filepath(request):
+    """Returns the path to the source CNXML file for a Hellow World module (for upload)"""
+    return os.path.join(LEGACY_DATA_DIR, 'hello_world_module.cnxml')

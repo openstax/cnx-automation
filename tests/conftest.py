@@ -18,7 +18,7 @@ from fixtures.base import chrome_options, selenium # flake8: noqa
 from fixtures.archive import archive_base_url
 from fixtures.webview import american_gov_url, content_url
 from fixtures.legacy import (legacy_base_url, legacy_username, legacy_password,
-                             blank_module_cnxml_filepath)
+                             hello_world_cnxml_filepath)
 
 
 def pytest_addoption(parser):
