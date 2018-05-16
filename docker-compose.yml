@@ -4,6 +4,7 @@ services:
   selenium-chrome:
     environment:
       - DISPLAY=:0
+      - HEADLESS
       - RUNSLOW
       - LEGACY_BASE_URL
       - LEGACY_USERNAME
