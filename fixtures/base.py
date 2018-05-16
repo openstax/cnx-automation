@@ -19,7 +19,9 @@ def chrome_options(chrome_options, pytestconfig):
         chrome_options.headless = True
 
     # Required to run in Travis containers
-    chrome_options.add_argument('--no-sandbox')
-    chrome_options.add_argument('--disable-dev-shm-usage')
+    if pytestconfig.getoption('--no-sandbox'):
+        chrome_options.add_argument('--no-sandbox')
+    if pytestconfig.getoption('--disable-dev-shm-usage'):
+        chrome_options.add_argument('--disable-dev-shm-usage')
 
     return chrome_options
