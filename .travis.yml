@@ -13,7 +13,7 @@ before_install:
   - docker info
 
 install:
-  - docker pull openstax/standalone-chrome-debug:3.12
+  - docker pull openstax/standalone-chrome-debug:latest
   - docker-compose up -d
 
 script:
