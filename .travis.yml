@@ -3,8 +3,11 @@ language: python
 sudo: required
 
 env:
-  - MARK=webview
-  - MARK=legacy RUNSLOW=true
+  global:
+    - HEADLESS=true
+  matrix:
+    - MARK=webview
+    - MARK=legacy RUNSLOW=true
 
 services:
   - docker
