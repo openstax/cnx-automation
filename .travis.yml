@@ -5,7 +5,9 @@ sudo: false
 
 env:
   global:
+    - DISABLE_DEV_SHM_USAGE=true
     - HEADLESS=true
+    - NO_SANDBOX=true
   matrix:
     - MARK=webview
     - MARK=legacy RUNSLOW=true
