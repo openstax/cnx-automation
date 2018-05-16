@@ -1,6 +1,7 @@
 language: python
+python: 3.6
 
-sudo: required
+sudo: false
 
 env:
   global:
@@ -9,18 +10,13 @@ env:
     - MARK=webview
     - MARK=legacy RUNSLOW=true
 
-services:
-  - docker
+addons:
+  apt:
+    packages:
+      - chromium-chromedriver
 
-before_install:
-  - docker info
-
-install:
-  - docker-compose build
-  - docker-compose up -d
+before_script:
+  - ln -s /usr/lib/chromium-browser/chromedriver ~/bin/chromedriver
 
 script:
-  - docker-compose exec --user root selenium-chrome tox -- -m $MARK
-
-after_success:
-  - docker-compose down
+  - tox -- -m $MARK
