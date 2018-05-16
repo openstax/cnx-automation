@@ -6,8 +6,6 @@ import pytest
 
 import uuid
 
-import xml.etree.ElementTree as ET
-
 from tests import markers
 
 from pages.legacy.login_form import LoginForm
@@ -20,9 +18,6 @@ class TestCreateImportPublishModule(object):
 
     _module_title = None
 
-    _expected_archive_first_p_content = (b'<html:p xmlns:html="http://www.w3.org/1999/xhtml"'
-                                         b' id="test">\n     Hello World!\n  </html:p>\n')
-
     @markers.legacy
     @markers.slow
     def test_create_module(self, legacy_base_url, legacy_username, legacy_password, selenium):
@@ -33,13 +28,16 @@ class TestCreateImportPublishModule(object):
         # WHEN the user clicks to create a new module, agrees to the license and fills in the Title
         cc_license = my_dashboard.create_module()
         module_metadata = cc_license.agree().submit()
-        self.__class__._module_title = 'CNX Automation Test Module {uuid}'.format(uuid=uuid.uuid4())
-        module_edit = module_metadata.fill_in_title(self.__class__._module_title).submit()
+        module_title = 'CNX Automation Test Module {uuid}'.format(uuid=uuid.uuid4())
+        module_edit = module_metadata.fill_in_title(module_title).submit()
 
         # THEN the user is brought to the module editor
         assert type(module_edit) is ModuleEdit
-        assert module_edit.title == self.__class__._module_title
+        assert module_edit.title == module_title
         assert module_edit.blank
+
+        # Other tests will be skipped unless this test succeeds and set this class variable
+        self.__class__._module_title = module_title
 
     @markers.legacy
     @markers.slow
@@ -65,7 +63,7 @@ class TestCreateImportPublishModule(object):
     @markers.legacy
     @markers.slow
     def test_publish_module(self, archive_base_url, legacy_base_url,
-                            legacy_username, legacy_password, selenium):
+                            legacy_username, legacy_password, selenium, snapshot):
         # GIVEN a logged in user on their dashboard with a module created from the previous test
         if self.__class__._module_title is None:
             pytest.skip('This test requires a CNX module from a previous test that failed')
@@ -85,6 +83,4 @@ class TestCreateImportPublishModule(object):
         archive_content = LegacyContent(selenium, archive_base_url,
                                         module_id=published_module.id).open()
         assert archive_content.title == self.__class__._module_title
-        content = ET.fromstring(archive_content.content)
-        first_p = content.find('.//{http://www.w3.org/1999/xhtml}p')
-        assert ET.tostring(first_p) == self._expected_archive_first_p_content
+        snapshot.assert_match(archive_content.stable_json_string, 'legacy/hello_world_module.snap')

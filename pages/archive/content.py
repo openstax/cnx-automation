@@ -2,6 +2,10 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
+import json
+
+from functools import lru_cache
+
 from pages.archive.base import Page
 
 from selenium.webdriver.common.by import By
@@ -14,6 +18,31 @@ class Content(Page):
     # The browser automatically wraps the JSON response in some HTML
     _json_locator = (By.TAG_NAME, 'pre')
 
+    _stable_fields = [
+        'googleAnalytics',
+        'version',
+        'submitlog',
+        'abstract',
+        'printStyle',
+        'roles',
+        'keywords',
+        'mediaType',
+        'subjects',
+        'publishers',
+        'stateid',
+        'authors',
+        'parentVersion',
+        'legacy_version',
+        'licensors',
+        'language',
+        'license',
+        'doctype',
+        'buyLink',
+        'submitter',
+        'baked',
+        'parentAuthors'
+    ]
+
     @property
     def json_pre(self):
         return self.find_element(*self._json_locator)
@@ -23,8 +52,8 @@ class Content(Page):
         return self.json_pre.text
 
     @property
+    @lru_cache(maxsize=None)
     def json(self):
-        import json
         return json.loads(self.json_text)
 
     @property
@@ -35,9 +64,55 @@ class Content(Page):
     def title(self):
         return self.json['title']
 
+    # Remove UUID(s) from title
+    @property
+    @lru_cache(maxsize=None)
+    def stable_title(self):
+        import re
+        return re.sub('[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}',
+                      '', self.title, flags=re.IGNORECASE).strip()
+
     @property
     def content(self):
         return self.json['content']
+
+    @property
+    def stable_content(self):
+        import xml.etree.ElementTree as ET
+
+        html = ET.fromstring(self.content)
+
+        head = html.find('{http://www.w3.org/1999/xhtml}head')
+
+        # Remove random UUID from page title
+        title = head.find('./{http://www.w3.org/1999/xhtml}title')
+        title.text = self.stable_title
+
+        # Remove creation time
+        created_time = head.find('./{http://www.w3.org/1999/xhtml}meta[@name="created-time"]')
+        head.remove(created_time)
+
+        # Remove revision time
+        revised_time = head.find('./{http://www.w3.org/1999/xhtml}meta[@name="revised-time"]')
+        head.remove(revised_time)
+
+        body = html.find('{http://www.w3.org/1999/xhtml}body')
+
+        # Remove random UUID from module title div
+        title_div = body.find('./{http://www.w3.org/1999/xhtml}div[@data-type="document-title"]')
+        title_div.text = self.stable_title
+
+        return ET.tostring(html, encoding='unicode')
+
+    @property
+    def stable_json(self):
+        json = self.json
+        return {**{field: json[field] for field in self._stable_fields},
+                **{'title': self.stable_title, 'content': self.stable_content}}
+
+    @property
+    def stable_json_string(self):
+        return json.dumps(self.stable_json)
 
     @property
     def loaded(self):

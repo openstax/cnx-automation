@@ -40,5 +40,5 @@ def legacy_password(request):
 
 @pytest.fixture(scope='session')
 def hello_world_cnxml_filepath(request):
-    """Returns the path to the source CNXML file for a Hellow World module (for upload)"""
+    """Returns the path to the source CNXML file for a Hello World module (for upload)"""
     return os.path.join(LEGACY_DATA_DIR, 'hello_world_module.cnxml')

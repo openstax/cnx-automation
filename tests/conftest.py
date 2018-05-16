@@ -15,6 +15,7 @@ load_dotenv(dotenv_path=DOTENV_PATH)
 
 # Import fixtures from our package so pytest can detect them
 from fixtures.base import chrome_options, selenium # flake8: noqa
+from fixtures.snapshot import snapshot
 from fixtures.archive import archive_base_url
 from fixtures.webview import american_gov_url, content_url
 from fixtures.legacy import (legacy_base_url, legacy_username, legacy_password,

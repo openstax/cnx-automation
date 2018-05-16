@@ -12,8 +12,8 @@ from selenium.webdriver.common.by import By
 class ModuleEdit(PrivatePage):
 
     _blank_module_content_string = (
-        b'<ns0:content xmlns:ns0="http://cnx.rice.edu/cnxml">\n  '
-        b'<ns0:para id="delete_me">\n     \n  </ns0:para>\n</ns0:content>\n\n')
+        '<ns0:content xmlns:ns0="http://cnx.rice.edu/cnxml">\n  '
+        '<ns0:para id="delete_me">\n     \n  </ns0:para>\n</ns0:content>\n\n')
 
     _title_header_locator = (By.CSS_SELECTOR, '#content div div h1')
 
@@ -56,7 +56,7 @@ class ModuleEdit(PrivatePage):
 
     @property
     def content_string(self):
-        return ET.tostring(self.content)
+        return ET.tostring(self.content, encoding='unicode')
 
     @property
     def blank(self):
