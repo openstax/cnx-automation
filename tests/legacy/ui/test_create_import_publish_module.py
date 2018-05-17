@@ -41,7 +41,7 @@ class TestCreateImportPublishModule(object):
 
     @markers.legacy
     @markers.slow
-    def test_import_module(self, hello_world_cnxml_filepath, legacy_base_url,
+    def test_import_module(self, m46922_1_13_cnxml_filepath, legacy_base_url,
                            legacy_username, legacy_password, selenium):
         # GIVEN a logged in user on their dashboard with a module created from the previous test
         if self.__class__._module_title is None:
@@ -53,7 +53,7 @@ class TestCreateImportPublishModule(object):
         # WHEN the user accesses the previous module and triggers an import
         module_edit = my_dashboard.edit_last_modified_module()
         module_import = module_edit.select_import_format('plain').click_import()
-        module_edit = module_import.fill_in_filename(hello_world_cnxml_filepath).submit()
+        module_edit = module_import.fill_in_filename(m46922_1_13_cnxml_filepath).submit()
 
         # THEN the user is back to the module editor and the module gets the imported content
         assert type(module_edit) is ModuleEdit
@@ -83,4 +83,4 @@ class TestCreateImportPublishModule(object):
         archive_content = LegacyContent(selenium, archive_base_url,
                                         module_id=published_module.id).open()
         assert archive_content.title == self.__class__._module_title
-        snapshot.assert_match(archive_content.stable_json_string, 'legacy/hello_world_module.snap')
+        snapshot.assert_match(archive_content.stable_json_string, 'legacy/m46922_1.13.snap')

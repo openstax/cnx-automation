@@ -8,7 +8,7 @@ import pytest
 
 LEGACY_DATA_DIR = os.path.join(os.path.realpath(os.path.dirname(__file__)), 'legacy/data')
 
-__all__ = ['legacy_base_url', 'legacy_username', 'legacy_password', 'hello_world_cnxml_filepath']
+__all__ = ['legacy_base_url', 'legacy_username', 'legacy_password', 'm46922_1_13_cnxml_filepath']
 
 
 @pytest.fixture(scope='session')
@@ -39,6 +39,6 @@ def legacy_password(request):
 
 
 @pytest.fixture(scope='session')
-def hello_world_cnxml_filepath(request):
-    """Returns the path to the source CNXML file for a Hello World module (for upload)"""
-    return os.path.join(LEGACY_DATA_DIR, 'hello_world_module.cnxml')
+def m46922_1_13_cnxml_filepath(request):
+    """Returns the path to the source CNXML file for module m46922@1.13 (for upload)"""
+    return os.path.join(LEGACY_DATA_DIR, 'm46922_1.13.cnxml')
