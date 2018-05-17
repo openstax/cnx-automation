@@ -16,10 +16,14 @@ class Browse(Base):
     _browse_content_locator = (By.CLASS_NAME, 'browse-content')
     _subject_list_locator = (By.CSS_SELECTOR, '.browse-content > ul > li')
 
-    def wait_for_page_to_load(self):
-        self.wait.until(lambda s: self.is_element_displayed(*self._main_content_locator))
-        self.wait.until(lambda s: self.find_elements(*self._subject_list_locator))
-        return self
+    @property
+    def loaded(self):
+        return self.subject_list and self.is_main_content_displayed
+
+    @property
+    def is_main_content_displayed(self):
+        main_content = self.find_element(*self._main_content_locator)
+        return main_content.is_displayed()
 
     @property
     def is_search_input_displayed(self):
@@ -40,11 +44,3 @@ class Browse(Base):
         @property
         def name(self):
             return self.find_element(*self._name_locator).text
-
-        @property
-        def pages(self):
-            pass
-
-        @property
-        def books(self):
-            pass
