@@ -16,9 +16,7 @@ class ModuleEdit(PrivatePage):
 
     URL_TEMPLATE = '/Members/{username}/{module_id}'
 
-    _blank_module_content_string = (
-        '<ns0:content xmlns:ns0="http://cnx.rice.edu/cnxml">\n  '
-        '<ns0:para id="delete_me">\n     \n  </ns0:para>\n</ns0:content>\n\n')
+    _url_regex = re.compile('/Members/([^/]+)/([^/]+)')
 
     _title_header_locator = (By.CSS_SELECTOR, '#content div div h1')
 
@@ -29,13 +27,17 @@ class ModuleEdit(PrivatePage):
 
     _content_textarea_locator = (By.ID, 'textarea')
 
+    _blank_module_content_string = (
+        '<ns0:content xmlns:ns0="http://cnx.rice.edu/cnxml">\n  '
+        '<ns0:para id="delete_me">\n     \n  </ns0:para>\n</ns0:content>\n\n')
+
     @property
     def username(self):
-        return re.search('/Members/([^/]+)/([^/]+)', self.driver.current_url).group(1)
+        return re.search(self._url_regex, self.driver.current_url).group(1)
 
     @property
     def id(self):
-        return re.search('/Members/([^/]+)/([^/]+)', self.driver.current_url).group(2)
+        return re.search(self._url_regex, self.driver.current_url).group(2)
 
     @property
     def title_header(self):
@@ -75,7 +77,8 @@ class ModuleEdit(PrivatePage):
     def blank(self):
         return self.content_string == self._blank_module_content_string
 
-    # Adapted from: https://seleniumhq.github.io/selenium/docs/api/py/_modules/selenium/webdriver/support/expected_conditions.html#alert_is_present
+    # Adapted from:
+    # https://seleniumhq.github.io/selenium/docs/api/py/_modules/selenium/webdriver/support/expected_conditions.html#alert_is_present
     @property
     def alert(self):
         try:
