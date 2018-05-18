@@ -6,6 +6,8 @@ import os
 
 import pytest
 
+import json
+
 __all__ = ['snapshot']
 
 SNAPSHOT_BASE_DIR = os.path.join(os.path.realpath(os.path.dirname(__file__)), '../snapshots')
@@ -27,12 +29,12 @@ class Snapshot(object):
             snapshot_file.seek(0)
             snapshot = snapshot_file.read()
             if snapshot:
-                assert value == snapshot, \
+                assert value == json.loads(snapshot), \
                        ("Value did not match snapshot.\n\n"
                         "Value:\n\n{value}\n\n"
                         "Snapshot:\n\n{snapshot}".format(value=value, snapshot=snapshot))
             else:
-                snapshot_file.write(value)
+                snapshot_file.write(json.dumps(value))
 
 
 @pytest.fixture(scope='session')

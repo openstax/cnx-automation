@@ -80,4 +80,4 @@ class TestCreateImportPublishModule(object):
         archive_content = LegacyContent(selenium, archive_base_url,
                                         module_id=published_module.id).open()
         assert archive_content.title == 'CNX Automation Test Module'
-        snapshot.assert_match(archive_content.stable_json_string, 'legacy/m46922_1.13.snap')
+        snapshot.assert_match(archive_content.stable_json, 'legacy/m46922_1.13.snap')

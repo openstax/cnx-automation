@@ -2,8 +2,6 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-import json
-
 from functools import lru_cache
 
 from pages.archive.base import Page
@@ -55,6 +53,7 @@ class Content(Page):
     @property
     @lru_cache(maxsize=None)
     def json(self):
+        import json
         return json.loads(self.json_text)
 
     @property
@@ -89,13 +88,8 @@ class Content(Page):
 
     @property
     def stable_json(self):
-        json = self.json
-        return {**{field: json[field] for field in self._stable_fields},
+        return {**{field: self.json[field] for field in self._stable_fields},
                 **{'content': self.stable_content}}
-
-    @property
-    def stable_json_string(self):
-        return json.dumps(self.stable_json)
 
     @property
     def loaded(self):
