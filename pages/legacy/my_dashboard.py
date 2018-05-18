@@ -17,10 +17,6 @@ class MyDashboard(PrivatePage):
     def create_a_new_module_link(self):
         return self.find_element(*self._create_a_new_module_locator)
 
-    @property
-    def loaded(self):
-        return super().loaded and self.is_element_displayed(*self._create_a_new_module_locator)
-
     def create_module(self):
         self.create_a_new_module_link.click()
         from pages.legacy.cc_license import CcLicense

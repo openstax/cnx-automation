@@ -15,10 +15,6 @@ class ModuleConfirmPublish(PrivatePage):
     def publish_form(self):
         return self.find_element(*self._publish_form_locator)
 
-    @property
-    def loaded(self):
-        return super().loaded and self.is_element_displayed(*self._publish_form_locator)
-
     def submit(self):
         self.publish_form.submit()
         from pages.legacy.published_module import PublishedModule

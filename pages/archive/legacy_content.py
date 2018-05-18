@@ -19,10 +19,6 @@ class LegacyContent(Page):
         from urllib.parse import urlsplit
         return re.sub('/contents/', '', urlsplit(self.driver.current_url)[2])
 
-    @property
-    def loaded(self):
-        return super().loaded and self.is_element_displayed(*self._title_locator)
-
     def open(self):
         super().open()
         from pages.archive.content import Content

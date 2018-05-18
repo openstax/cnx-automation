@@ -25,19 +25,32 @@ class ModuleMetadata(PrivatePage):
     def submit_button(self):
         return self.metadata_form.find_element(*self._submit_button_locator)
 
-    @property
-    def loaded(self):
-        return super().loaded and self.is_element_displayed(*self._metadata_form_locator)
-
     def fill_in_title(self, title):
         self.title_field.clear()
         self.title_field.send_keys(title)
         return self
 
-    def submit(self):
+    def submit(self, max_retries=3):
         # Unlike the other forms, we actually have to click the submit button here
         # when creating the module, otherwise we end up in the wrong page (metadata edit page)
         self.submit_button.click()
         from pages.legacy.module_edit import ModuleEdit
         module_edit = ModuleEdit(self.driver, self.base_url, self.timeout)
-        return module_edit.wait_for_page_to_load()
+
+        # Adapted from:
+        # http://pragmaticcoders.com/blog/retrying-exceptions-handling-internet-connection-problems/
+        for i in range(max_retries):
+            result = module_edit.wait_for_page_to_load()
+
+            alert = result.alert
+            if alert is None:
+                break
+
+            # Alert is present: Module creation failed.
+            # Dismiss it, then press the back button and resubmit.
+            alert.dismiss()
+            self.driver.back()
+            self.wait_for_page_to_load()
+            self.submit_button.click()
+
+        return result

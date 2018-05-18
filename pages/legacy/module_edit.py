@@ -9,6 +9,7 @@ import xml.etree.ElementTree as ET
 from pages.legacy.base import PrivatePage
 
 from selenium.webdriver.common.by import By
+from selenium.common.exceptions import NoAlertPresentException
 
 
 class ModuleEdit(PrivatePage):
@@ -74,13 +75,13 @@ class ModuleEdit(PrivatePage):
     def blank(self):
         return self.content_string == self._blank_module_content_string
 
+    # Adapted from: https://seleniumhq.github.io/selenium/docs/api/py/_modules/selenium/webdriver/support/expected_conditions.html#alert_is_present
     @property
-    def loaded(self):
-        return (super().loaded and
-                self.is_element_displayed(*self._title_header_locator) and
-                self.is_element_displayed(*self._import_form_locator) and
-                self.is_element_displayed(*self._publish_link_locator) and
-                self.is_element_present(*self._content_textarea_locator))
+    def alert(self):
+        try:
+            return self.driver.switch_to.alert
+        except NoAlertPresentException:
+            return None
 
     def publish(self):
         self.publish_link.click()

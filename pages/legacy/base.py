@@ -32,10 +32,6 @@ class Page(pypom.Page):
     def logout(self):
         return self.my_account.logout()
 
-    @property
-    def loaded(self):
-        return self.is_element_displayed(*self._region_content_locator)
-
 
 class PublicPage(Page):
 
@@ -53,7 +49,3 @@ class PrivatePage(Page):
     @property
     def can_login(self):
         return False
-
-    @property
-    def loaded(self):
-        return super().loaded and self.has_username and self.can_logout

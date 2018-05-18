@@ -6,7 +6,4 @@ from pages.legacy.base import PublicPage
 
 
 class Home(PublicPage):
-
-    @property
-    def loaded(self):
-        return super().loaded and self.my_account.loaded
+    pass

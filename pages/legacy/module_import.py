@@ -20,10 +20,6 @@ class ModuleImport(PrivatePage):
     def import_file_field(self):
         return self.import_form.find_element(*self._import_file_field_locator)
 
-    @property
-    def loaded(self):
-        return super().loaded and self.is_element_displayed(*self._import_form_locator)
-
     def fill_in_filename(self, filename):
         self.import_file_field.send_keys(filename)
         return self

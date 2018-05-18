@@ -90,7 +90,3 @@ class Content(Page):
     def stable_dict(self):
         return {**{field: self.dict[field] for field in self._stable_fields},
                 **{'content': self.stable_content}}
-
-    @property
-    def loaded(self):
-        return super().loaded and self.is_element_displayed(*self._json_locator)

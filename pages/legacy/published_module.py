@@ -32,7 +32,3 @@ class PublishedModule(PrivatePage):
     @property
     def id(self):
         return self.id_span.text
-
-    @property
-    def loaded(self):
-        return super().loaded and self.is_element_displayed(*self._tbody_locator)

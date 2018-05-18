@@ -20,10 +20,6 @@ class ModulePublish(PrivatePage):
     def submit_button(self):
         return self.publish_form.find_element(*self._submit_button_locator)
 
-    @property
-    def loaded(self):
-        return super().loaded and self.is_element_displayed(*self._publish_form_locator)
-
     def submit(self):
         # Unlike the other forms, we actually have to click the submit button here
         # when publishing the module, otherwise we end up in an error page

@@ -33,10 +33,6 @@ class LoginForm(Page):
                 self.is_element_displayed(*self._username_field_locator) and
                 self.is_element_displayed(*self._password_field_locator))
 
-    @property
-    def loaded(self):
-        return super().loaded and self.can_login
-
     def login(self, username, password):
         self.username_field.send_keys(username)
         self.password_field.send_keys(password)

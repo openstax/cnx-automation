@@ -54,10 +54,6 @@ class MyAccount(Region):
     def logout_form(self):
         return self.find_element(*self._logout_form_locator)
 
-    @property
-    def loaded(self):
-        return self.can_login or (self.has_username and self.can_logout)
-
     def login(self, username, password):
         self.username_field.send_keys(username)
         self.password_field.send_keys(password)

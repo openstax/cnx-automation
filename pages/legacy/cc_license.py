@@ -20,10 +20,6 @@ class CcLicense(PrivatePage):
     def agree_checkbox(self):
         return self.cc_license_form.find_element(*self._agree_checkbox_locator)
 
-    @property
-    def loaded(self):
-        return super().loaded and self.is_element_displayed(*self._cc_license_form_locator)
-
     def agree(self):
         self.agree_checkbox.click()
         return self
