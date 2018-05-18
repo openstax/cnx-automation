@@ -9,7 +9,7 @@ import xml.etree.ElementTree as ET
 from pages.legacy.base import PrivatePage
 
 from selenium.webdriver.common.by import By
-from selenium.common.exceptions import NoAlertPresentException
+from selenium.common.exceptions import UnexpectedAlertPresentException
 
 
 class ModuleEdit(PrivatePage):
@@ -70,20 +70,22 @@ class ModuleEdit(PrivatePage):
     def blank(self):
         return self.content_string == self._blank_module_content_string
 
-    # Adapted from:
-    # https://seleniumhq.github.io/selenium/docs/api/py/_modules/selenium/webdriver/support/expected_conditions.html#alert_is_present
+    # When creating a module we sometimes get an error alert
+    # So here we wait for either the title or the error alert to show up
+    # If it's the error alert, we dismiss it, which causes the page to actually load, and wait
     @property
-    def alert(self):
+    def loaded(self):
         try:
-            return self.driver.switch_to.alert
-        except NoAlertPresentException:
-            return None
+            return self.is_element_displayed(*self._title_header_locator)
+        except UnexpectedAlertPresentException:
+            self.driver.switch_to.alert.dismiss()
+            return False
 
     def publish(self):
         self.publish_link.click()
-        from pages.legacy.module_publish import ModulePublish
-        module_publish = ModulePublish(self.driver, self.base_url, self.timeout)
-        return module_publish.wait_for_page_to_load()
+        from pages.legacy.content_publish import ContentPublish
+        content_publish = ContentPublish(self.driver, self.base_url, self.timeout)
+        return content_publish.wait_for_page_to_load()
 
     def import_select_option(self, format):
         css_selector = 'option[value="{format}"]'.format(format=format)

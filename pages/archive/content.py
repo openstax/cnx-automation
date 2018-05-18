@@ -25,7 +25,7 @@ class Content(Page):
         'mediaType',
         'subjects',
         'publishers',
-        'stateid',
+        'parentTitle',
         'authors',
         'parentVersion',
         'legacy_version',
@@ -35,9 +35,11 @@ class Content(Page):
         'doctype',
         'buyLink',
         'submitter',
-        'baked',
+        'collated',
         'parentAuthors'
     ]
+
+    _stable_tree_fields = ['contents', 'title']
 
     @property
     def json_pre(self):
@@ -60,6 +62,27 @@ class Content(Page):
     @property
     def title(self):
         return self.dict['title']
+
+    @property
+    def has_tree(self):
+        return 'tree' in self.dict
+
+    @property
+    def tree(self):
+        return self.dict['tree']
+
+    def stable_tree(self, tree):
+        if isinstance(tree, dict):
+            return {field: self.stable_tree(tree[field]) for field in self._stable_tree_fields
+                    if field in tree}
+        elif isinstance(tree, list):
+            return [self.stable_tree(element) for element in tree]
+        else:
+            return tree
+
+    @property
+    def has_content(self):
+        return 'content' in self.dict
 
     @property
     def content(self):
@@ -85,5 +108,6 @@ class Content(Page):
 
     @property
     def stable_dict(self):
-        return {**{field: self.dict[field] for field in self._stable_fields},
-                **{'content': self.stable_content}}
+        return {**{field: self.dict[field] for field in self._stable_fields if field in self.dict},
+                **({'tree': self.stable_tree(self.tree)} if self.has_tree else {}),
+                **({'content': self.stable_content} if self.has_content else {})}

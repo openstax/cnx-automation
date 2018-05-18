@@ -12,8 +12,7 @@ from pages.legacy.login_form import LoginForm
 @markers.legacy
 @markers.slow
 @markers.nondestructive
-def test_home_login(legacy_base_url, legacy_username,
-                    legacy_password, selenium):
+def test_home_login(legacy_base_url, legacy_username, legacy_password, selenium):
     # GIVEN the legacy homepage
     home = Home(selenium, legacy_base_url).open()
 
@@ -29,8 +28,7 @@ def test_home_login(legacy_base_url, legacy_username,
 @markers.legacy
 @markers.slow
 @markers.nondestructive
-def test_home_login_logout(legacy_base_url, legacy_username,
-                           legacy_password, selenium):
+def test_home_login_logout(legacy_base_url, legacy_username, legacy_password, selenium):
     # GIVEN the legacy homepage
     home = Home(selenium, legacy_base_url).open()
 
@@ -45,8 +43,7 @@ def test_home_login_logout(legacy_base_url, legacy_username,
 @markers.legacy
 @markers.slow
 @markers.nondestructive
-def test_login_page_login(legacy_base_url, legacy_username,
-                          legacy_password, selenium):
+def test_login_page_login(legacy_base_url, legacy_username, legacy_password, selenium):
     # GIVEN the legacy login form page
     login_page = LoginForm(selenium, legacy_base_url).open()
 
@@ -62,8 +59,7 @@ def test_login_page_login(legacy_base_url, legacy_username,
 @markers.legacy
 @markers.slow
 @markers.nondestructive
-def test_login_page_login_logout(legacy_base_url, legacy_username,
-                                 legacy_password, selenium):
+def test_login_page_login_logout(legacy_base_url, legacy_username, legacy_password, selenium):
     # GIVEN the legacy login form page
     login_page = LoginForm(selenium, legacy_base_url).open()
 
