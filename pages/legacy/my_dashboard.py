@@ -4,7 +4,21 @@
 
 from pages.legacy.base import PrivatePage
 
+from selenium.webdriver.common.by import By
+
 
 class MyDashboard(PrivatePage):
 
     URL_TEMPLATE = '/mydashboard'
+
+    _create_a_new_module_locator = (By.CSS_SELECTOR, 'p.createlink a')
+
+    @property
+    def create_a_new_module_link(self):
+        return self.find_element(*self._create_a_new_module_locator)
+
+    def create_module(self):
+        self.create_a_new_module_link.click()
+        from pages.legacy.cc_license import CcLicense
+        cc_license = CcLicense(self.driver, self.base_url, self.timeout)
+        return cc_license.wait_for_page_to_load()
