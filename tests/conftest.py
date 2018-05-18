@@ -21,9 +21,10 @@ from fixtures.legacy import legacy_base_url, legacy_username, legacy_password
 
 def pytest_addoption(parser):
     group = parser.getgroup('selenium', 'selenium')
-    group._addoption('--headless',
-                     action='store_true',
-                     help='enable headless mode for chrome.')
+    group.addoption('--headless',
+                    action='store_true',
+                    default=os.getenv('HEADLESS', False),
+                    help='enable headless mode for chrome.')
     parser.addoption('--runslow',
                      action='store_true',
                      default=os.getenv('RUNSLOW', False),

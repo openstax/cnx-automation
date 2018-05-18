@@ -44,6 +44,12 @@ To run against a different base URL, pass in a value for `--base-url`:
 $ tox -- --base-url=https://qa.cnx.org
 ```
 
+To run Chrome in headless mode, pass in `--headless` or set the HEADLESS environment variable:
+
+```bash
+$ tox -- --headless
+```
+
 To run against a different browser, pass in a value for `--driver`:
 
 ```bash
