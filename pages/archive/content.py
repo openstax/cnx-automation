@@ -26,6 +26,7 @@ class Content(Page):
         'printStyle',
         'roles',
         'keywords',
+        'title',
         'mediaType',
         'subjects',
         'publishers',
@@ -64,14 +65,6 @@ class Content(Page):
     def title(self):
         return self.json['title']
 
-    # Remove UUID(s) from title
-    @property
-    @lru_cache(maxsize=None)
-    def stable_title(self):
-        import re
-        return re.sub('[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}',
-                      '', self.title, flags=re.IGNORECASE).strip()
-
     @property
     def content(self):
         return self.json['content']
@@ -84,10 +77,6 @@ class Content(Page):
 
         head = html.find('{http://www.w3.org/1999/xhtml}head')
 
-        # Remove random UUID from page title
-        title = head.find('./{http://www.w3.org/1999/xhtml}title')
-        title.text = self.stable_title
-
         # Remove creation time
         created_time = head.find('./{http://www.w3.org/1999/xhtml}meta[@name="created-time"]')
         head.remove(created_time)
@@ -96,19 +85,13 @@ class Content(Page):
         revised_time = head.find('./{http://www.w3.org/1999/xhtml}meta[@name="revised-time"]')
         head.remove(revised_time)
 
-        body = html.find('{http://www.w3.org/1999/xhtml}body')
-
-        # Remove random UUID from module title div
-        title_div = body.find('./{http://www.w3.org/1999/xhtml}div[@data-type="document-title"]')
-        title_div.text = self.stable_title
-
         return ET.tostring(html, encoding='unicode')
 
     @property
     def stable_json(self):
         json = self.json
         return {**{field: json[field] for field in self._stable_fields},
-                **{'title': self.stable_title, 'content': self.stable_content}}
+                **{'content': self.stable_content}}
 
     @property
     def stable_json_string(self):

@@ -2,6 +2,8 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
+import re
+
 import xml.etree.ElementTree as ET
 
 from pages.legacy.base import PrivatePage
@@ -10,6 +12,8 @@ from selenium.webdriver.common.by import By
 
 
 class ModuleEdit(PrivatePage):
+
+    URL_TEMPLATE = '/Members/{username}/{module_id}'
 
     _blank_module_content_string = (
         '<ns0:content xmlns:ns0="http://cnx.rice.edu/cnxml">\n  '
@@ -23,6 +27,14 @@ class ModuleEdit(PrivatePage):
     _import_select_locator = (By.CSS_SELECTOR, 'select[name="format"]')
 
     _content_textarea_locator = (By.ID, 'textarea')
+
+    @property
+    def username(self):
+        return re.search('/Members/([^/]+)/([^/]+)', self.driver.current_url).group(1)
+
+    @property
+    def id(self):
+        return re.search('/Members/([^/]+)/([^/]+)', self.driver.current_url).group(2)
 
     @property
     def title_header(self):
