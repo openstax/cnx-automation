@@ -52,21 +52,21 @@ class Content(Page):
 
     @property
     @lru_cache(maxsize=None)
-    def json(self):
+    def dict(self):
         import json
         return json.loads(self.json_text)
 
     @property
     def id(self):
-        return self.json['id']
+        return self.dict['id']
 
     @property
     def title(self):
-        return self.json['title']
+        return self.dict['title']
 
     @property
     def content(self):
-        return self.json['content']
+        return self.dict['content']
 
     @property
     def stable_content(self):
@@ -87,8 +87,8 @@ class Content(Page):
         return ET.tostring(html, encoding='unicode')
 
     @property
-    def stable_json(self):
-        return {**{field: self.json[field] for field in self._stable_fields},
+    def stable_dict(self):
+        return {**{field: self.dict[field] for field in self._stable_fields},
                 **{'content': self.stable_content}}
 
     @property
