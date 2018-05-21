@@ -18,7 +18,9 @@ class Browse(Base):
 
     @property
     def loaded(self):
-        return self.subject_list and self.is_main_content_displayed
+        return (len(self.subject_list) > 0 and
+                self.subject_list[0].name and
+                self.is_main_content_displayed)
 
     @property
     def is_main_content_displayed(self):
