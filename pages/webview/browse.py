@@ -2,11 +2,13 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
+import json
+
 from pypom import Region
 
-from pages.webview.base import Base
-
 from selenium.webdriver.common.by import By
+
+from pages.webview.base import Base
 
 
 class Browse(Base):
@@ -58,7 +60,28 @@ class Browse(Base):
 
     class Subject(Region):
         _name_locator = (By.CSS_SELECTOR, 'h2')
+        _pages_div_locator = (By.CSS_SELECTOR, 'div[data-l10n-id="search-pages"]')
+        _books_div_locator = (By.CSS_SELECTOR, 'div[data-l10n-id="search-books"]')
+
+        @property
+        def pages_div(self):
+            return self.find_element(*self._pages_div_locator)
+
+        @property
+        def books_div(self):
+            return self.find_element(*self._books_div_locator)
 
         @property
         def name(self):
             return self.find_element(*self._name_locator).text
+
+        def get_count(self, div):
+            return json.loads(div.get_attribute('data-l10n-args'))['count']
+
+        @property
+        def pages_count(self):
+            return self.get_count(self.pages_div)
+
+        @property
+        def books_count(self):
+            return self.get_count(self.books_div)
