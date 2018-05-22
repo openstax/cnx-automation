@@ -13,7 +13,7 @@ class Collection(Content):
     _add_modules_link_locator = (By.CSS_SELECTOR, 'a.action_collection_module')
 
     @property
-    def blank(self):
+    def is_empty(self):
         return not self.is_element_present(*self._content_node_locator)
 
     @property

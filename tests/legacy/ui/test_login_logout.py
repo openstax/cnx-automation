@@ -5,7 +5,7 @@
 from tests import markers
 
 from pages.legacy.home import Home
-from pages.legacy.my_dashboard import MyDashboard
+from pages.legacy.my_cnx import MyCnx
 from pages.legacy.login_form import LoginForm
 
 
@@ -19,12 +19,11 @@ class TestLoginLogout(object):
         home = Home(selenium, legacy_base_url).open()
 
         # WHEN we login
-        my_dashboard = home.login(legacy_username, legacy_password)
+        my_cnx = home.login(legacy_username, legacy_password)
 
-        # THEN the user is logged in (at their dashboard)
-        # and the correct username is displayed
-        assert type(my_dashboard) is MyDashboard
-        assert my_dashboard.username == legacy_username
+        # THEN the user is logged in (at their dashboard) and the correct username is displayed
+        assert type(my_cnx) is MyCnx
+        assert my_cnx.username == legacy_username
 
     @markers.legacy
     @markers.slow
@@ -34,8 +33,8 @@ class TestLoginLogout(object):
         home = Home(selenium, legacy_base_url).open()
 
         # WHEN we login, then logout
-        my_dashboard = home.login(legacy_username, legacy_password)
-        login_page = my_dashboard.logout()
+        my_cnx = home.login(legacy_username, legacy_password)
+        login_page = my_cnx.logout()
 
         # THEN the user is logged out (at the login form page)
         assert type(login_page) is LoginForm
@@ -48,12 +47,11 @@ class TestLoginLogout(object):
         login_page = LoginForm(selenium, legacy_base_url).open()
 
         # WHEN we login
-        my_dashboard = login_page.login(legacy_username, legacy_password)
+        my_cnx = login_page.login(legacy_username, legacy_password)
 
-        # THEN the user is logged in (at their dashboard)
-        # and the correct username is displayed
-        assert type(my_dashboard) is MyDashboard
-        assert my_dashboard.username == legacy_username
+        # THEN the user is logged in (at their dashboard) and the correct username is displayed
+        assert type(my_cnx) is MyCnx
+        assert my_cnx.username == legacy_username
 
     @markers.legacy
     @markers.slow
@@ -64,8 +62,8 @@ class TestLoginLogout(object):
         login_page = LoginForm(selenium, legacy_base_url).open()
 
         # WHEN we login, then logout
-        my_dashboard = login_page.login(legacy_username, legacy_password)
-        login_page = my_dashboard.logout()
+        my_cnx = login_page.login(legacy_username, legacy_password)
+        login_page = my_cnx.logout()
 
         # THEN the user is logged out (at the login form page)
         assert type(login_page) is LoginForm

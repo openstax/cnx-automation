@@ -11,12 +11,13 @@ from pages.legacy.module_edit import ModuleEdit
 from pages.legacy.collection_edit import CollectionEdit
 from pages.legacy.content_published import ContentPublished
 from pages.archive.legacy_content import LegacyContent
+from pages.legacy.workspace import Workspace
 
 from regions.legacy.collection import Collection
 from regions.legacy.module import Module
 
 
-class TestCreateImportPublishModuleAndCollection(object):
+class TestCreateImportPublishRemoveModuleAndCollection(object):
 
     _module_temp_id = None
     _module_id = None
@@ -27,17 +28,17 @@ class TestCreateImportPublishModuleAndCollection(object):
     def test_create_module(self, legacy_base_url, legacy_username, legacy_password, selenium):
         # GIVEN a logged in user on their dashboard
         login_page = LoginForm(selenium, legacy_base_url).open()
-        my_dashboard = login_page.login(legacy_username, legacy_password)
+        my_cnx = login_page.login(legacy_username, legacy_password)
 
         # WHEN the user clicks to create a new module, agrees to the license and fills in the Title
-        cc_license = my_dashboard.create_module()
+        cc_license = my_cnx.create_module()
         metadata_edit = cc_license.agree().submit()
         module_edit = metadata_edit.fill_in_title('CNX Automation Test Module').submit()
 
         # THEN the user is brought to the module editor
         assert type(module_edit) is ModuleEdit
         assert module_edit.title == 'CNX Automation Test Module'
-        assert module_edit.blank
+        assert module_edit.is_blank
 
         # Other tests will be skipped unless this test succeeds and set this class variable
         self.__class__._module_temp_id = module_edit.id
@@ -61,7 +62,7 @@ class TestCreateImportPublishModuleAndCollection(object):
         # THEN the user is back to the module editor and the module gets the imported content
         assert type(module_edit) is ModuleEdit
         assert module_edit.title == 'CNX Automation Test Module'
-        assert not module_edit.blank
+        assert not module_edit.is_blank
 
     @markers.legacy
     @markers.slow
@@ -99,18 +100,18 @@ class TestCreateImportPublishModuleAndCollection(object):
         if self.__class__._module_temp_id is None:
             pytest.skip('This test requires a CNX module from a previous test that failed')
         login_page = LoginForm(selenium, legacy_base_url).open()
-        my_dashboard = login_page.login(legacy_username, legacy_password)
+        my_cnx = login_page.login(legacy_username, legacy_password)
 
         # WHEN the user clicks to create a new collection,
         # agrees to the license and fills in the Title
-        cc_license = my_dashboard.create_collection()
+        cc_license = my_cnx.create_collection()
         metadata_edit = cc_license.agree().submit()
         collection_edit = metadata_edit.fill_in_title('CNX Automation Test Collection').submit()
 
         # THEN the user is brought to the collection editor
         assert type(collection_edit) is CollectionEdit
         assert collection_edit.title == 'CNX Automation Test Collection'
-        assert collection_edit.root_collection.blank
+        assert collection_edit.root_collection.is_empty
 
         # Other tests will be skipped unless this test succeeds and set this class variable
         self.__class__._collection_temp_id = collection_edit.id
@@ -139,9 +140,9 @@ class TestCreateImportPublishModuleAndCollection(object):
         # THEN the user is back to the collection editor and the collection gets the new content
         assert type(collection) is Collection
         assert type(module) is Module
-        assert not root_collection.blank
+        assert not root_collection.is_empty
         assert collection.title == 'CNX Automation Test Subcollection'
-        assert not collection.blank
+        assert not collection.is_empty
         assert module.title == 'CNX Automation Test Module'
 
     @markers.legacy
@@ -170,3 +171,24 @@ class TestCreateImportPublishModuleAndCollection(object):
                                         legacy_id=content_published.id).open()
         assert archive_content.title == 'CNX Automation Test Collection'
         snapshot.assert_match(archive_content.stable_dict, 'legacy/col_with_m46922_1.13.snap')
+
+    @markers.legacy
+    @markers.slow
+    def test_remove_content(self, legacy_base_url, legacy_username, legacy_password, selenium):
+        # GIVEN a logged in user on their dashboard with content created in the previous test
+        if ((self.__class__._module_temp_id is None and
+             self.__class__._module_id is None and
+             self.__class__._collection_temp_id is None)):
+            pytest.skip('This test requires CNX content from previous tests that failed')
+        login_page = LoginForm(selenium, legacy_base_url).open()
+        my_cnx = login_page.login(legacy_username, legacy_password)
+
+        # WHEN the user accesses the content list and removes all content
+        workspace = my_cnx.workspace()
+        confirm_remove = workspace.select_all().remove()
+        workspace = confirm_remove.confirm()
+
+        # THEN the user is brought back to their dashboard
+        assert type(workspace) is Workspace
+        # We don't assert that the workspace is empty because that assertion could fail
+        # when multiple tests are running at the same time

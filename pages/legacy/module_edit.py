@@ -67,7 +67,7 @@ class ModuleEdit(PrivatePage):
         return ET.tostring(self.content, encoding='unicode')
 
     @property
-    def blank(self):
+    def is_blank(self):
         return self.content_string == self._blank_module_content_string
 
     # When creating a module we sometimes get an error alert
