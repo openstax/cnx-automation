@@ -8,12 +8,16 @@ from selenium.webdriver.common.by import By
 
 
 class Page(pypom.Page):
-    _region_content_locator = (By.ID, 'region-content')
+    _site_error_header_locator = (By.XPATH, ".//h1[text()='Site error']|.//h2[text()='Site Error']")
     _my_account_locator = (By.CSS_SELECTOR, '#portlet-login, #portlet-loggedin')
 
     # Default to a 60 second timeout for CNX legacy
     def __init__(self, driver, base_url=None, timeout=60, **url_kwargs):
         super().__init__(driver, base_url, timeout, **url_kwargs)
+
+    @property
+    def has_site_error(self):
+        return self.is_element_displayed(*self._site_error_header_locator)
 
     @property
     def my_account(self):

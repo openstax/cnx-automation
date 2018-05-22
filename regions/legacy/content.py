@@ -13,7 +13,7 @@ class Content(Region):
 
     def hover(self):
         from selenium.webdriver.common.action_chains import ActionChains
-        ActionChains(self.page.driver).move_to_element(self.root).perform()
+        ActionChains(self.driver).move_to_element(self.root).perform()
         return self
 
     @property

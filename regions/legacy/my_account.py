@@ -58,11 +58,11 @@ class MyAccount(Region):
         self.password_field.send_keys(password)
         self.login_form.submit()
         from pages.legacy.my_cnx import MyCnx
-        my_cnx = MyCnx(self.page.driver, self.page.base_url, self.page.timeout)
+        my_cnx = MyCnx(self.driver, self.page.base_url, self.page.timeout)
         return my_cnx.wait_for_page_to_load()
 
     def logout(self):
         self.logout_form.submit()
         from pages.legacy.login_form import LoginForm
-        login_form = LoginForm(self.page.driver, self.page.base_url, self.page.timeout)
+        login_form = LoginForm(self.driver, self.page.base_url, self.page.timeout)
         return login_form.wait_for_page_to_load()

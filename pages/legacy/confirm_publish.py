@@ -14,8 +14,18 @@ class ConfirmPublish(PrivatePage):
     def publish_form(self):
         return self.find_element(*self._publish_form_locator)
 
-    def submit(self):
-        self.publish_form.submit()
+    def submit(self, max_retries=3):
         from pages.legacy.content_published import ContentPublished
         content_published = ContentPublished(self.driver, self.base_url, self.timeout)
-        return content_published.wait_for_page_to_load()
+
+        for i in range(max_retries):
+            self.publish_form.submit()
+            content_published.wait_for_page_to_load()
+
+            if not content_published.has_site_error:
+                break
+
+            self.driver.back()
+            self.wait_for_page_to_load()
+
+        return content_published
