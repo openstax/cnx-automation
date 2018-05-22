@@ -18,6 +18,7 @@ class ConfirmPublish(PrivatePage):
         from pages.legacy.content_published import ContentPublished
         content_published = ContentPublished(self.driver, self.base_url, self.timeout)
 
+        # Sometimes publishing fails with a SiteError. In those cases, we retry it a few times.
         for i in range(max_retries):
             self.publish_form.submit()
             content_published.wait_for_page_to_load()
