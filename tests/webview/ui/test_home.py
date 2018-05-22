@@ -90,3 +90,16 @@ def test_title_link_loads_correct_page(base_url, selenium):
 
     # THEN The book title from the home page matches the content page title
     assert book_title == content_page.title
+
+
+@markers.webview
+@markers.nondestructive
+def test_logo_link_stays_on_home_page(base_url, selenium):
+    # GIVEN the home page
+    home = Home(selenium, base_url).open()
+
+    # WHEN the OpenStax CNX logo is clicked
+    home = home.header.click_logo()
+
+    # THEN we are still in the home page
+    assert type(home) is Home

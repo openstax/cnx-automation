@@ -33,3 +33,17 @@ def test_subject_categories_load(base_url, selenium):
 
     # Then The subject categories are loaded
     assert len(browse_page.subject_list) > 0
+
+
+@markers.webview
+@markers.nondestructive
+def test_logo_link_loads_home_page(base_url, selenium):
+    # GIVEN the browse page
+    home = Home(selenium, base_url).open()
+    browse = home.header.click_browse()
+
+    # WHEN the OpenStax CNX logo is clicked
+    home = browse.header.click_logo()
+
+    # THEN the home page is loaded
+    assert type(home) is Home
