@@ -9,10 +9,10 @@ from selenium.webdriver.common.by import By
 
 class MyDashboard(PrivatePage):
     URL_TEMPLATE = '/mydashboard'
-    _create_a_new_module_locator = (By.CSS_SELECTOR,
-        'p.createlink a[href$="/mydashboard/cc_license?type_name=Module"')
-    _create_a_new_collection_locator = (By.CSS_SELECTOR,
-        'p.createlink a[href$="/mydashboard/cc_license?type_name=Collection"')
+    _create_a_new_module_locator = (
+        By.CSS_SELECTOR, 'p.createlink a[href$="/mydashboard/cc_license?type_name=Module"')
+    _create_a_new_collection_locator = (
+        By.CSS_SELECTOR, 'p.createlink a[href$="/mydashboard/cc_license?type_name=Collection"')
 
     @property
     def create_a_new_module_link(self):
