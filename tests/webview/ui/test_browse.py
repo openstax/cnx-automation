@@ -2,8 +2,12 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-from pages.webview.home import Home
+from secrets import token_urlsafe
+
 from tests import markers
+
+from pages.webview.home import Home
+from pages.webview.search_results import SearchResults
 
 
 @markers.webview
@@ -19,6 +23,24 @@ def test_search_input_and_button_are_displayed(base_url, selenium):
     # THEN The search bar and the advanced search button is displayed
     assert browse_page.is_search_input_displayed
     assert browse_page.is_advanced_search_button_displayed
+
+
+@markers.webview
+@markers.nondestructive
+def test_search_no_results(base_url, selenium):
+    # GIVEN the browse page and a bogus query
+    home = Home(selenium, base_url).open()
+    browse = home.header.click_browse()
+    query = token_urlsafe(32)
+
+    # WHEN we search for the bogus query
+    search_results = browse.search(query)
+
+    # THEN the localized "no results found" message is displayed
+    assert type(search_results) is SearchResults
+    assert search_results.has_no_results
+    # Valid only when the website is in English
+    assert search_results.no_results_text == 'No results found. Please try expanding your search.'
 
 
 @markers.webview
