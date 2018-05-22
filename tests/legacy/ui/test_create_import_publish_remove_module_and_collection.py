@@ -176,9 +176,8 @@ class TestCreateImportPublishRemoveModuleAndCollection(object):
     @markers.slow
     def test_remove_content(self, legacy_base_url, legacy_username, legacy_password, selenium):
         # GIVEN a logged in user on their dashboard with content created in the previous test
-        if ((self.__class__._module_temp_id is None and
-             self.__class__._module_id is None and
-             self.__class__._collection_temp_id is None)):
+        cls = self.__class__
+        if (cls._module_temp_id, cls._module_id, cls._collection_temp_id) == (None, None, None):
             pytest.skip('This test requires CNX content from previous tests that failed')
         login_page = LoginForm(selenium, legacy_base_url).open()
         my_cnx = login_page.login(legacy_username, legacy_password)
