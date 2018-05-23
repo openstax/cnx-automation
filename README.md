@@ -20,7 +20,7 @@ Follow the instructions to install [Docker Compose](https://docs.docker.com/comp
 
     $ docker-compose exec --user root selenium-chrome tox
 
-> Note: The [Run the tests](#markdown-run-the-tests) covers how to pass arguments to tox in order to target specific tests
+> Note: The [Run the tests](#run-the-tests) section covers how to pass arguments to tox in order to target specific tests
 
 ## How to run the tests locally
 
@@ -39,10 +39,6 @@ repository, check out this [help page][git-clone] from GitHub.
 #### Activate the virtualenv
 
     $ source .env/bin/activate
-
-#### Install dependencies using requirements.txt
-
-    $ pip install -r requirements.txt
 
 ### Set username and password for legacy tests
 
