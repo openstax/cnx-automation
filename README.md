@@ -14,7 +14,7 @@ Follow the instructions to install [Docker Compose](https://docs.docker.com/comp
 
 ### Run Docker Compose
 
-    $ docker-compose up
+    $ docker-compose up -d
 
 ### Execute the tests
 
