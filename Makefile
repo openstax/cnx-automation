@@ -1,8 +1,6 @@
 .PHONY: clean clean-test clean-pyc clean-build docs help
 .DEFAULT_GOAL := help
 
-DB := mikefromit
-
 clean: clean-build clean-pyc clean-test
 
 clean-build: ## remove build artifacts
