@@ -2,7 +2,8 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-from secrets import token_urlsafe
+from random import choice
+from string import digits, ascii_letters
 
 from tests import markers
 
@@ -31,7 +32,7 @@ def test_search_no_results(base_url, selenium):
     # GIVEN the browse page and a bogus query
     home = Home(selenium, base_url).open()
     browse = home.header.click_browse()
-    query = token_urlsafe(32)
+    query = ''.join(choice(digits + ascii_letters) for i in range(32))
 
     # WHEN we search for the bogus query
     search_results = browse.search(query)
