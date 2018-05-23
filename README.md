@@ -4,6 +4,24 @@
 
 This repository contains ui tests for [cnx.org][cnx-org].
 
+## How to run the tests using Docker
+
+### Install Docker and Docker Compose
+
+Follow the instructions to install [Docker](https://docs.docker.com/install/).
+
+Follow the instructions to install [Docker Compose](https://docs.docker.com/compose/install/).
+
+### Run Docker Compose
+
+    $ docker-compose up
+
+### Execute the tests
+
+    $ docker-compose exec --user root selenium-chrome tox
+
+> Note: The [Run the tests](#markdown-run-the-tests) covers how to pass arguments to tox in order to target specific tests
+
 ## How to run the tests locally
 
 ### Clone the repository
@@ -16,7 +34,7 @@ repository, check out this [help page][git-clone] from GitHub.
 
 #### Create a virtualenv
 
-    $ python3 -m venv .env
+    $ make venv
 
 #### Activate the virtualenv
 
@@ -93,10 +111,15 @@ from tests import markers
 
 from pages.home import Home
 
-
+@markers.webview
 @markers.nondestructive
-def test_open_home_page(base_url, selenium):
+def test_nav_is_displayed(base_url, selenium):
+    # GIVEN the main website URL and the Selenium driver
+
+    # WHEN The main website URL is fully loaded
     page = Home(selenium, base_url).open()
+
+    # THEN The navbar is displayed
     assert page.header.is_nav_displayed
 ```
 

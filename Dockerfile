@@ -3,16 +3,20 @@ FROM selenium/standalone-chrome-debug
 
 USER root
 
-# Install curl
+# Install higher level packages
 RUN apt-get update -qqy \
   && apt-get -qqy install \
-    curl
+    curl \
+    software-properties-common \
+    python-software-properties \
+  && add-apt-repository ppa:jonathonf/python-3.6
 
-# Install python
+# Install python3.6
 RUN apt-get update -qqy \
   && apt-get -qqy install \
+    python3.6 \
     python3-pip \
-    python3-dev \
+    python3.6-dev \
     build-essential \
   && pip3 install --upgrade pip
 
