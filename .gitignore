@@ -109,3 +109,6 @@ venv.bak/
 # test report
 report.html
 assets/
+
+# OSX
+.DS_Store

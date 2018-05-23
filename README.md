@@ -1,10 +1,8 @@
-# Tests for cnx-automation
+# cnx-automation
 
 [![Build Status](https://travis-ci.org/openstax/cnx-automation.svg?branch=master)](https://travis-ci.org/openstax/cnx-automation)
 
-This repository contains ui tests for [cnx.org][cnx-org].
-
-## How to run the tests locally
+## Getting started
 
 ### Clone the repository
 
@@ -12,19 +10,35 @@ If you have cloned this project already then you can skip this, otherwise you'll
 need to clone this repo using Git. If you do not know how to clone a GitHub
 repository, check out this [help page][git-clone] from GitHub.
 
+## How to run the tests using Docker
+
+### Install Docker and Docker Compose
+
+Follow the instructions to install [Docker](https://docs.docker.com/install/).
+
+Follow the instructions to install [Docker Compose](https://docs.docker.com/compose/install/).
+
+### Run Docker Compose
+
+    $ docker-compose up -d
+
+### Execute the tests
+
+    $ docker-compose exec --user root selenium-chrome tox
+
+> Note: The [Run the tests](#run-the-tests) section covers how to pass arguments to tox in order to target specific tests
+
+## How to run the tests locally
+
 ### Install dependencies
 
 #### Create a virtualenv
 
-    $ python3 -m venv .env
+    $ make venv
 
 #### Activate the virtualenv
 
     $ source .env/bin/activate
-
-#### Install dependencies using requirements.txt
-
-    $ pip install -r requirements.txt
 
 ### Set username and password for legacy tests
 
@@ -93,10 +107,15 @@ from tests import markers
 
 from pages.home import Home
 
-
+@markers.webview
 @markers.nondestructive
-def test_open_home_page(base_url, selenium):
+def test_nav_is_displayed(base_url, selenium):
+    # GIVEN the main website URL and the Selenium driver
+
+    # WHEN The main website URL is fully loaded
     page = Home(selenium, base_url).open()
+
+    # THEN The navbar is displayed
     assert page.header.is_nav_displayed
 ```
 
