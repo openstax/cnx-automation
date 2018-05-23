@@ -43,12 +43,17 @@ class Home(Page):
     class Book(Region):
         _read_more_locator = (By.CSS_SELECTOR, '.read-more > a')
         _book_name_locator = (By.CSS_SELECTOR, 'h3')
+        _book_intro_locator = (By.CSS_SELECTOR, 'p')
         _book_cover_link_locator = (By.CSS_SELECTOR, '.book > a')
         _title_link_locator = (By.CSS_SELECTOR, 'h3 > a')
 
         @property
         def title(self):
             return self.find_element(*self._book_name_locator).text
+
+        @property
+        def intro(self):
+            return self.find_element(*self._book_intro_locator).text
 
         def click_read_more(self):
             self.find_element(*self._read_more_locator).click()

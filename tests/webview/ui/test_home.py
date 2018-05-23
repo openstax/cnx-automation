@@ -53,6 +53,22 @@ def test_featured_books_load(base_url, selenium):
 @markers.xfail(reason='https://trello.com/c/mFRaZRqK', raises=AssertionError)
 @markers.webview
 @markers.nondestructive
+def test_featured_books_have_title_and_intro(base_url, selenium):
+    # GIVEN the main website URL and the Selenium driver
+
+    # WHEN the main website URL is fully loaded
+    home = Home(selenium, base_url).open()
+
+    # THEN all featured books have titles and intros
+    books = home.featured_books.openstax_list + home.featured_books.cnx_list
+    for book in books:
+        assert book.title
+        assert book.intro
+        assert book.intro != '...'
+
+
+@markers.webview
+@markers.nondestructive
 def test_read_more_loads_correct_page(base_url, selenium):
     # GIVEN the main website URL and the Selenium driver
 
