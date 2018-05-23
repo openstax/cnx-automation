@@ -9,9 +9,7 @@ from selenium.webdriver.common.by import By
 
 class SearchResults(Base):
     URL_TEMPLATE = '/search'
-
     _query_locator = (By.CSS_SELECTOR, '#search div.results div.breadcrumbs span.breadcrumb')
-
     _no_results_p_locator = (By.CSS_SELECTOR,
                              '#results p[data-l10n-id="search-results-list-no-results"]')
 
