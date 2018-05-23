@@ -1,8 +1,16 @@
-# Tests for cnx-automation
+# cnx-automation
 
 [![Build Status](https://travis-ci.org/openstax/cnx-automation.svg?branch=master)](https://travis-ci.org/openstax/cnx-automation)
 
 This repository contains ui tests for [cnx.org][cnx-org].
+
+## Getting started
+
+### Clone the repository
+
+If you have cloned this project already then you can skip this, otherwise you'll
+need to clone this repo using Git. If you do not know how to clone a GitHub
+repository, check out this [help page][git-clone] from GitHub.
 
 ## How to run the tests using Docker
 
@@ -23,12 +31,6 @@ Follow the instructions to install [Docker Compose](https://docs.docker.com/comp
 > Note: The [Run the tests](#run-the-tests) section covers how to pass arguments to tox in order to target specific tests
 
 ## How to run the tests locally
-
-### Clone the repository
-
-If you have cloned this project already then you can skip this, otherwise you'll
-need to clone this repo using Git. If you do not know how to clone a GitHub
-repository, check out this [help page][git-clone] from GitHub.
 
 ### Install dependencies
 
