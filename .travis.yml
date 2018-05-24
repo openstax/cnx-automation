@@ -9,6 +9,7 @@ env:
     - DISABLE_DEV_SHM_USAGE=true
     - HEADLESS=true
     - NO_SANDBOX=true
+    - PRINT_PAGE_SOURCE_ON_FAILURE=true
   matrix:
     - MARK=webview
     - MARK=legacy RUNSLOW=true

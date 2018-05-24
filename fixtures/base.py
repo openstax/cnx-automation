@@ -7,10 +7,18 @@ import pytest
 __all__ = ['selenium', 'chrome_options']
 
 
+# https://docs.pytest.org/en/latest/example/simple.html#making-test-result-information-available-in-fixtures
 @pytest.fixture
-def selenium(selenium):
+def selenium(request, selenium, pytestconfig):
     selenium.implicitly_wait(0)
-    return selenium
+    yield selenium
+    # request.node is an "item" because we use the default "function" scope
+    if (pytestconfig.getoption('--print-page-source-on-failure') and
+        request.node.rep_setup.passed and
+        request.node.rep_call.failed):
+        print("\n------------------------------ Begin Page Source -------------------------------")
+        print(selenium.page_source)
+        print("------------------------------- End Page Source --------------------------------")
 
 
 @pytest.fixture

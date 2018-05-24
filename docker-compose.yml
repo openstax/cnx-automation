@@ -5,6 +5,7 @@ services:
     environment:
       - DISPLAY=:0
       - HEADLESS
+      - PRINT_PAGE_SOURCE_ON_FAILURE
       - RUNSLOW
       - ARCHIVE_BASE_URL
       - LEGACY_BASE_URL
