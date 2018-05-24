@@ -60,6 +60,19 @@ def test_subject_categories_load(base_url, selenium):
 
 @markers.webview
 @markers.nondestructive
+def test_subject_categories_have_page_and_book_counts(base_url, selenium):
+    # GIVEN the home page
+    home = Home(selenium, base_url).open()
+
+    # When the browse link in the navbar is clicked
+    browse = home.header.click_browse()
+
+    # Then the subject categories have page and book counts
+    for subject in browse.subject_list:
+        assert subject.pages_count > 0
+        assert subject.books_count > 0
+
+
 def test_logo_link_loads_home_page(base_url, selenium):
     # GIVEN the browse page
     home = Home(selenium, base_url).open()
