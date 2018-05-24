@@ -33,6 +33,7 @@ def test_about_us_links_are_positioned_properly(base_url, selenium):
     assert (about_us_link.location['x'] + about_us_link.size['width'] <
             selenium.get_window_size()['width']/2)
 
+
 @markers.webview
 @markers.nondestructive
 def test_about_us_content_includes_openstax_goals(base_url, selenium):
@@ -45,4 +46,18 @@ def test_about_us_content_includes_openstax_goals(base_url, selenium):
     # THEN the content includes a paragraph about the goals of OpenStax
     assert ('Today, OpenStax CNX is a dynamic non-profit digital ecosystem serving '
             'millions of users per month in the delivery of educational content '
-            'to improve learning outcomes.') in about_us.about_content
+            'to improve learning outcomes.') in about_us.about_content.text
+
+
+@markers.webview
+@markers.nondestructive
+def test_about_us_content_links(base_url, selenium):
+    # GIVEN the home page
+    home = Home(selenium, base_url).open()
+
+    # WHEN the About Us link in the navbar is clicked
+    about_us = home.header.click_about_us()
+
+    # THEN the content includes learn more links
+    assert about_us.about_content.learn_more_team_url == 'https://openstax.org/about'
+    assert about_us.about_content.learn_more_foundations_url == 'https://openstax.org/foundation'
