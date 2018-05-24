@@ -14,6 +14,11 @@ class Contact(AboutPage):
     def contact_content(self):
         return self.ContactContent(self)
 
+    @property
+    def loaded(self):
+        # super().loaded checks that the about us/contact links are displayed
+        return super().loaded and self.contact_content.loaded
+
     class ContactContent(Region):
         _root_locator = (By.CSS_SELECTOR, '#about .about-content div.contact')
         _email_link_locator = (By.CSS_SELECTOR, 'a[href="mailto:support@openstax.org"]')
