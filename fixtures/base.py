@@ -13,9 +13,9 @@ def selenium(request, selenium, pytestconfig):
     selenium.implicitly_wait(0)
     yield selenium
     # request.node is an "item" because we use the default "function" scope
-    if (pytestconfig.getoption('--print-page-source-on-failure') and
-        request.node.rep_setup.passed and
-        request.node.rep_call.failed):
+    if pytestconfig.getoption('--print-page-source-on-failure') and \
+       request.node.rep_setup.passed and \
+       request.node.rep_call.failed:
         print("\n------------------------------ Begin Page Source -------------------------------")
         print(selenium.page_source)
         print("------------------------------- End Page Source --------------------------------")
