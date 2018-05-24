@@ -9,6 +9,20 @@ from tests import markers
 
 @markers.webview
 @markers.nondestructive
+def test_contact_has_email_link(base_url, selenium):
+    # GIVEN the About Us page
+    home = Home(selenium, base_url).open()
+    about_us = home.header.click_about_us()
+
+    # WHEN the contact link in the navbar is clicked
+    contact = about_us.click_contact()
+
+    # THEN the contact email is displayed
+    assert contact.contact_content.is_email_displayed
+
+
+@markers.webview
+@markers.nondestructive
 def test_contact_has_location_map(base_url, selenium):
     # GIVEN the About Us page
     home = Home(selenium, base_url).open()
