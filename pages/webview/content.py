@@ -6,10 +6,10 @@ from pypom import Region
 
 from selenium.webdriver.common.by import By
 
-from pages.webview.base import Base
+from pages.webview.base import Page
 
 
-class Content(Base):
+class Content(Page):
     _title_locator = (By.CLASS_NAME, 'large-header')
     _ncy_locator = (By.CLASS_NAME, 'not-converted-yet')
 

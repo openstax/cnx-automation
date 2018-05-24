@@ -2,11 +2,14 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-from pypom import Page, Region
+import pypom
+
 from selenium.webdriver.common.by import By
 
+from regions.webview.base import Region
 
-class Base(Page):
+
+class Page(pypom.Page):
 
     # Default to a 30 second timeout for CNX webview
     def __init__(self, driver, base_url=None, timeout=30, **url_kwargs):

@@ -2,35 +2,17 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-from pypom import Region
-
-from pages.webview.base import Base
-
 from selenium.webdriver.common.by import By
 
+from pages.webview.about_page import AboutPage
+from regions.webview.base import Region
 
-class AboutUs(Base):
-    _about_us_link_locator = (By.CSS_SELECTOR, '#about .about-nav a[href="/about"]')
-    _contact_link_locator = (By.CSS_SELECTOR, '#about .about-nav a[href="/about/contact"]')
-    _about_content_div_locator = (By.CSS_SELECTOR,
-                                  '#about .about-content div[data-l10n-id="about-content"]')
 
-    @property
-    def about_us_link(self):
-        return self.find_element(*self._about_us_link_locator)
-
-    @property
-    def contact_link(self):
-        return self.find_element(*self._contact_link_locator)
+class AboutUs(AboutPage):
 
     @property
     def about_content(self):
         return self.AboutContent(self)
-
-    @property
-    def loaded(self):
-        return (self.is_element_displayed(*self._about_us_link_locator) and
-                self.is_element_displayed(*self._contact_link_locator))
 
     class AboutContent(Region):
         _root_locator = (By.CSS_SELECTOR, '#about .about-content div[data-l10n-id="about-content"]')
@@ -42,10 +24,6 @@ class AboutUs(Base):
             By.XPATH,
             './/a[text()="Learn more about the foundations supporting OpenStax projects like CNX"]'
         )
-
-        @property
-        def text(self):
-            return self.root.text
 
         @property
         def learn_more_team_link(self):
