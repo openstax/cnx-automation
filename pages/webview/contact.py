@@ -17,7 +17,7 @@ class Contact(AboutPage):
     @property
     def loaded(self):
         # super().loaded checks that the about us/contact links are displayed
-        return super().loaded and self.contact_content.loaded
+        return self.contact_content.loaded and super().loaded
 
     class ContactContent(Region):
         _root_locator = (By.CSS_SELECTOR, '#about .about-content div.contact')
