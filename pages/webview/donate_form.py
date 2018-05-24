@@ -12,6 +12,11 @@ class DonateForm(Base):
     _form_locator = (By.CSS_SELECTOR,
                      'form[action="https://ebank.rice.edu/C21279_upay/web/index.jsp"]')
     _amount_input_locator = (By.CSS_SELECTOR, 'input[type="number"][name="AMT"]')
+    _required_input_locator = (By.CSS_SELECTOR, 'input[required]')
+
+    @property
+    def is_form_displayed(self):
+        return self.is_element_displayed(*self._form_locator)
 
     @property
     def form(self):
@@ -26,9 +31,15 @@ class DonateForm(Base):
         return int(self.amount_input.get_attribute('value'))
 
     @property
+    def required_inputs(self):
+        return self.find_elements(*self._required_input_locator)
+
+    @property
     def loaded(self):
         return (self.is_element_displayed(*self._form_locator) and
                 self.is_element_displayed(*self._amount_input_locator))
 
     def submit(self):
         self.form.submit()
+        self.wait_for_page_to_load()
+        return self

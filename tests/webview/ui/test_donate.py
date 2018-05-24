@@ -18,6 +18,28 @@ def test_donate_form_loads(base_url, selenium):
     donate = home.header.click_donate()
     donate_form = donate.submit()
 
-    # THEN the donate form is displayed
+    # THEN the donate form is displayed with the correct url
     assert type(donate_form) is DonateForm
+    assert donate_form.is_form_displayed
     assert donate_form.amount == 10
+
+
+@markers.webview
+@markers.nondestructive
+def test_donate_form_incomplete(base_url, selenium):
+    # GIVEN the donation form
+    home = Home(selenium, base_url).open()
+    donate = home.header.click_donate()
+    donate_form = donate.submit()
+
+    # WHEN the form is submitted without all the required fields being filled
+    donate_form = donate_form.submit()
+
+    # THEN the donate form is still displayed
+    assert type(donate_form) is DonateForm
+    assert donate_form.is_form_displayed
+    assert donate_form.amount == 10
+    # We cannot test for the error message, since it's handled completely by the browser
+    # due to the HTML5 "required" attribute
+    # Instead, we check that there are required inputs in the page
+    assert len(donate_form.required_inputs) > 0
