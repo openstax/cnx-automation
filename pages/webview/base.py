@@ -25,6 +25,7 @@ class Base(Page):
         )
         _nav_locator = (By.ID, 'page-nav')
         _browse_locator = (By.CSS_SELECTOR, '.nav > li:nth-child(1) > a:nth-child(1)')
+        _donate_locator = (By.CSS_SELECTOR, '#nav-donate a')
 
         @property
         def logo(self):
@@ -44,3 +45,9 @@ class Base(Page):
             from pages.webview.browse import Browse
             browse = Browse(self.driver, self.page.base_url, self.page.timeout)
             return browse.wait_for_page_to_load()
+
+        def click_donate(self):
+            self.find_element(*self._donate_locator).click()
+            from pages.webview.donate import Donate
+            donate = Donate(self.driver, self.page.base_url, self.page.timeout)
+            return donate.wait_for_page_to_load()
