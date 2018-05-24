@@ -10,6 +10,8 @@ from selenium.webdriver.common.by import By
 class AboutUs(Base):
     _about_us_link_locator = (By.CSS_SELECTOR, '#about .about-nav a[href="/about"]')
     _contact_link_locator = (By.CSS_SELECTOR, '#about .about-nav a[href="/about/contact"]')
+    _about_content_div_locator = (By.CSS_SELECTOR,
+                                  '#about .about-content div[data-l10n-id="about-content"]')
 
     @property
     def about_us_link(self):
@@ -18,6 +20,14 @@ class AboutUs(Base):
     @property
     def contact_link(self):
         return self.find_element(*self._contact_link_locator)
+
+    @property
+    def about_content_div(self):
+        return self.find_element(*self._about_content_div_locator)
+
+    @property
+    def about_content(self):
+        return self.about_content_div.text
 
     @property
     def loaded(self):
