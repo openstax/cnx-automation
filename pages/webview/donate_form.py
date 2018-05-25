@@ -15,6 +15,11 @@ class DonateForm(Base):
     _required_input_locator = (By.CSS_SELECTOR, 'input[required]')
 
     @property
+    def loaded(self):
+        return (self.is_element_displayed(*self._form_locator) and
+                self.is_element_displayed(*self._amount_input_locator))
+
+    @property
     def is_form_displayed(self):
         return self.is_element_displayed(*self._form_locator)
 
@@ -33,11 +38,6 @@ class DonateForm(Base):
     @property
     def required_inputs(self):
         return self.find_elements(*self._required_input_locator)
-
-    @property
-    def loaded(self):
-        return (self.is_element_displayed(*self._form_locator) and
-                self.is_element_displayed(*self._amount_input_locator))
 
     def submit(self):
         self.form.submit()
