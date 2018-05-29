@@ -45,9 +45,9 @@ class Browse(Base):
 
     @property
     def loaded(self):
-        return (self.is_search_input_displayed and
-                self.is_advanced_search_button_displayed and
-                len(self.subject_list) > 0 and
+        # The search page is fully loaded when the subject list is displayed
+        # There's no need to check for the search field/button (which load before the list)
+        return (len(self.subject_list) > 0 and
                 self.subject_list[0].name and
                 self.is_main_content_displayed)
 
