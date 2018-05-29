@@ -4,10 +4,10 @@
 
 from selenium.webdriver.common.by import By
 
-from pages.webview.base import Base
+from pages.webview.base import Page
 
 
-class DonateForm(Base):
+class DonateForm(Page):
 
     _form_locator = (By.CSS_SELECTOR,
                      'form[action="https://ebank.rice.edu/C21279_upay/web/index.jsp"]')
