@@ -16,9 +16,10 @@ def selenium(request, selenium, pytestconfig):
     if pytestconfig.getoption('--print-page-source-on-failure') and \
        request.node.rep_setup.passed and \
        request.node.rep_call.failed:
-        print("\n------------------------------ Begin Page Source -------------------------------")
+        # print page source on failure
+        print('\n------------------------------ Begin Page Source -------------------------------')
         print(selenium.page_source)
-        print("------------------------------- End Page Source --------------------------------")
+        print('------------------------------- End Page Source --------------------------------')
 
 
 @pytest.fixture
