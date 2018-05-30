@@ -9,6 +9,7 @@ from regions.webview.base import Region
 
 
 class AboutUs(AboutPage):
+
     @property
     def about_content(self):
         return self.AboutContent(self)

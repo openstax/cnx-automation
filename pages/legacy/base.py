@@ -33,6 +33,7 @@ class Page(pypom.Page):
 
 
 class PublicPage(Page):
+
     @property
     def can_login(self):
         return self.my_account.can_login
