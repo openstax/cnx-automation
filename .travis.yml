@@ -1,26 +1,25 @@
 language: python
+python: 3.6
+cache: pip
 
-sudo: required
+sudo: false
 
 env:
   global:
+    - DISABLE_DEV_SHM_USAGE=true
     - HEADLESS=true
+    - NO_SANDBOX=true
   matrix:
     - MARK=webview
     - MARK=legacy RUNSLOW=true
 
-services:
-  - docker
+addons:
+  apt:
+    packages:
+      - chromium-chromedriver
 
-before_install:
-  - docker info
-
-install:
-  - docker pull openstax/standalone-chrome-debug:latest
-  - docker-compose up -d
+before_script:
+  - ln -s /usr/lib/chromium-browser/chromedriver ~/bin/chromedriver
 
 script:
-  - docker-compose exec --user root selenium-chrome tox -- -m $MARK
-
-after_success:
-  - docker-compose down
+  - tox -- -m $MARK

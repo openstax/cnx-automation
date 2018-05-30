@@ -18,6 +18,12 @@ def chrome_options(chrome_options, pytestconfig):
     if pytestconfig.getoption('--headless'):
         chrome_options.headless = True
 
+    # Required to run in Travis containers
+    if pytestconfig.getoption('--no-sandbox'):
+        chrome_options.add_argument('--no-sandbox')
+    if pytestconfig.getoption('--disable-dev-shm-usage'):
+        chrome_options.add_argument('--disable-dev-shm-usage')
+
     # This ensures the tests will still pass for someone who selected
     # a language other than English as their preferred language in Chrome
     chrome_options.add_argument('--lang=en')
