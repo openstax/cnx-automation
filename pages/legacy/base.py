@@ -8,7 +8,6 @@ from selenium.webdriver.common.by import By
 
 
 class Page(pypom.Page):
-
     _region_content_locator = (By.ID, 'region-content')
     _my_account_locator = (By.CSS_SELECTOR, '#portlet-login, #portlet-loggedin')
 
@@ -34,7 +33,6 @@ class Page(pypom.Page):
 
 
 class PublicPage(Page):
-
     @property
     def can_login(self):
         return self.my_account.can_login

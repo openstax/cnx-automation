@@ -8,7 +8,6 @@ from pages.webview.base import Page
 
 
 class Donate(Page):
-
     _form_locator = (By.CSS_SELECTOR, 'form.donation-slider')
 
     @property

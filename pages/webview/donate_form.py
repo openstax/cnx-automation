@@ -8,7 +8,6 @@ from pages.webview.base import Page
 
 
 class DonateForm(Page):
-
     _form_locator = (By.CSS_SELECTOR,
                      'form[action="https://ebank.rice.edu/C21279_upay/web/index.jsp"]')
     _amount_input_locator = (By.CSS_SELECTOR, 'input[type="number"][name="AMT"]')

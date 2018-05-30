@@ -10,12 +10,9 @@ from selenium.webdriver.common.by import By
 
 
 class Content(Page):
-
     URL_TEMPLATE = '/contents/{uuid_and_version}.json'
-
     # The browser automatically wraps the JSON response in some HTML
     _json_locator = (By.TAG_NAME, 'pre')
-
     _stable_fields = [
         'googleAnalytics',
         'version',

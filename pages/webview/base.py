@@ -10,7 +10,6 @@ from regions.webview.base import Region
 
 
 class Page(pypom.Page):
-
     # Default to a 30 second timeout for CNX webview
     def __init__(self, driver, base_url=None, timeout=30, **url_kwargs):
         super().__init__(driver, base_url, timeout, **url_kwargs)

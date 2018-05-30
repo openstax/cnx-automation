@@ -8,7 +8,6 @@ from pages.webview.base import Page
 
 
 class AboutPage(Page):
-
     _about_us_link_locator = (By.CSS_SELECTOR, '#about .about-nav a[href="/about"]')
     _contact_link_locator = (By.CSS_SELECTOR, '#about .about-nav a[href="/about/contact"]')
 

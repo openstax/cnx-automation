@@ -6,7 +6,6 @@ import pypom
 
 
 class Region(pypom.Region):
-
     @property
     def text(self):
         return self.root.text

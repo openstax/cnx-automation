@@ -8,7 +8,6 @@ from selenium.webdriver.common.by import By
 
 
 class ModuleConfirmPublish(PrivatePage):
-
     _publish_form_locator = (By.CSS_SELECTOR, 'form[action="publishContent"]')
 
     @property

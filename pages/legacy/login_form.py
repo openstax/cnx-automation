@@ -8,7 +8,6 @@ from pages.legacy.base import Page
 
 
 class LoginForm(Page):
-
     URL_TEMPLATE = '/login_form'
 
     _login_form_locator = (By.ID, 'login_form')

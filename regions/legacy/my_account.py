@@ -8,7 +8,6 @@ from regions.legacy.base import Region
 
 
 class MyAccount(Region):
-
     _login_form_locator = (By.CSS_SELECTOR, 'form[action$="login_form"]')
     _username_field_locator = (By.ID, '__ac_name')
     _password_field_locator = (By.ID, '__ac_password')

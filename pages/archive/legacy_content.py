@@ -8,9 +8,7 @@ from selenium.webdriver.common.by import By
 
 
 class LegacyContent(Page):
-
     URL_TEMPLATE = '/content/{module_id}'
-
     _title_locator = (By.CSS_SELECTOR, 'div[data-type="document-title"]')
 
     @property
