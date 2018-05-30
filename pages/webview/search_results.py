@@ -2,12 +2,12 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-from pages.webview.base import Base
-
 from selenium.webdriver.common.by import By
 
+from pages.webview.base import Page
 
-class SearchResults(Base):
+
+class SearchResults(Page):
     URL_TEMPLATE = '/search'
     _query_locator = (By.CSS_SELECTOR, '#search div.results div.breadcrumbs span.breadcrumb')
     _no_results_p_locator = (By.CSS_SELECTOR,

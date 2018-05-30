@@ -2,11 +2,14 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-from pypom import Page, Region
+import pypom
+
 from selenium.webdriver.common.by import By
 
+from regions.webview.base import Region
 
-class Base(Page):
+
+class Page(pypom.Page):
 
     # Default to a 30 second timeout for CNX webview
     def __init__(self, driver, base_url=None, timeout=30, **url_kwargs):
@@ -24,7 +27,8 @@ class Base(Page):
             '.page-header > .navbar > .container-fluid > .navbar-header > .navbar-brand'
         )
         _nav_locator = (By.ID, 'page-nav')
-        _browse_locator = (By.CSS_SELECTOR, '.nav > li:nth-child(1) > a:nth-child(1)')
+        _browse_locator = (By.CSS_SELECTOR, '#nav-browse a')
+        _about_us_locator = (By.CSS_SELECTOR, '#nav-about a')
         _donate_locator = (By.CSS_SELECTOR, '#nav-donate a')
 
         @property
@@ -45,6 +49,12 @@ class Base(Page):
             from pages.webview.browse import Browse
             browse = Browse(self.driver, self.page.base_url, self.page.timeout)
             return browse.wait_for_page_to_load()
+
+        def click_about_us(self):
+            self.find_element(*self._about_us_locator).click()
+            from pages.webview.about_us import AboutUs
+            about_us = AboutUs(self.driver, self.page.base_url, self.page.timeout)
+            return about_us.wait_for_page_to_load()
 
         def click_donate(self):
             self.find_element(*self._donate_locator).click()

@@ -8,7 +8,6 @@ from selenium.webdriver.common.by import By
 
 
 class CcLicense(PrivatePage):
-
     _cc_license_form_locator = (By.CSS_SELECTOR, 'form[action="cc_license"]')
     _agree_checkbox_locator = (By.CSS_SELECTOR, 'input[type="checkbox"][name="agree"]')
 

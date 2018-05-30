@@ -4,11 +4,10 @@
 
 from selenium.webdriver.common.by import By
 
-from pages.webview.base import Base
+from pages.webview.base import Page
 
 
-class Donate(Base):
-
+class Donate(Page):
     _form_locator = (By.CSS_SELECTOR, 'form.donation-slider')
 
     @property

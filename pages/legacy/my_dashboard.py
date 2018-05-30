@@ -8,9 +8,7 @@ from selenium.webdriver.common.by import By
 
 
 class MyDashboard(PrivatePage):
-
     URL_TEMPLATE = '/mydashboard'
-
     _create_a_new_module_locator = (By.CSS_SELECTOR, 'p.createlink a')
 
     @property

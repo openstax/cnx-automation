@@ -2,14 +2,13 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-from pypom import Region
-
 from selenium.webdriver.common.by import By
 
-from pages.webview.base import Base
+from pages.webview.base import Page
+from regions.webview.base import Region
 
 
-class Content(Base):
+class Content(Page):
     _title_locator = (By.CLASS_NAME, 'large-header')
     _ncy_locator = (By.CLASS_NAME, 'not-converted-yet')
 

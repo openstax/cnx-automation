@@ -8,7 +8,6 @@ from selenium.webdriver.common.by import By
 
 
 class ModuleImport(PrivatePage):
-
     _import_form_locator = (By.CSS_SELECTOR, 'form[action="module_import_form"][name="import"]')
     _import_file_field_locator = (By.CSS_SELECTOR, 'input[type="file"][name="importFile"]')
 

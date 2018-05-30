@@ -13,20 +13,13 @@ from selenium.common.exceptions import NoAlertPresentException
 
 
 class ModuleEdit(PrivatePage):
-
     URL_TEMPLATE = '/Members/{username}/{module_id}'
-
     _url_regex = re.compile('/Members/([^/]+)/([^/]+)')
-
     _title_header_locator = (By.CSS_SELECTOR, '#content div div h1')
-
     _publish_link_locator = (By.CSS_SELECTOR, 'a[href$="module_publish"]')
-
     _import_form_locator = (By.CSS_SELECTOR, 'form[action="module_import_form"]')
     _import_select_locator = (By.CSS_SELECTOR, 'select[name="format"]')
-
     _content_textarea_locator = (By.ID, 'textarea')
-
     _blank_module_content_string = (
         '<ns0:content xmlns:ns0="http://cnx.rice.edu/cnxml">\n  '
         '<ns0:para id="delete_me">\n     \n  </ns0:para>\n</ns0:content>\n\n')

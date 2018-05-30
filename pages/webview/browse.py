@@ -2,16 +2,13 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-import json
-
-from pypom import Region
-
 from selenium.webdriver.common.by import By
 
-from pages.webview.base import Base
+from pages.webview.base import Page
+from regions.webview.base import Region
 
 
-class Browse(Base):
+class Browse(Page):
     URL_TEMPLATE = '/browse'
 
     _search_input_locator = (By.ID, 'find-content-input')
@@ -76,6 +73,7 @@ class Browse(Base):
             return self.find_element(*self._name_locator).text
 
         def get_count(self, div):
+            import json
             return json.loads(div.get_attribute('data-l10n-args'))['count']
 
         @property

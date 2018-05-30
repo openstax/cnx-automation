@@ -8,7 +8,6 @@ from selenium.webdriver.common.by import By
 
 
 class ModulePublish(PrivatePage):
-
     _publish_form_locator = (By.CSS_SELECTOR, 'form[action="module_publish_description"]')
     _submit_button_locator = (By.CSS_SELECTOR, 'input[type="submit"][name="form.button.publish"]')
 

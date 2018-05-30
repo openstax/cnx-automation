@@ -8,7 +8,6 @@ from selenium.webdriver.common.by import By
 
 
 class ModuleMetadata(PrivatePage):
-
     _metadata_form_locator = (By.CSS_SELECTOR, 'form[action="content_title"]')
     _title_field_locator = (By.CSS_SELECTOR, 'input[type="text"][name="title"]')
     _submit_button_locator = (By.CSS_SELECTOR, 'input[type="submit"][name="form.button.next"]')
