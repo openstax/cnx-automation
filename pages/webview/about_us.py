@@ -21,27 +21,22 @@ class AboutUs(AboutPage):
 
     class AboutContent(Region):
         _root_locator = (By.CSS_SELECTOR, '#about .about-content div[data-l10n-id="about-content"]')
-        _learn_more_team_link_locator = (
-            By.XPATH,
-            './/a[text()="Learn more about the OpenStax team"]'
-        )
-        _learn_more_foundations_link_locator = (
-            By.XPATH,
-            './/a[text()="Learn more about the foundations supporting OpenStax projects like CNX"]'
-        )
+        _learn_more_team_link_locator = (By.CSS_SELECTOR, 'a[href="https://openstax.org/about"]')
+        _learn_more_foundations_link_locator = (By.CSS_SELECTOR,
+                                                'a[href="https://openstax.org/foundation"]')
 
         @property
         def learn_more_team_link(self):
             return self.find_element(*self._learn_more_team_link_locator)
 
         @property
-        def learn_more_team_url(self):
-            return self.learn_more_team_link.get_attribute('href')
+        def learn_more_team_text(self):
+            return self.learn_more_team_link.text
 
         @property
         def learn_more_foundations_link(self):
             return self.find_element(*self._learn_more_foundations_link_locator)
 
         @property
-        def learn_more_foundations_url(self):
-            return self.learn_more_foundations_link.get_attribute('href')
+        def learn_more_foundations_text(self):
+            return self.learn_more_foundations_link.text

@@ -46,6 +46,6 @@ def test_contact_has_correct_headers(base_url, selenium):
     contact = about_us.click_contact()
 
     # THEN the Questions?, Technical Support and General Questions headers are displayed
-    assert contact.contact_content.is_questions_header_displayed
-    assert contact.contact_content.is_technical_support_header_displayed
-    assert contact.contact_content.is_general_questions_header_displayed
+    assert contact.contact_content.questions_header.text == 'Questions?'
+    assert contact.contact_content.technical_support_header.text == 'Technical Support'
+    assert contact.contact_content.general_questions_header.text == 'General Questions'

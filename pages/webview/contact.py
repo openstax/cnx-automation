@@ -23,11 +23,12 @@ class Contact(AboutPage):
         _root_locator = (By.CSS_SELECTOR, '#about .about-content div.contact')
         _email_link_locator = (By.CSS_SELECTOR, 'a[href="mailto:support@openstax.org"]')
         _map_img_locator = (By.CSS_SELECTOR, 'img[src="/locale/en-US/images/map.png"]')
-        _questions_header_locator = (By.XPATH, './h2[text()="Questions?"]')
+        _questions_header_locator = (
+            By.CSS_SELECTOR, '[data-l10n-id="about-contact-questions-header"]')
         _technical_support_header_locator = (
-            By.XPATH, './h2[text()="Questions?"]/following-sibling::h3[text()="Technical Support"]')
+            By.CSS_SELECTOR, '[data-l10n-id="about-contact-technical-support-header"]')
         _general_questions_header_locator = (
-            By.XPATH, './h2[text()="Questions?"]/following-sibling::h3[text()="General Questions"]')
+            By.CSS_SELECTOR, '[data-l10n-id="about-contact-general-questions-header"]')
 
         @property
         def is_email_displayed(self):
@@ -38,13 +39,13 @@ class Contact(AboutPage):
             return self.is_element_displayed(*self._map_img_locator)
 
         @property
-        def is_questions_header_displayed(self):
-            return self.is_element_displayed(*self._questions_header_locator)
+        def questions_header(self):
+            return self.find_element(*self._questions_header_locator)
 
         @property
-        def is_technical_support_header_displayed(self):
-            return self.is_element_displayed(*self._technical_support_header_locator)
+        def technical_support_header(self):
+            return self.find_element(*self._technical_support_header_locator)
 
         @property
-        def is_general_questions_header_displayed(self):
-            return self.is_element_displayed(*self._general_questions_header_locator)
+        def general_questions_header(self):
+            return self.find_element(*self._general_questions_header_locator)

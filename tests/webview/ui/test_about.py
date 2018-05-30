@@ -58,6 +58,7 @@ def test_about_us_content_links(base_url, selenium):
     # WHEN the About Us link in the navbar is clicked
     about_us = home.header.click_about_us()
 
-    # THEN the content includes learn more links
-    assert about_us.about_content.learn_more_team_url == 'https://openstax.org/about'
-    assert about_us.about_content.learn_more_foundations_url == 'https://openstax.org/foundation'
+    # THEN the content includes learn more links with the correct text
+    assert about_us.about_content.learn_more_team_text == 'Learn more about the OpenStax team'
+    assert (about_us.about_content.learn_more_foundations_text ==
+            'Learn more about the foundations supporting OpenStax projects like CNX')
