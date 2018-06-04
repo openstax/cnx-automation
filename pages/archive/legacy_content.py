@@ -8,6 +8,11 @@ from pages.archive.base import Page
 
 
 class LegacyContent(Page):
+    """Example URLs (will automatically redirect to non-legacy version):
+
+       Collection: https://archive.cnx.org/content/col11562
+       Module: https://archive.cnx.org/content/m46922
+    """
     URL_TEMPLATE = '/content/{legacy_id}'
     _uuid_and_version_regex = re.compile('^/contents/(.*)$')
 

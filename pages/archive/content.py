@@ -10,6 +10,11 @@ from selenium.webdriver.common.by import By
 
 
 class Content(Page):
+    """Archive JSON Examples:
+
+       Collection: https://archive.cnx.org/contents/30189442-6998-4686-ac05-ed152b91b9de@19.2.json
+       Module: https://archive.cnx.org/contents/829e47cf-dbf7-4dfb-b3da-a3beb62f99ab@13.json
+    """
     URL_TEMPLATE = '/contents/{uuid_and_version}.json'
     # The browser automatically wraps the JSON response in some HTML
     _json_locator = (By.TAG_NAME, 'pre')
