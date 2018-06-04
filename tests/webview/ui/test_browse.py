@@ -73,6 +73,8 @@ def test_subject_categories_have_page_and_book_counts(base_url, selenium):
         assert subject.books_count > 0
 
 
+@markers.webview
+@markers.nondestructive
 def test_logo_link_loads_home_page(base_url, selenium):
     # GIVEN the browse page
     home = Home(selenium, base_url).open()
