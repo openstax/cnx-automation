@@ -36,19 +36,31 @@ class SearchResults(Page):
         return self.no_results_p.text
 
     class Filter(Region):
-        # Only subject filters are currently supported/implemented
-        _subject_value_span_locator = (
-            By.CSS_SELECTOR, 'span.value[data-l10n-id="search-results-filter-subject-value"]')
+        # Only subject and text filters are currently supported/implemented
+        _subject_limit_span_locator = (By.CSS_SELECTOR,
+                                       'span.limit[data-l10n-id="search-results-filter-subject"]')
+        _text_limit_span_locator = (By.CSS_SELECTOR,
+                                    'span.limit[data-l10n-id="search-results-filter-text"]')
+        _value_span_locator = (By.CSS_SELECTOR, 'span.value')
 
         @property
         def is_subject(self):
-            return self.is_element_present(*self._subject_value_span_locator)
+            return self.is_element_present(*self._subject_limit_span_locator)
 
         @property
-        def subject_value_span(self):
-            return self.find_element(*self._subject_value_span_locator)
+        def is_text(self):
+            return self.is_element_present(*self._text_limit_span_locator)
 
+        @property
+        def value_span(self):
+            return self.find_element(*self._value_span_locator)
+
+        @property
+        def value(self):
+            return self.value_span.text
+
+        # For subject filters we can use the l10n attributes to be localization-agnostic
         @property
         def subject(self):
             import json
-            return json.loads(self.subject_value_span.get_attribute('data-l10n-args'))['subject']
+            return json.loads(self.value_span.get_attribute('data-l10n-args'))['subject']

@@ -80,15 +80,40 @@ def test_click_subject_category(base_url, selenium):
     home = Home(selenium, base_url).open()
     browse = home.header.click_browse()
 
-    # When a subject category is clicked
+    # WHEN a subject category is clicked
     subject = browse.subject_list[0]
     subject_name = subject.name
     search_results = subject.click()
 
-    # Then search results are displayed with the correct subject title
+    # THEN search results are displayed with the correct subject title
+    assert type(search_results) is SearchResults
     filter = search_results.filters[0]
     assert filter.is_subject
     assert filter.subject == subject_name
+    assert not search_results.has_no_results
+
+
+@markers.webview
+@markers.nondestructive
+def test_search(base_url, selenium):
+    # GIVEN the browse page and a query
+    home = Home(selenium, base_url).open()
+    browse = home.header.click_browse()
+    # Needs to contain a very uncommon word, otherwise we'll timeout when searching
+    # (uncommon words speed up the search)
+    query = 'Amazing Aardvark'
+
+    # WHEN we search for the query
+    search_results = browse.search(query)
+
+    # THEN search results are displayed
+    assert type(search_results) is SearchResults
+
+    for (word, filter) in zip(query.split(), search_results.filters):
+        assert filter.is_text
+        assert filter.value == word
+
+    assert not search_results.has_no_results
 
 
 @markers.webview
