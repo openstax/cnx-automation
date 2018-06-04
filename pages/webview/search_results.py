@@ -12,6 +12,7 @@ class SearchResults(Page):
     URL_TEMPLATE = '/search'
     _filters_locator = (By.CSS_SELECTOR, '#search div.results ul.filters li')
     _breadcrumbs_locator = (By.CSS_SELECTOR, '#search div.results div.breadcrumbs span.breadcrumb')
+    _results_locator = (By.CSS_SELECTOR, '#results table.table tbody tr')
     _no_results_p_locator = (By.CSS_SELECTOR,
                              '#results p[data-l10n-id="search-results-list-no-results"]')
 
@@ -28,6 +29,11 @@ class SearchResults(Page):
     def breadcrumbs(self):
         elements = self.find_elements(*self._breadcrumbs_locator)
         return [self.Breadcrumb(self, element) for element in elements]
+
+    @property
+    def results(self):
+        elements = self.find_elements(*self._results_locator)
+        return [self.Result(self, element) for element in elements]
 
     @property
     def has_no_results(self):
@@ -97,3 +103,37 @@ class SearchResults(Page):
             self.x_link.click()
             search_results = SearchResults(self.driver, self.page.base_url, self.page.timeout)
             return search_results.wait_for_page_to_load()
+
+    class Result(Region):
+        _title_td_locator = (By.CSS_SELECTOR, 'td.title')
+        _link_locator = (By.TAG_NAME, 'a')
+        _content_span_locator = (By.TAG_NAME, 'span')
+        _bold_locator = (By.TAG_NAME, 'b')
+
+        @property
+        def title_td(self):
+            return self.find_element(*self._title_td_locator)
+
+        @property
+        def link(self):
+            return self.title_td.find_element(*self._link_locator)
+
+        # For some reason the content span is inside the td.title
+        @property
+        def content_span(self):
+            return self.title_td.find_element(*self._content_span_locator)
+
+        @property
+        def content(self):
+            return self.content_span.text
+
+        @property
+        def bolds(self):
+            return self.content_span.find_elements(*self._bold_locator)
+
+        def count_occurrences(self, match):
+            return self.content.lower().split().count(match.lower())
+
+        def count_bold_occurrences(self, match):
+            match_lower = match.lower()
+            return len([bold for bold in self.bolds if bold.text.lower() == match_lower])

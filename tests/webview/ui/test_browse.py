@@ -99,8 +99,9 @@ def test_search(base_url, selenium):
     # GIVEN the browse page and a query
     home = Home(selenium, base_url).open()
     browse = home.header.click_browse()
-    # Needs to contain a very rare word, otherwise we may timeout when searching
-    query = 'Amazing Aardvark'
+    # Needs to contain a rare word, otherwise we may timeout when searching
+    # Postgres removes stop words automatically, so don't include those either
+    query = 'Amazing Aardvark Concepts'
 
     # WHEN we search for the query
     search_results = browse.search(query)
@@ -121,8 +122,9 @@ def test_search_filter(base_url, selenium):
     # GIVEN the search results page
     home = Home(selenium, base_url).open()
     browse = home.header.click_browse()
-    # Needs to contain a very rare word, otherwise we may timeout when searching
-    query = 'Amazing Aardvark'
+    # Needs to contain a rare word, otherwise we may timeout when searching
+    # Postgres removes stop words automatically, so don't include those either
+    query = 'Amazing Aardvark Concepts'
     search_results = browse.search(query)
 
     # WHEN we click on a filter
@@ -147,9 +149,10 @@ def test_search_unfilter(base_url, selenium):
     # GIVEN the search results page
     home = Home(selenium, base_url).open()
     browse = home.header.click_browse()
-    # Needs to contain a very rare word, otherwise we may timeout when searching
-    # The rare word should probably not be the first word, since that one will be removed
-    query = 'Amazing Aardvark'
+    # Needs to contain a rare word, otherwise we may timeout when searching
+    # Postgres removes stop words automatically, so don't include those either
+    # The rare word should probably not be the first word, since that one will be X'd in the test
+    query = 'Amazing Aardvark Concepts'
     search_results = browse.search(query)
 
     # WHEN we click on breadcrumb's X link
@@ -163,6 +166,41 @@ def test_search_unfilter(base_url, selenium):
         assert breadcrumb.value == word
 
     assert not search_results.has_no_results
+
+
+@markers.webview
+@markers.nondestructive
+def test_search_bold(base_url, selenium):
+    # GIVEN the browse page and a query
+    home = Home(selenium, base_url).open()
+    browse = home.header.click_browse()
+    # Needs to contain a rare word, otherwise we may timeout when searching
+    # Postgres removes stop words automatically, so don't include those either
+    query = 'Amazing Aardvark Concepts'
+
+    # WHEN we search for the query
+    search_results = browse.search(query)
+
+    # THEN search results are displayed with query words bolded
+    assert type(search_results) is SearchResults
+    assert not search_results.has_no_results
+
+    results = search_results.results
+    any_occurrences = False
+
+    # Test that all occurrences are bolded
+    for word in query.split():
+        for result in results:
+            occurrences = result.count_occurrences(word)
+
+            if occurrences > 0:
+                any_occurrences = True
+
+            assert occurrences == result.count_bold_occurrences(word)
+
+    # At least one word must show up in the results
+    # This could become False if someone publishes blank modules with matching metadata
+    assert any_occurrences, 'No words from the query showed up in the results.'
 
 
 @markers.webview
