@@ -8,10 +8,12 @@ from pages.archive.base import Page
 
 
 class LegacyContent(Page):
-    """Example URLs (will automatically redirect to non-legacy version):
+    """Interfaces with a legacy content page from CNX Archive.
 
-       Collection: https://archive.cnx.org/content/col11562
-       Module: https://archive.cnx.org/content/m46922
+    Example URLs (will automatically redirect to non-legacy version):
+
+    Collection: https://archive.cnx.org/content/col11562
+    Module: https://archive.cnx.org/content/m46922
     """
     URL_TEMPLATE = '/content/{legacy_id}'
     _uuid_and_version_regex = re.compile('^/contents/(.*)$')
@@ -23,8 +25,10 @@ class LegacyContent(Page):
         return re.match(self._uuid_and_version_regex, urlsplit(self.driver.current_url)[2]).group(1)
 
     def open(self):
-        """Opens the legacy archive url and follows the redirect to the non-legacy archive url.
-           Returns an instance of pages.archive.content.Content
+        """Opens the given CNX archive url.
+
+        Opens the legacy archive url and follows the redirect to the non-legacy archive url.
+        Returns an instance of pages.archive.content.Content
         """
         super().open()
         from pages.archive.content import Content

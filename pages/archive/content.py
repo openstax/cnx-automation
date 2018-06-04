@@ -10,10 +10,12 @@ from selenium.webdriver.common.by import By
 
 
 class Content(Page):
-    """Archive JSON Examples:
+    """Interfaces with a content page from CNX Archive.
 
-       Collection: https://archive.cnx.org/contents/30189442-6998-4686-ac05-ed152b91b9de@19.2.json
-       Module: https://archive.cnx.org/contents/829e47cf-dbf7-4dfb-b3da-a3beb62f99ab@13.json
+    Archive JSON Examples:
+
+    Collection: https://archive.cnx.org/contents/30189442-6998-4686-ac05-ed152b91b9de@19.2.json
+    Module: https://archive.cnx.org/contents/829e47cf-dbf7-4dfb-b3da-a3beb62f99ab@13.json
     """
     URL_TEMPLATE = '/contents/{uuid_and_version}.json'
     # The browser automatically wraps the JSON response in some HTML
@@ -85,8 +87,10 @@ class Content(Page):
         return self.dict['tree']
 
     def stable_tree(self, tree):
-        """Returns the archive tree json as a dict with fields that change
-           from test to test (creation and revision dates) removed.
+        """Returns a stable version of the "tree" field.
+
+        Returns the archive tree json as a dict with fields that change
+        from test to test (creation and revision dates) removed.
         """
         if isinstance(tree, dict):
             return {field: self.stable_tree(tree[field]) for field in self._stable_tree_fields
@@ -108,8 +112,10 @@ class Content(Page):
 
     @property
     def stable_content(self):
-        """Returns the archive content xml as a string with fields that change
-           from test to test (creation and revision dates) removed.
+        """Returns a stable version of the "content" field.
+
+        Returns the archive content xml as a string with fields that change
+        from test to test (creation and revision dates) removed.
         """
         import xml.etree.ElementTree as ET
 
@@ -129,11 +135,13 @@ class Content(Page):
 
     @property
     def stable_dict(self):
-        """Returns from the archive json only fields that are
-           guaranteed not to change from test to test as a dict.
+        """Returns a stable version of the full archive json as a dict.
 
-           This includes the whitelisted fields in the _stable_fields array,
-           plus stable versions of the tree and content fields, if present.
+        Returns from the archive json only fields that are
+        guaranteed not to change from test to test as a dict.
+
+        This includes the whitelisted fields in the _stable_fields array,
+        plus stable versions of the tree and content fields, if present.
         """
         dict = {field: self.dict[field] for field in self._stable_fields if field in self.dict}
 
