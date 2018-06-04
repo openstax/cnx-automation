@@ -3,8 +3,10 @@ from selenium.webdriver.remote.remote_connection import (
     parse,
     common_utils,
     httplib,
-    Command
+    Command,
+    LOGGER
 )
+
 
 def __init__(self, remote_server_addr, keep_alive=False, resolve_ip=True):
     # Attempt to resolve the hostname and get an IP address.
@@ -254,5 +256,6 @@ def __init__(self, remote_server_addr, keep_alive=False, resolve_ip=True):
         Command.MINIMIZE_WINDOW:
             ('POST', '/session/$sessionId/window/minimize')
     }
+
 
 RemoteConnection.__init__ = __init__
