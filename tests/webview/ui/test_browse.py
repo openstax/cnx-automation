@@ -87,9 +87,9 @@ def test_click_subject_category(base_url, selenium):
 
     # THEN search results are displayed with the correct subject title
     assert type(search_results) is SearchResults
-    filter = search_results.filters[0]
-    assert filter.is_subject
-    assert filter.subject == subject_name
+    breadcrumb = search_results.breadcrumbs[0]
+    assert breadcrumb.is_subject
+    assert breadcrumb.subject == subject_name
     assert not search_results.has_no_results
 
 
@@ -99,19 +99,45 @@ def test_search(base_url, selenium):
     # GIVEN the browse page and a query
     home = Home(selenium, base_url).open()
     browse = home.header.click_browse()
-    # Needs to contain a very uncommon word, otherwise we'll timeout when searching
-    # (uncommon words speed up the search)
+    # Needs to contain a very rare word, otherwise we'll timeout when searching
+    # (rare words speed up the search)
     query = 'Amazing Aardvark'
 
     # WHEN we search for the query
     search_results = browse.search(query)
 
-    # THEN search results are displayed
+    # THEN search results are displayed with the query text
     assert type(search_results) is SearchResults
 
-    for (word, filter) in zip(query.split(), search_results.filters):
-        assert filter.is_text
-        assert filter.value == word
+    for (word, breadcrumb) in zip(query.split(), search_results.breadcrumbs):
+        assert breadcrumb.is_text
+        assert breadcrumb.value == word
+
+    assert not search_results.has_no_results
+
+
+@markers.webview
+@markers.nondestructive
+def test_search_filter(base_url, selenium):
+    # GIVEN the search results page
+    home = Home(selenium, base_url).open()
+    browse = home.header.click_browse()
+    # Needs to contain a very rare word, otherwise we'll timeout when searching
+    # (rare words speed up the search)
+    query = 'Amazing Aardvark'
+    search_results = browse.search(query)
+
+    # WHEN we click on a filter
+    search_results = search_results.filters[0].click()
+
+    # THEN search results are displayed with the added filter
+    assert type(search_results) is SearchResults
+
+    breadcrumbs = search_results.breadcrumbs
+    breadcrumb = breadcrumbs[len(query.split())]
+
+    assert breadcrumb.is_publication_date
+    assert int(breadcrumb.value) >= 2018
 
     assert not search_results.has_no_results
 
