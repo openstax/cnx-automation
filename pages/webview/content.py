@@ -20,6 +20,9 @@ class Content(Page):
     _chapter_section_span_locator = (By.CSS_SELECTOR, 'span.title-chapter')
     _ncy_locator = (By.CLASS_NAME, 'not-converted-yet')
 
+    # @ is checked first to avoid StaleElementErrors
+    # Further checks are needed when we reach this page from search results
+    # (in this case the url has the @ from the start)
     @property
     def loaded(self):
         return self._url_regex.search(self.driver.current_url)

@@ -115,8 +115,12 @@ class SearchResults(Page):
             return self.find_element(*self._title_td_locator)
 
         @property
-        def link(self):
+        def title_link(self):
             return self.title_td.find_element(*self._link_locator)
+
+        @property
+        def title(self):
+            return self.title_link.text
 
         # For some reason the content span is inside the td.title
         @property
@@ -131,9 +135,15 @@ class SearchResults(Page):
         def bolds(self):
             return self.content_span.find_elements(*self._bold_locator)
 
-        def count_occurrences(self, match):
-            return self.content.lower().split().count(match.lower())
+        def count_occurrences(self, word):
+            return self.content.lower().split().count(word.lower())
 
-        def count_bold_occurrences(self, match):
-            match_lower = match.lower()
-            return len([bold for bold in self.bolds if bold.text.lower() == match_lower])
+        def count_bold_occurrences(self, word):
+            lowercase_word = word.lower()
+            return len([bold for bold in self.bolds if bold.text.lower() == lowercase_word])
+
+        def click_title_link(self):
+            self.title_link.click()
+            from pages.webview.content import Content
+            content = Content(self.driver, self.page.base_url, self.page.timeout)
+            return content.wait_for_page_to_load()

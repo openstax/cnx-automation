@@ -9,6 +9,7 @@ from tests import markers
 
 from pages.webview.home import Home
 from pages.webview.search_results import SearchResults
+from pages.webview.content import Content
 
 
 @markers.webview
@@ -201,6 +202,27 @@ def test_search_bold(base_url, selenium):
     # At least one word must show up in the results
     # This could become False if someone publishes blank modules with matching metadata
     assert any_occurrences, 'No words from the query showed up in the results.'
+
+
+@markers.webview
+@markers.nondestructive
+def test_search_click_result(base_url, selenium):
+    # GIVEN the search results page
+    home = Home(selenium, base_url).open()
+    browse = home.header.click_browse()
+    # Needs to contain a rare word, otherwise we may timeout when searching
+    # Postgres removes stop words automatically, so don't include those either
+    query = 'Amazing Aardvark Concepts'
+    search_results = browse.search(query)
+
+    # WHEN we click on a search result's title
+    result = search_results.results[0]
+    result_title = result.title
+    content = search_results.results[0].click_title_link()
+
+    # THEN we are taken to the matching content page
+    assert type(content) is Content
+    assert content.title == result_title
 
 
 @markers.webview
