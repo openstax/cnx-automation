@@ -7,6 +7,8 @@ from selenium.webdriver.common.by import By
 from pages.webview.base import Page
 from regions.webview.base import Region
 
+from pages.webview.search_results import SearchResults
+
 
 class Browse(Page):
     URL_TEMPLATE = '/browse'
@@ -52,7 +54,6 @@ class Browse(Page):
         self.search_input.send_keys(query)
         from selenium.webdriver.common.keys import Keys
         self.search_input.send_keys(Keys.RETURN)
-        from pages.webview.search_results import SearchResults
         return SearchResults(self.driver, self.base_url, self.timeout).wait_for_page_to_load()
 
     class Subject(Region):
@@ -83,3 +84,8 @@ class Browse(Page):
         @property
         def books_count(self):
             return self.get_count(self.books_div)
+
+        def click(self):
+            self.root.click()
+            search_results = SearchResults(self.driver, self.page.base_url, self.page.timeout)
+            return search_results.wait_for_page_to_load()
