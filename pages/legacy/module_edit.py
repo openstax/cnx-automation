@@ -15,6 +15,7 @@ from selenium.common.exceptions import UnexpectedAlertPresentException
 class ModuleEdit(PrivatePage):
     URL_TEMPLATE = '/Members/{username}/{module_id}'
     _url_regex = re.compile('/Members/([^/]+)/([^/]+)')
+    _title_regex = re.compile('^Module: (.*)$')
     _title_header_locator = (By.CSS_SELECTOR, '#content div div h1')
     _publish_link_locator = (By.CSS_SELECTOR, 'a[href$="module_publish"]')
     _import_form_locator = (By.CSS_SELECTOR, 'form[action="module_import_form"]')
@@ -38,8 +39,7 @@ class ModuleEdit(PrivatePage):
 
     @property
     def title(self):
-        import re
-        return re.sub('^Module: ', '', self.title_header.text)
+        return re.match(self._title_regex, self.title_header.text).group(1)
 
     @property
     def publish_link(self):
