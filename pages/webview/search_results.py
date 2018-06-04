@@ -61,6 +61,7 @@ class SearchResults(Page):
         _pub_year_limit_span_locator = (By.CSS_SELECTOR,
                                         'span.limit[data-l10n-id="search-results-filter-pubYear"]')
         _value_span_locator = (By.CSS_SELECTOR, 'span.value')
+        _x_link_locator = (By.CSS_SELECTOR, 'a.remove')
 
         @property
         def is_subject(self):
@@ -79,6 +80,10 @@ class SearchResults(Page):
             return self.find_element(*self._value_span_locator)
 
         @property
+        def x_link(self):
+            return self.find_element(*self._x_link_locator)
+
+        @property
         def value(self):
             return self.value_span.text
 
@@ -87,3 +92,8 @@ class SearchResults(Page):
         def subject(self):
             import json
             return json.loads(self.value_span.get_attribute('data-l10n-args'))['subject']
+
+        def click_x_link(self):
+            self.x_link.click()
+            search_results = SearchResults(self.driver, self.page.base_url, self.page.timeout)
+            return search_results.wait_for_page_to_load()

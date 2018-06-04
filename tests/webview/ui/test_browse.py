@@ -99,8 +99,7 @@ def test_search(base_url, selenium):
     # GIVEN the browse page and a query
     home = Home(selenium, base_url).open()
     browse = home.header.click_browse()
-    # Needs to contain a very rare word, otherwise we'll timeout when searching
-    # (rare words speed up the search)
+    # Needs to contain a very rare word, otherwise we may timeout when searching
     query = 'Amazing Aardvark'
 
     # WHEN we search for the query
@@ -122,8 +121,7 @@ def test_search_filter(base_url, selenium):
     # GIVEN the search results page
     home = Home(selenium, base_url).open()
     browse = home.header.click_browse()
-    # Needs to contain a very rare word, otherwise we'll timeout when searching
-    # (rare words speed up the search)
+    # Needs to contain a very rare word, otherwise we may timeout when searching
     query = 'Amazing Aardvark'
     search_results = browse.search(query)
 
@@ -137,7 +135,32 @@ def test_search_filter(base_url, selenium):
     breadcrumb = breadcrumbs[len(query.split())]
 
     assert breadcrumb.is_publication_date
+    # Just in case more Aardvarks are published in 2019+
     assert int(breadcrumb.value) >= 2018
+
+    assert not search_results.has_no_results
+
+
+@markers.webview
+@markers.nondestructive
+def test_search_unfilter(base_url, selenium):
+    # GIVEN the search results page
+    home = Home(selenium, base_url).open()
+    browse = home.header.click_browse()
+    # Needs to contain a very rare word, otherwise we may timeout when searching
+    # The rare word should probably not be the first word, since that one will be removed
+    query = 'Amazing Aardvark'
+    search_results = browse.search(query)
+
+    # WHEN we click on breadcrumb's X link
+    search_results = search_results.breadcrumbs[0].click_x_link()
+
+    # THEN search results are displayed with one less filter
+    assert type(search_results) is SearchResults
+
+    for (word, breadcrumb) in zip(query.split()[1:], search_results.breadcrumbs):
+        assert breadcrumb.is_text
+        assert breadcrumb.value == word
 
     assert not search_results.has_no_results
 
