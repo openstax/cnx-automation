@@ -10,17 +10,12 @@ from selenium.webdriver.common.by import By
 
 
 class CollectionEdit(PrivatePage):
-
     URL_TEMPLATE = '/Members/{username}/{collection_id}'
-
     _url_regex = re.compile('/Members/([^/]+)/([^/]+)')
-
+    _title_regex = re.compile('^Collection: (.*)$')
     _title_header_locator = (By.CSS_SELECTOR, '#content div div h1')
-
     _root_collection_locator = (By.CSS_SELECTOR, 'ul.x-tree-root-ct li.x-tree-node')
-
     _publish_link_locator = (By.CSS_SELECTOR, 'a[href$="collection_publish"]')
-
     _modal_locator = (By.CSS_SELECTOR, 'div.x-window')
 
     @property
@@ -37,8 +32,7 @@ class CollectionEdit(PrivatePage):
 
     @property
     def title(self):
-        import re
-        return re.sub('^Collection: ', '', self.title_header.text)
+        return re.match(self._title_regex, self.title_header.text).group(1)
 
     @property
     def publish_link(self):

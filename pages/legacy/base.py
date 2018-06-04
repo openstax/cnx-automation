@@ -11,7 +11,7 @@ class Page(pypom.Page):
     _region_content_locator = (By.ID, 'region-content')
     _my_account_locator = (By.CSS_SELECTOR, '#portlet-login, #portlet-loggedin')
 
-    # Default to a 30 second timeout for CNX legacy
+    # Default to a 60 second timeout for CNX legacy
     def __init__(self, driver, base_url=None, timeout=60, **url_kwargs):
         super().__init__(driver, base_url, timeout, **url_kwargs)
 
@@ -37,7 +37,6 @@ class Page(pypom.Page):
 
 
 class PublicPage(Page):
-
     @property
     def can_login(self):
         return self.my_account.can_login
@@ -47,7 +46,6 @@ class PublicPage(Page):
 
 
 class PrivatePage(Page):
-
     # These pages require you to be logged in already
     @property
     def can_login(self):
