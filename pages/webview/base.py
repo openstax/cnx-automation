@@ -44,7 +44,7 @@ class Page(pypom.Page):
             from pages.webview.home import Home
             return Home(self.driver, self.page.base_url, self.page.timeout).wait_for_page_to_load()
 
-        def click_browse(self):
+        def click_search(self):
             self.find_element(*self._browse_locator).click()
             from pages.webview.browse import Browse
             browse = Browse(self.driver, self.page.base_url, self.page.timeout)

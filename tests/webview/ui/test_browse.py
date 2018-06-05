@@ -20,7 +20,7 @@ def test_search_input_and_button_are_displayed(base_url, selenium):
     # WHEN The home page URL is fully loaded,
     #      and the browse link in the navbar is clicked
     page = Home(selenium, base_url).open()
-    browse_page = page.header.click_browse()
+    browse_page = page.header.click_search()
 
     # THEN The search bar and the advanced search button is displayed
     assert browse_page.is_search_input_displayed
@@ -32,7 +32,7 @@ def test_search_input_and_button_are_displayed(base_url, selenium):
 def test_search_no_results(base_url, selenium):
     # GIVEN the browse page and a bogus query
     home = Home(selenium, base_url).open()
-    browse = home.header.click_browse()
+    browse = home.header.click_search()
     query = ''.join(choice(digits + ascii_letters) for i in range(32))
 
     # WHEN we search for the bogus query
@@ -53,7 +53,7 @@ def test_subject_categories_load(base_url, selenium):
     # When The homepage URL is fully loaded,
     #      and the browse link in the navbar is clicked
     page = Home(selenium, base_url).open()
-    browse_page = page.header.click_browse()
+    browse_page = page.header.click_search()
 
     # Then The subject categories are loaded
     assert len(browse_page.subject_list) > 0
@@ -66,7 +66,7 @@ def test_subject_categories_have_page_and_book_counts(base_url, selenium):
     home = Home(selenium, base_url).open()
 
     # When the browse link in the navbar is clicked
-    browse = home.header.click_browse()
+    browse = home.header.click_search()
 
     # Then the subject categories have page and book counts
     for subject in browse.subject_list:
@@ -79,7 +79,7 @@ def test_subject_categories_have_page_and_book_counts(base_url, selenium):
 def test_click_subject_category(base_url, selenium):
     # GIVEN the browse page
     home = Home(selenium, base_url).open()
-    browse = home.header.click_browse()
+    browse = home.header.click_search()
 
     # WHEN a subject category is clicked
     subject = browse.subject_list[0]
@@ -99,7 +99,7 @@ def test_click_subject_category(base_url, selenium):
 def test_search(base_url, selenium):
     # GIVEN the browse page and a query
     home = Home(selenium, base_url).open()
-    browse = home.header.click_browse()
+    browse = home.header.click_search()
     # Needs to contain a rare word, otherwise we may timeout when searching
     # Postgres removes stop words automatically, so don't include those either
     query = 'Amazing Aardvark Concepts'
@@ -122,7 +122,7 @@ def test_search(base_url, selenium):
 def test_search_filter(base_url, selenium):
     # GIVEN the search results page
     home = Home(selenium, base_url).open()
-    browse = home.header.click_browse()
+    browse = home.header.click_search()
     # Needs to contain a rare word, otherwise we may timeout when searching
     # Postgres removes stop words automatically, so don't include those either
     query = 'Amazing Aardvark Concepts'
@@ -149,7 +149,7 @@ def test_search_filter(base_url, selenium):
 def test_search_unfilter(base_url, selenium):
     # GIVEN the search results page
     home = Home(selenium, base_url).open()
-    browse = home.header.click_browse()
+    browse = home.header.click_search()
     # Needs to contain a rare word, otherwise we may timeout when searching
     # Postgres removes stop words automatically, so don't include those either
     # The rare word should probably not be the first word, since that one will be X'd in the test
@@ -174,7 +174,7 @@ def test_search_unfilter(base_url, selenium):
 def test_search_bold(base_url, selenium):
     # GIVEN the browse page and a query
     home = Home(selenium, base_url).open()
-    browse = home.header.click_browse()
+    browse = home.header.click_search()
     # Needs to contain a rare word, otherwise we may timeout when searching
     # Postgres removes stop words automatically, so don't include those either
     query = 'Amazing Aardvark Concepts'
@@ -209,7 +209,7 @@ def test_search_bold(base_url, selenium):
 def test_search_click_result(base_url, selenium):
     # GIVEN the search results page
     home = Home(selenium, base_url).open()
-    browse = home.header.click_browse()
+    browse = home.header.click_search()
     # Needs to contain a rare word, otherwise we may timeout when searching
     # Postgres removes stop words automatically, so don't include those either
     query = 'Amazing Aardvark Concepts'
@@ -230,7 +230,7 @@ def test_search_click_result(base_url, selenium):
 def test_search_pagination(base_url, selenium):
     # GIVEN the browse page and a query
     home = Home(selenium, base_url).open()
-    browse = home.header.click_browse()
+    browse = home.header.click_search()
     # Needs to contain a rare word, otherwise we may timeout when searching
     # Postgres removes stop words automatically, so don't include those either
     query = 'Amazing Aardvark Concepts'
@@ -266,7 +266,7 @@ def test_search_pagination(base_url, selenium):
 def test_search_click_pagination(base_url, selenium):
     # GIVEN the search results page
     home = Home(selenium, base_url).open()
-    browse = home.header.click_browse()
+    browse = home.header.click_search()
     # Needs to contain a rare word, otherwise we may timeout when searching
     # Postgres removes stop words automatically, so don't include those either
     query = 'Amazing Aardvark Concepts'
@@ -301,10 +301,47 @@ def test_search_click_pagination(base_url, selenium):
 
 @markers.webview
 @markers.nondestructive
+def test_advanced_search(base_url, selenium):
+    # GIVEN the advanced search page
+    home = Home(selenium, base_url).open()
+    browse = home.header.click_search()
+    advanced_search = browse.click_advanced_search_button()
+
+    # WHEN we select some filters and click submit
+    search_results = advanced_search.fill_in_author('OpenStax') \
+                                    .fill_in_title('Concepts of Biology') \
+                                    .select_subject('Science and Technology') \
+                                    .fill_in_keywords('Amazing Aardvark') \
+                                    .select_type('book') \
+                                    .select_language('en') \
+                                    .select_publication_date(2018) \
+                                    .select_sort_by('pubDate') \
+                                    .submit()
+
+    # THEN search results are displayed with the chosen filters
+    assert type(search_results) is SearchResults
+
+    expected_breadcrumbs = {
+        'Author': ['OpenStax'],
+        'Title': ['Concepts of Biology'],
+        'Subject': ['Science and Technology'],
+        'Keyword': ['Amazing', 'Aardvark'],
+        'Type': ['book'],
+        'Language': ['English (English)'],
+        'Publication Date': ['2018']
+    }
+    for breadcrumb in search_results.breadcrumbs:
+        assert breadcrumb.value in expected_breadcrumbs[breadcrumb.limit]
+
+    assert not search_results.has_no_results
+
+
+@markers.webview
+@markers.nondestructive
 def test_logo_link_loads_home_page(base_url, selenium):
     # GIVEN the browse page
     home = Home(selenium, base_url).open()
-    browse = home.header.click_browse()
+    browse = home.header.click_search()
 
     # WHEN the OpenStax CNX logo is clicked
     home = browse.header.click_logo()

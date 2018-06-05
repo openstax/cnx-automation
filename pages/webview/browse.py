@@ -12,10 +12,8 @@ from pages.webview.search_results import SearchResults
 
 class Browse(Page):
     URL_TEMPLATE = '/browse'
-
     _search_input_locator = (By.ID, 'find-content-input')
     _advanced_search_button_locator = (By.CLASS_NAME, 'advanced-search')
-
     _main_content_locator = (By.ID, 'main-content')
     _browse_content_locator = (By.CLASS_NAME, 'browse-content')
     _subject_list_locator = (By.CSS_SELECTOR, '.browse-content > ul > li')
@@ -43,6 +41,10 @@ class Browse(Page):
         return [Browse.Subject(self, el) for el in items]
 
     @property
+    def advanced_search_button(self):
+        return self.find_element(*self._advanced_search_button_locator)
+
+    @property
     def loaded(self):
         # The search page is fully loaded when the subject list is displayed
         # There's no need to check for the search field/button (which load before the list)
@@ -55,6 +57,12 @@ class Browse(Page):
         from selenium.webdriver.common.keys import Keys
         self.search_input.send_keys(Keys.RETURN)
         return SearchResults(self.driver, self.base_url, self.timeout).wait_for_page_to_load()
+
+    def click_advanced_search_button(self):
+        self.advanced_search_button.click()
+        from pages.webview.advanced_search import AdvancedSearch
+        advanced_search = AdvancedSearch(self.driver, self.base_url, self.timeout)
+        return advanced_search.wait_for_page_to_load()
 
     class Subject(Region):
         _name_locator = (By.CSS_SELECTOR, 'h2')
