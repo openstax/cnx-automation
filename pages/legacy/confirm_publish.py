@@ -7,7 +7,7 @@ from pages.legacy.base import PrivatePage
 from selenium.webdriver.common.by import By
 
 
-class ModuleConfirmPublish(PrivatePage):
+class ConfirmPublish(PrivatePage):
     _publish_form_locator = (By.CSS_SELECTOR, 'form[action="publishContent"]')
 
     @property
@@ -16,6 +16,6 @@ class ModuleConfirmPublish(PrivatePage):
 
     def submit(self):
         self.publish_form.submit()
-        from pages.legacy.published_module import PublishedModule
-        published_module = PublishedModule(self.driver, self.base_url, self.timeout)
-        return published_module.wait_for_page_to_load()
+        from pages.legacy.content_published import ContentPublished
+        content_published = ContentPublished(self.driver, self.base_url, self.timeout)
+        return content_published.wait_for_page_to_load()

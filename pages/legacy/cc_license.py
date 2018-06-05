@@ -25,6 +25,6 @@ class CcLicense(PrivatePage):
 
     def submit(self):
         self.cc_license_form.submit()
-        from pages.legacy.module_metadata import ModuleMetadata
-        module_metadata = ModuleMetadata(self.driver, self.base_url, self.timeout)
-        return module_metadata.wait_for_page_to_load()
+        from pages.legacy.metadata_edit import MetadataEdit
+        metadata_edit = MetadataEdit(self.driver, self.base_url, self.timeout)
+        return metadata_edit.wait_for_page_to_load()

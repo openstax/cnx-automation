@@ -2,22 +2,34 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-from pages.archive.base import Page
+import re
 
-from selenium.webdriver.common.by import By
+from pages.archive.base import Page
 
 
 class LegacyContent(Page):
-    URL_TEMPLATE = '/content/{module_id}'
-    _title_locator = (By.CSS_SELECTOR, 'div[data-type="document-title"]')
+    """Interfaces with a legacy content page from CNX Archive.
+
+    Example URLs (will automatically redirect to non-legacy version):
+
+    Collection: https://archive.cnx.org/content/col11562
+    Module: https://archive.cnx.org/content/m46922
+    """
+    URL_TEMPLATE = '/content/{legacy_id}'
+    _uuid_and_version_regex = re.compile('^/contents/(.*)$')
 
     @property
     def uuid_and_version(self):
-        import re
+        """Extracts and returns the collection or page uuid and version from the url."""
         from urllib.parse import urlsplit
-        return re.sub('/contents/', '', urlsplit(self.driver.current_url)[2])
+        return re.match(self._uuid_and_version_regex, urlsplit(self.driver.current_url)[2]).group(1)
 
     def open(self):
+        """Opens the given CNX archive url.
+
+        Opens the legacy archive url and follows the redirect to the non-legacy archive url.
+        Returns an instance of pages.archive.content.Content
+        """
         super().open()
         from pages.archive.content import Content
         return Content(self.driver, self.base_url, self.timeout,

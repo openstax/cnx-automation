@@ -4,6 +4,24 @@
 
 import pypom
 
+from selenium.common.exceptions import StaleElementReferenceException
+
 
 class Region(pypom.Region):
-    pass
+
+    @property
+    def unloaded(self):
+        """Can be overridden in subclasses."""
+        return not self.loaded
+
+    def wait_for_region_to_unload(self):
+        """Wait for the region to unload."""
+
+        # If we get a StaleElementReferenceException while waiting for the region to unload,
+        # we consider that it already unloaded
+        try:
+            self.wait.until(lambda _: self.unloaded)
+        except StaleElementReferenceException:
+            pass
+
+        return self
