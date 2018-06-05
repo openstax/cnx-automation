@@ -27,11 +27,11 @@ class ModuleEdit(PrivatePage):
 
     @property
     def username(self):
-        return re.search(self._url_regex, self.driver.current_url).group(1)
+        return self._url_regex.search(self.driver.current_url).group(1)
 
     @property
     def id(self):
-        return re.search(self._url_regex, self.driver.current_url).group(2)
+        return self._url_regex.search(self.driver.current_url).group(2)
 
     @property
     def title_header(self):
@@ -39,7 +39,7 @@ class ModuleEdit(PrivatePage):
 
     @property
     def title(self):
-        return re.match(self._title_regex, self.title_header.text).group(1)
+        return self._title_regex.match(self.title_header.text).group(1)
 
     @property
     def publish_link(self):

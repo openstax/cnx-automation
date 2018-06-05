@@ -22,7 +22,7 @@ class LegacyContent(Page):
     def uuid_and_version(self):
         """Extracts and returns the collection or page uuid and version from the url."""
         from urllib.parse import urlsplit
-        return re.match(self._uuid_and_version_regex, urlsplit(self.driver.current_url)[2]).group(1)
+        return self._uuid_and_version_regex.match(urlsplit(self.driver.current_url)[2]).group(1)
 
     def open(self):
         """Opens the given CNX archive url.
