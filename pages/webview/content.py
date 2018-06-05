@@ -23,6 +23,8 @@ class Content(Page):
     # @ is checked first to avoid StaleElementErrors
     # Further checks are needed when we reach this page from search results
     # (in this case the url has the @ from the start)
+    # Note: Only the title is guaranteed to have been loaded when this method returns true
+    #       More checks will be needed if we create any tests that use the actual page content
     @property
     def loaded(self):
         return self._url_regex.search(self.driver.current_url)

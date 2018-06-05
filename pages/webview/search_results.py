@@ -12,6 +12,7 @@ class SearchResults(Page):
     URL_TEMPLATE = '/search'
     _filters_locator = (By.CSS_SELECTOR, '#search div.results ul.filters li')
     _breadcrumbs_locator = (By.CSS_SELECTOR, '#search div.results div.breadcrumbs span.breadcrumb')
+    _pagination_locator = (By.CSS_SELECTOR, '#results div.pagination ul li')
     _results_locator = (By.CSS_SELECTOR, '#results table.table tbody tr')
     _no_results_p_locator = (By.CSS_SELECTOR,
                              '#results p[data-l10n-id="search-results-list-no-results"]')
@@ -29,6 +30,11 @@ class SearchResults(Page):
     def breadcrumbs(self):
         elements = self.find_elements(*self._breadcrumbs_locator)
         return [self.Breadcrumb(self, element) for element in elements]
+
+    @property
+    def pagination(self):
+        elements = self.find_elements(*self._pagination_locator)
+        return [self.Pagination(self, element) for element in elements]
 
     @property
     def results(self):
@@ -101,6 +107,30 @@ class SearchResults(Page):
 
         def click_x_link(self):
             self.x_link.click()
+            search_results = SearchResults(self.driver, self.page.base_url, self.page.timeout)
+            return search_results.wait_for_page_to_load()
+
+    class Pagination(Region):
+        _link_locator = (By.TAG_NAME, 'a')
+
+        @property
+        def root_class(self):
+            return self.root.get_attribute('class')
+
+        @property
+        def is_disabled(self):
+            return 'disabled' in self.root_class
+
+        @property
+        def is_active(self):
+            return 'active' in self.root_class
+
+        @property
+        def link(self):
+            return self.find_element(*self._link_locator)
+
+        def click_link(self):
+            self.link.click()
             search_results = SearchResults(self.driver, self.page.base_url, self.page.timeout)
             return search_results.wait_for_page_to_load()
 

@@ -227,6 +227,80 @@ def test_search_click_result(base_url, selenium):
 
 @markers.webview
 @markers.nondestructive
+def test_search_pagination(base_url, selenium):
+    # GIVEN the browse page and a query
+    home = Home(selenium, base_url).open()
+    browse = home.header.click_browse()
+    # Needs to contain a rare word, otherwise we may timeout when searching
+    # Postgres removes stop words automatically, so don't include those either
+    query = 'Amazing Aardvark Concepts'
+
+    # WHEN we search for the query
+    search_results = browse.search(query)
+
+    # THEN search results are displayed with pagination
+    assert type(search_results) is SearchResults
+
+    pagination = search_results.pagination
+    assert len(pagination) >= 4
+
+    prev = pagination[0]
+    assert prev.is_disabled
+    assert not prev.is_active
+
+    p1 = pagination[1]
+    assert not p1.is_disabled
+    assert p1.is_active
+
+    p2 = pagination[2]
+    assert not p2.is_disabled
+    assert not p2.is_active
+
+    next = pagination[-1]
+    assert not next.is_disabled
+    assert not next.is_active
+
+
+@markers.webview
+@markers.nondestructive
+def test_search_click_pagination(base_url, selenium):
+    # GIVEN the search results page
+    home = Home(selenium, base_url).open()
+    browse = home.header.click_browse()
+    # Needs to contain a rare word, otherwise we may timeout when searching
+    # Postgres removes stop words automatically, so don't include those either
+    query = 'Amazing Aardvark Concepts'
+    search_results = browse.search(query)
+
+    # WHEN we click on the "next" pagination link
+    next = search_results.pagination[-1]
+    search_results = next.click_link()
+
+    # THEN the pagination is updated
+    assert type(search_results) is SearchResults
+
+    pagination = search_results.pagination
+    assert len(pagination) >= 4
+
+    prev = pagination[0]
+    assert not prev.is_disabled
+    assert not prev.is_active
+
+    p1 = pagination[1]
+    assert not p1.is_disabled
+    assert not p1.is_active
+
+    p2 = pagination[2]
+    assert not p2.is_disabled
+    assert p2.is_active
+
+    next = pagination[-1]
+    # assert next.is_disabled - will change if we have more than 2 pages of results in the future
+    assert not next.is_active
+
+
+@markers.webview
+@markers.nondestructive
 def test_logo_link_loads_home_page(base_url, selenium):
     # GIVEN the browse page
     home = Home(selenium, base_url).open()
