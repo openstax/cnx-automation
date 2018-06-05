@@ -8,9 +8,7 @@ from selenium.webdriver.common.by import By
 
 
 class Content(Region):
-
     _content_node_locator = (By.CSS_SELECTOR, 'ul.x-tree-node-ct li.x-tree-node')
-
     _title_span_locator = (By.CSS_SELECTOR, 'a.x-tree-node-anchor span')
 
     def hover(self):

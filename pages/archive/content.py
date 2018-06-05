@@ -143,12 +143,12 @@ class Content(Page):
         This includes the whitelisted fields in the _stable_fields array,
         plus stable versions of the tree and content fields, if present.
         """
-        dict = {field: self.dict[field] for field in self._stable_fields if field in self.dict}
+        result = {field: self.dict[field] for field in self._stable_fields if field in self.dict}
 
         if self.has_tree:
-            dict.update(tree=self.stable_tree(self.tree))
+            result.update(tree=self.stable_tree(self.tree))
 
         if self.has_content:
-            dict.update(content=self.stable_content)
+            result.update(content=self.stable_content)
 
-        return dict
+        return result

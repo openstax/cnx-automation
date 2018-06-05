@@ -8,12 +8,9 @@ from regions.legacy.base import Region
 
 
 class AddModules(Region):
-
     _search_form_locator = (By.ID, 'collection-composer-collection-module-form-search')
     _words_field_locator = (By.CSS_SELECTOR, 'input[type="text"][name="words"]')
-
     _spinner_locator = (By.ID, 'kss-spinner')
-
     _form_locator = (By.ID, 'collection_composer')
     _add_workarea_checkbox_locator = (By.CSS_SELECTOR,
                                       'input[type="checkbox"][name="selectButton"]')
