@@ -7,6 +7,8 @@ from string import digits, ascii_letters
 
 from tests import markers
 
+from selenium.common.exceptions import StaleElementReferenceException
+
 from pages.webview.home import Home
 from pages.webview.search_results import SearchResults
 from pages.webview.content import Content
@@ -24,7 +26,7 @@ def test_search_input_and_button_are_displayed(base_url, selenium):
 
     # THEN The search bar and the advanced search button is displayed
     assert browse_page.is_search_input_displayed
-    assert browse_page.is_advanced_search_button_displayed
+    assert browse_page.is_advanced_search_link_displayed
 
 
 @markers.webview
@@ -305,18 +307,27 @@ def test_advanced_search(base_url, selenium):
     # GIVEN the advanced search page
     home = Home(selenium, base_url).open()
     browse = home.header.click_search()
-    advanced_search = browse.click_advanced_search_button()
+    advanced_search = browse.click_advanced_search_link()
 
     # WHEN we select some filters and click submit
-    search_results = advanced_search.fill_in_author('OpenStax') \
-                                    .fill_in_title('Concepts of Biology') \
-                                    .select_subject('Science and Technology') \
-                                    .fill_in_keywords('Amazing Aardvark') \
-                                    .select_type('book') \
-                                    .select_language('en') \
-                                    .select_publication_date(2018) \
-                                    .select_sort_by('pubDate') \
-                                    .submit()
+    # The advanced search page sometimes replaces the search fields with new ones and erases
+    # whatever we typed, causing a StaleElementReferenceException. In this case, we retry.
+    max_tries = 2
+    for i in range(max_tries):
+        try:
+            search_results = advanced_search.fill_in_author('OpenStax') \
+                                            .fill_in_title('Concepts of Biology') \
+                                            .select_subject('Science and Technology') \
+                                            .fill_in_keywords('Amazing Aardvark') \
+                                            .select_type('book') \
+                                            .select_language('en') \
+                                            .select_publication_date(2018) \
+                                            .select_sort_by('pubDate') \
+                                            .submit()
+            break
+        except StaleElementReferenceException:
+            if i >= max_tries - 1:
+                raise
 
     # THEN search results are displayed with the chosen filters
     assert type(search_results) is SearchResults

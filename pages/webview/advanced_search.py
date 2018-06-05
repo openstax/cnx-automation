@@ -9,7 +9,7 @@ from pages.webview.base import Page
 
 class AdvancedSearch(Page):
     URL_TEMPLATE = '/search'
-    _form_locator = (By.TAG_NAME, 'form')
+    _form_locator = (By.CSS_SELECTOR, '#search div.search div.advanced form')
     _author_field_locator = (By.CSS_SELECTOR, 'input[type="text"][name="author"]')
     _title_field_locator = (By.CSS_SELECTOR, 'input[type="text"][name="title"]')
     _subject_select_locator = (By.CSS_SELECTOR, 'select[name="subject"]')
