@@ -10,6 +10,21 @@ from pages.webview.content import Content
 
 @markers.webview
 @markers.nondestructive
+def test_navs_are_displayed(base_url, selenium):
+    # GIVEN the home page
+    home = Home(selenium, base_url).open()
+
+    # WHEN a book is clicked
+    book = home.featured_books.openstax_list[0]
+    content = book.click_book_cover()
+
+    # THEN the site navbar and content nav are displayed
+    assert content.header.is_nav_displayed
+    assert content.is_content_nav_displayed
+
+
+@markers.webview
+@markers.nondestructive
 def test_share_on_top_right_corner(base_url, selenium):
     # GIVEN the home page
     home = Home(selenium, base_url).open()

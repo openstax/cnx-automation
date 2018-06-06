@@ -9,6 +9,7 @@ from regions.webview.base import Region
 
 
 class Content(Page):
+    _content_nav_locator = (By.CSS_SELECTOR, '#content div.pinnable')
     _title_locator = (By.CLASS_NAME, 'large-header')
     _ncy_locator = (By.CLASS_NAME, 'not-converted-yet')
 
@@ -17,8 +18,16 @@ class Content(Page):
         return '@' in self.driver.current_url
 
     @property
+    def content_nav(self):
+        return self.find_element(*self._content_nav_locator)
+
+    @property
+    def is_content_nav_displayed(self):
+        return self.is_element_displayed(*self._content_nav_locator)
+
+    @property
     def title(self):
-        return self.find_element(*self._title_locator).text
+        return self.book_nav.find_element(*self._title_locator).text
 
     @property
     def is_ncy_displayed(self):
