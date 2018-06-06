@@ -74,6 +74,22 @@ def test_share_links_displayed(base_url, selenium):
 
 @markers.webview
 @markers.nondestructive
+def test_content(base_url, selenium):
+    # GIVEN the home page
+    home = Home(selenium, base_url).open()
+
+    # WHEN a book is clicked
+    book = home.featured_books.openstax_list[0]
+    content_page = book.click_book_cover()
+
+    # THEN the book content is present and contains figure(s)
+    content = content_page.content
+    assert not content.is_blank
+    assert content.has_figures
+
+
+@markers.webview
+@markers.nondestructive
 def test_scroll(base_url, selenium):
     # GIVEN a book's content page
     home = Home(selenium, base_url).open()

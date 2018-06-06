@@ -39,6 +39,10 @@ class Content(Page):
         return self.is_element_displayed(*self._ncy_locator)
 
     @property
+    def content(self):
+        return self.Content(self)
+
+    @property
     def downloads_tab(self):
         return self.find_element(*self._downloads_tab_locator)
 
@@ -146,3 +150,15 @@ class Content(Page):
             @property
             def is_linkedin_share_link_displayed(self):
                 return self.is_element_displayed(*self._linkedin_share_link_locator)
+
+    class Content(Region):
+        _root_locator = (By.ID, 'content')
+        _figure_locator = (By.TAG_NAME, 'figure')
+
+        @property
+        def is_blank(self):
+            return not self.text
+
+        @property
+        def has_figures(self):
+            return self.is_element_present(*self._figure_locator)
