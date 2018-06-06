@@ -81,9 +81,10 @@ def test_scroll(base_url, selenium):
     content = book.click_book_cover()
 
     # WHEN we scroll to the bottom
-    ActionChains(selenium).move_to_element(content.downloads_tab).perform()
+    downloads_tab = content.downloads_tab
+    ActionChains(selenium).move_to_element(downloads_tab).perform()
 
-    # THEN the content nav is displayed without the site navbar or any social links
+    # THEN the content nav is displayed on top without the site navbar or any social links
     # assert not content.header.is_nav_displayed # Returns True even though site nav is offscreen
     content_nav = content.content_nav
     assert content_nav.is_displayed
@@ -102,6 +103,11 @@ def test_scroll(base_url, selenium):
     assert not share.is_twitter_share_link_displayed
     assert not share.is_google_share_link_displayed
     assert not share.is_linkedin_share_link_displayed
+
+    # Hard to check that the content_nav is on top after scrolling, but we can check
+    # that it at least has the pinned class and is above the element we scrolled to
+    assert 'pinned' in content_nav.root.get_attribute('class')
+    assert content_nav.root.location['y'] < downloads_tab.location['y']
 
 
 @markers.webview
