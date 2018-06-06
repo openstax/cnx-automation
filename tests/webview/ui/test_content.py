@@ -10,7 +10,7 @@ from pages.webview.content import Content
 
 @markers.webview
 @markers.nondestructive
-def test_navs_are_displayed(base_url, selenium):
+def test_navs_and_elements_are_displayed(base_url, selenium):
     # GIVEN the home page
     home = Home(selenium, base_url).open()
 
@@ -20,7 +20,16 @@ def test_navs_are_displayed(base_url, selenium):
 
     # THEN the site navbar and content nav are displayed
     assert content.header.is_nav_displayed
-    assert content.is_content_nav_displayed
+    content_nav = content.content_nav
+    assert content_nav.is_displayed
+    assert content_nav.is_title_displayed
+    assert content_nav.is_book_by_displayed
+    assert content_nav.is_share_displayed
+    assert content_nav.is_contents_button_displayed
+    assert content_nav.is_searchbar_displayed
+    assert content_nav.is_back_link_displayed
+    assert content_nav.is_progress_bar_displayed
+    assert content_nav.is_next_link_displayed
 
 
 @markers.webview
@@ -53,6 +62,7 @@ def test_share_links_displayed(base_url, selenium):
 
     # THEN social share links are displayed with the expected urls
     share = content.share
+    assert share.is_displayed
     assert share.is_facebook_share_link_displayed
     assert share.is_twitter_share_link_displayed
     assert share.is_google_share_link_displayed

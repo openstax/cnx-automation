@@ -17,3 +17,10 @@ class Region(pypom.Region):
             return self.root is not None
         else:
             return self.page.is_element_present(*self._root_locator)
+
+    @property
+    def is_displayed(self):
+        if self._root_locator is None:
+            return self.root is not None
+        else:
+            return self.page.is_element_displayed(*self._root_locator)
