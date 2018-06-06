@@ -30,6 +30,7 @@ def test_navs_and_elements_are_displayed(base_url, selenium):
     assert content_nav.is_back_link_displayed
     assert content_nav.is_progress_bar_displayed
     assert content_nav.is_next_link_displayed
+    assert content.is_section_title_displayed
 
 
 @markers.webview

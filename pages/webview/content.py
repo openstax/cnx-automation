@@ -10,6 +10,7 @@ from regions.webview.base import Region
 
 class Content(Page):
     _content_nav_locator = (By.CSS_SELECTOR, '#content div.pinnable')
+    _section_title_div_locator = (By.CSS_SELECTOR, '#main-content div.media-header div.title')
     _ncy_locator = (By.CLASS_NAME, 'not-converted-yet')
 
     @property
@@ -27,6 +28,10 @@ class Content(Page):
     @property
     def share(self):
         return self.content_nav.share
+
+    @property
+    def is_section_title_displayed(self):
+        return self.is_element_displayed(*self._section_title_div_locator)
 
     @property
     def is_ncy_displayed(self):
