@@ -1,8 +1,5 @@
-# This Source Code Form is subject to the terms of the Mozilla Public
-# License, v. 2.0. If a copy of the MPL was not distributed with this
-# file, You can obtain one at http://mozilla.org/MPL/2.0/.
-
 from selenium.webdriver.remote.remote_connection import (
+    RemoteConnection,
     parse,
     common_utils,
     httplib,
@@ -259,3 +256,6 @@ def __init__(self, remote_server_addr, keep_alive=False, resolve_ip=True):
         Command.MINIMIZE_WINDOW:
             ('POST', '/session/$sessionId/window/minimize')
     }
+
+
+RemoteConnection.__init__ = __init__
