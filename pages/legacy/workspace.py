@@ -8,7 +8,6 @@ from selenium.webdriver.common.by import By
 
 
 class Workspace(PrivatePage):
-
     _select_all_checkbox_locator = (By.CSS_SELECTOR, 'input[type="checkbox"][name="selectButton"]')
     _remove_button_locator = (By.CSS_SELECTOR, 'input[type="submit"][value="Remove"]')
 
