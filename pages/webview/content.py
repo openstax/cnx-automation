@@ -12,7 +12,6 @@ class Content(Page):
     _content_nav_locator = (By.CSS_SELECTOR, '#content div.pinnable')
     _section_title_div_locator = (By.CSS_SELECTOR, '#main-content div.media-header div.title')
     _ncy_locator = (By.CLASS_NAME, 'not-converted-yet')
-    _downloads_tab_locator = (By.ID, 'downloads-tab')
 
     @property
     def loaded(self):
@@ -43,8 +42,8 @@ class Content(Page):
         return self.Content(self)
 
     @property
-    def downloads_tab(self):
-        return self.find_element(*self._downloads_tab_locator)
+    def footer(self):
+        return self.Footer(self)
 
     class ContentNav(Region):
         _root_locator = (By.CSS_SELECTOR, '#content div.pinnable')
@@ -162,3 +161,26 @@ class Content(Page):
         @property
         def has_figures(self):
             return self.is_element_present(*self._figure_locator)
+
+    class Footer(Region):
+        _root_locator = (By.CSS_SELECTOR, '#main-content div.media-footer')
+        _downloads_tab_locator = (By.ID, 'downloads-tab')
+        _history_tab_locator = (By.ID, 'history-tab')
+        _attribution_tab_locator = (By.ID, 'attribution-tab')
+        _metadata_tab_locator = (By.ID, 'metadata-tab')
+
+        @property
+        def is_downloads_tab_displayed(self):
+            return self.is_element_displayed(*self._downloads_tab_locator)
+
+        @property
+        def is_history_tab_displayed(self):
+            return self.is_element_displayed(*self._history_tab_locator)
+
+        @property
+        def is_attribution_tab_displayed(self):
+            return self.is_element_displayed(*self._attribution_tab_locator)
+
+        @property
+        def is_more_information_tab_displayed(self):
+            return self.is_element_displayed(*self._metadata_tab_locator)
