@@ -22,6 +22,7 @@ DOTENV_PATH = os.path.join(
 load_dotenv(dotenv_path=DOTENV_PATH)
 
 # Patch remote_connection to workaround Connection Reset by Peer bug in the Selenium driver
+# https://github.com/SeleniumHQ/selenium/issues/5296
 patch_module('patches.remote_connection',
              'selenium.webdriver.remote.remote_connection',
              '__init__')
