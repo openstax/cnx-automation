@@ -35,6 +35,6 @@ class LoginForm(Page):
         self.username_field.send_keys(username)
         self.password_field.send_keys(password)
         self.login_form.submit()
-        from pages.legacy.my_dashboard import MyDashboard
-        my_dashboard = MyDashboard(self.driver, self.base_url, self.timeout)
-        return my_dashboard.wait_for_page_to_load()
+        from pages.legacy.my_cnx import MyCnx
+        my_cnx = MyCnx(self.driver, self.base_url, self.timeout)
+        return my_cnx.wait_for_page_to_load()
