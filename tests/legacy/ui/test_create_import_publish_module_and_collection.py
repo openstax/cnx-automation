@@ -11,14 +11,12 @@ from pages.legacy.module_edit import ModuleEdit
 from pages.legacy.collection_edit import CollectionEdit
 from pages.legacy.content_published import ContentPublished
 from pages.archive.legacy_content import LegacyContent
-from pages.legacy.workspace import Workspace
 
 from regions.legacy.collection import Collection
 from regions.legacy.module import Module
 
 
-class TestCreateImportPublishRemoveModuleAndCollection(object):
-
+class TestCreateImportPublishModuleAndCollection(object):
     _module_temp_id = None
     _module_id = None
     _collection_temp_id = None
@@ -171,23 +169,3 @@ class TestCreateImportPublishRemoveModuleAndCollection(object):
                                         legacy_id=content_published.id).open()
         assert archive_content.title == 'CNX Automation Test Collection'
         snapshot.assert_match(archive_content.stable_dict, 'legacy/col_with_m46922_1.13.snap')
-
-    @markers.legacy
-    @markers.slow
-    def test_remove_content(self, legacy_base_url, legacy_username, legacy_password, selenium):
-        # GIVEN a logged in user on their dashboard with content created in the previous test
-        cls = self.__class__
-        if (cls._module_temp_id, cls._module_id, cls._collection_temp_id) == (None, None, None):
-            pytest.skip('This test requires CNX content from previous tests that failed')
-        login_page = LoginForm(selenium, legacy_base_url).open()
-        my_cnx = login_page.login(legacy_username, legacy_password)
-
-        # WHEN the user accesses the content list and removes all content
-        workspace = my_cnx.workspace()
-        confirm_remove = workspace.select_all().remove()
-        workspace = confirm_remove.confirm()
-
-        # THEN the user is brought back to their dashboard
-        assert type(workspace) is Workspace
-        # We don't assert that the workspace is empty because that assertion could fail
-        # when multiple tests are running at the same time
