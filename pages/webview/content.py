@@ -12,6 +12,7 @@ class Content(Page):
     _content_nav_locator = (By.CSS_SELECTOR, '#content div.pinnable')
     _section_title_div_locator = (By.CSS_SELECTOR, '#main-content div.media-header div.title')
     _ncy_locator = (By.CLASS_NAME, 'not-converted-yet')
+    _downloads_tab_locator = (By.ID, 'downloads-tab')
 
     @property
     def loaded(self):
@@ -36,6 +37,10 @@ class Content(Page):
     @property
     def is_ncy_displayed(self):
         return self.is_element_displayed(*self._ncy_locator)
+
+    @property
+    def downloads_tab(self):
+        return self.find_element(*self._downloads_tab_locator)
 
     class ContentNav(Region):
         _root_locator = (By.CSS_SELECTOR, '#content div.pinnable')
