@@ -12,6 +12,10 @@ class Workspace(PrivatePage):
     _remove_button_locator = (By.CSS_SELECTOR, 'input[type="submit"][value="Remove"]')
 
     @property
+    def has_content(self):
+        return self.is_element_displayed(*self._select_all_checkbox_locator)
+
+    @property
     def select_all_checkbox(self):
         return self.find_element(*self._select_all_checkbox_locator)
 
