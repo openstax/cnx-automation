@@ -9,11 +9,16 @@ import os
 # Load environment variables from .env file
 from dotenv import load_dotenv
 
+from tests.utils import patch_module
+
 DOTENV_PATH = os.path.join(
   os.path.realpath(os.path.dirname(__file__)), '../.env')
 load_dotenv(dotenv_path=DOTENV_PATH)
 
-from patches import connection_reset_by_peer
+# Patch remote_connection to workaround Connection Reset by Peer bug in the Selenium driver
+patch_module('patches.remote_connection',
+             'selenium.webdriver.remote.remote_connection',
+             '__init__')
 
 # Import fixtures from our package so pytest can detect them
 from fixtures.base import chrome_options, selenium # flake8: noqa
