@@ -49,3 +49,9 @@ class Contact(AboutPage):
         @property
         def general_questions_header(self):
             return self.find_element(*self._general_questions_header_locator)
+
+        @property
+        def loaded(self):
+            # super().loaded checks that the Region root element is present
+            # is_map_displayed waits until the map has at least started loading
+            return super().loaded and self.is_map_displayed
