@@ -10,6 +10,10 @@ from selenium.common.exceptions import StaleElementReferenceException
 class Region(pypom.Region):
 
     @property
+    def text(self):
+        return self.root.text
+
+    @property
     def unloaded(self):
         """Can be overridden in subclasses."""
         return not self.loaded

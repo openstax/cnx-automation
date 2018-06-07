@@ -11,9 +11,6 @@ class AddModules(Region):
     _search_form_locator = (By.ID, 'collection-composer-collection-module-form-search')
     _words_field_locator = (By.CSS_SELECTOR, 'input[type="text"][name="words"]')
     _spinner_locator = (By.ID, 'kss-spinner')
-    _form_locator = (By.ID, 'collection_composer')
-    _add_workarea_checkbox_locator = (By.CSS_SELECTOR,
-                                      'input[type="checkbox"][name="selectButton"]')
 
     def __init__(self, collection, root=None):
         self.collection = collection
@@ -26,14 +23,6 @@ class AddModules(Region):
     @property
     def words_field(self):
         return self.search_form.find_element(*self._words_field_locator)
-
-    @property
-    def form(self):
-        return self.find_element(*self._form_locator)
-
-    @property
-    def add_workarea_checkbox(self):
-        return self.form.find_element(*self._add_workarea_checkbox_locator)
 
     # We need this check because this region is actually loaded via javascript
     @property
@@ -53,17 +42,6 @@ class AddModules(Region):
 
     def submit_search(self):
         self.search_form.submit()
-        return self.wait_for_region_to_load()
-
-    def add_workarea(self):
-        self.add_workarea_checkbox.click()
-        return self
-
-    # Returns the last module added
-    def submit(self):
-        self.form.submit()
-        # Wait for the modal to close
-        self.wait_for_region_to_unload()
-        from regions.legacy.module import Module
-        module = Module(self.page, self.collection.content_nodes[-1])
-        return module.wait_for_region_to_load()
+        from regions.legacy.add_modules_with_search_results import AddModulesWithSearchResults
+        search_results = AddModulesWithSearchResults(self.collection, self.root)
+        return search_results.wait_for_region_to_load()
