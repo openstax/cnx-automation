@@ -8,7 +8,7 @@ import pytest
 
 from tests.utils import gen_from_file
 
-DATA_DIR = os.path.join(os.path.realpath(os.path.dirname(__file__)), 'data')
+DATA_DIR = os.path.join(os.path.realpath(os.path.dirname(__file__)), 'data', 'webview')
 
 __all__ = ['content_url', 'american_gov_url']
 
