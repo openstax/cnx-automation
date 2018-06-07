@@ -73,7 +73,7 @@ class Content(Page):
     def footer_nav(self):
         return self.footer.nav
 
-    def wait_for_nav(self, current_url):
+    def wait_for_url_change(self, current_url):
         self.wait.until(lambda _: self.driver.current_url != current_url)
         return self.wait_for_page_to_load()
 
@@ -204,12 +204,12 @@ class Content(Page):
             def click_back_link(self):
                 current_url = self.driver.current_url
                 self.back_link.click()
-                return self.page.wait_for_nav(current_url)
+                return self.page.wait_for_url_change(current_url)
 
             def click_next_link(self):
                 current_url = self.driver.current_url
                 self.next_link.click()
-                return self.page.wait_for_nav(current_url)
+                return self.page.wait_for_url_change(current_url)
 
             class TableOfContents(Region):
                 _root_locator = (By.CSS_SELECTOR,
@@ -250,7 +250,7 @@ class Content(Page):
                         def click(self):
                             current_url = self.driver.current_url
                             self.root.click()
-                            return self.page.wait_for_nav(current_url)
+                            return self.page.wait_for_url_change(current_url)
 
     class Content(Region):
         _root_locator = (By.ID, 'content')
@@ -294,11 +294,16 @@ class Content(Page):
         class FooterNav(Region):
             _root_locator = (By.CSS_SELECTOR, '#main-content div.footer-nav')
             _back_link_locator = (By.CSS_SELECTOR, 'a.nav.back')
+            _back_to_top_link_locator = (By.CSS_SELECTOR, 'div.back-to-top a')
             _next_link_locator = (By.CSS_SELECTOR, 'a.nav.next')
 
             @property
             def back_link(self):
                 return self.find_element(*self._back_link_locator)
+
+            @property
+            def back_to_top_link(self):
+                return self.find_element(*self._back_to_top_link_locator)
 
             @property
             def next_link(self):
@@ -307,9 +312,13 @@ class Content(Page):
             def click_back_link(self):
                 current_url = self.driver.current_url
                 self.back_link.click()
-                return self.page.wait_for_nav(current_url)
+                return self.page.wait_for_url_change(current_url)
+
+            def click_back_to_top_link(self):
+                self.back_to_top_link.click()
+                return self.page.wait_for_page_to_load()
 
             def click_next_link(self):
                 current_url = self.driver.current_url
                 self.next_link.click()
-                return self.page.wait_for_nav(current_url)
+                return self.page.wait_for_url_change(current_url)
