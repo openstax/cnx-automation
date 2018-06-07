@@ -38,6 +38,45 @@ def test_navs_and_elements_are_displayed(base_url, selenium):
 
 @markers.webview
 @markers.nondestructive
+def test_toc(base_url, selenium):
+    # GIVEN a book's content page
+    home = Home(selenium, base_url).open()
+    book = home.featured_books.openstax_list[0]
+    content = book.click_book_cover()
+
+    # WHEN the contents button is clicked
+    toc = content.header_nav.click_contents_button()
+
+    # THEN the table of contents is displayed
+    assert toc.is_displayed
+    assert toc.has_chapters
+
+
+@markers.webview
+@markers.nondestructive
+def test_toc_nav(base_url, selenium):
+    # GIVEN a book's table of contents
+    home = Home(selenium, base_url).open()
+    book = home.featured_books.openstax_list[0]
+    content = book.click_book_cover()
+    toc = content.header_nav.click_contents_button()
+
+    # WHEN a chapter is expanded and we navigate to one of its pages
+    chapter = toc.chapters[1]
+    chapter = chapter.click()
+    page = chapter.pages[1]
+    chapter_section = page.chapter_section
+    title = page.title
+    content = page.click()
+
+    # THEN we end up at the correct page
+    assert type(content) is Content
+    assert content.chapter_section == chapter_section
+    assert content.section_title == title
+
+
+@markers.webview
+@markers.nondestructive
 def test_share_on_top_right_corner(base_url, selenium):
     # GIVEN the home page
     home = Home(selenium, base_url).open()

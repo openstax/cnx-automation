@@ -8,6 +8,7 @@ from selenium.webdriver.common.by import By
 
 from pages.webview.base import Page
 from regions.webview.base import Region
+from regions.webview.content_item import ContentItem
 
 
 class Content(Page):
@@ -51,6 +52,10 @@ class Content(Page):
     @property
     def chapter_section(self):
         return self.chapter_section_span.text
+
+    @property
+    def section_title(self):
+        return self.section_title_div.text.replace(self.chapter_section, '').strip()
 
     @property
     def is_ncy_displayed(self):
@@ -103,10 +108,6 @@ class Content(Page):
 
         class Share(Region):
             _root_locator = (By.CSS_SELECTOR, '#content div.pinnable div.share')
-
-            @property
-            def current_url(self):
-                return self.driver.current_url
 
             @property
             def normalized_title(self):
@@ -185,12 +186,20 @@ class Content(Page):
                 return self.is_element_displayed(*self._next_link_locator)
 
             @property
+            def contents_button(self):
+                return self.find_element(*self._contents_button_locator)
+
+            @property
             def back_link(self):
                 return self.find_element(*self._back_link_locator)
 
             @property
             def next_link(self):
                 return self.find_element(*self._next_link_locator)
+
+            def click_contents_button(self):
+                self.contents_button.click()
+                return self.TableOfContents(self.page).wait_for_region_to_load()
 
             def click_back_link(self):
                 current_url = self.driver.current_url
@@ -201,6 +210,47 @@ class Content(Page):
                 current_url = self.driver.current_url
                 self.next_link.click()
                 return self.page.wait_for_nav(current_url)
+
+            class TableOfContents(Region):
+                _root_locator = (By.CSS_SELECTOR,
+                                 '#content div.sidebar div.table-of-contents div.toc')
+                _chapter_div_locator = (By.CSS_SELECTOR, 'ul li div[data-expandable="true"]')
+
+                @property
+                def has_chapters(self):
+                    return self.is_element_displayed(*self._chapter_div_locator)
+
+                @property
+                def chapters(self):
+                    return [self.ContentChapter(self.page, self.root, index) for index
+                            in range(len(self.find_elements(*self._chapter_div_locator)))]
+
+                class ContentChapter(ContentItem):
+                    _root_locator_template = ("(.//ul//li[descendant::div"
+                                              "[@data-expandable='true']])[{index}]")
+                    _page_link_locator = (By.CSS_SELECTOR, 'ul li a')
+
+                    @property
+                    def has_pages(self):
+                        return self.is_element_displayed(*self._page_link_locator)
+
+                    @property
+                    def pages(self):
+                        return [self.ContentPage(self.page, self.root, index) for index
+                                in range(len(self.find_elements(*self._page_link_locator)))]
+
+                    def click(self):
+                        self.root.click()
+                        chapter = self.__class__(self.page, self.parent_root, self.index)
+                        return chapter.wait_for_region_to_load()
+
+                    class ContentPage(ContentItem):
+                        _root_locator_template = "(.//ul[@data-expanded='true']//li//a)[{index}]"
+
+                        def click(self):
+                            current_url = self.driver.current_url
+                            self.root.click()
+                            return self.page.wait_for_nav(current_url)
 
     class Content(Region):
         _root_locator = (By.ID, 'content')
