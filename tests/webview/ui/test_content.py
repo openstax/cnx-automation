@@ -38,7 +38,7 @@ def test_navs_and_elements_are_displayed(base_url, selenium):
 
 @markers.webview
 @markers.nondestructive
-def test_toc(base_url, selenium):
+def test_toc_displayed(base_url, selenium):
     # GIVEN a book's content page
     home = Home(selenium, base_url).open()
     book = home.featured_books.openstax_list[0]
@@ -55,7 +55,7 @@ def test_toc(base_url, selenium):
 
 @markers.webview
 @markers.nondestructive
-def test_toc_nav(base_url, selenium):
+def test_toc_navigation(base_url, selenium):
     # GIVEN a book's table of contents
     home = Home(selenium, base_url).open()
     book = home.featured_books.openstax_list[0]
@@ -225,7 +225,7 @@ def test_back_to_top(base_url, selenium):
 
 @markers.webview
 @markers.nondestructive
-def test_nav(base_url, selenium):
+def test_navigation(base_url, selenium):
     # GIVEN a book's content page
     home = Home(selenium, base_url).open()
     book = home.featured_books.openstax_list[0]
