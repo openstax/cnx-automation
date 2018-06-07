@@ -49,7 +49,8 @@ def test_toc(base_url, selenium):
 
     # THEN the table of contents is displayed
     assert toc.is_displayed
-    assert toc.has_chapters
+    assert toc.number_of_chapters > 0
+    assert toc.number_of_pages > 0
 
 
 @markers.webview
@@ -229,27 +230,37 @@ def test_nav(base_url, selenium):
     home = Home(selenium, base_url).open()
     book = home.featured_books.openstax_list[0]
     content = book.click_book_cover()
+    header_nav = content.header_nav
+    toc = header_nav.click_contents_button()
+    num_pages = toc.number_of_pages
+
     assert type(content) == Content
     assert content.chapter_section == '1'
+    # Preface is skipped by default
+    assert header_nav.progress_bar_fraction_is(2/num_pages)
 
     # WHEN we navigate next twice and then back twice using the header and footer controls
     content = content.header_nav.click_next_link()
     assert type(content) == Content
     assert content.chapter_section == '1.1'
+    assert header_nav.progress_bar_fraction_is(3/num_pages)
 
     content = content.footer_nav.click_next_link()
     assert type(content) == Content
     assert content.chapter_section == '1.2'
+    assert header_nav.progress_bar_fraction_is(4/num_pages)
 
     content = content.footer_nav.click_back_link()
     assert type(content) == Content
     assert content.chapter_section == '1.1'
+    assert header_nav.progress_bar_fraction_is(3/num_pages)
 
     content = content.header_nav.click_back_link()
 
     # THEN we arrive back at the initial page
     assert type(content) == Content
     assert content.chapter_section == '1'
+    assert header_nav.progress_bar_fraction_is(2/num_pages)
 
 
 @markers.webview

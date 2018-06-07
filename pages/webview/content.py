@@ -158,12 +158,12 @@ class Content(Page):
 
         class HeaderNav(Region):
             _root_locator = (By.CSS_SELECTOR, 'div.media-nav')
-            _contents_button_locator = (By.CSS_SELECTOR,
-                                        'div.media-nav button.toggle.btn[role="button"]')
-            _searchbar_locator = (By.CSS_SELECTOR, 'div.media-nav div.searchbar')
-            _back_link_locator = (By.CSS_SELECTOR, 'div.media-nav div.media-navbar a.nav.back')
-            _progress_bar_locator = (By.CSS_SELECTOR, 'div.media-nav div.media-navbar div.progress')
-            _next_link_locator = (By.CSS_SELECTOR, 'div.media-nav div.media-navbar a.nav.next')
+            _contents_button_locator = (By.CSS_SELECTOR, 'button.toggle.btn[role="button"]')
+            _searchbar_locator = (By.CSS_SELECTOR, 'div.searchbar')
+            _back_link_locator = (By.CSS_SELECTOR, 'div.media-navbar a.nav.back')
+            _progress_bar_locator = (By.CSS_SELECTOR, 'div.media-navbar div.progress')
+            _secondary_progress_bar_locator = (By.CSS_SELECTOR, 'div.secondary.progress-bar')
+            _next_link_locator = (By.CSS_SELECTOR, 'div.media-navbar a.nav.next')
 
             @property
             def is_contents_button_displayed(self):
@@ -194,6 +194,22 @@ class Content(Page):
                 return self.find_element(*self._back_link_locator)
 
             @property
+            def progress_bar(self):
+                return self.find_element(*self._progress_bar_locator)
+
+            @property
+            def secondary_progress_bar(self):
+                return self.progress_bar.find_element(*self._secondary_progress_bar_locator)
+
+            def width_as_float(self, element):
+                return float(element.value_of_css_property('width').replace('px', ''))
+
+            @property
+            def progress_bar_fraction(self):
+                return (self.width_as_float(self.secondary_progress_bar) /
+                        self.width_as_float(self.progress_bar))
+
+            @property
             def next_link(self):
                 return self.find_element(*self._next_link_locator)
 
@@ -206,6 +222,9 @@ class Content(Page):
                 self.back_link.click()
                 return self.page.wait_for_url_change(current_url)
 
+            def progress_bar_fraction_is(self, value):
+                return abs(self.progress_bar_fraction - value) < 1e-3
+
             def click_next_link(self):
                 current_url = self.driver.current_url
                 self.next_link.click()
@@ -215,10 +234,15 @@ class Content(Page):
                 _root_locator = (By.CSS_SELECTOR,
                                  '#content div.sidebar div.table-of-contents div.toc')
                 _chapter_div_locator = (By.CSS_SELECTOR, 'ul li div[data-expandable="true"]')
+                _page_link_locator = (By.CSS_SELECTOR, 'ul li a')
 
                 @property
-                def has_chapters(self):
-                    return self.is_element_displayed(*self._chapter_div_locator)
+                def number_of_chapters(self):
+                    return len(self.find_elements(*self._chapter_div_locator))
+
+                @property
+                def number_of_pages(self):
+                    return len(self.find_elements(*self._page_link_locator))
 
                 @property
                 def chapters(self):
