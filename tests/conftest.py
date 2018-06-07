@@ -7,6 +7,10 @@ import pytest
 
 from dotenv import load_dotenv
 
+# Patch remote_connection to workaround Connection Reset by Peer bug in the Selenium driver
+# https://github.com/SeleniumHQ/selenium/issues/5296
+from patches import connection_reset_by_peer # noqa: F401
+
 # Import fixtures
 pytest_plugins = (
     'fixtures.base',
@@ -15,10 +19,6 @@ pytest_plugins = (
     'fixtures.webview',
     'fixtures.legacy',
 )
-
-# Patch remote_connection to workaround Connection Reset by Peer bug in the Selenium driver
-# https://github.com/SeleniumHQ/selenium/issues/5296
-from patches import connection_reset_by_peer
 
 # Load environment variables from .env file
 DOTENV_PATH = os.path.join(
