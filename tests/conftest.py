@@ -9,7 +9,7 @@ from dotenv import load_dotenv
 
 # Patch remote_connection to workaround Connection Reset by Peer bug in the Selenium driver
 # https://github.com/SeleniumHQ/selenium/issues/5296
-from patches import connection_reset_by_peer # noqa: F401
+from patches import connection_reset_by_peer  # noqa: F401
 
 # Import fixtures
 pytest_plugins = (
