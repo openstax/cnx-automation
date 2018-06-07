@@ -2,6 +2,8 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
+import re
+
 from selenium.webdriver.common.by import By
 
 from pages.webview.base import Page
@@ -9,29 +11,46 @@ from regions.webview.base import Region
 
 
 class Content(Page):
-    _content_nav_locator = (By.CSS_SELECTOR, '#content div.pinnable')
+    _url_regex = re.compile('@[^:]+$')
     _section_title_div_locator = (By.CSS_SELECTOR, '#main-content div.media-header div.title')
+    _chapter_section_span_locator = (By.CSS_SELECTOR, 'span.title-chapter')
     _ncy_locator = (By.CLASS_NAME, 'not-converted-yet')
 
     @property
     def loaded(self):
-        return '@' in self.driver.current_url
+        return self._url_regex.search(self.driver.current_url)
 
     @property
-    def content_nav(self):
-        return self.ContentNav(self)
+    def content_header(self):
+        return self.ContentHeader(self)
+
+    @property
+    def header_nav(self):
+        return self.content_header.nav
 
     @property
     def title(self):
-        return self.content_nav.title
+        return self.content_header.title
 
     @property
     def share(self):
-        return self.content_nav.share
+        return self.content_header.share
 
     @property
     def is_section_title_displayed(self):
         return self.is_element_displayed(*self._section_title_div_locator)
+
+    @property
+    def section_title_div(self):
+        return self.find_element(*self._section_title_div_locator)
+
+    @property
+    def chapter_section_span(self):
+        return self.section_title_div.find_element(*self._chapter_section_span_locator)
+
+    @property
+    def chapter_section(self):
+        return self.chapter_section_span.text
 
     @property
     def is_ncy_displayed(self):
@@ -45,16 +64,18 @@ class Content(Page):
     def footer(self):
         return self.Footer(self)
 
-    class ContentNav(Region):
+    @property
+    def footer_nav(self):
+        return self.footer.nav
+
+    def wait_for_nav(self, current_url):
+        self.wait.until(lambda _: self.driver.current_url != current_url)
+        return self.wait_for_page_to_load()
+
+    class ContentHeader(Region):
         _root_locator = (By.CSS_SELECTOR, '#content div.pinnable')
         _title_locator = (By.CSS_SELECTOR, 'div.title .large-header')
         _book_by_locator = (By.CSS_SELECTOR, 'div.info span[data-l10n-id="textbook-view-book-by"]')
-        _contents_button_locator = (By.CSS_SELECTOR,
-                                    'div.media-nav button.toggle.btn[role="button"]')
-        _searchbar_locator = (By.CSS_SELECTOR, 'div.media-nav div.searchbar')
-        _back_link_locator = (By.CSS_SELECTOR, 'div.media-nav div.media-navbar a.nav.back')
-        _progress_bar_locator = (By.CSS_SELECTOR, 'div.media-nav div.media-navbar div.progress')
-        _next_link_locator = (By.CSS_SELECTOR, 'div.media-nav div.media-navbar a.nav.next')
 
         @property
         def is_title_displayed(self):
@@ -73,28 +94,12 @@ class Content(Page):
             return self.Share(self.page)
 
         @property
+        def nav(self):
+            return self.HeaderNav(self.page)
+
+        @property
         def is_share_displayed(self):
             return self.share.is_displayed
-
-        @property
-        def is_contents_button_displayed(self):
-            return self.is_element_displayed(*self._contents_button_locator)
-
-        @property
-        def is_searchbar_displayed(self):
-            return self.is_element_displayed(*self._searchbar_locator)
-
-        @property
-        def is_back_link_displayed(self):
-            return self.is_element_displayed(*self._back_link_locator)
-
-        @property
-        def is_progress_bar_displayed(self):
-            return self.is_element_displayed(*self._progress_bar_locator)
-
-        @property
-        def is_next_link_displayed(self):
-            return self.is_element_displayed(*self._next_link_locator)
 
         class Share(Region):
             _root_locator = (By.CSS_SELECTOR, '#content div.pinnable div.share')
@@ -150,6 +155,53 @@ class Content(Page):
             def is_linkedin_share_link_displayed(self):
                 return self.is_element_displayed(*self._linkedin_share_link_locator)
 
+        class HeaderNav(Region):
+            _root_locator = (By.CSS_SELECTOR, 'div.media-nav')
+            _contents_button_locator = (By.CSS_SELECTOR,
+                                        'div.media-nav button.toggle.btn[role="button"]')
+            _searchbar_locator = (By.CSS_SELECTOR, 'div.media-nav div.searchbar')
+            _back_link_locator = (By.CSS_SELECTOR, 'div.media-nav div.media-navbar a.nav.back')
+            _progress_bar_locator = (By.CSS_SELECTOR, 'div.media-nav div.media-navbar div.progress')
+            _next_link_locator = (By.CSS_SELECTOR, 'div.media-nav div.media-navbar a.nav.next')
+
+            @property
+            def is_contents_button_displayed(self):
+                return self.is_element_displayed(*self._contents_button_locator)
+
+            @property
+            def is_searchbar_displayed(self):
+                return self.is_element_displayed(*self._searchbar_locator)
+
+            @property
+            def is_back_link_displayed(self):
+                return self.is_element_displayed(*self._back_link_locator)
+
+            @property
+            def is_progress_bar_displayed(self):
+                return self.is_element_displayed(*self._progress_bar_locator)
+
+            @property
+            def is_next_link_displayed(self):
+                return self.is_element_displayed(*self._next_link_locator)
+
+            @property
+            def back_link(self):
+                return self.find_element(*self._back_link_locator)
+
+            @property
+            def next_link(self):
+                return self.find_element(*self._next_link_locator)
+
+            def click_back_link(self):
+                current_url = self.driver.current_url
+                self.back_link.click()
+                return self.page.wait_for_nav(current_url)
+
+            def click_next_link(self):
+                current_url = self.driver.current_url
+                self.next_link.click()
+                return self.page.wait_for_nav(current_url)
+
     class Content(Region):
         _root_locator = (By.ID, 'content')
         _figure_locator = (By.TAG_NAME, 'figure')
@@ -184,3 +236,30 @@ class Content(Page):
         @property
         def is_more_information_tab_displayed(self):
             return self.is_element_displayed(*self._metadata_tab_locator)
+
+        @property
+        def nav(self):
+            return self.FooterNav(self.page)
+
+        class FooterNav(Region):
+            _root_locator = (By.CSS_SELECTOR, '#main-content div.footer-nav')
+            _back_link_locator = (By.CSS_SELECTOR, 'a.nav.back')
+            _next_link_locator = (By.CSS_SELECTOR, 'a.nav.next')
+
+            @property
+            def back_link(self):
+                return self.find_element(*self._back_link_locator)
+
+            @property
+            def next_link(self):
+                return self.find_element(*self._next_link_locator)
+
+            def click_back_link(self):
+                current_url = self.driver.current_url
+                self.back_link.click()
+                return self.page.wait_for_nav(current_url)
+
+            def click_next_link(self):
+                current_url = self.driver.current_url
+                self.next_link.click()
+                return self.page.wait_for_nav(current_url)
