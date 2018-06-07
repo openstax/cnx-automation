@@ -47,13 +47,27 @@ class AddModules(Region):
         return (not self.is_element_displayed(*self._search_form_locator) and
                 not self.is_element_displayed(*self._spinner_locator))
 
+    # This is a separate `loaded` method for when performing the search (more fields show up)
+    # Necessary because without waiting for the new elements we were getting StaleElementErrors
+    @property
+    def search_loaded(self):
+        return ((self.is_element_displayed(*self._add_workarea_checkbox_locator) or
+                 'No results matched your query' in self.text) and
+                self.is_element_displayed(*self._search_form_locator) and
+                not self.is_element_displayed(*self._spinner_locator))
+
+    def wait_for_search_to_load(self):
+        """Wait for the search resuls to load."""
+        self.wait.until(lambda _: self.search_loaded)
+        return self
+
     def fill_in_search_words(self, words):
         self.words_field.send_keys(words)
         return self
 
     def submit_search(self):
         self.search_form.submit()
-        return self.wait_for_region_to_load()
+        return self.wait_for_search_to_load()
 
     def add_workarea(self):
         self.add_workarea_checkbox.click()
