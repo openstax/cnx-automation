@@ -6,7 +6,7 @@ import os
 
 import pytest
 
-LEGACY_DATA_DIR = os.path.join(os.path.realpath(os.path.dirname(__file__)), 'data/legacy')
+LEGACY_DATA_DIR = os.path.join(os.path.realpath(os.path.dirname(__file__)), 'data', 'legacy')
 
 __all__ = ['legacy_base_url', 'legacy_username', 'legacy_password', 'm46922_1_13_cnxml_filepath']
 
