@@ -38,7 +38,7 @@ class MetadataEdit(PrivatePage):
         self.title_field.send_keys(title)
         return self
 
-    def submit(self, max_retries=3):
+    def submit(self):
         is_collection = self.is_collection
 
         # Unlike the other forms, we actually have to click the submit button here
