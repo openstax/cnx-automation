@@ -7,13 +7,14 @@ import pytest
 
 from dotenv import load_dotenv
 
-# Import fixtures from our package so pytest can detect them
-from fixtures.base import chrome_options, selenium # flake8: noqa
-from fixtures.snapshot import snapshot
-from fixtures.archive import archive_base_url
-from fixtures.webview import american_gov_url, content_url
-from fixtures.legacy import (legacy_base_url, legacy_username, legacy_password,
-                             m46922_1_13_cnxml_filepath)
+# Import fixtures
+pytest_plugins = (
+    'fixtures.base',
+    'fixtures.snapshot',
+    'fixtures.archive',
+    'fixtures.webview',
+    'fixtures.legacy',
+)
 
 # Patch remote_connection to workaround Connection Reset by Peer bug in the Selenium driver
 # https://github.com/SeleniumHQ/selenium/issues/5296
