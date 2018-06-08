@@ -2,6 +2,8 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
+import pytest
+
 from pages.legacy.base import PrivatePage
 
 from selenium.webdriver.common.by import By
@@ -25,6 +27,9 @@ class ConfirmPublish(PrivatePage):
 
             if not content_published.has_site_error:
                 break
+            elif i >= max_tries - 1:
+                pytest.fail('Maximum number of tries exceeded for SiteError'
+                            ' ({tries})'.format(tries=max_tries))
 
             self.driver.back()
             self.wait_for_page_to_load()

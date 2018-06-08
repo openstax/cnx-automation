@@ -4,7 +4,10 @@
 
 import re
 
+from functools import wraps
+
 from selenium.webdriver.common.by import By
+from selenium.common.exceptions import StaleElementReferenceException
 
 from pages.webview.base import Page
 from regions.webview.base import Region
@@ -38,23 +41,52 @@ class Content(Page):
     def share(self):
         return self.content_header.share
 
+    # Retries StaleElementReferenceExceptions up to n-1 times (default n=3)
+    # Decorator with optional argument based on: https://stackoverflow.com/a/3931903
+    def retry_stale_element_reference_exception(method_or_max_tries):
+        def wrap(method):
+            @wraps(method)
+            def wrapper(*args, **kwargs):
+                for i in range(max_tries):
+                    try:
+                        return method(*args, **kwargs)
+                    except StaleElementReferenceException:
+                        if i >= max_tries - 1:
+                            raise
+            return wrapper
+
+        if callable(method_or_max_tries):
+            max_tries = 3
+            return wrap(method_or_max_tries)
+        else:
+            max_tries = method_or_max_tries
+            return wrap
+
+    # The media-header div can be reloaded at seemingly random times
+    # Any method that accesses an element inside this header
+    # must retry StaleElementReferenceExceptions using the above decorator
     @property
+    @retry_stale_element_reference_exception
     def is_section_title_displayed(self):
         return self.is_element_displayed(*self._section_title_div_locator)
 
     @property
+    @retry_stale_element_reference_exception
     def section_title_div(self):
         return self.find_element(*self._section_title_div_locator)
 
     @property
+    @retry_stale_element_reference_exception
     def chapter_section_span(self):
         return self.section_title_div.find_element(*self._chapter_section_span_locator)
 
     @property
+    @retry_stale_element_reference_exception
     def chapter_section(self):
         return self.chapter_section_span.text
 
     @property
+    @retry_stale_element_reference_exception
     def section_title(self):
         return self.section_title_div.text.replace(self.chapter_section, '').strip()
 
