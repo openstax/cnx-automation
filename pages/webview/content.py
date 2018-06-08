@@ -8,6 +8,7 @@ from selenium.webdriver.common.by import By
 
 from tests.utils import retry_stale_element_reference_exception
 
+from decorators.exception_handling import retry_stale_element_reference_exception
 from pages.webview.base import Page
 from regions.webview.base import Region
 from regions.webview.content_item import ContentItem
@@ -18,6 +19,10 @@ class Content(Page):
     _url_regex = re.compile('@[^:]+/')
     _section_title_div_locator = (By.CSS_SELECTOR, '#main-content div.media-header div.title')
     _chapter_section_span_locator = (By.CSS_SELECTOR, 'span.title-chapter')
+    _get_this_book_button_locator = (
+        By.CSS_SELECTOR, ('#main-content div.media-header div.info div.downloads'
+                          ' button[type="submit"][data-l10n-id="textbook-view-btn-get-this-book"]')
+    )
     _ncy_locator = (By.CLASS_NAME, 'not-converted-yet')
 
     @property
@@ -69,6 +74,11 @@ class Content(Page):
         return self.section_title_div.text.replace(self.chapter_section, '').strip()
 
     @property
+    @retry_stale_element_reference_exception
+    def get_this_book_button(self):
+        return self.find_element(*self._get_this_book_button_locator)
+
+    @property
     def is_ncy_displayed(self):
         return self.is_element_displayed(*self._ncy_locator)
 
@@ -87,6 +97,11 @@ class Content(Page):
     def wait_for_url_to_change(self, current_url):
         self.wait.until(lambda _: self.driver.current_url != current_url)
         return self.wait_for_page_to_load()
+
+    @retry_stale_element_reference_exception
+    def click_get_this_book_button(self):
+        self.get_this_book_button.click()
+        return self.GetThisBook(self).wait_for_region_to_display()
 
     class ContentHeader(Region):
         _root_locator = (By.CSS_SELECTOR, '#content div.pinnable')
@@ -286,6 +301,71 @@ class Content(Page):
                             current_url = self.driver.current_url
                             self.root.click()
                             return self.page.wait_for_url_to_change(current_url)
+
+    # This entire region can be overwritten at any time,
+    # so ALL methods that access the DOM must retry StaleElementReferenceExceptions
+    class GetThisBook(Region):
+        _root_locator = (By.CSS_SELECTOR, 'div.popover div.popover-content div.book-popover')
+        _pdf_link_locator = (
+            By.XPATH, ".//div[contains(@class, 'download-book')]//ul//li//a[text()='PDF']")
+        _epub_link_locator = (
+            By.XPATH, ".//div[contains(@class, 'download-book')]//ul//li//a[text()='EPUB']")
+        _offline_zip_link_locator = (
+            By.XPATH, ".//div[contains(@class, 'download-book')]//ul//li//a[text()='Offline ZIP']")
+        _order_printed_book_link_locator = (
+            By.CSS_SELECTOR, 'a.order[data-l10n-id="textbook-view-book-order-book"]')
+
+        @property
+        @retry_stale_element_reference_exception
+        def root(self):
+            return super().root
+
+        @property
+        @retry_stale_element_reference_exception
+        def text(self):
+            return super().text
+
+        @property
+        @retry_stale_element_reference_exception
+        def loaded(self):
+            return super().loaded
+
+        @property
+        @retry_stale_element_reference_exception
+        def is_displayed(self):
+            return super().is_displayed
+
+        @retry_stale_element_reference_exception
+        def find_element(self, strategy, locator):
+            return super().find_element(strategy, locator)
+
+        @retry_stale_element_reference_exception
+        def find_elements(self, strategy, locator):
+            return super().find_elements(strategy, locator)
+
+        @retry_stale_element_reference_exception
+        def is_element_present(self, strategy, locator):
+            return super().is_element_present(strategy, locator)
+
+        @retry_stale_element_reference_exception
+        def is_element_displayed(self, strategy, locator):
+            return super().is_element_displayed(strategy, locator)
+
+        @property
+        def has_pdf_link(self):
+            return self.is_element_displayed(*self._pdf_link_locator)
+
+        @property
+        def has_epub_link(self):
+            return self.dis_element_displayed(*self._epub_link_locator)
+
+        @property
+        def has_offline_zip_link(self):
+            return self.is_element_displayed(*self._offline_zip_link_locator)
+
+        @property
+        def has_order_printed_book_link(self):
+            return self.is_element_displayed(*self._order_printed_book_link_locator)
 
     class Content(Region):
         _root_locator = (By.ID, 'content')

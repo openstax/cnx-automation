@@ -115,6 +115,25 @@ def test_share_links_displayed(base_url, selenium):
 
 @markers.webview
 @markers.nondestructive
+def test_get_this_book(base_url, selenium):
+    # GIVEN a book's content page
+    home = Home(selenium, base_url).open()
+    book = home.featured_books.openstax_list[0]
+    content = book.click_book_cover()
+
+    # WHEN we click the "Get This Book!" button
+    get_this_book = content.click_get_this_book_button()
+
+    # THEN links to download the pdf, epub and offline zip versions
+    # and to order the printed book are displayed
+    assert get_this_book.has_pdf_link
+    assert get_this_book.has_epub_link
+    assert get_this_book.has_offline_zip_link
+    assert get_this_book.has_order_printed_book_link
+
+
+@markers.webview
+@markers.nondestructive
 def test_content(base_url, selenium):
     # GIVEN the home page
     home = Home(selenium, base_url).open()
