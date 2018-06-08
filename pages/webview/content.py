@@ -75,6 +75,11 @@ class Content(Page):
 
     @property
     @retry_stale_element_reference_exception
+    def is_get_this_book_button_displayed(self):
+        return self.is_element_displayed(*self._get_this_book_button_locator)
+
+    @property
+    @retry_stale_element_reference_exception
     def get_this_book_button(self):
         return self.find_element(*self._get_this_book_button_locator)
 
@@ -352,19 +357,19 @@ class Content(Page):
             return super().is_element_displayed(strategy, locator)
 
         @property
-        def has_pdf_link(self):
+        def is_pdf_link_displayed(self):
             return self.is_element_displayed(*self._pdf_link_locator)
 
         @property
-        def has_epub_link(self):
-            return self.dis_element_displayed(*self._epub_link_locator)
+        def is_epub_link_displayed(self):
+            return self.is_element_displayed(*self._epub_link_locator)
 
         @property
-        def has_offline_zip_link(self):
+        def is_offline_zip_link_displayed(self):
             return self.is_element_displayed(*self._offline_zip_link_locator)
 
         @property
-        def has_order_printed_book_link(self):
+        def is_order_printed_book_link_displayed(self):
             return self.is_element_displayed(*self._order_printed_book_link_locator)
 
     class Content(Region):
@@ -391,20 +396,70 @@ class Content(Page):
             return self.is_element_displayed(*self._downloads_tab_locator)
 
         @property
+        def downloads_tab(self):
+            return self.find_element(*self._downloads_tab_locator)
+
+        @property
         def is_history_tab_displayed(self):
             return self.is_element_displayed(*self._history_tab_locator)
+
+        @property
+        def history_tab(self):
+            return self.find_element(*self._history_tab_locator)
 
         @property
         def is_attribution_tab_displayed(self):
             return self.is_element_displayed(*self._attribution_tab_locator)
 
         @property
+        def attribution_tab(self):
+            return self.find_element(*self._attribution_tab_locator)
+
+        @property
         def is_more_information_tab_displayed(self):
             return self.is_element_displayed(*self._metadata_tab_locator)
 
         @property
+        def more_information_tab(self):
+            return self.find_element(*self._metadata_tab_locator)
+
+        @property
         def nav(self):
             return self.FooterNav(self.page)
+
+        def click_downloads_tab(self):
+            self.downloads_tab.click()
+            return self.Downloads(self.page).wait_for_region_to_display()
+
+        class Downloads(Region):
+            _root_locator = (By.CSS_SELECTOR,
+                             '#main-content div.media-footer div.downloads.tab-content')
+            _not_available_td_selector_template = (
+                'table.table tr td[data-l10n-id="textbook-view-file-description"]'
+                '[data-l10n-args=\'{{"format":"{format}"}}\']'
+                ' ~ td[data-l10n-id="textbook-view-file-not-available"]'
+            )
+
+            @property
+            def is_pdf_available(self):
+                selector = self._not_available_td_selector_template.format(format='PDF')
+                return not self.is_element_present(By.CSS_SELECTOR, selector)
+
+            @property
+            def is_epub_available(self):
+                selector = self._not_available_td_selector_template.format(format='EPUB')
+                return not self.is_element_present(By.CSS_SELECTOR, selector)
+
+            @property
+            def is_offline_zip_available(self):
+                selector = self._not_available_td_selector_template.format(format='Offline ZIP')
+                return not self.is_element_present(By.CSS_SELECTOR, selector)
+
+            @property
+            def is_any_available(self):
+                return (self.is_pdf_available or
+                        self.is_epub_available or
+                        self.is_offline_zip_available)
 
         class FooterNav(Region):
             _root_locator = (By.CSS_SELECTOR, '#main-content div.footer-nav')
