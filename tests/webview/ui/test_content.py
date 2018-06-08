@@ -245,12 +245,17 @@ def test_navigation(base_url, selenium):
     assert content.chapter_section == '1.1'
     assert header_nav.progress_bar_fraction_is(3/num_pages)
 
-    content = content.footer_nav.click_next_link()
+    action_chains = ActionChains(selenium)
+    footer_nav = content.footer_nav
+    action_chains.move_to_element(footer_nav.root).perform()
+    content = footer_nav.click_next_link()
     assert type(content) == Content
     assert content.chapter_section == '1.2'
     assert header_nav.progress_bar_fraction_is(4/num_pages)
 
-    content = content.footer_nav.click_back_link()
+    footer_nav = content.footer_nav
+    action_chains.move_to_element(footer_nav.root).perform()
+    content = footer_nav.click_back_link()
     assert type(content) == Content
     assert content.chapter_section == '1.1'
     assert header_nav.progress_bar_fraction_is(3/num_pages)
