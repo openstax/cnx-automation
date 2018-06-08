@@ -37,7 +37,7 @@ def retry_stale_element_reference_exception(method_or_max_tries, retry_callback=
                 except StaleElementReferenceException:
                     if i >= max_tries - 1:
                         raise
-                    retry_callback()
+                    args, kwargs = retry_callback(args, kwargs)
         return wrapper
 
     if callable(method_or_max_tries):
