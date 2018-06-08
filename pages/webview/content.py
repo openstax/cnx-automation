@@ -12,7 +12,8 @@ from regions.webview.content_item import ContentItem
 
 
 class Content(Page):
-    _url_regex = re.compile('@[^:]+$')
+    # An at sign, then one or more non-colon chars, followed by a forward slash
+    _url_regex = re.compile('@[^:]+/')
     _section_title_div_locator = (By.CSS_SELECTOR, '#main-content div.media-header div.title')
     _chapter_section_span_locator = (By.CSS_SELECTOR, 'span.title-chapter')
     _ncy_locator = (By.CLASS_NAME, 'not-converted-yet')
