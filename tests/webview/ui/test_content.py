@@ -236,13 +236,13 @@ def test_navigation(base_url, selenium):
     assert type(content) == Content
     assert content.chapter_section == '1'
     # Preface is skipped by default
-    assert header_nav.progress_bar_fraction_is(2/num_pages)
+    assert header_nav.progress_bar_fraction_is(2 / num_pages)
 
     # WHEN we navigate next twice and then back twice using the header and footer controls
     content = content.header_nav.click_next_link()
     assert type(content) == Content
     assert content.chapter_section == '1.1'
-    assert header_nav.progress_bar_fraction_is(3/num_pages)
+    assert header_nav.progress_bar_fraction_is(3 / num_pages)
 
     action_chains = ActionChains(selenium)
     footer_nav = content.footer_nav
@@ -250,21 +250,21 @@ def test_navigation(base_url, selenium):
     content = footer_nav.click_next_link()
     assert type(content) == Content
     assert content.chapter_section == '1.2'
-    assert header_nav.progress_bar_fraction_is(4/num_pages)
+    assert header_nav.progress_bar_fraction_is(4 / num_pages)
 
     footer_nav = content.footer_nav
     action_chains.move_to_element(footer_nav.root).perform()
     content = footer_nav.click_back_link()
     assert type(content) == Content
     assert content.chapter_section == '1.1'
-    assert header_nav.progress_bar_fraction_is(3/num_pages)
+    assert header_nav.progress_bar_fraction_is(3 / num_pages)
 
     content = content.header_nav.click_back_link()
 
     # THEN we arrive back at the initial page
     assert type(content) == Content
     assert content.chapter_section == '1'
-    assert header_nav.progress_bar_fraction_is(2/num_pages)
+    assert header_nav.progress_bar_fraction_is(2 / num_pages)
 
 
 @markers.webview
