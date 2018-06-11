@@ -142,8 +142,8 @@ def test_scroll(base_url, selenium):
     ActionChains(selenium).move_to_element(footer.root).perform()
 
     # THEN the content nav is displayed on top without the site navbar or any social links
-    # For some reason this fails even though site nav is offscreen
-    # assert not content.header.is_nav_displayed
+    # The header nav is offscreen but still considered displayed
+    assert content.header.is_nav_displayed
     content_header = content.content_header
     assert content_header.is_displayed
     assert content_header.is_title_displayed
@@ -206,18 +206,17 @@ def test_back_to_top(base_url, selenium):
     share = content.share
     assert share.is_displayed
 
-    # For some reason these fail even though the links are onscreen
-    # assert share.is_facebook_share_link_displayed
-    # assert share.is_twitter_share_link_displayed
-    # assert share.is_google_share_link_displayed
-    # assert share.is_linkedin_share_link_displayed
+    assert share.is_facebook_share_link_displayed
+    assert share.is_twitter_share_link_displayed
+    assert share.is_google_share_link_displayed
+    assert share.is_linkedin_share_link_displayed
 
-    # For some reason these fail even though the footer is offscreen
-    # assert not footer.is_displayed
-    # assert not footer.is_downloads_tab_displayed
-    # assert not footer.is_history_tab_displayed
-    # assert not footer.is_attribution_tab_displayed
-    # assert not footer.is_more_information_tab_displayed
+    # The footer is offscreen, but still considered displayed
+    assert footer.is_displayed
+    assert footer.is_downloads_tab_displayed
+    assert footer.is_history_tab_displayed
+    assert footer.is_attribution_tab_displayed
+    assert footer.is_more_information_tab_displayed
 
     # The header is no longer pinned
     assert 'pinned' not in content_header.root.get_attribute('class')

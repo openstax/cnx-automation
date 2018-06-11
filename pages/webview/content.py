@@ -125,7 +125,7 @@ class Content(Page):
                 return self.page.title.replace(' ', '%20')
 
             def _share_link_locator(self, url):
-                return (By.CSS_SELECTOR, 'a[href="{url}"]'.format(url=url))
+                return (By.CSS_SELECTOR, 'a[href="{url}"]'.format(url=url.replace('#', '')))
 
             @property
             def _facebook_share_link_locator(self):
