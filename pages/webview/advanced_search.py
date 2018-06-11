@@ -16,7 +16,7 @@ class AdvancedSearch(Page):
     _keywords_field_locator = (By.CSS_SELECTOR, 'input[type="text"][name="keywords"]')
     _type_select_locator = (By.CSS_SELECTOR, 'select[name="type"]')
     _language_select_locator = (By.CSS_SELECTOR, 'select[name="language"]')
-    _language_option_locator = (By.CSS_SELECTOR, 'select[name="language"] option')
+    _language_option_locator = (By.CSS_SELECTOR, 'select[name="language"] option:not([value=""])')
     _publication_date_select_locator = (By.CSS_SELECTOR, 'select[name="pubYear"]')
     _sort_by_select_locator = (By.CSS_SELECTOR, 'select[name="sort"]')
 
