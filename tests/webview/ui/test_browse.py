@@ -7,8 +7,6 @@ from string import digits, ascii_letters
 
 from tests import markers
 
-from selenium.common.exceptions import StaleElementReferenceException
-
 from pages.webview.home import Home
 from pages.webview.search_results import SearchResults
 from pages.webview.content import Content
@@ -319,25 +317,16 @@ def test_advanced_search(base_url, selenium):
     sort_by = 'pubDate'
 
     # WHEN we select some filters and click submit
-    # The advanced search page sometimes replaces the search fields with new ones and erases
-    # whatever we typed, causing a StaleElementReferenceException. In this case, we retry.
-    max_tries = 2
-    for i in range(max_tries):
-        try:
-            language = advanced_search.get_language(search['Language'])
-            search_results = advanced_search.fill_in_author(search['Author']) \
-                                            .fill_in_title(search['Title']) \
-                                            .select_subject(search['Subject']) \
-                                            .fill_in_keywords(' '.join(list(search['Keyword']))) \
-                                            .select_type(search['Type']) \
-                                            .select_language(search['Language']) \
-                                            .select_publication_date(search['Publication Date']) \
-                                            .select_sort_by(sort_by) \
-                                            .submit()
-            break
-        except StaleElementReferenceException:
-            if i >= max_tries - 1:
-                raise
+    language = advanced_search.get_language(search['Language'])
+    search_results = advanced_search.fill_in_author(search['Author']) \
+                                    .fill_in_title(search['Title']) \
+                                    .select_subject(search['Subject']) \
+                                    .fill_in_keywords(' '.join(list(search['Keyword']))) \
+                                    .select_type(search['Type']) \
+                                    .select_language(search['Language']) \
+                                    .select_publication_date(search['Publication Date']) \
+                                    .select_sort_by(sort_by) \
+                                    .submit()
 
     # THEN search results are displayed with the chosen filters
     assert type(search_results) is SearchResults

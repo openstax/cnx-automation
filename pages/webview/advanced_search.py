@@ -16,6 +16,7 @@ class AdvancedSearch(Page):
     _keywords_field_locator = (By.CSS_SELECTOR, 'input[type="text"][name="keywords"]')
     _type_select_locator = (By.CSS_SELECTOR, 'select[name="type"]')
     _language_select_locator = (By.CSS_SELECTOR, 'select[name="language"]')
+    _language_option_locator = (By.CSS_SELECTOR, 'select[name="language"] option')
     _publication_date_select_locator = (By.CSS_SELECTOR, 'select[name="pubYear"]')
     _sort_by_select_locator = (By.CSS_SELECTOR, 'select[name="sort"]')
 
@@ -55,9 +56,10 @@ class AdvancedSearch(Page):
     def sort_by_select(self):
         return self.form.find_element(*self._sort_by_select_locator)
 
+    # The language list loads after everything else
     @property
     def loaded(self):
-        return self.is_element_displayed(*self._form_locator)
+        return self.is_element_displayed(*self._language_option_locator)
 
     def fill_in_author(self, value):
         self.author_field.send_keys(value)
