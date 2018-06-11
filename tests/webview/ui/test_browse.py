@@ -96,15 +96,15 @@ def test_click_subject_category(base_url, selenium):
     assert not search_results.has_no_results
 
 
+# The query needs to contain a rare word, otherwise we may timeout when searching
+# Postgres removes stop words automatically, so don't include those either
 @markers.webview
 @markers.nondestructive
-def test_search(base_url, selenium):
+@markers.parametrize("query", ['Amazing Aardvark Concepts'])
+def test_search(base_url, selenium, query):
     # GIVEN the browse page and a query
     home = Home(selenium, base_url).open()
     browse = home.header.click_search()
-    # Needs to contain a rare word, otherwise we may timeout when searching
-    # Postgres removes stop words automatically, so don't include those either
-    query = 'Amazing Aardvark Concepts'
 
     # WHEN we search for the query
     search_results = browse.search(query)
@@ -119,15 +119,15 @@ def test_search(base_url, selenium):
     assert not search_results.has_no_results
 
 
+# The query needs to contain a rare word, otherwise we may timeout when searching
+# Postgres removes stop words automatically, so don't include those either
 @markers.webview
 @markers.nondestructive
-def test_search_filter(base_url, selenium):
+@markers.parametrize("query", ['Amazing Aardvark Concepts'])
+def test_search_filter(base_url, selenium, query):
     # GIVEN the search results page
     home = Home(selenium, base_url).open()
     browse = home.header.click_search()
-    # Needs to contain a rare word, otherwise we may timeout when searching
-    # Postgres removes stop words automatically, so don't include those either
-    query = 'Amazing Aardvark Concepts'
     search_results = browse.search(query)
 
     # WHEN we click on a filter
@@ -146,16 +146,15 @@ def test_search_filter(base_url, selenium):
     assert not search_results.has_no_results
 
 
+# The query needs to contain a rare word, otherwise we may timeout when searching
+# Postgres removes stop words automatically, so don't include those either
 @markers.webview
 @markers.nondestructive
-def test_search_unfilter(base_url, selenium):
+@markers.parametrize("query", ['Amazing Aardvark Concepts'])
+def test_search_unfilter(base_url, selenium, query):
     # GIVEN the search results page
     home = Home(selenium, base_url).open()
     browse = home.header.click_search()
-    # Needs to contain a rare word, otherwise we may timeout when searching
-    # Postgres removes stop words automatically, so don't include those either
-    # The rare word should probably not be the first word, since that one will be X'd in the test
-    query = 'Amazing Aardvark Concepts'
     search_results = browse.search(query)
 
     # WHEN we click on breadcrumb's X link
@@ -171,15 +170,15 @@ def test_search_unfilter(base_url, selenium):
     assert not search_results.has_no_results
 
 
+# The query needs to contain a rare word, otherwise we may timeout when searching
+# Postgres removes stop words automatically, so don't include those either
 @markers.webview
 @markers.nondestructive
-def test_search_bold(base_url, selenium):
+@markers.parametrize("query", ['Amazing Aardvark Concepts'])
+def test_search_bold(base_url, selenium, query):
     # GIVEN the browse page and a query
     home = Home(selenium, base_url).open()
     browse = home.header.click_search()
-    # Needs to contain a rare word, otherwise we may timeout when searching
-    # Postgres removes stop words automatically, so don't include those either
-    query = 'Amazing Aardvark Concepts'
 
     # WHEN we search for the query
     search_results = browse.search(query)
@@ -206,15 +205,15 @@ def test_search_bold(base_url, selenium):
     assert any_occurrences, 'No words from the query showed up in the results.'
 
 
+# The query needs to contain a rare word, otherwise we may timeout when searching
+# Postgres removes stop words automatically, so don't include those either
 @markers.webview
 @markers.nondestructive
-def test_search_click_result(base_url, selenium):
+@markers.parametrize("query", ['Amazing Aardvark Concepts'])
+def test_search_click_result(base_url, selenium, query):
     # GIVEN the search results page
     home = Home(selenium, base_url).open()
     browse = home.header.click_search()
-    # Needs to contain a rare word, otherwise we may timeout when searching
-    # Postgres removes stop words automatically, so don't include those either
-    query = 'Amazing Aardvark Concepts'
     search_results = browse.search(query)
 
     # WHEN we click on a search result's title
@@ -227,15 +226,15 @@ def test_search_click_result(base_url, selenium):
     assert content.title == result_title
 
 
+# The query needs to contain a rare word, otherwise we may timeout when searching
+# Postgres removes stop words automatically, so don't include those either
 @markers.webview
 @markers.nondestructive
-def test_search_pagination(base_url, selenium):
+@markers.parametrize("query", ['Amazing Aardvark Concepts'])
+def test_search_pagination(base_url, selenium, query):
     # GIVEN the browse page and a query
     home = Home(selenium, base_url).open()
     browse = home.header.click_search()
-    # Needs to contain a rare word, otherwise we may timeout when searching
-    # Postgres removes stop words automatically, so don't include those either
-    query = 'Amazing Aardvark Concepts'
 
     # WHEN we search for the query
     search_results = browse.search(query)
@@ -263,15 +262,15 @@ def test_search_pagination(base_url, selenium):
     assert not next.is_active
 
 
+# The query needs to contain a rare word, otherwise we may timeout when searching
+# Postgres removes stop words automatically, so don't include those either
 @markers.webview
 @markers.nondestructive
-def test_search_click_pagination(base_url, selenium):
+@markers.parametrize("query", ['Amazing Aardvark Concepts'])
+def test_search_click_pagination(base_url, selenium, query):
     # GIVEN the search results page
     home = Home(selenium, base_url).open()
     browse = home.header.click_search()
-    # Needs to contain a rare word, otherwise we may timeout when searching
-    # Postgres removes stop words automatically, so don't include those either
-    query = 'Amazing Aardvark Concepts'
     search_results = browse.search(query)
 
     # WHEN we click on the "next" pagination link
@@ -304,10 +303,20 @@ def test_search_click_pagination(base_url, selenium):
 @markers.webview
 @markers.nondestructive
 def test_advanced_search(base_url, selenium):
-    # GIVEN the advanced search page
+    # GIVEN the advanced search page, advanced search field values, and the expected breadcrumbs
     home = Home(selenium, base_url).open()
     browse = home.header.click_search()
     advanced_search = browse.click_advanced_search_link()
+    search = {
+        'Author': 'OpenStax',
+        'Title': 'Concepts of Biology',
+        'Subject': 'Science and Technology',
+        'Keyword': ['Amazing', 'Aardvark'],
+        'Type': 'book',
+        'Language': 'en',
+        'Publication Date': '2018'
+    }
+    sort_by = 'pubDate'
 
     # WHEN we select some filters and click submit
     # The advanced search page sometimes replaces the search fields with new ones and erases
@@ -315,14 +324,15 @@ def test_advanced_search(base_url, selenium):
     max_tries = 2
     for i in range(max_tries):
         try:
-            search_results = advanced_search.fill_in_author('OpenStax') \
-                                            .fill_in_title('Concepts of Biology') \
-                                            .select_subject('Science and Technology') \
-                                            .fill_in_keywords('Amazing Aardvark') \
-                                            .select_type('book') \
-                                            .select_language('en') \
-                                            .select_publication_date(2018) \
-                                            .select_sort_by('pubDate') \
+            language = advanced_search.get_language(search['Language'])
+            search_results = advanced_search.fill_in_author(search['Author']) \
+                                            .fill_in_title(search['Title']) \
+                                            .select_subject(search['Subject']) \
+                                            .fill_in_keywords(' '.join(list(search['Keyword']))) \
+                                            .select_type(search['Type']) \
+                                            .select_language(search['Language']) \
+                                            .select_publication_date(search['Publication Date']) \
+                                            .select_sort_by(sort_by) \
                                             .submit()
             break
         except StaleElementReferenceException:
@@ -332,17 +342,17 @@ def test_advanced_search(base_url, selenium):
     # THEN search results are displayed with the chosen filters
     assert type(search_results) is SearchResults
 
-    expected_breadcrumbs = {
-        'Author': ['OpenStax'],
-        'Title': ['Concepts of Biology'],
-        'Subject': ['Science and Technology'],
-        'Keyword': ['Amazing', 'Aardvark'],
-        'Type': ['book'],
-        'Language': ['English (English)'],
-        'Publication Date': ['2018']
-    }
     for breadcrumb in search_results.breadcrumbs:
-        assert breadcrumb.value in expected_breadcrumbs[breadcrumb.limit]
+        limit = breadcrumb.limit
+        if limit == 'Language':
+            expected_values = language
+        else:
+            expected_values = search[limit]
+
+        if not type(expected_values) is list:
+            expected_values = [expected_values]
+
+        assert breadcrumb.value in expected_values
 
     assert not search_results.has_no_results
 

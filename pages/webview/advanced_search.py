@@ -91,6 +91,9 @@ class AdvancedSearch(Page):
         css_selector = 'option[value="{value}"]'.format(value=value)
         return self.language_select.find_element(By.CSS_SELECTOR, css_selector)
 
+    def get_language(self, value):
+        return self.language_select_option(value).text
+
     def select_language(self, value):
         self.language_select_option(value).click()
         return self
