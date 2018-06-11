@@ -20,6 +20,7 @@ addons:
       - chromium-chromedriver
 
 before_script:
+  - pip install -U pip
   - ln -s /usr/lib/chromium-browser/chromedriver ~/bin/chromedriver
 
 script:
