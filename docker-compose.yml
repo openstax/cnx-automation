@@ -11,6 +11,7 @@ services:
       - LEGACY_BASE_URL
       - LEGACY_USERNAME
       - LEGACY_PASSWORD
+      - NEB_ENV
     image: openstax/standalone-chrome-debug:latest
     volumes:
       - .:/code
