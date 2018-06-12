@@ -13,7 +13,7 @@ def test_get_incomplete_arguments():
     # GIVEN neb
 
     # WHEN we run `neb get`
-    error = Neb.run('get', check=False)
+    error = Neb.invoke('get', check=False)
 
     # THEN the usage message is displayed
     assert 'Usage: neb get ' in error
