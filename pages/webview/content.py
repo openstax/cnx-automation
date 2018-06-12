@@ -332,7 +332,6 @@ class Content(Page):
 
     # This entire region can be overwritten (and the modal automatically closed) at any time,
     # so any tests that use it must be ready to retry StaleElementReferenceExceptions
-    # including clicking the "Get This Book!" button again
     class GetThisBook(Region):
         _root_locator = (By.CSS_SELECTOR, 'div.popover div.popover-content div.book-popover')
         _pdf_link_locator = (
@@ -344,46 +343,39 @@ class Content(Page):
         _order_printed_book_link_locator = (
             By.CSS_SELECTOR, 'a.order[data-l10n-id="textbook-view-book-order-book"]')
 
-        # Retries StaleElementReferenceExceptions up to n-1 times (default n=3)
-        # Decorator with optional argument based on: https://stackoverflow.com/a/3931903
-        # This version also reopens the GetThisBook modal, since it closes when this happens
-        retry_stale_element_reference_exception_and_reopen_modal = (
-            retry_stale_element_reference_exception(
-                3, lambda arg, kwarg: ((arg[0].page.click_get_this_book_button(), arg[1:]), kwarg)))
-
         @property
-        @retry_stale_element_reference_exception_and_reopen_modal
+        @retry_stale_element_reference_exception
         def root(self):
             return super().root
 
         @property
-        @retry_stale_element_reference_exception_and_reopen_modal
+        @retry_stale_element_reference_exception
         def text(self):
             return super().text
 
         @property
-        @retry_stale_element_reference_exception_and_reopen_modal
+        @retry_stale_element_reference_exception
         def loaded(self):
             return super().loaded
 
         @property
-        @retry_stale_element_reference_exception_and_reopen_modal
+        @retry_stale_element_reference_exception
         def is_displayed(self):
             return super().is_displayed
 
-        @retry_stale_element_reference_exception_and_reopen_modal
+        @retry_stale_element_reference_exception
         def find_element(self, strategy, locator):
             return super().find_element(strategy, locator)
 
-        @retry_stale_element_reference_exception_and_reopen_modal
+        @retry_stale_element_reference_exception
         def find_elements(self, strategy, locator):
             return super().find_elements(strategy, locator)
 
-        @retry_stale_element_reference_exception_and_reopen_modal
+        @retry_stale_element_reference_exception
         def is_element_present(self, strategy, locator):
             return super().is_element_present(strategy, locator)
 
-        @retry_stale_element_reference_exception_and_reopen_modal
+        @retry_stale_element_reference_exception
         def is_element_displayed(self, strategy, locator):
             return super().is_element_displayed(strategy, locator)
 
