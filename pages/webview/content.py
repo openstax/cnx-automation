@@ -387,21 +387,26 @@ class Content(Page):
         def is_element_displayed(self, strategy, locator):
             return super().is_element_displayed(strategy, locator)
 
+        # Because of the flaky behavior of content pages (the modal keeps closing unexpectedly)
+        # we use is_element_present here rather than is_element_displayed.
+        # There's a chance the modal can silently close without an error,
+        # which would cause is_element_displayed to fail.
+        # Switch back to is_element_displayed when this modal closing bug is fixed.
         @property
         def is_pdf_link_displayed(self):
-            return self.is_element_displayed(*self._pdf_link_locator)
+            return self.is_element_present(*self._pdf_link_locator)
 
         @property
         def is_epub_link_displayed(self):
-            return self.is_element_displayed(*self._epub_link_locator)
+            return self.is_element_present(*self._epub_link_locator)
 
         @property
         def is_offline_zip_link_displayed(self):
-            return self.is_element_displayed(*self._offline_zip_link_locator)
+            return self.is_element_present(*self._offline_zip_link_locator)
 
         @property
         def is_order_printed_book_link_displayed(self):
-            return self.is_element_displayed(*self._order_printed_book_link_locator)
+            return self.is_element_present(*self._order_printed_book_link_locator)
 
     class Content(Region):
         _root_locator = (By.ID, 'content')
