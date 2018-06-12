@@ -11,9 +11,9 @@ import subprocess
 class MetaNeb(type):
     _version_regex = re.compile('^Nebuchadnezzar (.*)$')
 
-    def run(cls, *args):
-        return subprocess.run(['neb', *args], stdout=subprocess.PIPE,
-                              check=True).stdout.decode().strip()
+    def run(cls, *args, check=True):
+        return subprocess.run(['neb', *args], stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
+                              check=check).stdout.decode().strip()
 
     @property
     def help(cls):
@@ -22,6 +22,15 @@ class MetaNeb(type):
     @property
     def version(cls):
         return cls._version_regex.match(cls.run('--version'))[1]
+
+    def get(cls, *, help=False, env=None, col_id=None, col_version=None):
+        if help:
+            return cls.run('get', '--help')
+        elif env is None or col_id is None or col_version is None:
+            raise(TypeError("get() missing either 1 required keyword-only argument: 'help' or 3"
+                            " required keyword-only arguments: 'env', 'col_id', and 'col_version'"))
+
+        return cls.run('get', env, col_id, col_version)
 
 
 class Neb(metaclass=MetaNeb):
