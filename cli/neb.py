@@ -10,7 +10,7 @@ class MetaNeb(type):
 
     def run(cls, *args):
         return subprocess.run(['neb', *args], stdout=subprocess.PIPE,
-                              check=True).stdout.decode('ascii').strip()
+                              check=True).stdout.decode().strip()
 
     @property
     def help(cls):
