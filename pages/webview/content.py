@@ -373,7 +373,7 @@ class Content(Page):
 
         @retry_stale_element_reference_exception
         def is_element_present(self, strategy, locator):
-            return super().is_element_present(strategy, locator)
+            return not not super().is_element_present(strategy, locator)
 
         @retry_stale_element_reference_exception
         def is_element_displayed(self, strategy, locator):
