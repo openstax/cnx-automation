@@ -39,7 +39,7 @@ class MetaNeb(type):
         if verbose:
             options.append('--verbose')
 
-        dir = join(cls._tmp_dir, col_id)
+        dir = join(cls._tmp_dir, col_id, col_version)
 
         try:
             cls.invoke(*options, 'get', '--output-dir', dir, env, col_id, col_version)
