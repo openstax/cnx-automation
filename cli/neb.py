@@ -13,17 +13,26 @@ from os.path import join
 class MetaNeb(type):
     _version_regex = re.compile('^Nebuchadnezzar (.*)$')
 
-    def invoke(cls, *args, **kwargs):
+    def run(cls, *args, **kwargs):
+        """Runs Neb and returns a tuple containing stdout, stderr and the returncode"""
         if 'stdout' not in kwargs:
             kwargs['stdout'] = subprocess.PIPE
         if 'stderr' not in kwargs:
-            kwargs['stderr'] = subprocess.STDOUT
-        if 'check' not in kwargs:
-            kwargs['check'] = True
+            kwargs['stderr'] = subprocess.PIPE
         if 'universal_newlines' not in kwargs:
             kwargs['universal_newlines'] = True
 
-        return subprocess.run(['neb', *args], **kwargs).stdout.strip()
+        completed_process = subprocess.run(['neb', *args], **kwargs)
+        return (completed_process.stdout.strip(),
+                completed_process.stderr.strip(),
+                completed_process.returncode)
+
+    def invoke(cls, *args, **kwargs):
+        """Runs Neb and returns stdout; By default throws subprocess.CalledProcessError on error"""
+        if 'check' not in kwargs:
+            kwargs['check'] = True
+
+        return cls.run(*args, **kwargs)[0]
 
     @property
     def help(cls):

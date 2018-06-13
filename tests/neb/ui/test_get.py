@@ -13,19 +13,6 @@ from cli.neb import Neb
 
 @markers.neb
 @markers.nondestructive
-def test_get_incomplete_arguments():
-    # GIVEN neb
-
-    # WHEN we run `neb get`
-    error = Neb.invoke('get', check=False)
-
-    # THEN the usage message is displayed
-    assert 'Usage: neb get ' in error
-    assert 'Error: Missing argument ' in error
-
-
-@markers.neb
-@markers.nondestructive
 def test_get_help():
     # GIVEN neb
 
@@ -35,6 +22,49 @@ def test_get_help():
         assert 'Usage: neb get ' in help
         assert 'Options:' in help
         assert '--help' in help
+
+
+@markers.neb
+@markers.nondestructive
+def test_get_no_env():
+    # GIVEN neb
+
+    # WHEN we run `neb get`
+    stdout, stderr, returncode = Neb.run('get')
+
+    # THEN neb exits with an error and the usage message is displayed
+    assert returncode > 0
+    assert 'Usage: neb get ' in stderr
+    assert 'Error: Missing argument "env"' in stderr
+
+
+@markers.neb
+@markers.nondestructive
+def test_get_no_col_id(neb_env):
+    # GIVEN neb and an environment
+
+    # WHEN we run `neb get env`
+    stdout, stderr, returncode = Neb.run('get', neb_env)
+
+    # THEN neb exits with an error and the usage message is displayed
+    assert returncode > 0
+    assert 'Usage: neb get ' in stderr
+    assert 'Error: Missing argument "col_id"' in stderr
+
+
+@markers.neb
+@markers.nondestructive
+@markers.parametrize("col_id", ['col11562'])
+def test_get_no_col_version(neb_env, col_id):
+    # GIVEN neb, an environment, and a collection id
+
+    # WHEN we run `neb get env col_id`
+    stdout, stderr, returncode = Neb.run('get', neb_env, col_id)
+
+    # THEN neb exits with an error and the usage message is displayed
+    assert returncode > 0
+    assert 'Usage: neb get ' in stderr
+    assert 'Error: Missing argument "col_version"' in stderr
 
 
 @markers.neb
