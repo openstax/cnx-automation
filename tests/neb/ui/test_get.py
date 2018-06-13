@@ -45,4 +45,4 @@ def test_get_col(neb_env, col_id, col_version, snapshot):
     # WHEN we run `neb --verbose get env col_id col_version`
     with Neb.get(verbose=True, env=neb_env, col_id=col_id, col_version=col_version) as zip_dir:
         # THEN the complete zip is downloaded and matches the snapshot
-        snapshot.assert_tar_gz_match(zip_dir, snapshot_name)
+        snapshot.assert_file_or_dir_match(zip_dir, snapshot_name)

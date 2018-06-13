@@ -27,7 +27,7 @@ class Snapshot(object):
 
         return snapshot_path
 
-    def assert_json_match(self, value, name):
+    def assert_dict_match(self, value, name):
         snapshot_path = self.get_snapshot_path_and_ensure_dir_exists('json', name)
 
         with open(snapshot_path, 'a+') as snapshot_file:
@@ -41,7 +41,7 @@ class Snapshot(object):
             else:
                 json.dump(value, snapshot_file)
 
-    def assert_tar_gz_match(self, path, name):
+    def assert_file_or_dir_match(self, path, name):
         snapshot_path = self.get_snapshot_path_and_ensure_dir_exists('tar_gz', name)
 
         if os.path.isfile(snapshot_path):
