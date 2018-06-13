@@ -14,20 +14,38 @@ from cli.neb import Neb
 
 @markers.neb
 @markers.nondestructive
+def test_no_command():
+    # GIVEN neb
+
+    # WHEN we run `neb`
+    usage = Neb.no_command
+
+    # THEN the usage/help message is displayed
+    assert 'Usage: neb ' in usage
+    assert 'Options:' in usage
+    assert '--help' in usage
+    assert '--version' in usage
+    assert 'Commands:' in usage
+    assert 'get' in usage
+    assert 'publish' in usage
+
+
+@markers.neb
+@markers.nondestructive
 def test_help():
     # GIVEN neb
 
     # WHEN we run `neb --help`
-    help = Neb.help
+    usage = Neb.help
 
-    # THEN the usage message is displayed
-    assert 'Usage: neb ' in help
-    assert 'Options:' in help
-    assert '--help' in help
-    assert '--version' in help
-    assert 'Commands:' in help
-    assert 'get' in help
-    assert 'publish' in help
+    # THEN the usage/help message is displayed
+    assert 'Usage: neb ' in usage
+    assert 'Options:' in usage
+    assert '--help' in usage
+    assert '--version' in usage
+    assert 'Commands:' in usage
+    assert 'get' in usage
+    assert 'publish' in usage
 
 
 @markers.neb
