@@ -7,15 +7,15 @@ from selenium.webdriver.common.by import By
 from pages.webview.base import Page
 from regions.webview.base import Region
 
+from pages.webview.search_results import SearchResults
+
 
 class Browse(Page):
     URL_TEMPLATE = '/browse'
-
     _search_input_locator = (By.ID, 'find-content-input')
-    _advanced_search_button_locator = (By.CLASS_NAME, 'advanced-search')
-
+    _advanced_search_link_locator = (By.CSS_SELECTOR, 'a.advanced-search')
     _main_content_locator = (By.ID, 'main-content')
-    _browse_content_locator = (By.CLASS_NAME, 'browse-content')
+    _browse_content_locator = (By.CSS_SELECTOR, 'div.browse-content')
     _subject_list_locator = (By.CSS_SELECTOR, '.browse-content > ul > li')
 
     @property
@@ -23,8 +23,8 @@ class Browse(Page):
         return self.is_element_displayed(*self._search_input_locator)
 
     @property
-    def is_advanced_search_button_displayed(self):
-        return self.is_element_displayed(*self._advanced_search_button_locator)
+    def is_advanced_search_link_displayed(self):
+        return self.is_element_displayed(*self._advanced_search_link_locator)
 
     @property
     def search_input(self):
@@ -38,7 +38,11 @@ class Browse(Page):
     @property
     def subject_list(self):
         items = self.find_elements(*self._subject_list_locator)
-        return [Browse.Subject(self, el) for el in items]
+        return [self.Subject(self, el) for el in items]
+
+    @property
+    def advanced_search_link(self):
+        return self.find_element(*self._advanced_search_link_locator)
 
     @property
     def loaded(self):
@@ -52,8 +56,13 @@ class Browse(Page):
         self.search_input.send_keys(query)
         from selenium.webdriver.common.keys import Keys
         self.search_input.send_keys(Keys.RETURN)
-        from pages.webview.search_results import SearchResults
         return SearchResults(self.driver, self.base_url, self.timeout).wait_for_page_to_load()
+
+    def click_advanced_search_link(self):
+        self.advanced_search_link.click()
+        from pages.webview.advanced_search import AdvancedSearch
+        advanced_search = AdvancedSearch(self.driver, self.base_url, self.timeout)
+        return advanced_search.wait_for_page_to_load()
 
     class Subject(Region):
         _name_locator = (By.CSS_SELECTOR, 'h2')
@@ -83,3 +92,8 @@ class Browse(Page):
         @property
         def books_count(self):
             return self.get_count(self.books_div)
+
+        def click(self):
+            self.root.click()
+            search_results = SearchResults(self.driver, self.page.base_url, self.page.timeout)
+            return search_results.wait_for_page_to_load()

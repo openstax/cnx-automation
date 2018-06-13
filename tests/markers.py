@@ -2,11 +2,11 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-import pytest
+from pytest import config, mark
 
-nondestructive = pytest.mark.nondestructive
-slow = pytest.mark.skipif(not pytest.config.getoption('runslow'),
-                          reason='need --runslow option to run')
-webview = pytest.mark.webview
-legacy = pytest.mark.legacy
-neb = pytest.mark.neb
+nondestructive = mark.nondestructive
+parametrize = mark.parametrize
+slow = mark.skipif(not config.getoption('runslow'), reason='need --runslow option to run')
+webview = mark.webview
+legacy = mark.legacy
+neb = mark.neb

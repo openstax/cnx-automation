@@ -20,6 +20,7 @@ class Content(Page):
     _chapter_section_span_locator = (By.CSS_SELECTOR, 'span.title-chapter')
     _ncy_locator = (By.CLASS_NAME, 'not-converted-yet')
 
+    # The page is loaded when an `@` is present in the url and the uuid is no longer there
     @property
     def loaded(self):
         return self._url_regex.search(self.driver.current_url)

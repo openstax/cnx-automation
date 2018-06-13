@@ -11,8 +11,8 @@ from regions.webview.base import Region
 
 class Page(pypom.Page):
 
-    # Default to a 30 second timeout for CNX webview
-    def __init__(self, driver, base_url=None, timeout=30, **url_kwargs):
+    # Default to a 60 second timeout for CNX webview
+    def __init__(self, driver, base_url=None, timeout=60, **url_kwargs):
         super().__init__(driver, base_url, timeout, **url_kwargs)
 
     @property
@@ -44,7 +44,7 @@ class Page(pypom.Page):
             from pages.webview.home import Home
             return Home(self.driver, self.page.base_url, self.page.timeout).wait_for_page_to_load()
 
-        def click_browse(self):
+        def click_search(self):
             self.find_element(*self._browse_locator).click()
             from pages.webview.browse import Browse
             browse = Browse(self.driver, self.page.base_url, self.page.timeout)
