@@ -59,7 +59,7 @@ class Snapshot(object):
                         assert value == snapshot_value
         else:
             with tarfile.open(snapshot_path, 'w|gz') as snapshot_tar:
-                # arcname='.' makes tar not save the absolute path (/tmp/whatever)
+                # arcname='.' makes tar not save the absolute path
                 # See comments in https://stackoverflow.com/a/2239679
                 snapshot_tar.add(path, arcname='.')
 

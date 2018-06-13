@@ -5,14 +5,13 @@
 import re
 import subprocess
 from contextlib import contextmanager
-from os.path import join, isdir
-from shutil import rmtree
+from tempfile import TemporaryDirectory
+from os.path import join
 
 
 # Property class methods: https://stackoverflow.com/a/5189765
 class MetaNeb(type):
     _version_regex = re.compile('^Nebuchadnezzar (.*)$')
-    _tmp_dir = '/tmp'
 
     def invoke(cls, *args, **kwargs):
         if 'stdout' not in kwargs:
@@ -43,18 +42,17 @@ class MetaNeb(type):
             raise(TypeError("get() missing either 1 required keyword-only argument: 'help' or 3"
                             " required keyword-only arguments: 'env', 'col_id', and 'col_version'"))
 
-        dir = join(cls._tmp_dir, col_id, col_version)
+        with TemporaryDirectory() as temp_dir:
+            # We cannot use temp_dir directly because neb refuses to use a dir that already exists
+            neb_dir = join(temp_dir, 'neb')
 
-        options = ['--output-dir', dir]
-        if verbose:
-            options.append('--verbose')
+            options = ['--output-dir', neb_dir]
+            if verbose:
+                options.append('--verbose')
 
-        try:
             cls.invoke('get', *options, env, col_id, col_version, input='y')
-            yield dir
-        finally:
-            if isdir(dir):
-                rmtree(dir)
+
+            yield neb_dir
 
 
 class Neb(metaclass=MetaNeb):
