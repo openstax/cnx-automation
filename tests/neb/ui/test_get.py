@@ -2,7 +2,7 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-from os.path import isdir
+from os.path import join
 
 from tests import markers
 
@@ -37,11 +37,12 @@ def test_get_help():
 
 @markers.neb
 @markers.nondestructive
-@markers.parametrize("col_id,col_version", [('col11758', '1.9')])
-def test_get_col(neb_env, col_id, col_version):
-    # GIVEN neb, an environment name, a collection id and a collection version
+@markers.parametrize("col_id,col_version", [('col11562', '1.19')])
+def test_get_col(neb_env, col_id, col_version, snapshot):
+    # GIVEN neb, an environment name, a collection id, a collection version, and the snapshot tool
+    snapshot_name = join('neb', col_id, '{col_version}.tar.gz'.format(col_version=col_version))
 
     # WHEN we run `neb --verbose get env col_id col_version`
     with Neb.get(verbose=True, env=neb_env, col_id=col_id, col_version=col_version) as zip_dir:
-        # THEN the complete zip is downloaded
-        assert isdir(zip_dir)
+        # THEN the complete zip is downloaded and matches the snapshot
+        snapshot.assert_tar_gz_match(zip_dir, snapshot_name)
