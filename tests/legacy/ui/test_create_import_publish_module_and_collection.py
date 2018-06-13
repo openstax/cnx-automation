@@ -86,7 +86,7 @@ class TestCreateImportPublishModuleAndCollection(object):
         archive_content = LegacyContent(selenium, archive_base_url,
                                         legacy_id=content_published.id).open()
         assert archive_content.title == 'CNX Automation Test Module'
-        snapshot.assert_json_match(archive_content.stable_dict, 'legacy/m46922_1.13.json')
+        snapshot.assert_dict_match(archive_content.stable_dict, 'legacy/m46922_1.13.json')
 
         # Other tests will be skipped unless this test succeeds and set this class variable
         self.__class__._module_id = module_id
@@ -168,4 +168,4 @@ class TestCreateImportPublishModuleAndCollection(object):
         archive_content = LegacyContent(selenium, archive_base_url,
                                         legacy_id=content_published.id).open()
         assert archive_content.title == 'CNX Automation Test Collection'
-        snapshot.assert_json_match(archive_content.stable_dict, 'legacy/col_with_m46922_1.13.json')
+        snapshot.assert_dict_match(archive_content.stable_dict, 'legacy/col_with_m46922_1.13.json')
