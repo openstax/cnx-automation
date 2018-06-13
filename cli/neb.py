@@ -14,9 +14,17 @@ class MetaNeb(type):
     _version_regex = re.compile('^Nebuchadnezzar (.*)$')
     _tmp_dir = '/tmp'
 
-    def invoke(cls, *args, check=True):
-        return subprocess.run(['neb', *args], stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
-                              check=check).stdout.decode().strip()
+    def invoke(cls, *args, **kwargs):
+        if 'stdout' not in kwargs:
+            kwargs['stdout'] = subprocess.PIPE
+        if 'stderr' not in kwargs:
+            kwargs['stderr'] = subprocess.STDOUT
+        if 'check' not in kwargs:
+            kwargs['check'] = True
+        if 'universal_newlines' not in kwargs:
+            kwargs['universal_newlines'] = True
+
+        return subprocess.run(['neb', *args], **kwargs).stdout.strip()
 
     @property
     def help(cls):
@@ -35,14 +43,14 @@ class MetaNeb(type):
             raise(TypeError("get() missing either 1 required keyword-only argument: 'help' or 3"
                             " required keyword-only arguments: 'env', 'col_id', and 'col_version'"))
 
-        options = []
+        dir = join(cls._tmp_dir, col_id, col_version)
+
+        options = ['--output-dir', dir]
         if verbose:
             options.append('--verbose')
 
-        dir = join(cls._tmp_dir, col_id, col_version)
-
         try:
-            cls.invoke(*options, 'get', '--output-dir', dir, env, col_id, col_version)
+            cls.invoke('get', *options, env, col_id, col_version, input='y')
             yield dir
         finally:
             if isdir(dir):

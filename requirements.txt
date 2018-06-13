@@ -8,7 +8,7 @@ cnxml==2.1.0
 idna==2.7
 lxml==4.2.1
 more-itertools==4.2.0
-nebuchadnezzar==3.1.0
+nebuchadnezzar==4.0.0
 pluggy==0.6.0
 py==1.5.3
 PyPOM==2.0.0
