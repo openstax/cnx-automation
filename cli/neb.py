@@ -35,6 +35,10 @@ class MetaNeb(type):
         return cls.run(*args, **kwargs)[0]
 
     @property
+    def no_command(cls):
+        return cls.invoke()
+
+    @property
     def help(cls):
         return cls.invoke('--help')
 
