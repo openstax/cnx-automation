@@ -50,22 +50,22 @@ class MetaNeb(type):
     def get(cls, *, help=False, verbose=False, env=None, col_id=None, col_version=None):
         if help:
             yield cls.invoke('get', '--help')
-            return
         elif env is None or col_id is None or col_version is None:
             raise(TypeError("get() missing either 1 required keyword-only argument: 'help' or 3"
                             " required keyword-only arguments: 'env', 'col_id', and 'col_version'"))
+        else:
+            with TemporaryDirectory() as temp_dir:
+                # We cannot use temp_dir directly
+                # because neb refuses to use a dir that already exists
+                neb_dir = join(temp_dir, 'neb')
 
-        with TemporaryDirectory() as temp_dir:
-            # We cannot use temp_dir directly because neb refuses to use a dir that already exists
-            neb_dir = join(temp_dir, 'neb')
+                options = ['--output-dir', neb_dir]
+                if verbose:
+                    options.append('--verbose')
 
-            options = ['--output-dir', neb_dir]
-            if verbose:
-                options.append('--verbose')
+                cls.invoke('get', *options, env, col_id, col_version, input='y')
 
-            cls.invoke('get', *options, env, col_id, col_version, input='y')
-
-            yield neb_dir
+                yield neb_dir
 
 
 class Neb(metaclass=MetaNeb):
