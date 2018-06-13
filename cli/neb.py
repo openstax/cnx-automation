@@ -73,6 +73,18 @@ class MetaNeb(type):
 
                 yield neb_dir
 
+    @contextmanager
+    def publish(cls, *, help=False, verbose=False, env=None,
+                content_dir=None, publication_message=None):
+        if help:
+            yield cls.invoke('publish', '--help')
+        elif env is None or content_dir is None or publication_message is None:
+            raise(TypeError("publish() missing either 1 required keyword-only argument: 'help'"
+                            " or 3 required keyword-only arguments: 'env', 'content_dir',"
+                            " and 'publication_message'"))
+        else:
+            raise(NotImplementedError)
+
 
 class Neb(metaclass=MetaNeb):
     pass
