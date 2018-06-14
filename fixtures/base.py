@@ -4,6 +4,9 @@
 
 import pytest
 
+from lxml import etree
+from lxml.etree import XMLSyntaxError
+
 __all__ = ['selenium', 'chrome_options']
 
 
@@ -18,7 +21,18 @@ def selenium(request, selenium, pytestconfig):
        request.node.rep_call.failed:
         # print page source on failure
         print('\n------------------------------ Begin Page Source -------------------------------')
-        print(selenium.page_source)
+        source = selenium.page_source
+        try:
+            html = etree.fromstring(source)
+        except XMLSyntaxError:
+            # If we can't parse the page source as XML, then just print the entire thing
+            print(source)
+        else:
+            # Remove head tag and pretty print
+            head = html.find('{http://www.w3.org/1999/xhtml}head')
+            if head:
+                html.remove(head)
+            print(etree.tostring(html, encoding='unicode', pretty_print=True))
         print('------------------------------- End Page Source --------------------------------')
 
 
