@@ -47,7 +47,7 @@ class MetaNeb(type):
         return cls._version_regex.match(cls.invoke('--version'))[1]
 
     @contextmanager
-    def get(cls, *, help=False, verbose=False, env=None, col_id=None, col_version=None):
+    def get(cls, *, help=False, verbose=False, env=None, col_id=None, col_version=None, prompt='y'):
         if help:
             yield cls.invoke('get', '--help')
         elif env is None or col_id is None or col_version is None:
@@ -63,7 +63,7 @@ class MetaNeb(type):
                 if verbose:
                     options.append('--verbose')
 
-                cls.invoke('get', *options, env, col_id, col_version, input='y')
+                cls.invoke('get', *options, env, col_id, col_version, input=prompt)
 
                 yield neb_dir
 
