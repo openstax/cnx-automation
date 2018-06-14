@@ -3,6 +3,7 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 from difflib import SequenceMatcher
 from functools import wraps
+from os.path import join
 
 from selenium.common.exceptions import StaleElementReferenceException
 
@@ -81,3 +82,8 @@ def skip_if_destructive_and_sensitive(request, base_url):
 def shorten_tag(tag):
     """Returns the short version of a git tag when given the long (or short) version."""
     return tag.split("-")[0]
+
+
+def get_neb_snapshot_name(col_id, col_version):
+    return join('neb', col_id, '{col_version}.tar.gz'.format(col_version=col_version))
+
