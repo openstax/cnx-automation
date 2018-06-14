@@ -7,6 +7,7 @@ import xml.etree.ElementTree as ET
 from pkg_resources import parse_version
 
 from tests import markers
+from tests.utils import get_neb_snapshot_name
 
 from cli.neb import Neb
 
@@ -94,7 +95,7 @@ def test_get_col_latest(neb_env, col_id, col_minimum_version):
 @markers.parametrize('col_id,col_version', [('col11562', '1.19')])
 def test_get_col_version(neb_env, col_id, col_version, snapshot):
     # GIVEN neb, an environment name, a collection id, a collection version, and the snapshot tool
-    snapshot_name = join('neb', col_id, '{col_version}.tar.gz'.format(col_version=col_version))
+    snapshot_name = get_neb_snapshot_name(col_id, col_version)
 
     # WHEN we run `neb get --verbose env col_id col_version`
     with Neb.get(verbose=True, env=neb_env, col_id=col_id, col_version=col_version) as zip_dir:

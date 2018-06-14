@@ -3,6 +3,7 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 from functools import wraps
+from os.path import join
 
 from selenium.common.exceptions import StaleElementReferenceException
 
@@ -46,3 +47,7 @@ def retry_stale_element_reference_exception(method_or_max_tries, retry_callback=
     else:
         max_tries = method_or_max_tries
         return wrap
+
+
+def get_neb_snapshot_name(col_id, col_version):
+    return join('neb', col_id, '{col_version}.tar.gz'.format(col_version=col_version))

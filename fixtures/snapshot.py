@@ -18,17 +18,19 @@ class Snapshot(object):
     def __init__(self, base_dir):
         self.base_dir = base_dir
 
-    def get_snapshot_path_and_ensure_dir_exists(self, category, name):
-        snapshot_path = os.path.join(self.base_dir, category, name)
+    def get_snapshot_path(self, category, name):
+        return os.path.join(self.base_dir, category, name)
 
-        snapshot_dir = os.path.dirname(snapshot_path)
-        if not os.path.isdir(snapshot_dir):
-            os.makedirs(snapshot_dir, 0o755)
+    def ensure_dir_exists(self, path):
+        dir = os.path.dirname(path)
+        if not os.path.isdir(dir):
+            os.makedirs(dir, 0o755)
 
-        return snapshot_path
+        return dir
 
     def assert_dict_match(self, value, name):
-        snapshot_path = self.get_snapshot_path_and_ensure_dir_exists('json', name)
+        snapshot_path = self.get_snapshot_path('json', name)
+        self.ensure_dir_exists(snapshot_path)
 
         with open(snapshot_path, 'a+') as snapshot_file:
             snapshot_file.seek(0)
@@ -42,7 +44,8 @@ class Snapshot(object):
                 json.dump(value, snapshot_file)
 
     def assert_file_or_dir_match(self, path, name):
-        snapshot_path = self.get_snapshot_path_and_ensure_dir_exists('tar_gz', name)
+        snapshot_path = self.get_snapshot_path('tar_gz', name)
+        self.ensure_dir_exists(snapshot_path)
 
         if os.path.isfile(snapshot_path):
             with tarfile.open(snapshot_path, 'r|gz') as snapshot_tar:
@@ -62,6 +65,13 @@ class Snapshot(object):
                 # arcname='.' makes tar not save the absolute path
                 # See comments in https://stackoverflow.com/a/2239679
                 snapshot_tar.add(path, arcname='.')
+
+    def extract(self, name, path):
+        snapshot_path = self.get_snapshot_path('tar_gz', name)
+        self.ensure_dir_exists(path)
+
+        with tarfile.open(snapshot_path, 'r|gz') as snapshot_tar:
+            snapshot_tar.extractall(path=path)
 
 
 @pytest.fixture(scope='session')
