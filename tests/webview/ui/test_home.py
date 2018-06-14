@@ -2,9 +2,13 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
+from random import choice
+
 from tests import markers
 
 from pages.webview.home import Home
+
+_number_of_tested_books = 2
 
 
 @markers.webview
@@ -51,13 +55,19 @@ def test_read_more_loads_correct_page(base_url, selenium):
 
     # WHEN The main website URL is fully loaded,
     #      Find the first OpenStax book and click the Read More link
-    page = Home(selenium, base_url).open()
-    book = page.featured_books.openstax_list[0]
-    book_title = book.title
-    content_page = book.click_read_more()
+    home = Home(selenium, base_url).open()
+    for i in range(_number_of_tested_books):
+        # Can't use `for book in sample(home.featured_books.openstax_list, _number_of_tested_books)`
+        # because it causes StaleElementReferenceExceptions
+        book = choice(home.featured_books.openstax_list)
+        book_title = book.title
+        content_page = book.click_read_more()
 
-    # THEN The book title from the home page matches the content page title
-    assert book_title == content_page.title
+        # THEN The book title from the home page matches the content page title
+        assert book_title == content_page.title
+
+        selenium.back()
+        home = home.wait_for_page_to_load()
 
 
 @markers.webview
@@ -67,13 +77,19 @@ def test_book_cover_loads_correct_page(base_url, selenium):
 
     # WHEN The main website URL is fully loaded,
     #      Find the first OpenStax book and click the book cover link
-    page = Home(selenium, base_url).open()
-    book = page.featured_books.openstax_list[0]
-    book_title = book.title
-    content_page = book.click_book_cover()
+    home = Home(selenium, base_url).open()
+    for i in range(_number_of_tested_books):
+        # Can't use `for book in sample(home.featured_books.openstax_list, _number_of_tested_books)`
+        # because it causes StaleElementReferenceExceptions
+        book = choice(home.featured_books.openstax_list)
+        book_title = book.title
+        content_page = book.click_book_cover()
 
-    # THEN The book title from the home page matches the content page title
-    assert book_title == content_page.title
+        # THEN The book title from the home page matches the content page title
+        assert book_title == content_page.title
+
+        selenium.back()
+        home = home.wait_for_page_to_load()
 
 
 @markers.webview
@@ -83,13 +99,19 @@ def test_title_link_loads_correct_page(base_url, selenium):
 
     # WHEN The main website URL is fully loaded,
     #      Find the first OpenStax book and click the title link
-    page = Home(selenium, base_url).open()
-    book = page.featured_books.openstax_list[0]
-    book_title = book.title
-    content_page = book.click_title_link()
+    home = Home(selenium, base_url).open()
+    for i in range(_number_of_tested_books):
+        # Can't use `for book in sample(home.featured_books.openstax_list, _number_of_tested_books)`
+        # because it causes StaleElementReferenceExceptions
+        book = choice(home.featured_books.openstax_list)
+        book_title = book.title
+        content_page = book.click_title_link()
 
-    # THEN The book title from the home page matches the content page title
-    assert book_title == content_page.title
+        # THEN The book title from the home page matches the content page title
+        assert book_title == content_page.title
+
+        selenium.back()
+        home = home.wait_for_page_to_load()
 
 
 @markers.webview
