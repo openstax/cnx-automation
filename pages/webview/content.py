@@ -18,6 +18,10 @@ class Content(Page):
     _url_regex = re.compile('@[^:]+/')
     _section_title_div_locator = (By.CSS_SELECTOR, '#main-content div.media-header div.title')
     _chapter_section_span_locator = (By.CSS_SELECTOR, 'span.title-chapter')
+    _get_this_book_button_locator = (
+        By.CSS_SELECTOR, ('#main-content div.media-header div.info div.downloads'
+                          ' button[type="submit"][data-l10n-id="textbook-view-btn-get-this-book"]')
+    )
     _ncy_locator = (By.CLASS_NAME, 'not-converted-yet')
 
     # The page is loaded when an `@` is present in the url and the uuid is no longer there
@@ -70,6 +74,16 @@ class Content(Page):
         return self.section_title_div.text.replace(self.chapter_section, '').strip()
 
     @property
+    @retry_stale_element_reference_exception
+    def is_get_this_book_button_displayed(self):
+        return self.is_element_displayed(*self._get_this_book_button_locator)
+
+    @property
+    @retry_stale_element_reference_exception
+    def get_this_book_button(self):
+        return self.find_element(*self._get_this_book_button_locator)
+
+    @property
     def is_ncy_displayed(self):
         return self.is_element_displayed(*self._ncy_locator)
 
@@ -88,6 +102,11 @@ class Content(Page):
     def wait_for_url_to_change(self, current_url):
         self.wait.until(lambda _: self.driver.current_url != current_url)
         return self.wait_for_page_to_load()
+
+    @retry_stale_element_reference_exception
+    def click_get_this_book_button(self):
+        self.get_this_book_button.click()
+        return self.GetThisBook(self).wait_for_region_to_load()
 
     class ContentHeader(Region):
         _root_locator = (By.CSS_SELECTOR, '#content div.pinnable')
@@ -288,6 +307,77 @@ class Content(Page):
                             self.root.click()
                             return self.page.wait_for_url_to_change(current_url)
 
+    # This entire region can be overwritten (and the modal automatically closed) at any time,
+    # so any tests that use it must be ready to retry StaleElementReferenceExceptions
+    # using retry_stale_element_reference_exception
+    class GetThisBook(Region):
+        _root_locator = (By.CSS_SELECTOR, 'div.popover div.popover-content div.book-popover')
+        _pdf_link_locator = (
+            By.XPATH, ".//div[contains(@class, 'download-book')]//ul//li//a[text()='PDF']")
+        _epub_link_locator = (
+            By.XPATH, ".//div[contains(@class, 'download-book')]//ul//li//a[text()='EPUB']")
+        _offline_zip_link_locator = (
+            By.XPATH, ".//div[contains(@class, 'download-book')]//ul//li//a[text()='Offline ZIP']")
+        _order_printed_book_link_locator = (
+            By.CSS_SELECTOR, 'a.order[data-l10n-id="textbook-view-book-order-book"]')
+
+        @property
+        @retry_stale_element_reference_exception
+        def root(self):
+            return super().root
+
+        @property
+        @retry_stale_element_reference_exception
+        def text(self):
+            return super().text
+
+        @property
+        @retry_stale_element_reference_exception
+        def loaded(self):
+            return super().loaded
+
+        @property
+        @retry_stale_element_reference_exception
+        def is_displayed(self):
+            return super().is_displayed
+
+        @retry_stale_element_reference_exception
+        def find_element(self, strategy, locator):
+            return super().find_element(strategy, locator)
+
+        @retry_stale_element_reference_exception
+        def find_elements(self, strategy, locator):
+            return super().find_elements(strategy, locator)
+
+        @retry_stale_element_reference_exception
+        def is_element_present(self, strategy, locator):
+            return not not super().is_element_present(strategy, locator)
+
+        @retry_stale_element_reference_exception
+        def is_element_displayed(self, strategy, locator):
+            return super().is_element_displayed(strategy, locator)
+
+        # Because of the flaky behavior of content pages (the modal keeps closing unexpectedly)
+        # we use is_element_present here rather than is_element_displayed.
+        # There's a chance the modal can silently close without an error,
+        # which would cause is_element_displayed to fail.
+        # Switch back to is_element_displayed when this modal closing bug is fixed.
+        @property
+        def is_pdf_link_displayed(self):
+            return self.is_element_present(*self._pdf_link_locator)
+
+        @property
+        def is_epub_link_displayed(self):
+            return self.is_element_present(*self._epub_link_locator)
+
+        @property
+        def is_offline_zip_link_displayed(self):
+            return self.is_element_present(*self._offline_zip_link_locator)
+
+        @property
+        def is_order_printed_book_link_displayed(self):
+            return self.is_element_present(*self._order_printed_book_link_locator)
+
     class Content(Region):
         _root_locator = (By.ID, 'content')
         _figure_locator = (By.TAG_NAME, 'figure')
@@ -312,20 +402,70 @@ class Content(Page):
             return self.is_element_displayed(*self._downloads_tab_locator)
 
         @property
+        def downloads_tab(self):
+            return self.find_element(*self._downloads_tab_locator)
+
+        @property
         def is_history_tab_displayed(self):
             return self.is_element_displayed(*self._history_tab_locator)
+
+        @property
+        def history_tab(self):
+            return self.find_element(*self._history_tab_locator)
 
         @property
         def is_attribution_tab_displayed(self):
             return self.is_element_displayed(*self._attribution_tab_locator)
 
         @property
+        def attribution_tab(self):
+            return self.find_element(*self._attribution_tab_locator)
+
+        @property
         def is_more_information_tab_displayed(self):
             return self.is_element_displayed(*self._metadata_tab_locator)
 
         @property
+        def more_information_tab(self):
+            return self.find_element(*self._metadata_tab_locator)
+
+        @property
         def nav(self):
             return self.FooterNav(self.page)
+
+        def click_downloads_tab(self):
+            self.downloads_tab.click()
+            return self.Downloads(self.page).wait_for_region_to_display()
+
+        class Downloads(Region):
+            _root_locator = (By.CSS_SELECTOR,
+                             '#main-content div.media-footer div.downloads.tab-content')
+            _not_available_td_selector_template = (
+                'table.table tr td[data-l10n-id="textbook-view-file-description"]'
+                '[data-l10n-args=\'{{"format":"{format}"}}\']'
+                ' ~ td[data-l10n-id="textbook-view-file-not-available"]'
+            )
+
+            @property
+            def is_pdf_available(self):
+                selector = self._not_available_td_selector_template.format(format='PDF')
+                return not self.is_element_present(By.CSS_SELECTOR, selector)
+
+            @property
+            def is_epub_available(self):
+                selector = self._not_available_td_selector_template.format(format='EPUB')
+                return not self.is_element_present(By.CSS_SELECTOR, selector)
+
+            @property
+            def is_offline_zip_available(self):
+                selector = self._not_available_td_selector_template.format(format='Offline ZIP')
+                return not self.is_element_present(By.CSS_SELECTOR, selector)
+
+            @property
+            def is_any_available(self):
+                return (self.is_pdf_available or
+                        self.is_epub_available or
+                        self.is_offline_zip_available)
 
         class FooterNav(Region):
             _root_locator = (By.CSS_SELECTOR, '#main-content div.footer-nav')

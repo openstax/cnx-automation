@@ -2,6 +2,8 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
+import pytest
+
 from selenium.webdriver.common.action_chains import ActionChains
 
 from tests import markers
@@ -111,6 +113,37 @@ def test_share_links_displayed(base_url, selenium):
     assert share.is_twitter_share_link_displayed
     assert share.is_google_share_link_displayed
     assert share.is_linkedin_share_link_displayed
+
+
+@markers.webview
+@markers.nondestructive
+def test_get_this_book(base_url, selenium):
+    # GIVEN a book's content page
+    home = Home(selenium, base_url).open()
+    book = home.featured_books.openstax_list[0]
+    content = book.click_book_cover()
+
+    # WHEN we click the "Get This Book!" button
+    button_displayed = content.is_get_this_book_button_displayed
+    if button_displayed:
+        get_this_book = content.click_get_this_book_button()
+        pdf_displayed = get_this_book.is_pdf_link_displayed
+        epub_displayed = get_this_book.is_epub_link_displayed
+        offline_zip_displayed = get_this_book.is_offline_zip_link_displayed
+
+    # THEN links to download the pdf, epub and offline zip versions are displayed
+    # Look at the footer to see which downloads should have been available
+    footer = content.footer
+    ActionChains(selenium).move_to_element(footer.root).perform()
+    downloads = footer.click_downloads_tab()
+
+    if not button_displayed:
+        assert not downloads.is_any_available
+        pytest.skip('No files available to download: "Get This Book!" button not present.')
+
+    assert pdf_displayed == downloads.is_pdf_available
+    assert epub_displayed == downloads.is_epub_available
+    assert offline_zip_displayed == downloads.is_offline_zip_available
 
 
 @markers.webview
