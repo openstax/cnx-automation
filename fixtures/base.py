@@ -30,7 +30,7 @@ def selenium(request, selenium, pytestconfig):
         else:
             # Remove head tag and pretty print
             head = html.find('{http://www.w3.org/1999/xhtml}head')
-            if head:
+            if head is not None:
                 html.remove(head)
             print(etree.tostring(html, encoding='unicode', pretty_print=True))
         print('------------------------------- End Page Source --------------------------------')
