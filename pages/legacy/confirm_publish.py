@@ -16,20 +16,20 @@ class ConfirmPublish(PrivatePage):
     def publish_form(self):
         return self.find_element(*self._publish_form_locator)
 
-    def submit(self, max_tries=3):
+    def submit(self, max_attempts=3):
         from pages.legacy.content_published import ContentPublished
         content_published = ContentPublished(self.driver, self.base_url, self.timeout)
 
         # Sometimes publishing fails with a SiteError. In those cases, we retry it a few times.
-        for i in range(max_tries):
+        for i in range(max_attempts):
             self.publish_form.submit()
-            content_published.wait_for_page_to_load()
+            content_published = content_published.wait_for_page_to_load()
 
             if not content_published.has_site_error:
                 break
-            elif i >= max_tries - 1:
-                pytest.fail('Maximum number of tries exceeded for SiteError'
-                            ' ({tries})'.format(tries=max_tries))
+            elif i >= max_attempts - 1:
+                pytest.fail('Maximum number of attempts exceeded for SiteError'
+                            ' ({attempts})'.format(attempts=max_attempts))
 
             self.driver.back()
             self.wait_for_page_to_load()
