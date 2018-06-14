@@ -13,7 +13,7 @@ pytest-metadata==1.7.0
 pytest-selenium==1.13.0
 pytest-variables==1.7.1
 python-dotenv==0.8.2
-requests==2.19.0
+requests==2.19.1
 selenium==3.12.0
 six==1.11.0
 tox==3.0.0
