@@ -54,7 +54,7 @@ def test_get_no_col_id(neb_env):
 
 @markers.neb
 @markers.nondestructive
-@markers.parametrize("col_id", ['col11562'])
+@markers.parametrize('col_id', ['col11562'])
 def test_get_no_col_version(neb_env, col_id):
     # GIVEN neb, an environment, and a collection id
 
@@ -69,7 +69,7 @@ def test_get_no_col_version(neb_env, col_id):
 
 @markers.neb
 @markers.nondestructive
-@markers.parametrize("col_id,col_minimum_version", [('col11562', '1.19')])
+@markers.parametrize('col_id,col_minimum_version', [('col11562', '1.19')])
 def test_get_col_latest(neb_env, col_id, col_minimum_version):
     # GIVEN neb, an environment name, a collection id, and a collection minimum version
 
@@ -91,7 +91,7 @@ def test_get_col_latest(neb_env, col_id, col_minimum_version):
 
 @markers.neb
 @markers.nondestructive
-@markers.parametrize("col_id,col_version", [('col11562', '1.19')])
+@markers.parametrize('col_id,col_version', [('col11562', '1.19')])
 def test_get_col_version(neb_env, col_id, col_version, snapshot):
     # GIVEN neb, an environment name, a collection id, a collection version, and the snapshot tool
     snapshot_name = join('neb', col_id, '{col_version}.tar.gz'.format(col_version=col_version))
