@@ -4,6 +4,8 @@
 
 from random import choice
 
+from selenium.webdriver.common.action_chains import ActionChains
+
 from tests import markers
 
 from pages.webview.home import Home
@@ -62,6 +64,8 @@ def test_read_more_loads_correct_page(base_url, selenium):
         # because it causes StaleElementReferenceExceptions
         book = choice(home.featured_books.openstax_list)
         book_title = book.title
+        # Needed to prevent failures when trying to click books that are offscreen
+        ActionChains(selenium).move_to_element(book.root).perform()
         content_page = book.click_read_more()
 
         # THEN The book title from the home page matches the content page title
@@ -85,6 +89,8 @@ def test_book_cover_loads_correct_page(base_url, selenium):
         # because it causes StaleElementReferenceExceptions
         book = choice(home.featured_books.openstax_list)
         book_title = book.title
+        # Needed to prevent failures when trying to click books that are offscreen
+        ActionChains(selenium).move_to_element(book.root).perform()
         content_page = book.click_book_cover()
 
         # THEN The book title from the home page matches the content page title
@@ -108,6 +114,8 @@ def test_title_link_loads_correct_page(base_url, selenium):
         # because it causes StaleElementReferenceExceptions
         book = choice(home.featured_books.openstax_list)
         book_title = book.title
+        # Needed to prevent failures when trying to click books that are offscreen
+        ActionChains(selenium).move_to_element(book.root).perform()
         content_page = book.click_title_link()
 
         # THEN The book title from the home page matches the content page title
