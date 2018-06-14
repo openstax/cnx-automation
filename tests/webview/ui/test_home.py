@@ -48,6 +48,7 @@ def test_featured_books_load(base_url, selenium):
     assert len(page.featured_books.cnx_list) > 0
 
 
+@markers.xfail(reason='https://trello.com/c/mFRaZRqK', raises=AssertionError)
 @markers.webview
 @markers.nondestructive
 def test_read_more_loads_correct_page(base_url, selenium):
@@ -70,6 +71,7 @@ def test_read_more_loads_correct_page(base_url, selenium):
         home = home.wait_for_page_to_load()
 
 
+@markers.xfail(reason='https://trello.com/c/mFRaZRqK', raises=AssertionError)
 @markers.webview
 @markers.nondestructive
 def test_book_cover_loads_correct_page(base_url, selenium):
@@ -92,6 +94,7 @@ def test_book_cover_loads_correct_page(base_url, selenium):
         home = home.wait_for_page_to_load()
 
 
+@markers.xfail(reason='https://trello.com/c/mFRaZRqK', raises=AssertionError)
 @markers.webview
 @markers.nondestructive
 def test_title_link_loads_correct_page(base_url, selenium):
