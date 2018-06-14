@@ -69,10 +69,15 @@ def test_publish_no_commit_message(neb_env):
 @markers.neb
 @markers.nondestructive
 @markers.slow
-@markers.parametrize('col_id,col_version,publication_message',
-                     [('col11562', '1.19-invalid', 'Made the CNXML invalid')])
-def test_publish_invalid_cnxml(neb_env, col_id, col_version, publication_message, snapshot):
-    # GIVEN neb, an environment, a content dir, a publication message, and the snapshot tool
+@markers.parametrize(
+    'col_id,col_version,publication_message,expected_validation_errors',
+    [('col11562', '1.19-invalid', 'Made the CNXML invalid',
+      ('/m46885/index.cnxml:102:22 -- error: ID "id9602938" has already been defined',
+       '/m46885/index.cnxml:101:22 -- error: first occurrence of ID "id9602938"'))])
+def test_publish_invalid_cnxml(neb_env, col_id, col_version, publication_message,
+                               expected_validation_errors, snapshot):
+    # GIVEN neb, an environment, a content dir, a publication message,
+    # the expected errors, and the snapshot tool
     snapshot_name = get_neb_snapshot_name(col_id, col_version)
 
     with TemporaryDirectory() as content_dir:
@@ -87,6 +92,7 @@ def test_publish_invalid_cnxml(neb_env, col_id, col_version, publication_message
 
     # THEN neb exits with an error and the CNXML validation failure message is displayed
     assert returncode > 0
-    assert '/m46885/index.cnxml:102:22 -- error: ID "id9602938" has already been defined' in stderr
-    assert '/m46885/index.cnxml:101:22 -- error: first occurrence of ID "id9602938"' in stderr
     assert "We've got problems... :(" in stderr
+
+    for validation_error in expected_validation_errors:
+        assert validation_error in stderr
