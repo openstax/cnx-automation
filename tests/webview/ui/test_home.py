@@ -50,7 +50,7 @@ def test_featured_books_load(base_url, selenium):
     assert len(page.featured_books.cnx_list) > 0
 
 
-@markers.xfail(reason='https://trello.com/c/mFRaZRqK', raises=AssertionError)
+@markers.xfail(reason='https://trello.com/c/DL7xEWon', raises=AssertionError)
 @markers.webview
 @markers.nondestructive
 def test_featured_books_have_title_and_intro(base_url, selenium):
@@ -62,19 +62,13 @@ def test_featured_books_have_title_and_intro(base_url, selenium):
     # THEN featured books have titles and intros
     books = home.featured_books.openstax_list + home.featured_books.cnx_list
 
-    # This many books already had blank intros.
-    # We check this to ensure this number does not increase
-    max_blank_intros = 10
-    num_blank_intros = 0
-
     for book in books:
         assert book.title
-        if not book.intro or book.intro == '...':
-            num_blank_intros += 1
-
-    assert num_blank_intros <= max_blank_intros
+        assert book.intro
+        assert book.intro != '...'
 
 
+@markers.xfail(reason='https://trello.com/c/mFRaZRqK', raises=AssertionError)
 @markers.webview
 @markers.nondestructive
 def test_read_more_loads_correct_page(base_url, selenium):
