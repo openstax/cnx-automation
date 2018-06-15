@@ -6,7 +6,10 @@ from pytest import config, mark
 
 nondestructive = mark.nondestructive
 parametrize = mark.parametrize
+xfail = mark.xfail
+
 slow = mark.skipif(not config.getoption('runslow'), reason='need --runslow option to run')
+
 webview = mark.webview
 legacy = mark.legacy
 neb = mark.neb
