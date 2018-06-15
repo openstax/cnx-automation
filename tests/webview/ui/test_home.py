@@ -2,7 +2,7 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-from random import choice
+import random
 
 from selenium.webdriver.common.action_chains import ActionChains
 
@@ -62,7 +62,7 @@ def test_read_more_loads_correct_page(base_url, selenium):
     for i in range(_number_of_tested_books):
         # Can't use `for book in sample(home.featured_books.openstax_list, _number_of_tested_books)`
         # because it causes StaleElementReferenceExceptions
-        book = choice(home.featured_books.openstax_list)
+        book = random.choice(home.featured_books.openstax_list)
         book_title = book.title
         # Needed to prevent failures when trying to click books that are offscreen
         ActionChains(selenium).move_to_element(book.root).perform()
@@ -87,7 +87,7 @@ def test_book_cover_loads_correct_page(base_url, selenium):
     for i in range(_number_of_tested_books):
         # Can't use `for book in sample(home.featured_books.openstax_list, _number_of_tested_books)`
         # because it causes StaleElementReferenceExceptions
-        book = choice(home.featured_books.openstax_list)
+        book = random.choice(home.featured_books.openstax_list)
         book_title = book.title
         # Needed to prevent failures when trying to click books that are offscreen
         ActionChains(selenium).move_to_element(book.root).perform()
@@ -112,7 +112,7 @@ def test_title_link_loads_correct_page(base_url, selenium):
     for i in range(_number_of_tested_books):
         # Can't use `for book in sample(home.featured_books.openstax_list, _number_of_tested_books)`
         # because it causes StaleElementReferenceExceptions
-        book = choice(home.featured_books.openstax_list)
+        book = random.choice(home.featured_books.openstax_list)
         book_title = book.title
         # Needed to prevent failures when trying to click books that are offscreen
         ActionChains(selenium).move_to_element(book.root).perform()
