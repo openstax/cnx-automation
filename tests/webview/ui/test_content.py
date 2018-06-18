@@ -14,9 +14,9 @@ from pages.webview.content import Content
 
 @markers.webview
 @markers.nondestructive
-def test_navs_and_elements_are_displayed(base_url, selenium):
+def test_navs_and_elements_are_displayed(webview_base_url, selenium):
     # GIVEN the home page
-    home = Home(selenium, base_url).open()
+    home = Home(selenium, webview_base_url).open()
 
     # WHEN a book is clicked
     book = home.featured_books.openstax_list[0]
@@ -40,9 +40,9 @@ def test_navs_and_elements_are_displayed(base_url, selenium):
 
 @markers.webview
 @markers.nondestructive
-def test_toc_displayed(base_url, selenium):
+def test_toc_displayed(webview_base_url, selenium):
     # GIVEN a book's content page
-    home = Home(selenium, base_url).open()
+    home = Home(selenium, webview_base_url).open()
     book = home.featured_books.openstax_list[0]
     content = book.click_book_cover()
 
@@ -57,9 +57,9 @@ def test_toc_displayed(base_url, selenium):
 
 @markers.webview
 @markers.nondestructive
-def test_toc_navigation(base_url, selenium):
+def test_toc_navigation(webview_base_url, selenium):
     # GIVEN a book's table of contents
-    home = Home(selenium, base_url).open()
+    home = Home(selenium, webview_base_url).open()
     book = home.featured_books.openstax_list[0]
     content = book.click_book_cover()
     toc = content.header_nav.click_contents_button()
@@ -80,9 +80,9 @@ def test_toc_navigation(base_url, selenium):
 
 @markers.webview
 @markers.nondestructive
-def test_share_on_top_right_corner(base_url, selenium):
+def test_share_on_top_right_corner(webview_base_url, selenium):
     # GIVEN the home page
-    home = Home(selenium, base_url).open()
+    home = Home(selenium, webview_base_url).open()
 
     # WHEN a book is clicked
     book = home.featured_books.openstax_list[0]
@@ -98,9 +98,9 @@ def test_share_on_top_right_corner(base_url, selenium):
 
 @markers.webview
 @markers.nondestructive
-def test_share_links_displayed(base_url, selenium):
+def test_share_links_displayed(webview_base_url, selenium):
     # GIVEN the home page
-    home = Home(selenium, base_url).open()
+    home = Home(selenium, webview_base_url).open()
 
     # WHEN a book is clicked
     book = home.featured_books.openstax_list[0]
@@ -117,9 +117,9 @@ def test_share_links_displayed(base_url, selenium):
 
 @markers.webview
 @markers.nondestructive
-def test_get_this_book(base_url, selenium):
+def test_get_this_book(webview_base_url, selenium):
     # GIVEN a book's content page
-    home = Home(selenium, base_url).open()
+    home = Home(selenium, webview_base_url).open()
     book = home.featured_books.openstax_list[0]
     content = book.click_book_cover()
 
@@ -148,9 +148,9 @@ def test_get_this_book(base_url, selenium):
 
 @markers.webview
 @markers.nondestructive
-def test_content(base_url, selenium):
+def test_content(webview_base_url, selenium):
     # GIVEN the home page
-    home = Home(selenium, base_url).open()
+    home = Home(selenium, webview_base_url).open()
 
     # WHEN a book is clicked
     book = home.featured_books.openstax_list[0]
@@ -164,9 +164,9 @@ def test_content(base_url, selenium):
 
 @markers.webview
 @markers.nondestructive
-def test_scroll(base_url, selenium):
+def test_scroll(webview_base_url, selenium):
     # GIVEN a book's content page
-    home = Home(selenium, base_url).open()
+    home = Home(selenium, webview_base_url).open()
     book = home.featured_books.openstax_list[0]
     content = book.click_book_cover()
 
@@ -211,9 +211,9 @@ def test_scroll(base_url, selenium):
 
 @markers.webview
 @markers.nondestructive
-def test_back_to_top(base_url, selenium):
+def test_back_to_top(webview_base_url, selenium):
     # GIVEN a book's scrolled content page
-    home = Home(selenium, base_url).open()
+    home = Home(selenium, webview_base_url).open()
     book = home.featured_books.openstax_list[0]
     content = book.click_book_cover()
     footer = content.footer
@@ -257,9 +257,9 @@ def test_back_to_top(base_url, selenium):
 
 @markers.webview
 @markers.nondestructive
-def test_navigation(base_url, selenium):
+def test_navigation(webview_base_url, selenium):
     # GIVEN a book's content page
-    home = Home(selenium, base_url).open()
+    home = Home(selenium, webview_base_url).open()
     book = home.featured_books.openstax_list[0]
     content = book.click_book_cover()
     header_nav = content.header_nav

@@ -62,6 +62,12 @@ def pytest_addoption(parser):
         metavar='url',
         default=os.getenv('LEGACY_BASE_URL', None),
         help='base url for CNX legacy.')
+    parser.addini('webview_base_url', help='base url for CNX webview.')
+    parser.addoption(
+        '--webview_base_url',
+        metavar='url',
+        default=os.getenv('WEBVIEW_BASE_URL', None),
+        help='base url for CNX webview.')
     parser.addoption(
         '--legacy_username',
         default=os.getenv('LEGACY_USERNAME'),

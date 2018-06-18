@@ -14,12 +14,12 @@ from pages.webview.content import Content
 
 @markers.webview
 @markers.nondestructive
-def test_search_input_and_button_are_displayed(base_url, selenium):
+def test_search_input_and_button_are_displayed(webview_base_url, selenium):
     # GIVEN The base_url and Selenium driver
 
     # WHEN The home page URL is fully loaded,
     #      and the browse link in the navbar is clicked
-    page = Home(selenium, base_url).open()
+    page = Home(selenium, webview_base_url).open()
     browse_page = page.header.click_search()
 
     # THEN The search bar and the advanced search button is displayed
@@ -29,9 +29,9 @@ def test_search_input_and_button_are_displayed(base_url, selenium):
 
 @markers.webview
 @markers.nondestructive
-def test_search_no_results(base_url, selenium):
+def test_search_no_results(webview_base_url, selenium):
     # GIVEN the browse page and a bogus query
-    home = Home(selenium, base_url).open()
+    home = Home(selenium, webview_base_url).open()
     browse = home.header.click_search()
     query = ''.join(choice(digits + ascii_letters) for i in range(32))
 
@@ -47,12 +47,12 @@ def test_search_no_results(base_url, selenium):
 
 @markers.webview
 @markers.nondestructive
-def test_subject_categories_load(base_url, selenium):
+def test_subject_categories_load(webview_base_url, selenium):
     # GIVEN the base_url and Selenium driver
 
     # When The homepage URL is fully loaded,
     #      and the browse link in the navbar is clicked
-    page = Home(selenium, base_url).open()
+    page = Home(selenium, webview_base_url).open()
     browse_page = page.header.click_search()
 
     # Then The subject categories are loaded
@@ -61,9 +61,9 @@ def test_subject_categories_load(base_url, selenium):
 
 @markers.webview
 @markers.nondestructive
-def test_subject_categories_have_page_and_book_counts(base_url, selenium):
+def test_subject_categories_have_page_and_book_counts(webview_base_url, selenium):
     # GIVEN the home page
-    home = Home(selenium, base_url).open()
+    home = Home(selenium, webview_base_url).open()
 
     # When the browse link in the navbar is clicked
     browse = home.header.click_search()
@@ -76,9 +76,9 @@ def test_subject_categories_have_page_and_book_counts(base_url, selenium):
 
 @markers.webview
 @markers.nondestructive
-def test_click_subject_category(base_url, selenium):
+def test_click_subject_category(webview_base_url, selenium):
     # GIVEN the browse page
-    home = Home(selenium, base_url).open()
+    home = Home(selenium, webview_base_url).open()
     browse = home.header.click_search()
 
     # WHEN a subject category is clicked
@@ -99,9 +99,9 @@ def test_click_subject_category(base_url, selenium):
 @markers.webview
 @markers.nondestructive
 @markers.parametrize("query", ['Boreal Aardvark'])
-def test_search(base_url, selenium, query):
+def test_search(webview_base_url, selenium, query):
     # GIVEN the browse page and a query
-    home = Home(selenium, base_url).open()
+    home = Home(selenium, webview_base_url).open()
     browse = home.header.click_search()
 
     # WHEN we search for the query
@@ -122,9 +122,9 @@ def test_search(base_url, selenium, query):
 @markers.webview
 @markers.nondestructive
 @markers.parametrize("query", ['Boreal Aardvark'])
-def test_search_filter(base_url, selenium, query):
+def test_search_filter(webview_base_url, selenium, query):
     # GIVEN the search results page
-    home = Home(selenium, base_url).open()
+    home = Home(selenium, webview_base_url).open()
     browse = home.header.click_search()
     search_results = browse.search(query)
 
@@ -149,9 +149,9 @@ def test_search_filter(base_url, selenium, query):
 @markers.webview
 @markers.nondestructive
 @markers.parametrize("query", ['Boreal Aardvark'])
-def test_search_unfilter(base_url, selenium, query):
+def test_search_unfilter(webview_base_url, selenium, query):
     # GIVEN the search results page
-    home = Home(selenium, base_url).open()
+    home = Home(selenium, webview_base_url).open()
     browse = home.header.click_search()
     search_results = browse.search(query)
 
@@ -174,9 +174,9 @@ def test_search_unfilter(base_url, selenium, query):
 @markers.webview
 @markers.nondestructive
 @markers.parametrize("query", ['Aardvark Syllabi'])
-def test_search_bold(base_url, selenium, query):
+def test_search_bold(webview_base_url, selenium, query):
     # GIVEN the browse page and a query
-    home = Home(selenium, base_url).open()
+    home = Home(selenium, webview_base_url).open()
     browse = home.header.click_search()
 
     # WHEN we search for the query
@@ -209,9 +209,9 @@ def test_search_bold(base_url, selenium, query):
 @markers.webview
 @markers.nondestructive
 @markers.parametrize("query", ['Boreal Aardvark'])
-def test_search_click_result(base_url, selenium, query):
+def test_search_click_result(webview_base_url, selenium, query):
     # GIVEN the search results page
-    home = Home(selenium, base_url).open()
+    home = Home(selenium, webview_base_url).open()
     browse = home.header.click_search()
     search_results = browse.search(query)
 
@@ -230,9 +230,9 @@ def test_search_click_result(base_url, selenium, query):
 @markers.webview
 @markers.nondestructive
 @markers.parametrize("query", ['Boreal Aardvark'])
-def test_search_pagination(base_url, selenium, query):
+def test_search_pagination(webview_base_url, selenium, query):
     # GIVEN the browse page and a query
-    home = Home(selenium, base_url).open()
+    home = Home(selenium, webview_base_url).open()
     browse = home.header.click_search()
 
     # WHEN we search for the query
@@ -266,9 +266,9 @@ def test_search_pagination(base_url, selenium, query):
 @markers.webview
 @markers.nondestructive
 @markers.parametrize("query", ['Boreal Aardvark'])
-def test_search_click_pagination(base_url, selenium, query):
+def test_search_click_pagination(webview_base_url, selenium, query):
     # GIVEN the search results page
-    home = Home(selenium, base_url).open()
+    home = Home(selenium, webview_base_url).open()
     browse = home.header.click_search()
     search_results = browse.search(query)
 
@@ -301,9 +301,9 @@ def test_search_click_pagination(base_url, selenium, query):
 
 @markers.webview
 @markers.nondestructive
-def test_advanced_search(base_url, selenium):
+def test_advanced_search(webview_base_url, selenium):
     # GIVEN the advanced search page, advanced search field values, and the expected breadcrumbs
-    home = Home(selenium, base_url).open()
+    home = Home(selenium, webview_base_url).open()
     browse = home.header.click_search()
     advanced_search = browse.click_advanced_search_link()
     search = {
@@ -349,9 +349,9 @@ def test_advanced_search(base_url, selenium):
 
 @markers.webview
 @markers.nondestructive
-def test_logo_link_loads_home_page(base_url, selenium):
+def test_logo_link_loads_home_page(webview_base_url, selenium):
     # GIVEN the browse page
-    home = Home(selenium, base_url).open()
+    home = Home(selenium, webview_base_url).open()
     browse = home.header.click_search()
 
     # WHEN the OpenStax CNX logo is clicked
