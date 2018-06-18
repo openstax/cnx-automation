@@ -38,7 +38,7 @@ Follow the instructions to install [Docker Compose](https://docs.docker.com/comp
 
 #### Activate the virtualenv
 
-    $ source .env/bin/activate
+    $ source .venv/bin/activate
 
 ### Set username and password for legacy tests
 
