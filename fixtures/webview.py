@@ -11,6 +11,7 @@ DATA_DIR = os.path.join(os.path.realpath(os.path.dirname(__file__)), 'data', 'we
 
 __all__ = ['content_url', 'american_gov_url', 'webview_base_url']
 
+
 @pytest.fixture
 def content_url(base_url):
     """Creates contents URL based on the base_url
