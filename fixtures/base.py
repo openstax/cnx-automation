@@ -17,7 +17,9 @@ def selenium(request, selenium, pytestconfig):
     yield selenium
     # request.node is an "item" because we use the default "function" scope
     if pytestconfig.getoption('--print-page-source-on-failure') and \
+       hasattr(request.node, 'rep_setup') and \
        request.node.rep_setup.passed and \
+       hasattr(request.node, 'rep_call') and \
        request.node.rep_call.failed:
         # print page source on failure
         print('\n------------------------------ Begin Page Source -------------------------------')

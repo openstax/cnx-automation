@@ -4,14 +4,16 @@
 
 import pytest
 
+from tests.utils import skip_if_destructive_and_sensitive
+
 __all__ = ['archive_base_url']
 
 
-@pytest.fixture(scope='session')
+@pytest.fixture
 def archive_base_url(request):
     """Return a base URL for CNX archive"""
     config = request.config
-    base_url = (config.getoption('archive_base_url') or
-                config.getini('archive_base_url'))
+    base_url = config.getoption('archive_base_url') or config.getini('archive_base_url')
     if base_url is not None:
+        skip_if_destructive_and_sensitive(request, base_url)
         return base_url

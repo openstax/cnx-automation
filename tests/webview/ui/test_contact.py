@@ -9,9 +9,9 @@ from tests import markers
 
 @markers.webview
 @markers.nondestructive
-def test_contact_has_email_link(base_url, selenium):
+def test_contact_has_email_link(webview_base_url, selenium):
     # GIVEN the About Us page
-    home = Home(selenium, base_url).open()
+    home = Home(selenium, webview_base_url).open()
     about_us = home.header.click_about_us()
 
     # WHEN the contact link in the navbar is clicked
@@ -23,9 +23,9 @@ def test_contact_has_email_link(base_url, selenium):
 
 @markers.webview
 @markers.nondestructive
-def test_contact_has_location_map(base_url, selenium):
+def test_contact_has_location_map(webview_base_url, selenium):
     # GIVEN the About Us page
-    home = Home(selenium, base_url).open()
+    home = Home(selenium, webview_base_url).open()
     about_us = home.header.click_about_us()
 
     # WHEN the contact link in the navbar is clicked
@@ -37,9 +37,9 @@ def test_contact_has_location_map(base_url, selenium):
 
 @markers.webview
 @markers.nondestructive
-def test_contact_has_correct_headers(base_url, selenium):
+def test_contact_has_correct_headers(webview_base_url, selenium):
     # GIVEN the About Us page
-    home = Home(selenium, base_url).open()
+    home = Home(selenium, webview_base_url).open()
     about_us = home.header.click_about_us()
 
     # WHEN the contact link in the navbar is clicked

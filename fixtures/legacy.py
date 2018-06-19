@@ -3,20 +3,22 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 import os
-
 import pytest
+
+from tests.utils import skip_if_destructive_and_sensitive
 
 LEGACY_DATA_DIR = os.path.join(os.path.realpath(os.path.dirname(__file__)), 'data', 'legacy')
 
 __all__ = ['legacy_base_url', 'legacy_username', 'legacy_password', 'm46922_1_13_cnxml_filepath']
 
 
-@pytest.fixture(scope='session')
+@pytest.fixture
 def legacy_base_url(request):
     """Return a base URL for CNX legacy"""
     config = request.config
     base_url = config.getoption('legacy_base_url') or config.getini('legacy_base_url')
     if base_url is not None:
+        skip_if_destructive_and_sensitive(request, base_url)
         return base_url
 
 

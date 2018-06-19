@@ -9,9 +9,9 @@ from tests import markers
 
 @markers.webview
 @markers.nondestructive
-def test_about_us_links_are_positioned_properly(base_url, selenium):
+def test_about_us_links_are_positioned_properly(webview_base_url, selenium):
     # GIVEN the home page
-    home = Home(selenium, base_url).open()
+    home = Home(selenium, webview_base_url).open()
 
     # WHEN the About Us link in the navbar is clicked
     about_us = home.header.click_about_us()
@@ -36,9 +36,9 @@ def test_about_us_links_are_positioned_properly(base_url, selenium):
 
 @markers.webview
 @markers.nondestructive
-def test_about_us_content_includes_openstax_goals(base_url, selenium):
+def test_about_us_content_includes_openstax_goals(webview_base_url, selenium):
     # GIVEN the home page
-    home = Home(selenium, base_url).open()
+    home = Home(selenium, webview_base_url).open()
 
     # WHEN the About Us link in the navbar is clicked
     about_us = home.header.click_about_us()
@@ -51,9 +51,9 @@ def test_about_us_content_includes_openstax_goals(base_url, selenium):
 
 @markers.webview
 @markers.nondestructive
-def test_about_us_content_links(base_url, selenium):
+def test_about_us_content_links(webview_base_url, selenium):
     # GIVEN the home page
-    home = Home(selenium, base_url).open()
+    home = Home(selenium, webview_base_url).open()
 
     # WHEN the About Us link in the navbar is clicked
     about_us = home.header.click_about_us()

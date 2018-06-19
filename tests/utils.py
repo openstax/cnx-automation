@@ -45,3 +45,24 @@ def retry_stale_element_reference_exception(method_or_max_tries):
     else:
         max_tries = method_or_max_tries
         return wrap
+
+
+# Like https://github.com/pytest-dev/pytest-selenium/blob/master/pytest_selenium/safety.py
+# but does not make a request to the site to get redirect information
+def is_url_sensitive(request, base_url, memo={}):
+    """Returns whether or not the base_url is considered sensitive"""
+    if base_url not in memo:
+        import re
+        sensitive_url_regex = re.compile(request.config.getoption('sensitive_url'))
+        memo[base_url] = bool(sensitive_url_regex.search(base_url))
+    return memo[base_url]
+
+
+def skip_if_destructive_and_sensitive(request, base_url):
+    """Skips destructive tests if the base_url is considered sensitive"""
+    if 'nondestructive' not in request.node.keywords and is_url_sensitive(request, base_url):
+        from pytest import skip
+        skip('This test is destructive and the target URL is '
+             'considered a sensitive environment. If this test is '
+             "not destructive, add the 'nondestructive' marker to "
+             'it. Sensitive URL: {base_url}'.format(base_url=base_url))

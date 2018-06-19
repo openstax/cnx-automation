@@ -109,11 +109,11 @@ from pages.home import Home
 
 @markers.webview
 @markers.nondestructive
-def test_nav_is_displayed(base_url, selenium):
+def test_nav_is_displayed(webview_base_url, selenium):
     # GIVEN the main website URL and the Selenium driver
 
     # WHEN The main website URL is fully loaded
-    page = Home(selenium, base_url).open()
+    page = Home(selenium, webview_base_url).open()
 
     # THEN The navbar is displayed
     assert page.header.is_nav_displayed

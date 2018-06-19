@@ -11,9 +11,9 @@ from pages.webview.donate_form import DonateForm
 
 @markers.webview
 @markers.nondestructive
-def test_donate_form_loads(base_url, selenium):
+def test_donate_form_loads(webview_base_url, selenium):
     # GIVEN the home page
-    home = Home(selenium, base_url).open()
+    home = Home(selenium, webview_base_url).open()
 
     # WHEN the donate link is clicked and then the donate now button is clicked
     donate = home.header.click_donate()
@@ -27,9 +27,9 @@ def test_donate_form_loads(base_url, selenium):
 
 @markers.webview
 @markers.nondestructive
-def test_donate_form_incomplete(base_url, selenium):
+def test_donate_form_incomplete(webview_base_url, selenium):
     # GIVEN the donation form
-    home = Home(selenium, base_url).open()
+    home = Home(selenium, webview_base_url).open()
     donate = home.header.click_donate()
     donate_form = donate.submit()
 
@@ -48,9 +48,9 @@ def test_donate_form_incomplete(base_url, selenium):
 
 @markers.webview
 @markers.nondestructive
-def test_donate_slider(base_url, selenium):
+def test_donate_slider(webview_base_url, selenium):
     # GIVEN the home page
-    home = Home(selenium, base_url).open()
+    home = Home(selenium, webview_base_url).open()
 
     # WHEN the donate link is clicked and then the donate now button is clicked
     donate = home.header.click_donate()
