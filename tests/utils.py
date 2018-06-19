@@ -27,23 +27,23 @@ def patch_module(source_module_name, target_module_name, attr):
 
 # Retries StaleElementReferenceExceptions up to n-1 times (default n=3)
 # Decorator with optional argument based on: https://stackoverflow.com/a/3931903
-def retry_stale_element_reference_exception(method_or_max_tries):
+def retry_stale_element_reference_exception(method_or_max_attempts):
     def wrap(method):
         @wraps(method)
         def wrapper(*args, **kwargs):
-            for i in range(max_tries):
+            for i in range(max_attempts):
                 try:
                     return method(*args, **kwargs)
                 except StaleElementReferenceException:
-                    if i >= max_tries - 1:
+                    if i >= max_attempts - 1:
                         raise
         return wrapper
 
-    if callable(method_or_max_tries):
-        max_tries = 3
-        return wrap(method_or_max_tries)
+    if callable(method_or_max_attempts):
+        max_attempts = 3
+        return wrap(method_or_max_attempts)
     else:
-        max_tries = method_or_max_tries
+        max_attempts = method_or_max_attempts
         return wrap
 
 
