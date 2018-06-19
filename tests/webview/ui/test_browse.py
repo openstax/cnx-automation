@@ -356,7 +356,7 @@ def test_logo_link_loads_home_page(webview_base_url, selenium):
     browse = home.header.click_search()
 
     # WHEN the OpenStax CNX logo is clicked
-    home = browse.header.click_logo()
+    home = browse.header.click_cnx_logo()
 
     # THEN the home page is loaded
     assert type(home) is Home

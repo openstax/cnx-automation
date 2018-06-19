@@ -22,52 +22,146 @@ class Page(pypom.Page):
 
     class Header(Region):
         _root_locator = (By.ID, 'header')
-        # This is the CSS selector that currently applies the logo background-image
-        _logo_locator = (
+        _support_link_locator = (By.CSS_SELECTOR, 'a[data-l10n-id="all-header-support"]')
+        _legacy_site_link_locator = (By.CSS_SELECTOR,
+                                     'a[data-l10n-id="all-cnx-author-legacy-site"]')
+        # This is the CSS selector that currently applies the CNX logo background-image
+        _cnx_logo_locator = (
             By.CSS_SELECTOR,
             '.page-header > .navbar > .container-fluid > .navbar-header > .navbar-brand'
         )
-        _browse_locator = (By.CSS_SELECTOR, '#page-nav #nav-browse a')
-        _about_us_locator = (By.CSS_SELECTOR, '#page-nav #nav-about a')
-        _donate_locator = (By.CSS_SELECTOR, '#page-nav #nav-donate a')
+        _nav_button_locator = (By.CSS_SELECTOR,
+                               '#header button.navbar-toggle[data-target="#page-nav"]')
+        _browse_link_locator = (By.CSS_SELECTOR, '#page-nav #nav-browse a')
+        _about_us_link_locator = (By.CSS_SELECTOR, '#page-nav #nav-about a')
+        _donate_link_locator = (By.CSS_SELECTOR, '#page-nav #nav-donate a')
+        _rice_logo_locator = (By.XPATH, ".//a[.//img[@src='/images/rice.png']]")
 
         @property
-        def logo(self):
-            return self.find_element(*self._logo_locator)
+        def support_link(self):
+            return self.find_element(*self._support_link_locator)
 
         @property
-        def is_logo_displayed(self):
-            return self.is_element_displayed(*self._logo_locator)
+        def is_support_link_displayed(self):
+            return self.is_element_displayed(*self._support_link_locator)
+
+        @property
+        def support_url(self):
+            return self.support_link.get_attribute('href')
+
+        @property
+        def legacy_site_link(self):
+            return self.find_element(*self._legacy_site_link_locator)
+
+        @property
+        def is_legacy_site_link_displayed(self):
+            return self.is_element_displayed(*self._legacy_site_link_locator)
+
+        @property
+        def legacy_site_url(self):
+            return self.legacy_site_link.get_attribute('href')
+
+        @property
+        def cnx_logo(self):
+            return self.find_element(*self._cnx_logo_locator)
+
+        @property
+        def is_cnx_logo_displayed(self):
+            return self.is_element_displayed(*self._cnx_logo_locator)
+
+        @property
+        def cnx_logo_url(self):
+            return self.cnx_logo.get_attribute('href')
+
+        @property
+        def nav_button(self):
+            return self.find_element(*self._nav_button_locator)
+
+        @property
+        def is_nav_button_displayed(self):
+            return self.is_element_displayed(*self._nav_button_locator)
+
+        @property
+        def browse_link(self):
+            return self.find_element(*self._browse_link_locator)
+
+        @property
+        def is_browse_link_displayed(self):
+            return self.is_element_displayed(*self._browse_link_locator)
+
+        @property
+        def browse_url(self):
+            return self.browse_link.get_attribute('href')
+
+        @property
+        def about_us_link(self):
+            return self.find_element(*self._about_us_link_locator)
+
+        @property
+        def is_about_us_link_displayed(self):
+            return self.is_element_displayed(*self._about_us_link_locator)
+
+        @property
+        def about_us_url(self):
+            return self.about_us_link.get_attribute('href')
+
+        @property
+        def donate_link(self):
+            return self.find_element(*self._donate_link_locator)
+
+        @property
+        def is_donate_link_displayed(self):
+            return self.is_element_displayed(*self._donate_link_locator)
+
+        @property
+        def donate_url(self):
+            return self.donate_link.get_attribute('href')
 
         @property
         def is_nav_displayed(self):
-            return (self.is_element_displayed(*self._browse_locator) and
-                    self.is_element_displayed(*self._about_us_locator) and
-                    self.is_element_displayed(*self._donate_locator))
+            return (self.is_nav_button_displayed or
+                    (self.is_browse_link_displayed and
+                     self.is_about_us_link_displayed and
+                     self.is_donate_link_displayed))
+
+        @property
+        def rice_logo(self):
+            return self.find_element(*self._rice_logo_locator)
+
+        @property
+        def is_rice_logo_displayed(self):
+            return self.is_element_displayed(*self._rice_logo_locator)
+
+        @property
+        def rice_logo_url(self):
+            return self.rice_logo.get_attribute('href')
 
         @property
         def is_displayed(self):
-            return self.is_logo_displayed and self.is_nav_displayed
+            return (self.is_support_link_displayed and
+                    self.is_legacy_site_link_displayed and
+                    self.is_cnx_logo_displayed and
+                    self.is_nav_displayed)
 
-        def click_logo(self):
-            self.logo.click()
+        def click_cnx_logo(self):
+            self.cnx_logo.click()
             from pages.webview.home import Home
             return Home(self.driver, self.page.base_url, self.page.timeout).wait_for_page_to_load()
 
         def click_search(self):
-            self.find_element(*self._browse_locator).click()
+            self.find_element(*self._browse_link_locator).click()
             from pages.webview.browse import Browse
             browse = Browse(self.driver, self.page.base_url, self.page.timeout)
             return browse.wait_for_page_to_load()
 
         def click_about_us(self):
-            self.find_element(*self._about_us_locator).click()
+            self.find_element(*self._about_us_link_locator).click()
             from pages.webview.about_us import AboutUs
             about_us = AboutUs(self.driver, self.page.base_url, self.page.timeout)
             return about_us.wait_for_page_to_load()
 
         def click_donate(self):
-            self.find_element(*self._donate_locator).click()
+            self.find_element(*self._donate_link_locator).click()
             from pages.webview.donate import Donate
             donate = Donate(self.driver, self.page.base_url, self.page.timeout)
             return donate.wait_for_page_to_load()
