@@ -170,9 +170,10 @@ def test_search_unfilter(base_url, selenium, query):
 
 # The query needs to contain few, rare words, otherwise we may timeout when searching
 # Postgres removes stop words automatically, so don't include those either
+# At least one of the words must appear in some headline text to test the bolding feature
 @markers.webview
 @markers.nondestructive
-@markers.parametrize("query", ['Boreal Aardvark'])
+@markers.parametrize("query", ['Aardvark Syllabi'])
 def test_search_bold(base_url, selenium, query):
     # GIVEN the browse page and a query
     home = Home(selenium, base_url).open()
@@ -199,7 +200,7 @@ def test_search_bold(base_url, selenium, query):
             assert occurrences == result.count_bold_occurrences(word)
 
     # At least one word must show up in the results
-    # This could become False if someone publishes blank modules with matching metadata
+    # This could inadvertently become False if other modules with matching metadata are published
     assert any_occurrences, 'No words from the query showed up in the results.'
 
 
