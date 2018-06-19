@@ -98,7 +98,7 @@ def test_click_subject_category(base_url, selenium):
 # Postgres removes stop words automatically, so don't include those either
 @markers.webview
 @markers.nondestructive
-@markers.parametrize("query", ['Amazing Aardvark Concepts'])
+@markers.parametrize("query", ['Boreal Aardvark'])
 def test_search(base_url, selenium, query):
     # GIVEN the browse page and a query
     home = Home(selenium, base_url).open()
@@ -117,11 +117,11 @@ def test_search(base_url, selenium, query):
     assert not search_results.has_no_results
 
 
-# The query needs to contain a rare word, otherwise we may timeout when searching
+# The query needs to contain few, rare words, otherwise we may timeout when searching
 # Postgres removes stop words automatically, so don't include those either
 @markers.webview
 @markers.nondestructive
-@markers.parametrize("query", ['Amazing Aardvark Concepts'])
+@markers.parametrize("query", ['Boreal Aardvark'])
 def test_search_filter(base_url, selenium, query):
     # GIVEN the search results page
     home = Home(selenium, base_url).open()
@@ -144,11 +144,11 @@ def test_search_filter(base_url, selenium, query):
     assert not search_results.has_no_results
 
 
-# The query needs to contain a rare word, otherwise we may timeout when searching
+# The query needs to contain few, rare words, otherwise we may timeout when searching
 # Postgres removes stop words automatically, so don't include those either
 @markers.webview
 @markers.nondestructive
-@markers.parametrize("query", ['Amazing Aardvark Concepts'])
+@markers.parametrize("query", ['Boreal Aardvark'])
 def test_search_unfilter(base_url, selenium, query):
     # GIVEN the search results page
     home = Home(selenium, base_url).open()
@@ -168,11 +168,12 @@ def test_search_unfilter(base_url, selenium, query):
     assert not search_results.has_no_results
 
 
-# The query needs to contain a rare word, otherwise we may timeout when searching
+# The query needs to contain few, rare words, otherwise we may timeout when searching
 # Postgres removes stop words automatically, so don't include those either
+# At least one of the words must appear in some headline text to test the bolding feature
 @markers.webview
 @markers.nondestructive
-@markers.parametrize("query", ['Amazing Aardvark Concepts'])
+@markers.parametrize("query", ['Aardvark Syllabi'])
 def test_search_bold(base_url, selenium, query):
     # GIVEN the browse page and a query
     home = Home(selenium, base_url).open()
@@ -199,15 +200,15 @@ def test_search_bold(base_url, selenium, query):
             assert occurrences == result.count_bold_occurrences(word)
 
     # At least one word must show up in the results
-    # This could become False if someone publishes blank modules with matching metadata
+    # This could inadvertently become False if other modules with matching metadata are published
     assert any_occurrences, 'No words from the query showed up in the results.'
 
 
-# The query needs to contain a rare word, otherwise we may timeout when searching
+# The query needs to contain few, rare words, otherwise we may timeout when searching
 # Postgres removes stop words automatically, so don't include those either
 @markers.webview
 @markers.nondestructive
-@markers.parametrize("query", ['Amazing Aardvark Concepts'])
+@markers.parametrize("query", ['Boreal Aardvark'])
 def test_search_click_result(base_url, selenium, query):
     # GIVEN the search results page
     home = Home(selenium, base_url).open()
@@ -224,11 +225,11 @@ def test_search_click_result(base_url, selenium, query):
     assert content.title == result_title
 
 
-# The query needs to contain a rare word, otherwise we may timeout when searching
+# The query needs to contain few, rare words, otherwise we may timeout when searching
 # Postgres removes stop words automatically, so don't include those either
 @markers.webview
 @markers.nondestructive
-@markers.parametrize("query", ['Amazing Aardvark Concepts'])
+@markers.parametrize("query", ['Boreal Aardvark'])
 def test_search_pagination(base_url, selenium, query):
     # GIVEN the browse page and a query
     home = Home(selenium, base_url).open()
@@ -260,11 +261,11 @@ def test_search_pagination(base_url, selenium, query):
     assert not next.is_active
 
 
-# The query needs to contain a rare word, otherwise we may timeout when searching
+# The query needs to contain few, rare words, otherwise we may timeout when searching
 # Postgres removes stop words automatically, so don't include those either
 @markers.webview
 @markers.nondestructive
-@markers.parametrize("query", ['Amazing Aardvark Concepts'])
+@markers.parametrize("query", ['Boreal Aardvark'])
 def test_search_click_pagination(base_url, selenium, query):
     # GIVEN the search results page
     home = Home(selenium, base_url).open()
@@ -309,7 +310,7 @@ def test_advanced_search(base_url, selenium):
         'Author': 'OpenStax',
         'Title': 'Concepts of Biology',
         'Subject': 'Science and Technology',
-        'Keyword': ['Amazing', 'Aardvark'],
+        'Keyword': ['Boreal', 'Aardvark'],
         'Type': 'book',
         'Language': 'en',
         'Publication Date': '2018'

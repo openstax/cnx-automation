@@ -175,7 +175,7 @@ class SearchResults(Page):
             return self.content_span.find_elements(*self._bold_locator)
 
         def count_occurrences(self, word):
-            return self.content.lower().split().count(word.lower())
+            return self.content.lower().count(word.lower())
 
         def count_bold_occurrences(self, word):
             lowercase_word = word.lower()
