@@ -17,7 +17,8 @@ class Page(pypom.Page):
 
     @property
     def header(self):
-        return self.Header(self)
+        # Need to wait for the header to display because the nav menu initially loads with 0 height
+        return self.Header(self).wait_for_region_to_display()
 
     class Header(Region):
         _root_locator = (By.ID, 'header')

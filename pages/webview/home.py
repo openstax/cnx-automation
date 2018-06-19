@@ -15,8 +15,7 @@ class Home(Page):
 
     @property
     def loaded(self):
-        return (self.header.is_displayed and
-                self.is_element_displayed(*self.featured_books._openstax_books_locator))
+        return self.is_element_present(*self.featured_books._openstax_books_locator)
 
     @property
     def splash(self):
