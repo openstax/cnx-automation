@@ -76,11 +76,15 @@ class Content(Page):
     @property
     @retry_stale_element_reference_exception
     def is_get_this_book_button_displayed(self):
+        # Wait for the downloads load bar to disappear
+        self.footer.downloads.wait_for_region_to_load()
         return self.is_element_displayed(*self._get_this_book_button_locator)
 
     @property
     @retry_stale_element_reference_exception
     def get_this_book_button(self):
+        # Wait for the downloads load bar to disappear
+        self.footer.downloads.wait_for_region_to_load()
         return self.find_element(*self._get_this_book_button_locator)
 
     @property
@@ -438,18 +442,35 @@ class Content(Page):
         def nav(self):
             return self.FooterNav(self.page)
 
+        @property
+        def downloads(self):
+            return self.Downloads(self.page)
+
         def click_downloads_tab(self):
             self.downloads_tab.click()
-            return self.Downloads(self.page).wait_for_region_to_display()
+            return self.downloads.wait_for_region_to_display()
 
         class Downloads(Region):
             _root_locator = (By.CSS_SELECTOR,
                              '#main-content div.media-footer div.downloads.tab-content')
+            _progress_bar_locator = (By.CSS_SELECTOR, 'div.progress.active')
             _not_available_td_selector_template = (
                 'table.table tr td[data-l10n-id="textbook-view-file-description"]'
                 '[data-l10n-args=\'{{"format":"{format}"}}\']'
                 ' ~ td[data-l10n-id="textbook-view-file-not-available"]'
             )
+
+            @property
+            def is_loading(self):
+                return self.is_element_present(*self._progress_bar_locator)
+
+            @property
+            def loaded(self):
+                return super().loaded and not self.is_loading
+
+            @property
+            def is_displayed(self):
+                return super().is_displayed and not self.is_loading
 
             @property
             def is_pdf_available(self):
