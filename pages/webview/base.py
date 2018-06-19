@@ -17,7 +17,8 @@ class Page(pypom.Page):
 
     @property
     def header(self):
-        return self.Header(self)
+        # Need to wait for the header to display because the nav menu initially loads with 0 height
+        return self.Header(self).wait_for_region_to_display()
 
     class Header(Region):
         _root_locator = (By.ID, 'header')
@@ -26,18 +27,27 @@ class Page(pypom.Page):
             By.CSS_SELECTOR,
             '.page-header > .navbar > .container-fluid > .navbar-header > .navbar-brand'
         )
-        _nav_locator = (By.ID, 'page-nav')
-        _browse_locator = (By.CSS_SELECTOR, '#nav-browse a')
-        _about_us_locator = (By.CSS_SELECTOR, '#nav-about a')
-        _donate_locator = (By.CSS_SELECTOR, '#nav-donate a')
+        _browse_locator = (By.CSS_SELECTOR, '#page-nav #nav-browse a')
+        _about_us_locator = (By.CSS_SELECTOR, '#page-nav #nav-about a')
+        _donate_locator = (By.CSS_SELECTOR, '#page-nav #nav-donate a')
 
         @property
         def logo(self):
             return self.find_element(*self._logo_locator)
 
         @property
+        def is_logo_displayed(self):
+            return self.is_element_displayed(*self._logo_locator)
+
+        @property
         def is_nav_displayed(self):
-            return self.is_element_displayed(*self._nav_locator)
+            return (self.is_element_displayed(*self._browse_locator) and
+                    self.is_element_displayed(*self._about_us_locator) and
+                    self.is_element_displayed(*self._donate_locator))
+
+        @property
+        def is_displayed(self):
+            return self.is_logo_displayed and self.is_nav_displayed
 
         def click_logo(self):
             self.logo.click()
