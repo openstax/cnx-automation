@@ -113,15 +113,20 @@ class Content(Page):
         _title_locator = (By.CSS_SELECTOR, 'div.title .large-header')
         _book_by_locator = (By.CSS_SELECTOR, 'div.info span[data-l10n-id="textbook-view-book-by"]')
 
+        # The title and author divs can be reloaded at seemingly random times so we must
+        # retry StaleElementReferenceExceptions using retry_stale_element_reference_exception
         @property
+        @retry_stale_element_reference_exception
         def is_title_displayed(self):
             return self.is_element_displayed(*self._title_locator)
 
         @property
+        @retry_stale_element_reference_exception
         def title(self):
             return self.find_element(*self._title_locator).text
 
         @property
+        @retry_stale_element_reference_exception
         def is_book_by_displayed(self):
             return self.is_element_displayed(*self._book_by_locator)
 
