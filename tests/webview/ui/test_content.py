@@ -6,7 +6,6 @@ import pytest
 import re
 
 from selenium.webdriver.common.by import By
-from selenium.webdriver.common.action_chains import ActionChains
 
 from tests import markers
 
@@ -152,9 +151,7 @@ def test_get_this_book(webview_base_url, selenium):
 
     # THEN links to download the pdf, epub and offline zip versions are displayed
     # Look at the footer to see which downloads should have been available
-    footer = content.footer
-    ActionChains(selenium).move_to_element(footer.root).perform()
-    downloads = footer.click_downloads_tab()
+    downloads = content.footer.click_downloads_tab()
 
     if not button_displayed:
         assert not downloads.is_any_available
@@ -190,8 +187,7 @@ def test_scroll(webview_base_url, selenium):
     content = book.click_book_cover()
 
     # WHEN we scroll to the bottom
-    footer = content.footer
-    ActionChains(selenium).move_to_element(footer.root).perform()
+    footer = content.footer.scroll_to()
 
     # THEN the content nav is displayed on top without the site navbar or any social links
     # The header nav is offscreen but still considered displayed
@@ -236,10 +232,10 @@ def test_back_to_top(webview_base_url, selenium):
     book = home.featured_books.openstax_list[0]
     content = book.click_book_cover()
     footer = content.footer
-    ActionChains(selenium).move_to_element(footer.root).perform()
 
-    # WHEN we click the back to top link
-    content = footer.nav.click_back_to_top_link()
+    # WHEN we scroll to the bottom then click the back to top link
+    footer_nav = footer.nav.scroll_to()
+    content = footer_nav.click_back_to_top_link()
 
     # THEN the content page is no longer scrolled
     assert content.header.is_nav_displayed
@@ -296,17 +292,12 @@ def test_navigation(webview_base_url, selenium):
     assert content.chapter_section == '1.1'
     assert header_nav.progress_bar_fraction_is(3 / num_pages)
 
-    action_chains = ActionChains(selenium)
-    footer_nav = content.footer_nav
-    action_chains.move_to_element(footer_nav.root).perform()
-    content = footer_nav.click_next_link()
+    content = content.footer_nav.click_next_link()
     assert type(content) == Content
     assert content.chapter_section == '1.2'
     assert header_nav.progress_bar_fraction_is(4 / num_pages)
 
-    footer_nav = content.footer_nav
-    action_chains.move_to_element(footer_nav.root).perform()
-    content = footer_nav.click_back_link()
+    content = content.footer_nav.click_back_link()
     assert type(content) == Content
     assert content.chapter_section == '1.1'
     assert header_nav.progress_bar_fraction_is(3 / num_pages)

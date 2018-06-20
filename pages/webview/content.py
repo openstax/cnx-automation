@@ -432,12 +432,16 @@ class Content(Page):
 
         def click_anchor_link(self, index=0):
             current_url = self.driver.current_url
-            self.anchor_links[index].click()
+            anchor_link = self.anchor_links[index]
+            self.scroll_to(anchor_link)
+            anchor_link.click()
             return self.page.wait_for_url_to_change(current_url)
 
         def click_index_term(self, index=0):
             current_url = self.driver.current_url
-            self.index_terms[index].click()
+            index_term = self.index_terms[index]
+            self.scroll_to(index_term)
+            index_term.click()
             return self.page.wait_for_url_to_change(current_url)
 
     class Footer(Region):
@@ -488,7 +492,7 @@ class Content(Page):
             return self.Downloads(self.page)
 
         def click_downloads_tab(self):
-            self.downloads_tab.click()
+            self.scroll_to().downloads_tab.click()
             return self.downloads.wait_for_region_to_display()
 
         class Downloads(Region):
@@ -554,7 +558,7 @@ class Content(Page):
 
             def click_back_link(self):
                 current_url = self.driver.current_url
-                self.back_link.click()
+                self.scroll_to().back_link.click()
                 return self.page.wait_for_url_to_change(current_url)
 
             def click_back_to_top_link(self):
@@ -563,5 +567,5 @@ class Content(Page):
 
             def click_next_link(self):
                 current_url = self.driver.current_url
-                self.next_link.click()
+                self.scroll_to().next_link.click()
                 return self.page.wait_for_url_to_change(current_url)

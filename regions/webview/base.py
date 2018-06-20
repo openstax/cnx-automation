@@ -32,3 +32,11 @@ class Region(pypom.Region):
     def wait_for_region_to_display(self):
         self.wait.until(lambda _: self.is_displayed)
         return self
+
+    def scroll_to(self, element=None):
+        """Scrolls to the given element or the region's root. Returns the region itself."""
+        if element is None:
+            element = self.root
+        from selenium.webdriver.common.action_chains import ActionChains
+        ActionChains(self.driver).move_to_element(element).perform()
+        return self

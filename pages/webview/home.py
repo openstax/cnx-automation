@@ -56,19 +56,19 @@ class Home(Page):
             return self.find_element(*self._book_intro_locator).text
 
         def click_read_more(self):
-            self.find_element(*self._read_more_locator).click()
+            self.scroll_to().find_element(*self._read_more_locator).click()
             from pages.webview.content import Content
             content = Content(self.driver, self.page.base_url, self.page.timeout)
             return content.wait_for_page_to_load()
 
         def click_book_cover(self):
-            self.find_element(*self._book_cover_link_locator).click()
+            self.scroll_to().find_element(*self._book_cover_link_locator).click()
             from pages.webview.content import Content
             content = Content(self.driver, self.page.base_url, self.page.timeout)
             return content.wait_for_page_to_load()
 
         def click_title_link(self):
-            self.find_element(*self._title_link_locator).click()
+            self.scroll_to().find_element(*self._title_link_locator).click()
             from pages.webview.content import Content
             content = Content(self.driver, self.page.base_url, self.page.timeout)
             return content.wait_for_page_to_load()
