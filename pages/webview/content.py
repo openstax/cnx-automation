@@ -115,7 +115,12 @@ class Content(Page):
     class ContentHeader(Region):
         _root_locator = (By.CSS_SELECTOR, '#content div.pinnable')
         _title_locator = (By.CSS_SELECTOR, 'div.title .large-header')
-        _book_by_locator = (By.CSS_SELECTOR, 'div.info span[data-l10n-id="textbook-view-book-by"]')
+        _book_by_span_locator = (By.CSS_SELECTOR,
+                                 'div.info span[data-l10n-id="textbook-view-book-by"]')
+        _author_span_locator = (
+            By.CSS_SELECTOR,
+            'div.info span[data-l10n-id="textbook-view-book-by"] span.collection-authors'
+        )
 
         # The title and author divs can be reloaded at seemingly random times so we must
         # retry StaleElementReferenceExceptions using retry_stale_element_reference_exception
@@ -132,7 +137,22 @@ class Content(Page):
         @property
         @retry_stale_element_reference_exception
         def is_book_by_displayed(self):
-            return self.is_element_displayed(*self._book_by_locator)
+            return self.is_element_displayed(*self._book_by_span_locator)
+
+        @property
+        @retry_stale_element_reference_exception
+        def book_by_span(self):
+            return self.find_element(*self._book_by_span_locator)
+
+        @property
+        @retry_stale_element_reference_exception
+        def is_author_displayed(self):
+            return self.is_element_displayed(*self._author_span_locator)
+
+        @property
+        @retry_stale_element_reference_exception
+        def author(self):
+            return self.find_element(*self._author_span_locator).text
 
         @property
         def share(self):

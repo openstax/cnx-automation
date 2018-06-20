@@ -40,6 +40,23 @@ def test_navs_and_elements_are_displayed(webview_base_url, selenium):
 
 @markers.webview
 @markers.nondestructive
+def test_author(webview_base_url, selenium):
+    # GIVEN the home page and a book
+    home = Home(selenium, webview_base_url).open()
+    book = home.featured_books.openstax_list[0]
+
+    # WHEN the book's cover is clicked
+    content = book.click_book_cover()
+
+    # THEN the displayed author is OpenStax
+    content_header = content.content_header
+    assert content_header.is_book_by_displayed
+    assert content_header.is_author_displayed
+    assert content_header.author == 'OpenStax'
+
+
+@markers.webview
+@markers.nondestructive
 def test_toc_displayed(webview_base_url, selenium):
     # GIVEN a book's content page
     home = Home(selenium, webview_base_url).open()
