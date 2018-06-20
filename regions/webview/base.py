@@ -3,6 +3,7 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 import pypom
+from selenium.webdriver.common.action_chains import ActionChains
 
 
 class Region(pypom.Region):
@@ -34,9 +35,15 @@ class Region(pypom.Region):
         return self
 
     def scroll_to(self, element=None):
-        """Scrolls to the given element or the region's root. Returns the region itself."""
+        """Scrolls to the given element (or the region's root). Returns the region."""
         if element is None:
             element = self.root
-        from selenium.webdriver.common.action_chains import ActionChains
         ActionChains(self.driver).move_to_element(element).perform()
+        return self
+
+    def scroll_to_and_click(self, element=None):
+        """Scrolls to the given element (or the region's root) and clicks it. Returns the region."""
+        if element is None:
+            element = self.root
+        ActionChains(self.driver).move_to_element(element).click(element).perform()
         return self

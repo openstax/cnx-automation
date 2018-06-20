@@ -433,15 +433,13 @@ class Content(Page):
         def click_anchor_link(self, index=0):
             current_url = self.driver.current_url
             anchor_link = self.anchor_links[index]
-            self.scroll_to(anchor_link)
-            anchor_link.click()
+            self.scroll_to_and_click(anchor_link)
             return self.page.wait_for_url_to_change(current_url)
 
         def click_index_term(self, index=0):
             current_url = self.driver.current_url
             index_term = self.index_terms[index]
-            self.scroll_to(index_term)
-            index_term.click()
+            self.scroll_to_and_click(index_term)
             return self.page.wait_for_url_to_change(current_url)
 
     class Footer(Region):
