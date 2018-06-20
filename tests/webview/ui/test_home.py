@@ -16,36 +16,36 @@ _number_of_tested_books = 2
 @markers.webview
 @markers.nondestructive
 def test_splash_banner_loads(webview_base_url, selenium):
-    # GIVEN the main website URL and the Selenium driver
+    # GIVEN the webview base url and the Selenium driver
 
-    # WHEN The home page URL is fully loaded
+    # WHEN the home page is fully loaded
     page = Home(selenium, webview_base_url).open()
 
-    # THEN The splash text is correct
+    # THEN the splash text is correct
     assert 'Discover learning materials in an Open Space' in page.splash
 
 
 @markers.webview
 @markers.nondestructive
 def test_nav_is_displayed(webview_base_url, selenium):
-    # GIVEN the main website URL and the Selenium driver
+    # GIVEN the webview base url and the Selenium driver
 
-    # WHEN The main website URL is fully loaded
+    # WHEN the home page is fully loaded
     page = Home(selenium, webview_base_url).open()
 
-    # THEN The navbar is displayed
+    # THEN the navbar is displayed
     assert page.header.is_nav_displayed
 
 
 @markers.webview
 @markers.nondestructive
 def test_featured_books_load(webview_base_url, selenium):
-    # GIVEN the main website URL and the Selenium driver
+    # GIVEN the webview base url and the Selenium driver
 
-    # WHEN The main website URL is fully loaded
+    # WHEN the home page is fully loaded
     page = Home(selenium, webview_base_url).open()
 
-    # THEN the featured books for OpenStax and CNX are greater than 0
+    # THEN there are featured books for both OpenStax and CNX
     assert len(page.featured_books.openstax_list) > 0
     assert len(page.featured_books.cnx_list) > 0
 
@@ -53,13 +53,13 @@ def test_featured_books_load(webview_base_url, selenium):
 @markers.xfail(reason='https://trello.com/c/DL7xEWon', raises=AssertionError)
 @markers.webview
 @markers.nondestructive
-def test_featured_books_have_title_and_intro(base_url, selenium):
-    # GIVEN the main website URL and the Selenium driver
+def test_featured_books_have_title_and_intro(webview_base_url, selenium):
+    # GIVEN the webview base url and the Selenium driver
 
-    # WHEN the main website URL is fully loaded
-    home = Home(selenium, base_url).open()
+    # WHEN the home page is fully loaded
+    home = Home(selenium, webview_base_url).open()
 
-    # THEN featured books have titles and intros
+    # THEN all featured books have titles and intros
     books = home.featured_books.openstax_list + home.featured_books.cnx_list
 
     for book in books:
@@ -72,10 +72,10 @@ def test_featured_books_have_title_and_intro(base_url, selenium):
 @markers.webview
 @markers.nondestructive
 def test_read_more_loads_correct_page(webview_base_url, selenium):
-    # GIVEN the main website URL and the Selenium driver
+    # GIVEN the webview base url and the Selenium driver
 
-    # WHEN The main website URL is fully loaded,
-    #      Find the first OpenStax book and click the Read More link
+    # WHEN the home page is fully loaded,
+    #      find the first OpenStax book and click the Read More link
     home = Home(selenium, webview_base_url).open()
     for i in range(_number_of_tested_books):
         # Can't use `for book in sample(home.featured_books.openstax_list, _number_of_tested_books)`
@@ -97,10 +97,10 @@ def test_read_more_loads_correct_page(webview_base_url, selenium):
 @markers.webview
 @markers.nondestructive
 def test_book_cover_loads_correct_page(webview_base_url, selenium):
-    # GIVEN the main website URL and the Selenium driver
+    # GIVEN the webview base url and the Selenium driver
 
-    # WHEN The main website URL is fully loaded,
-    #      Find the first OpenStax book and click the book cover link
+    # WHEN the home page is fully loaded,
+    #      find the first OpenStax book and click the book cover link
     home = Home(selenium, webview_base_url).open()
     for i in range(_number_of_tested_books):
         # Can't use `for book in sample(home.featured_books.openstax_list, _number_of_tested_books)`
@@ -122,10 +122,10 @@ def test_book_cover_loads_correct_page(webview_base_url, selenium):
 @markers.webview
 @markers.nondestructive
 def test_title_link_loads_correct_page(webview_base_url, selenium):
-    # GIVEN the main website URL and the Selenium driver
+    # GIVEN the webview base url and the Selenium driver
 
-    # WHEN The main website URL is fully loaded,
-    #      Find the first OpenStax book and click the title link
+    # WHEN the home page is fully loaded,
+    #      find the first OpenStax book and click the title link
     home = Home(selenium, webview_base_url).open()
     for i in range(_number_of_tested_books):
         # Can't use `for book in sample(home.featured_books.openstax_list, _number_of_tested_books)`
