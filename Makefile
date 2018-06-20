@@ -19,6 +19,7 @@ clean-pyc: ## remove Python file artifacts
 clean-test: ## remove test and coverage artifacts
 	rm -fr .tox/
 	rm -fr assets/
+	rm -f report.html
 
 venv:
 	python3 -m venv .venv && \
