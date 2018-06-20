@@ -15,9 +15,9 @@ from pages.webview.content import Content
 @markers.webview
 @markers.nondestructive
 def test_search_input_and_button_are_displayed(webview_base_url, selenium):
-    # GIVEN The base_url and Selenium driver
+    # GIVEN the webview base url and Selenium driver
 
-    # WHEN The home page URL is fully loaded,
+    # WHEN the home page URL is fully loaded,
     #      and the browse link in the navbar is clicked
     page = Home(selenium, webview_base_url).open()
     browse_page = page.header.click_search()
@@ -48,9 +48,9 @@ def test_search_no_results(webview_base_url, selenium):
 @markers.webview
 @markers.nondestructive
 def test_subject_categories_load(webview_base_url, selenium):
-    # GIVEN the base_url and Selenium driver
+    # GIVEN the webview base url and Selenium driver
 
-    # When The homepage URL is fully loaded,
+    # When the homepage is fully loaded,
     #      and the browse link in the navbar is clicked
     page = Home(selenium, webview_base_url).open()
     browse_page = page.header.click_search()
