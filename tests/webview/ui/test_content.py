@@ -165,6 +165,22 @@ def test_get_this_book(webview_base_url, selenium):
 
 @markers.webview
 @markers.nondestructive
+def test_section_title(webview_base_url, selenium):
+    # GIVEN the home page and a book
+    home = Home(selenium, webview_base_url).open()
+    book = home.featured_books.openstax_list[0]
+
+    # WHEN the book's cover is clicked
+    content = book.click_book_cover()
+
+    # THEN the section title does not contain HTML markup
+    section_title = content.section_title
+    assert '<' not in section_title
+    assert '>' not in section_title
+
+
+@markers.webview
+@markers.nondestructive
 def test_content(webview_base_url, selenium):
     # GIVEN the home page
     home = Home(selenium, webview_base_url).open()
