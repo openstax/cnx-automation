@@ -37,6 +37,7 @@ def test_nav_is_displayed(webview_base_url, selenium):
     assert page.header.is_nav_displayed
 
 
+@markers.test_case('C176224')
 @markers.webview
 @markers.nondestructive
 def test_featured_books_load(webview_base_url, selenium):
