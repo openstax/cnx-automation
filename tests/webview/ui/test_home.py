@@ -37,8 +37,8 @@ def test_nav_is_displayed(webview_base_url, selenium):
     assert page.header.is_nav_displayed
 
 
-@markers.test_case('C176224')
 @markers.webview
+@markers.test_case('C176224', 'C176225')
 @markers.nondestructive
 def test_featured_books_load(webview_base_url, selenium):
     # GIVEN the webview base url and the Selenium driver
@@ -53,6 +53,7 @@ def test_featured_books_load(webview_base_url, selenium):
 
 @markers.xfail(reason='https://trello.com/c/DL7xEWon', raises=AssertionError)
 @markers.webview
+@markers.test_case('C176226')
 @markers.nondestructive
 def test_featured_books_have_title_and_intro(webview_base_url, selenium):
     # GIVEN the webview base url and the Selenium driver
@@ -71,6 +72,7 @@ def test_featured_books_have_title_and_intro(webview_base_url, selenium):
 
 @markers.xfail(reason='https://trello.com/c/mFRaZRqK', raises=AssertionError)
 @markers.webview
+@markers.test_case('C176227')
 @markers.nondestructive
 def test_read_more_loads_correct_page(webview_base_url, selenium):
     # GIVEN the webview base url and the Selenium driver
@@ -96,6 +98,7 @@ def test_read_more_loads_correct_page(webview_base_url, selenium):
 
 @markers.xfail(reason='https://trello.com/c/mFRaZRqK', raises=AssertionError)
 @markers.webview
+@markers.test_case('C176228')
 @markers.nondestructive
 def test_book_cover_loads_correct_page(webview_base_url, selenium):
     # GIVEN the webview base url and the Selenium driver
@@ -121,6 +124,7 @@ def test_book_cover_loads_correct_page(webview_base_url, selenium):
 
 @markers.xfail(reason='https://trello.com/c/mFRaZRqK', raises=AssertionError)
 @markers.webview
+@markers.test_case('C176229')
 @markers.nondestructive
 def test_title_link_loads_correct_page(webview_base_url, selenium):
     # GIVEN the webview base url and the Selenium driver
@@ -145,6 +149,7 @@ def test_title_link_loads_correct_page(webview_base_url, selenium):
 
 
 @markers.webview
+@markers.test_case('C176230')
 @markers.nondestructive
 def test_logo_link_stays_on_home_page(webview_base_url, selenium):
     # GIVEN the home page
