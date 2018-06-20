@@ -174,9 +174,9 @@ def test_content(webview_base_url, selenium):
     content_page = book.click_book_cover()
 
     # THEN the book content is present and contains figure(s)
-    content = content_page.content
-    assert not content.is_blank
-    assert content.has_figures
+    content_region = content_page.content_region
+    assert not content_region.is_blank
+    assert content_region.has_figures
 
 
 @markers.webview
@@ -328,3 +328,33 @@ def test_ncy_is_not_displayed(american_gov_url, selenium):
 
     # THEN :NOT_CONVERTED_YET is not displayed
     assert page.is_ncy_displayed is False
+
+
+@markers.webview
+@markers.nondestructive
+@markers.parametrize(
+    'uuid,is_baked_book_index',
+    [('d50f6e32-0fda-46ef-a362-9bd36ca7c97d:72a3ef21-e30b-5ba4-9ea6-eac9699a2f09', True),
+     ('b3c1e1d2-839c-42b0-a314-e119a8aafbdd', False)]
+)
+def test_back_button(uuid, is_baked_book_index, webview_base_url, selenium):
+    # GIVEN a content page in a baked or unbaked book
+    content_page = Content(selenium, webview_base_url, id=uuid).open()
+    content_url = selenium.current_url
+    assert not content_url.endswith('#')
+
+    # WHEN we click on a term (baked index) or an anchor link, then the browser's back button
+    content_region = content_page.content_region
+    if is_baked_book_index:
+        content_region.click_index_term()
+    else:
+        content_region.click_anchor_link()
+        assert selenium.current_url.startswith(content_url)
+        assert selenium.current_url.endswith('#')
+
+    assert selenium.current_url != content_url
+
+    selenium.back()
+
+    # THEN we end up at the previous page
+    assert selenium.current_url == content_url
