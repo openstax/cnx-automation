@@ -3,7 +3,9 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 import pytest
+import re
 
+from selenium.webdriver.common.by import By
 from selenium.webdriver.common.action_chains import ActionChains
 
 from tests import markers
@@ -333,27 +335,32 @@ def test_ncy_is_not_displayed(american_gov_url, selenium):
 @markers.webview
 @markers.nondestructive
 @markers.parametrize(
-    'uuid,is_baked_book_index',
+    'page_uuid,is_baked_book_index',
     [('d50f6e32-0fda-46ef-a362-9bd36ca7c97d:72a3ef21-e30b-5ba4-9ea6-eac9699a2f09', True),
      ('b3c1e1d2-839c-42b0-a314-e119a8aafbdd', False)]
 )
-def test_back_button(uuid, is_baked_book_index, webview_base_url, selenium):
-    # GIVEN a content page in a baked or unbaked book
-    content_page = Content(selenium, webview_base_url, id=uuid).open()
+def test_id_links_and_back_button(page_uuid, is_baked_book_index, webview_base_url, selenium):
+    # GIVEN an index page in a baked book or a page with anchor links in an unbaked book
+    content_page = Content(selenium, webview_base_url, id=page_uuid).open()
     content_url = selenium.current_url
-    assert not content_url.endswith('#')
+    assert '#' not in content_url
 
-    # WHEN we click on a term (baked index) or an anchor link, then the browser's back button
+    # WHEN we click on a term (baked index) or an anchor link
     content_region = content_page.content_region
     if is_baked_book_index:
-        content_region.click_index_term()
+        content_page = content_region.click_index_term()
     else:
-        content_region.click_anchor_link()
+        content_page = content_region.click_anchor_link()
         assert selenium.current_url.startswith(content_url)
-        assert selenium.current_url.endswith('#')
 
-    assert selenium.current_url != content_url
+    # THEN we end up at the linked page and the element with the same id as the link is displayed
+    new_url = selenium.current_url
+    assert '#' in new_url
+    assert not new_url.endswith('#')
+    id = re.search('#(.+)$', new_url)[1]
+    assert content_page.is_element_displayed(By.ID, id)
 
+    # WHEN we click the browser's back button
     selenium.back()
 
     # THEN we end up at the previous page

@@ -411,7 +411,7 @@ class Content(Page):
     class ContentRegion(Region):
         _root_locator = (By.ID, 'content')
         _figure_locator = (By.TAG_NAME, 'figure')
-        _anchor_links_locator = (By.CSS_SELECTOR, 'a[href="#"]')
+        _anchor_links_locator = (By.CSS_SELECTOR, 'a[href*="#"]')
         _index_terms_locator = (By.CSS_SELECTOR, 'div.os-index-item a.os-term-section-link')
 
         @property
@@ -431,12 +431,14 @@ class Content(Page):
             return self.find_elements(*self._index_terms_locator)
 
         def click_anchor_link(self, index=0):
+            current_url = self.driver.current_url
             self.anchor_links[index].click()
-            return self.page.wait_for_page_to_load()
+            return self.page.wait_for_url_to_change(current_url)
 
         def click_index_term(self, index=0):
+            current_url = self.driver.current_url
             self.index_terms[index].click()
-            return self.page.wait_for_page_to_load()
+            return self.page.wait_for_url_to_change(current_url)
 
     class Footer(Region):
         _root_locator = (By.CSS_SELECTOR, '#main-content div.media-footer')
