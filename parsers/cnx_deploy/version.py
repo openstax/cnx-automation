@@ -19,7 +19,7 @@ class VersionParser(Parser):
     @lru_cache(maxsize=None)
     def dateless_dict(self):
         """Returns the json text as a dict, omitting the "date" key."""
-        return {k: v for (k, v) in self.dict.items() if k != 'date'}
+        return {field: value for (field, value) in self.dict.items() if field != 'date'}
 
     @property
     def date(self):
