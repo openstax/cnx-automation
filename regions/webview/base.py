@@ -44,5 +44,5 @@ class Region(pypom.Region):
         """Scrolls to the given element (or the region's root) and clicks it. Returns the region."""
         if element is None:
             element = self.root
-        ActionChains(self.driver).move_to_element(element).click(element).perform()
+        self.page.scroll_to_and_click(element)
         return self
