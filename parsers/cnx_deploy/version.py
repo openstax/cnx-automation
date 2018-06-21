@@ -13,7 +13,13 @@ class VersionParser(Parser):
     def dict(self):
         """Returns the json text as a dict."""
         import json
-        return json.loads(self.text)
+        return json.loads(self.text.strip())
+
+    @property
+    @lru_cache(maxsize=None)
+    def dateless_dict(self):
+        """Returns the json text as a dict, omitting the "date" key."""
+        return {k: v for (k, v) in self.dict.items() if k != 'date'}
 
     @property
     def date(self):
@@ -64,3 +70,6 @@ class VersionParser(Parser):
     def cnx_deploy(self):
         """Returns the value of the "cnx-deploy" field."""
         return self.dict['cnx-deploy']
+
+    def has_same_versions_as(self, other_parser):
+        return self.dateless_dict == other_parser.dateless_dict

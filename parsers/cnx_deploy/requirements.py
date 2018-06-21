@@ -35,3 +35,6 @@ class RequirementsParser(Parser):
         """Returns the requirements as a list of dicts."""
         return [{'name': name, 'version': version, 'repository': repository}
                 for name, repository, version in self.requirements_list]
+
+    def has_same_versions_as(self, other_parser):
+        return self.requirements == other_parser.requirements

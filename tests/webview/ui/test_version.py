@@ -10,7 +10,7 @@ from pages.webview.history import History
 
 @markers.webview
 @markers.nondestructive
-def test_version(webview_base_url, selenium):
+def test_version(webview_base_url, selenium, capsys):
     # GIVEN the webview base url and Selenium driver
 
     # WHEN the version and history pages have been visited
@@ -19,10 +19,27 @@ def test_version(webview_base_url, selenium):
 
     history = History(selenium, webview_base_url).open()
     release_parsers = history.release_parsers
+    current_release_parser = release_parsers[0]
+    current_version_parser = current_release_parser.version_parser
 
     # THEN version.txt matches the JSON in the latest release,
-    #      which differs from the previous release
-    assert version_parser.dict == release_parsers[0].version_parser.dict
-    assert (release_parsers[0].version_parser.dict != release_parsers[1].version_parser.dict or
-            release_parsers[0].requirements_parser.requirements !=
-            release_parsers[1].requirements_parser.requirements)
+    #      which differs from some previous release
+    with capsys.disabled():
+        print('\n')
+        for index in range(len(release_parsers) - 1):
+            releases_ago = index + 1
+            previous_release_parser = release_parsers[releases_ago]
+            if not current_release_parser.has_same_versions_as(previous_release_parser):
+                break
+            elif index == 0:
+                print('WARNING: All versions in the previous release ({previous_release_date})'
+                      ' match the current release exactly. Diff based on older release.\n'.format(
+                          previous_release_date=previous_release_parser.version_parser.date
+                      ))
+
+        print('Release diff from {releases_ago} release(s) ago to current release:\n'.format(
+                  releases_ago=releases_ago
+              ))
+        print(current_release_parser.diff(previous_release_parser))
+
+    assert version_parser.dict == current_version_parser.dict

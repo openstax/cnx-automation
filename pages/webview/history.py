@@ -18,5 +18,9 @@ class History(Page):
         return self.find_element(*self._pre_locator).text
 
     @property
+    def releases(self):
+        return self.text.split(self._releases_separator)
+
+    @property
     def release_parsers(self):
-        return [ReleaseParser(release) for release in self.text.split(self._releases_separator)]
+        return [ReleaseParser(release) for release in self.releases if release.strip()]
