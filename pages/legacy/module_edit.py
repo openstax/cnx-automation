@@ -3,13 +3,11 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 import re
-
 import xml.etree.ElementTree as ET
 
-from pages.legacy.base import PrivatePage
-
 from selenium.webdriver.common.by import By
-from selenium.common.exceptions import UnexpectedAlertPresentException
+
+from pages.legacy.base import PrivatePage
 
 
 class ModuleEdit(PrivatePage):
@@ -69,17 +67,6 @@ class ModuleEdit(PrivatePage):
     @property
     def is_blank(self):
         return self.content_string == self._blank_module_content_string
-
-    # When creating a module we sometimes get an error alert
-    # So here we wait for either the title or the error alert to show up
-    # If it's the error alert, we dismiss it, which causes the page to actually load, and wait
-    @property
-    def loaded(self):
-        try:
-            return self.is_element_displayed(*self._title_header_locator)
-        except UnexpectedAlertPresentException:
-            self.driver.switch_to.alert.dismiss()
-            return False
 
     def publish(self):
         self.publish_link.click()

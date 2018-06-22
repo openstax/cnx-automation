@@ -4,9 +4,9 @@
 
 import re
 
-from pages.legacy.base import PrivatePage
-
 from selenium.webdriver.common.by import By
+
+from pages.legacy.base import PrivatePage
 
 
 class CollectionEdit(PrivatePage):

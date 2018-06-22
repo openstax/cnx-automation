@@ -4,9 +4,10 @@
 
 import pytest
 
-from pages.legacy.base import PrivatePage
-
 from selenium.webdriver.common.by import By
+from selenium.common.exceptions import UnexpectedAlertPresentException
+
+from pages.legacy.base import PrivatePage
 
 
 class MetadataEdit(PrivatePage):
@@ -48,21 +49,28 @@ class MetadataEdit(PrivatePage):
             from pages.legacy.module_edit import ModuleEdit
             edit = ModuleEdit(self.driver, self.base_url, self.timeout)
 
-        # Sometimes creating a module fails with a SiteError.
-        # In those cases, we retry it a few times.
+        # Unlike the other forms, we actually have to click the submit button here
+        # when creating the module, otherwise we end up in the wrong page (metadata edit page)
+        self.submit_button.click()
+
         for i in range(max_attempts):
-            # Unlike the other forms, we actually have to click the submit button here
-            # when creating the module, otherwise we end up in the wrong page (metadata edit page)
-            self.submit_button.click()
-            edit = edit.wait_for_page_to_load()
+            try:
+                edit = edit.wait_for_page_to_load()
 
-            if not edit.has_site_error:
-                break
-            elif i >= max_attempts - 1:
-                pytest.fail('Maximum number of attempts exceeded for SiteError'
-                            ' ({attempts})'.format(attempts=max_attempts))
+                if edit.has_site_error:
+                    # Sometimes creating a module or collection fails with a SiteError
+                    # In those cases, we retry creating them a few times
+                    if i < max_attempts - 1:
+                        self.driver.back()
+                        self = self.wait_for_page_to_load()
+                        self.submit_button.click()
+                else:
+                    return edit
+            except UnexpectedAlertPresentException:
+                # When creating a module or collection we sometimes get an error alert
+                # In that case we dismiss it, which causes the page to actually load, and wait
+                if i < max_attempts - 1:
+                    self.driver.switch_to.alert.dismiss()
 
-            self.driver.back()
-            self.wait_for_page_to_load()
-
-        return edit
+        pytest.fail('Maximum number of attempts exceeded for metadata form submission'
+                    ' ({attempts})'.format(attempts=max_attempts))
