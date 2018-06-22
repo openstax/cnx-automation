@@ -18,11 +18,11 @@ pytest_plugins = (
     'fixtures.archive',
     'fixtures.webview',
     'fixtures.legacy',
+    'fixtures.neb'
 )
 
 # Load environment variables from .env file
-DOTENV_PATH = os.path.join(
-  os.path.realpath(os.path.dirname(__file__)), '../.env')
+DOTENV_PATH = os.path.join(os.path.realpath(os.path.dirname(__file__)), '../.env')
 load_dotenv(dotenv_path=DOTENV_PATH)
 
 
@@ -76,6 +76,11 @@ def pytest_addoption(parser):
         '--legacy_password',
         default=os.getenv('LEGACY_PASSWORD'),
         help='password for CNX legacy.')
+    parser.addini('neb_env', help='environment name for Neb.')
+    parser.addoption(
+        '--neb_env',
+        default=os.getenv('NEB_ENV', None),
+        help='environment name for Neb.')
 
 
 # https://docs.pytest.org/en/latest/example/simple.html#making-test-result-information-available-in-fixtures
