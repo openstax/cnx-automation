@@ -3,10 +3,14 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 import pytest
-from github3 import GitHub
+from github3 import login, GitHub
 
 
 @pytest.fixture(scope='session')
-def github():
+def github(pytestconfig):
     """Returns a client that can interface with the GitHub API"""
-    return GitHub()
+    token = pytestconfig.getoption('--github-token')
+    if token:
+        return login(token=token)
+    else:
+        return GitHub()

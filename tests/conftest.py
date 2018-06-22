@@ -45,10 +45,13 @@ def pytest_addoption(parser):
                     action='store_true',
                     default=os.getenv('PRINT_PAGE_SOURCE_ON_FAILURE', False),
                     help='print page source to stdout when a test fails.')
+    parser.addoption('--github-token',
+                     default=os.getenv('GITHUB_TOKEN', None),
+                     help='OAuth token used to login to GitHub.')
     parser.addoption('--runslow',
                      action='store_true',
                      default=os.getenv('RUNSLOW', False),
-                     help='run slow tests')
+                     help='run slow tests.')
     # Adapted from:
     # https://github.com/pytest-dev/pytest-base-url/blob/master/pytest_base_url/plugin.py#L51
     parser.addini('archive_base_url', help='base url for CNX archive.')
