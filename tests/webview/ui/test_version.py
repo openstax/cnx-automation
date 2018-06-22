@@ -4,12 +4,13 @@
 
 from datetime import datetime, timedelta
 from warnings import warn
+from github3 import GitHub
 
 from tests import markers
+from tests.utils import shorten_tag
 
 from pages.webview.version import Version
 from pages.webview.history import History
-from cli.git import Git
 
 
 @markers.webview
@@ -39,21 +40,21 @@ def test_version(webview_base_url, selenium, record_property):
     tag_tests = [('webview', 'webview_tag'),
                  ('cnx-archive', 'cnx_archive'),
                  ('cnx-deploy', 'cnx_deploy')]
+    gh = GitHub()
     for (repository_name, tag_property) in tag_tests:
-        repository_url = 'https://github.com/Connexions/{repository_name}.git'.format(
-            repository_name=repository_name)
-        current_tag = Git.shorten_tag(getattr(current_version_parser, tag_property))
-        with Git(repository_url) as git:
-            latest_tag = git.latest_tag
-            if current_tag != latest_tag and current_tag != git.latest_tag_hash:
-                warn('\n\nThe {repository_name} tag for the latest release in {url} ({current_tag})'
-                     ' does not match the latest tag in {repository_url} ({latest_tag})'.format(
-                         repository_name=repository_name,
-                         url=history_url,
-                         current_tag=current_tag,
-                         repository_url=repository_url,
-                         latest_tag=latest_tag
-                     ))
+        current_tag_name = shorten_tag(getattr(current_version_parser, tag_property))
+        repository = gh.repository('Connexions', repository_name)
+        latest_tag = list(repository.tags(number=1))[0]
+        latest_tag_name = latest_tag.name
+        if current_tag_name != latest_tag_name and current_tag_name != latest_tag.commit.sha:
+            warn('\n\nThe {repository_name} tag for the latest release in {url} ({current_tag})'
+                 ' does not match the latest tag in {repository_url} ({latest_tag})'.format(
+                     repository_name=repository_name,
+                     url=history_url,
+                     current_tag=current_tag_name,
+                     repository_url=repository.git_url,
+                     latest_tag=latest_tag_name
+                 ))
 
     for index in range(len(release_parsers) - 1):
         releases_ago = index + 1
