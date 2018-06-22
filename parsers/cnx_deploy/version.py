@@ -2,12 +2,15 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
+import re
 from functools import lru_cache
 
 from parsers.cnx_deploy.base import Parser
 
 
 class VersionParser(Parser):
+    _webview_regex = re.compile('^([0-9a-f]+) \(([^)]+)\)$', re.IGNORECASE)
+
     @property
     @lru_cache(maxsize=None)
     def dict(self):
@@ -24,7 +27,8 @@ class VersionParser(Parser):
     @property
     def date(self):
         """Returns the value of the "date" field."""
-        return self.dict['date']
+        from datetime import datetime
+        return datetime.strptime(self.dict['date'], '%Y-%m-%d %H:%M:%S %Z')
 
     @property
     def webview(self):
@@ -34,12 +38,12 @@ class VersionParser(Parser):
     @property
     def webview_sha(self):
         """Returns the SHA in the "webview" field."""
-        return self.webview.split()[0]
+        return self._webview_regex.match(self.webview)[1]
 
     @property
     def webview_tag(self):
         """Returns the tag name in the "webview" field."""
-        return self.webview.split()[1]
+        return self._webview_regex.match(self.webview)[2]
 
     @property
     def cnx_archive(self):
