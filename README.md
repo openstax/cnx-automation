@@ -92,6 +92,11 @@ The TestRail integration is currently intended to be used during a local test ru
 
 #### Replace the example values with the appropriate values
 
+    [API]
+    url = https://instance.testrail.net/
+    email = testrail_user@domain.com
+    password = api_key
+
 #### Run the appropriate pytest commands
 
 To run the tests only for webview and a specific set of tests:
