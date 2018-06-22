@@ -13,7 +13,7 @@ class RequirementsParser(Parser):
 
     def is_blank(self, line):
         """Returns whether or not the line is blank."""
-        return line and not line.startswith('#')
+        return not line or line.startswith('#')
 
     def split_requirement(self, line):
         """Splits a requirement into a tuple containing (name, repository, version)."""
@@ -22,12 +22,12 @@ class RequirementsParser(Parser):
             return (match['name'], match['repository'], match['version'])
         else:
             split = line.split('==', 1)
-            return tuple(split[0], None, split[1])
+            return (split[0], None, split[1])
 
     @property
     def requirements_list(self):
         """Returns the requirements as a list of tuples."""
-        lines = self.text.split()
+        lines = self.text.splitlines()
         return [self.split_requirement(line) for line in lines if not self.is_blank(line)]
 
     @property

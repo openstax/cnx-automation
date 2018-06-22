@@ -27,8 +27,13 @@ class VersionParser(Parser):
     @property
     def date(self):
         """Returns the value of the "date" field."""
+        return self.dict['date']
+
+    @property
+    def datetime(self):
+        """Returns the value of the "date" field as a datetime (ignores the timezone part)."""
         from datetime import datetime
-        return datetime.strptime(self.dict['date'], '%Y-%m-%d %H:%M:%S %Z')
+        return datetime.strptime(' '.join(self.date.split()[:2]), '%Y-%m-%d %H:%M:%S')
 
     @property
     def webview(self):

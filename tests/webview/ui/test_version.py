@@ -16,7 +16,7 @@ from cli.git import Git
 @markers.nondestructive
 def test_version(webview_base_url, selenium, record_property):
     # GIVEN the webview base url, the Selenium driver and the time 2 days ago
-    two_days_ago = datetime.now() - timedelta(days=2)
+    two_days_ago = datetime.utcnow() - timedelta(days=2)
 
     # WHEN the version and history pages have been visited
     version = Version(selenium, webview_base_url).open()
@@ -32,10 +32,9 @@ def test_version(webview_base_url, selenium, record_property):
     #      - the tags for webview, archive and deploy are the latest tags (warning only)
     #      - the last 2 releases in history.txt are not exactly identical (warning only)
     #      - version.txt matches the JSON for the latest release in history.txt
-    current_release_date = current_version_parser.date
-    if current_release_date < two_days_ago:
+    if current_version_parser.datetime < two_days_ago:
         warn('\n\nThe latest release in {url} ({date}) is more than 2 days old.'.format(
-                 url=history_url, date=current_release_date))
+                 url=history_url, date=current_version_parser.date))
 
     tag_tests = [('webview', 'webview_tag'),
                  ('cnx-archive', 'cnx_archive'),
@@ -62,10 +61,9 @@ def test_version(webview_base_url, selenium, record_property):
         if not current_release_parser.has_same_versions_as(previous_release_parser):
             break
         elif releases_ago == 1:
-            previous_release_date = previous_release_parser.version_parser.date
             warn('\n\nAll versions in the previous release ({previous_release_date}) match'
                  ' the current release exactly. Release diff based on older release.\n'.format(
-                     previous_release_date=previous_release_date
+                     previous_release_date=previous_release_parser.version_parser.date
                  ))
 
     if releases_ago == 1:
