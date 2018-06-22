@@ -13,6 +13,7 @@ from pages.webview.content import Content
 
 
 @markers.webview
+@markers.test_case('C176268', 'C176269')
 @markers.nondestructive
 def test_search_input_and_button_are_displayed(webview_base_url, selenium):
     # GIVEN the webview base url and Selenium driver

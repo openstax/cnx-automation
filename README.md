@@ -26,9 +26,9 @@ Follow the instructions to install [Docker Compose](https://docs.docker.com/comp
 
     $ docker-compose exec --user root selenium-chrome tox
 
-> Note: The [Run the tests](#run-the-tests) section covers how to pass arguments to tox in order to target specific tests
+> Note: The [Run the tests using tox](#run-the-tests-using-tox) section covers how to pass arguments to tox in order to target specific tests
 
-## How to run the tests locally
+## How prepare the project locally
 
 ### Install dependencies
 
@@ -46,16 +46,16 @@ If you intend to run the legacy tests, you will need to set the LEGACY_USERNAME
 and LEGACY_PASSWORD environment variables. You can either export them from your
 shell profile or simply add them to a `.env` file in the root dir of this repo.
 
-### Run the tests
+### Run the tests using tox
 
 Tests are run using the command line using the `tox` command. By default this
 will run all of the environments configured, including checking your tests against
 recommended style conventions using [flake8][flake8].
 
-To run against a different base URL, pass in a value for `--base-url`:
+To run against a different base URL, pass in a value for `--webview-base-url`, `--legacy-base-url`, `--archive-base-url`:
 
 ```bash
-$ tox -- --base-url=https://qa.cnx.org
+$ tox -- --webview-base-url=https://staging.cnx.org
 ```
 
 To run Chrome in headless mode, pass in `--headless` or set the HEADLESS environment variable:
@@ -76,12 +76,76 @@ To run a specific test, pass in a value for `-k`:
 $ tox -- -k=test_my_feature
 ```
 
-### Additional Options
+To run a specific project, pass in `webview`, `legacy`, or `neb` for `-m`:
+
+```bash
+$ tox -- -m=webview
+```
+
+### Run the tests using Pytest
+
+There are occasions when running tox may not be the most ideal; Especially when you need more control over the framework. When this is the case pytest can be executed directly.
+
+The tox examples above essentially pass the options after the `--` to the pytest command.
+
+To run a specific test, pass in a value for `-k`:
+
+```bash
+$ pytest -k=test_my_feature tests/
+```
+
+To run a specific project, pass in `webview`, `legacy`, or `neb` for `-m`:
+
+```bash
+$ pytest -m=webview tests/
+```
+
+To run a more complicated example that runs a specific project and a specific test module in headless mode:
+
+```bash
+$ pytest -m=webview -k=test_home --headless tests/
+```
+
+### Additional Pytest Options
 
 The pytest plugin that we use for running tests has a number of advanced
 command line options available. To see the options available, run
 `pytest --help`. The full documentation for the plugin can be found
 [here][pytest-selenium].
+
+### Uploading results to TestRail
+
+The TestRail integration is currently intended to be used during a local test run of the cnx-automation suite when the uploading of results to TestRail is desired.
+
+Make a copy of of the testrail.example.cfg:
+
+    $ cp testrail.example.cfg testrail.cfg
+
+Replace the example values with the appropriate values:
+
+    [API]
+    url = https://instance.testrail.net/
+    email = testrail_user@domain.com
+    password = api_key
+
+To run the tests only for webview and a specific set of tests:
+
+```bash
+$ pytest -m webview -k test_home --testrail --testrail-name release01 tests/
+```
+
+Consult the pytest-testrail project `README.md`  for more options
+
+### Marking a test that has a test case in TestRail
+
+Use the `markers.text_case` decorator with case number to upload the results to TestRail. More than one test case can be used by separating with a comma.
+
+```python
+@markers.test_case('C10000', 'C10001')
+def test_foo_uploads_bar:
+```
+
+https://github.com/allankp/pytest-testrail
 
 ## Framework Design
 

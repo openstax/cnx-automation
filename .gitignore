@@ -112,3 +112,6 @@ assets/
 
 # OSX
 .DS_Store
+
+# TestRail config
+testrail.cfg
