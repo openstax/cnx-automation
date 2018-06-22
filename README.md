@@ -101,7 +101,7 @@ The TestRail integration is currently intended to be used during a local test ru
 
 To run the tests only for webview and a specific set of tests:
 
-    $ pytest -m webview -k test_home --testrail --testrail-name test2 tests/
+    $ pytest -m webview -k test_home --testrail --testrail-name release01 tests/
 
 #### Consult the pytest-testrail documentation for more options
 
