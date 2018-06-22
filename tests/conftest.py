@@ -14,6 +14,7 @@ from patches import connection_reset_by_peer  # noqa
 # Import fixtures
 pytest_plugins = (
     'fixtures.base',
+    'fixtures.github',
     'fixtures.snapshot',
     'fixtures.archive',
     'fixtures.webview',
