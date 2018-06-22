@@ -40,9 +40,9 @@ class Region(pypom.Region):
         self.page.scroll_to(element)
         return self
 
-    def scroll_to_and_click(self, element=None):
+    def offscreen_click(self, element=None):
         """Scrolls to the given element (or the region's root) and clicks it. Returns the region."""
         if element is None:
             element = self.root
-        self.page.scroll_to_and_click(element)
+        self.page.offscreen_click(element)
         return self

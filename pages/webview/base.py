@@ -25,11 +25,12 @@ class Page(pypom.Page):
         ActionChains(self.driver).move_to_element(element).perform()
         return self
 
-    def scroll_to_and_click(self, element):
-        """Scrolls to the given element and clicks it. Returns the page."""
-        ac = ActionChains(self.driver)
-        ac.move_to_element(element).perform()
-        ac.click(element).perform()
+    def offscreen_click(self, element):
+        """Clicks the given element, even if it is offscreen. Returns the page."""
+        # We actually navigate using the ENTER key because scrolling the page can be flaky
+        # https://stackoverflow.com/a/39918249
+        from selenium.webdriver.common.keys import Keys
+        element.send_keys(Keys.ENTER)
         return self
 
     class Header(Region):
