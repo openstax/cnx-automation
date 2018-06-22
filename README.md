@@ -26,9 +26,9 @@ Follow the instructions to install [Docker Compose](https://docs.docker.com/comp
 
     $ docker-compose exec --user root selenium-chrome tox
 
-> Note: The [Run the tests](#run-the-tests) section covers how to pass arguments to tox in order to target specific tests
+> Note: The [Run the tests using tox](#run-the-tests-using-tox) section covers how to pass arguments to tox in order to target specific tests
 
-## How to run the tests locally
+## How prepare the project locally
 
 ### Install dependencies
 
@@ -117,18 +117,16 @@ command line options available. To see the options available, run
 
 The TestRail integration is currently intended to be used during a local test run of the cnx-automation suite when the uploading of results to TestRail is desired.
 
-#### Make a copy of of the testrail.example.cfg
+Make a copy of of the testrail.example.cfg:
 
     $ cp testrail.example.cfg testrail.cfg
 
-#### Replace the example values with the appropriate values
+Replace the example values with the appropriate values:
 
     [API]
     url = https://instance.testrail.net/
     email = testrail_user@domain.com
     password = api_key
-
-#### Run the appropriate pytest commands
 
 To run the tests only for webview and a specific set of tests:
 
@@ -136,7 +134,16 @@ To run the tests only for webview and a specific set of tests:
 $ pytest -m webview -k test_home --testrail --testrail-name release01 tests/
 ```
 
-#### Consult the pytest-testrail documentation for more options
+Consult the pytest-testrail project `README.md`  for more options
+
+### Marking a test that has a test case in TestRail
+
+Use the `markers.text_case` decorator with case number to upload the results to TestRail. More than one test case can be used by separating with a comma.
+
+```python
+@markers.test_case('C10000', 'C10001')
+def test_foo_uploads_bar:
+```
 
 https://github.com/allankp/pytest-testrail
 
