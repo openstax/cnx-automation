@@ -46,16 +46,16 @@ If you intend to run the legacy tests, you will need to set the LEGACY_USERNAME
 and LEGACY_PASSWORD environment variables. You can either export them from your
 shell profile or simply add them to a `.env` file in the root dir of this repo.
 
-### Run the tests
+### Run the tests using tox
 
 Tests are run using the command line using the `tox` command. By default this
 will run all of the environments configured, including checking your tests against
 recommended style conventions using [flake8][flake8].
 
-To run against a different base URL, pass in a value for `--base-url`:
+To run against a different base URL, pass in a value for `--webview-base-url`, `--legacy-base-url`, `--archive-base-url`:
 
 ```bash
-$ tox -- --base-url=https://qa.cnx.org
+$ tox -- --webview-base-url=https://staging.cnx.org
 ```
 
 To run Chrome in headless mode, pass in `--headless` or set the HEADLESS environment variable:
@@ -82,6 +82,37 @@ To run a specific project, pass in `webview`, `legacy`, or `neb` for `-m`:
 $ tox -- -m=webview
 ```
 
+### Run the tests using Pytest
+
+There are occasions when running tox may not be the most ideal; Especially when you need more control over the framework. When this is the case pytest can be executed directly.
+
+The tox examples above essentially pass the options after the `--` to the pytest command.
+
+To run a specific test, pass in a value for `-k`:
+
+```bash
+$ pytest -k=test_my_feature tests/
+```
+
+To run a specific project, pass in `webview`, `legacy`, or `neb` for `-m`:
+
+```bash
+$ pytest -m=webview tests/
+```
+
+To run a more complicated example that runs a specific project and a specific test module in headless mode:
+
+```bash
+$ pytest -m=webview -k=test_home --headless tests/
+```
+
+### Additional Pytest Options
+
+The pytest plugin that we use for running tests has a number of advanced
+command line options available. To see the options available, run
+`pytest --help`. The full documentation for the plugin can be found
+[here][pytest-selenium].
+
 ### Uploading results to TestRail
 
 The TestRail integration is currently intended to be used during a local test run of the cnx-automation suite when the uploading of results to TestRail is desired.
@@ -101,18 +132,13 @@ The TestRail integration is currently intended to be used during a local test ru
 
 To run the tests only for webview and a specific set of tests:
 
-    $ pytest -m webview -k test_home --testrail --testrail-name release01 tests/
+```bash
+$ pytest -m webview -k test_home --testrail --testrail-name release01 tests/
+```
 
 #### Consult the pytest-testrail documentation for more options
 
 https://github.com/allankp/pytest-testrail
-
-### Additional Pytest Options
-
-The pytest plugin that we use for running tests has a number of advanced
-command line options available. To see the options available, run
-`pytest --help`. The full documentation for the plugin can be found
-[here][pytest-selenium].
 
 ## Framework Design
 
