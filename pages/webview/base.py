@@ -27,7 +27,9 @@ class Page(pypom.Page):
 
     def scroll_to_and_click(self, element):
         """Scrolls to the given element and clicks it. Returns the page."""
-        ActionChains(self.driver).move_to_element(element).click(element).perform()
+        ac = ActionChains(self.driver)
+        ac.move_to_element(element).perform()
+        ac.click(element).perform()
         return self
 
     class Header(Region):
