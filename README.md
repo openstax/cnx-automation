@@ -76,7 +76,33 @@ To run a specific test, pass in a value for `-k`:
 $ tox -- -k=test_my_feature
 ```
 
-### Additional Options
+To run a specific project, pass in `webview`, `legacy`, or `neb` for `-m`:
+
+```bash
+$ tox -- -m=webview
+```
+
+### Uploading results to TestRail
+
+The TestRail integration is currently intended to be used during a local test run of the cnx-automation suite when the uploading of results to TestRail is desired.
+
+#### Make a copy of of the testrail.example.cfg
+
+    $ cp testrail.example.cfg testrail.cfg
+
+#### Replace the example values with the appropriate values
+
+#### Run the appropriate pytest commands
+
+To run the tests only for webview and a specific set of tests:
+
+    $ pytest -m webview -k test_home --testrail --testrail-name test2 tests/
+
+#### Consult the pytest-testrail documentation for more options
+
+https://github.com/allankp/pytest-testrail
+
+### Additional Pytest Options
 
 The pytest plugin that we use for running tests has a number of advanced
 command line options available. To see the options available, run
