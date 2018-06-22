@@ -136,6 +136,8 @@ $ pytest -m webview -k test_home --testrail --testrail-name release01 tests/
 
 Consult the pytest-testrail project `README.md`  for more options
 
+https://github.com/allankp/pytest-testrail
+
 ### Marking a test that has a test case in TestRail
 
 Use the `markers.text_case` decorator with case number to upload the results to TestRail. More than one test case can be used by separating with a comma.
@@ -145,7 +147,7 @@ Use the `markers.text_case` decorator with case number to upload the results to 
 def test_foo_uploads_bar:
 ```
 
-https://github.com/allankp/pytest-testrail
+
 
 ## Framework Design
 
