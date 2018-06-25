@@ -71,7 +71,7 @@ class Content(Page):
     @property
     @retry_stale_element_reference_exception
     def section_title(self):
-        return self.section_title_div.text.replace(self.chapter_section, '').strip()
+        return self.section_title_div.text.lstrip(self.chapter_section).strip()
 
     @property
     @retry_stale_element_reference_exception
