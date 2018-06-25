@@ -344,7 +344,7 @@ def test_ncy_is_not_displayed(american_gov_url, selenium):
 
 
 @markers.webview
-@markers.test_case('C132547', 'C132548')
+@markers.test_case('C132547', 'C132548', 'C162195')
 @markers.nondestructive
 @markers.parametrize(
     'page_uuid,is_baked_book_index',
