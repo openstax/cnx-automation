@@ -498,7 +498,7 @@ class Content(Page):
             return self.downloads.wait_for_region_to_display()
 
         def click_attribution_tab(self):
-            self.attribution_tab.click()
+            self.scroll_to().attribution_tab.click()
             return self.attribution.wait_for_region_to_display()
 
         class Downloads(Region):
