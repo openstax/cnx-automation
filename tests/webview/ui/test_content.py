@@ -318,6 +318,7 @@ def test_navigation(webview_base_url, selenium):
 
 
 @markers.webview
+@markers.test_case('C195073')
 @markers.slow
 @markers.nondestructive
 def test_ncy_is_not_displayed(american_gov_url, selenium):
