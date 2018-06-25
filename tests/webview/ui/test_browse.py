@@ -98,8 +98,9 @@ def test_click_subject_category(webview_base_url, selenium):
 # The query needs to contain a rare word, otherwise we may timeout when searching
 # Postgres removes stop words automatically, so don't include those either
 @markers.webview
+@markers.test_case('C167403')
 @markers.nondestructive
-@markers.parametrize("query", ['Boreal Aardvark'])
+@markers.parametrize("query", ['Boreal Aardvark', 'mitosis genetics gorilla'])
 def test_search(webview_base_url, selenium, query):
     # GIVEN the browse page and a query
     home = Home(selenium, webview_base_url).open()
