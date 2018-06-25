@@ -14,27 +14,63 @@ _number_of_tested_books = 2
 
 
 @markers.webview
+@markers.test_case('C167405')
 @markers.nondestructive
-def test_splash_banner_loads(webview_base_url, selenium):
-    # GIVEN the webview base url and the Selenium driver
+@markers.parametrize('width,height', [(1024, 768), (640, 480)])
+def test_top_right_links_and_nav(width, height, webview_base_url, legacy_base_url, selenium):
+    # GIVEN the window width and height, the webview URL, the legacy URL, and the Selenium driver
+    selenium.set_window_size(width, height)
 
-    # WHEN the home page is fully loaded
-    page = Home(selenium, webview_base_url).open()
+    # WHEN the webview home page is fully loaded
+    home = Home(selenium, webview_base_url).open()
+    header = home.header
 
-    # THEN the splash text is correct
-    assert 'Discover learning materials in an Open Space' in page.splash
+    # THEN the top right links, logos and nav are displayed and point to the correct URLs
+    assert header.is_support_link_displayed
+    assert header.support_url == 'http://openstax.force.com/support?l=en_US&c=Products%3ACNX'
+
+    assert header.is_legacy_site_link_displayed
+    expected_legacy_url = '{legacy_url}/content?legacy=true'.format(legacy_url=legacy_base_url)
+    assert header.legacy_site_url == expected_legacy_url, (
+               'The legacy URL in the CNX home page did not match the legacy_base_url. '
+               'Check that both webview_base_url and legacy_base_url point to the same environment.'
+           )
+
+    assert header.is_cnx_logo_displayed
+    assert header.cnx_logo_url.rstrip('/') == webview_base_url
+
+    assert header.is_nav_displayed
+
+    if header.is_nav_button_displayed:
+        assert not header.is_browse_link_displayed
+        assert not header.is_about_us_link_displayed
+        assert not header.is_donate_link_displayed
+        assert not header.is_rice_logo_displayed
+        header.nav_button.click()
+
+    assert header.is_browse_link_displayed
+    assert header.browse_url == '{webview_url}/browse'.format(webview_url=webview_base_url)
+
+    assert header.is_about_us_link_displayed
+    assert header.about_us_url == '{webview_url}/about'.format(webview_url=webview_base_url)
+
+    assert header.is_donate_link_displayed
+    assert header.donate_url == '{webview_url}/donate'.format(webview_url=webview_base_url)
+
+    assert header.is_rice_logo_displayed
+    assert header.rice_logo_url.rstrip('/') == 'http://www.rice.edu'
 
 
 @markers.webview
 @markers.nondestructive
-def test_nav_is_displayed(webview_base_url, selenium):
-    # GIVEN the webview base url and the Selenium driver
+def test_splash_banner_loads(webview_base_url, selenium):
+    # GIVEN the main website URL and the Selenium driver
 
-    # WHEN the home page is fully loaded
+    # WHEN The home page URL is fully loaded
     page = Home(selenium, webview_base_url).open()
 
-    # THEN the navbar is displayed
-    assert page.header.is_nav_displayed
+    # THEN The splash text is correct
+    assert 'Discover learning materials in an Open Space' in page.splash
 
 
 @markers.webview
@@ -156,7 +192,7 @@ def test_logo_link_stays_on_home_page(webview_base_url, selenium):
     home = Home(selenium, webview_base_url).open()
 
     # WHEN the OpenStax CNX logo is clicked
-    home = home.header.click_logo()
+    home = home.header.click_cnx_logo()
 
     # THEN we are still in the home page
     assert type(home) is Home
