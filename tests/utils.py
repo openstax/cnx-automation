@@ -66,3 +66,8 @@ def skip_if_destructive_and_sensitive(request, base_url):
              'considered a sensitive environment. If this test is '
              "not destructive, add the 'nondestructive' marker to "
              'it. Sensitive URL: {base_url}'.format(base_url=base_url))
+
+
+def shorten_tag(tag):
+    """Returns the short version of a git tag when given the long (or short) version."""
+    return tag.split('-')[0]

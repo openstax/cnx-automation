@@ -14,6 +14,7 @@ from patches import connection_reset_by_peer  # noqa
 # Import fixtures
 pytest_plugins = (
     'fixtures.base',
+    'fixtures.github',
     'fixtures.snapshot',
     'fixtures.archive',
     'fixtures.webview',
@@ -44,10 +45,13 @@ def pytest_addoption(parser):
                     action='store_true',
                     default=os.getenv('PRINT_PAGE_SOURCE_ON_FAILURE', False),
                     help='print page source to stdout when a test fails.')
+    parser.addoption('--github-token',
+                     default=os.getenv('GITHUB_TOKEN', None),
+                     help='OAuth token used to login to GitHub.')
     parser.addoption('--runslow',
                      action='store_true',
                      default=os.getenv('RUNSLOW', False),
-                     help='run slow tests')
+                     help='run slow tests.')
     # Adapted from:
     # https://github.com/pytest-dev/pytest-base-url/blob/master/pytest_base_url/plugin.py#L51
     parser.addini('archive_base_url', help='base url for CNX archive.')
@@ -93,3 +97,14 @@ def pytest_runtest_makereport(item, call):
     # set a report attribute for each phase of a call, which can be "setup", "call", "teardown"
     # can be used by yield fixtures to determine if the test failed (see selenium fixture)
     setattr(item, 'rep_{when}'.format(when=rep.when), rep)
+
+
+@pytest.hookimpl(hookwrapper=True)
+def pytest_terminal_summary(terminalreporter):
+    yield
+
+    for report in terminalreporter.getreports(''):
+        if report.when == 'teardown':
+            for (name, value) in report.user_properties:
+                if name == 'terminal_summary_message':
+                    print(value)
