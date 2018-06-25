@@ -489,9 +489,17 @@ class Content(Page):
         def downloads(self):
             return self.Downloads(self.page)
 
+        @property
+        def attribution(self):
+            return self.Attribution(self.page)
+
         def click_downloads_tab(self):
             self.scroll_to().downloads_tab.click()
             return self.downloads.wait_for_region_to_display()
+
+        def click_attribution_tab(self):
+            self.scroll_to().attribution_tab.click()
+            return self.attribution.wait_for_region_to_display()
 
         class Downloads(Region):
             _root_locator = (By.CSS_SELECTOR,
@@ -535,6 +543,10 @@ class Content(Page):
                 return (self.is_pdf_available or
                         self.is_epub_available or
                         self.is_offline_zip_available)
+
+        class Attribution(Region):
+            _root_locator = (By.CSS_SELECTOR,
+                             '#main-content div.media-footer div.attribution.tab-content')
 
         class FooterNav(Region):
             _root_locator = (By.CSS_SELECTOR, '#main-content div.footer-nav')

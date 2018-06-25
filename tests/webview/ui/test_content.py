@@ -244,6 +244,24 @@ def test_scroll(webview_base_url, selenium):
 
 
 @markers.webview
+@markers.test_case('C162171')
+@markers.nondestructive
+def test_attribution(webview_base_url, selenium):
+    # GIVEN a book's content page
+    home = Home(selenium, webview_base_url).open()
+    book = home.featured_books.openstax_list[0]
+    content = book.click_book_cover()
+
+    # WHEN we click the attribution tab
+    attribution = content.footer.click_attribution_tab()
+
+    # THEN the attribution is displayed and has the correct support email
+    assert attribution.is_displayed
+    expected_sentence = 'For questions regarding this license, please contact support@openstax.org.'
+    assert expected_sentence in attribution.text
+
+
+@markers.webview
 @markers.nondestructive
 def test_back_to_top(webview_base_url, selenium):
     # GIVEN a book's scrolled content page
