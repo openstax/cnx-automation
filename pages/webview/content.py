@@ -78,14 +78,14 @@ class Content(Page):
     @retry_stale_element_reference_exception
     def is_get_this_book_button_displayed(self):
         # Wait for the downloads load bar to disappear
-        self.footer.downloads.wait_for_region_to_load()
+        self.content_footer.downloads.wait_for_region_to_load()
         return self.is_element_displayed(*self._get_this_book_button_locator)
 
     @property
     @retry_stale_element_reference_exception
     def get_this_book_button(self):
         # Wait for the downloads load bar to disappear
-        self.footer.downloads.wait_for_region_to_load()
+        self.content_footer.downloads.wait_for_region_to_load()
         return self.find_element(*self._get_this_book_button_locator)
 
     @property
@@ -97,12 +97,12 @@ class Content(Page):
         return self.ContentRegion(self)
 
     @property
-    def footer(self):
-        return self.Footer(self)
+    def content_footer(self):
+        return self.ContentFooter(self)
 
     @property
     def footer_nav(self):
-        return self.footer.nav
+        return self.content_footer.nav
 
     def wait_for_url_to_change(self, current_url):
         self.wait.until(lambda _: self.driver.current_url != current_url)
@@ -442,7 +442,7 @@ class Content(Page):
             self.offscreen_click(index_term)
             return self.page.wait_for_url_to_change(current_url)
 
-    class Footer(Region):
+    class ContentFooter(Region):
         _root_locator = (By.CSS_SELECTOR, '#main-content div.media-footer')
         _downloads_tab_locator = (By.ID, 'downloads-tab')
         _history_tab_locator = (By.ID, 'history-tab')
