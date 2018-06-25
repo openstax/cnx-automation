@@ -182,6 +182,7 @@ def test_section_title_for_no_markup(webview_base_url, selenium):
 
 
 @markers.webview
+@markers.test_case('C176236')
 @markers.nondestructive
 def test_content_displays_and_has_figures(webview_base_url, selenium):
     # GIVEN the home page
