@@ -297,6 +297,10 @@ class Content(Page):
                 return self.find_element(*self._contents_button_locator)
 
             @property
+            def searchbar(self):
+                return self.find_element(*self._searchbar_locator)
+
+            @property
             def back_link(self):
                 return self.find_element(*self._back_link_locator)
 
@@ -320,9 +324,30 @@ class Content(Page):
             def next_link(self):
                 return self.find_element(*self._next_link_locator)
 
+            @property
+            def table_of_contents(self):
+                return self.TableOfContents(self.page)
+
+            @property
+            def in_book_search_results(self):
+                return self.InBookSearchResults(self.page)
+
             def click_contents_button(self):
                 self.contents_button.click()
-                return self.TableOfContents(self.page).wait_for_region_to_display()
+                return self.table_of_contents.wait_for_region_to_display()
+
+            def search(self, query):
+                searchbar = self.searchbar
+                from selenium.webdriver.common.action_chains import ActionChains
+                from selenium.webdriver.common.keys import Keys
+                # For some reason self.searchbar.send_keys() fails with `cannot focus element`
+                # https://stackoverflow.com/a/39205317
+                ActionChains(self.driver).move_to_element(searchbar) \
+                                         .click(searchbar) \
+                                         .send_keys(query) \
+                                         .send_keys(Keys.ENTER) \
+                                         .perform()
+                return self.in_book_search_results.wait_for_region_to_display()
 
             def click_back_link(self):
                 current_url = self.driver.current_url
@@ -382,6 +407,74 @@ class Content(Page):
                             current_url = self.driver.current_url
                             self.root.click()
                             return self.page.wait_for_url_to_change(current_url)
+
+            class InBookSearchResults(Region):
+                _root_locator = (By.CSS_SELECTOR, '#content div.sidebar div.table-of-contents')
+                _results_locator = (By.XPATH,
+                                    (".//div[contains(@class, 'toc')]"
+                                     "//ul//li[./div/span[contains(@class, 'name-wrapper')]//a]"))
+
+                @property
+                def results(self):
+                    elements = self.find_elements(*self._results_locator)
+                    return [self.InBookResult(self.page, element) for element in elements]
+
+                class InBookResult(Region):
+                    _link_locator = (By.CSS_SELECTOR, 'span.name-wrapper a')
+                    _chapter_section_span_locator = (By.CSS_SELECTOR,
+                                                     'span.chapter-number,span.os-number')
+                    _title_span_locator = (By.CSS_SELECTOR, 'span.title')
+                    _content_q_locator = (By.CSS_SELECTOR, 'div.snippet q')
+                    _bold_locator = (By.CSS_SELECTOR, 'span.q-match')
+
+                    @property
+                    def is_link_present(self):
+                        return self.is_element_present(*self._link_locator)
+
+                    @property
+                    def link(self):
+                        return self.find_element(*self._link_locator)
+
+                    @property
+                    def chapter_section_span(self):
+                        return self.link.find_element(*self._chapter_section_span_locator)
+
+                    @property
+                    def chapter_section(self):
+                        return self.chapter_section_span.text
+
+                    @property
+                    def title_span(self):
+                        return self.link.find_element(*self._title_span_locator)
+
+                    @property
+                    def title(self):
+                        return self.title_span.text.replace(self.chapter_section, '').lstrip()
+
+                    @property
+                    def content_q(self):
+                        return self.link.find_element(*self._content_q_locator)
+
+                    @property
+                    def content(self):
+                        return self.content_q.text
+
+                    @property
+                    def bolds(self):
+                        return self.content_q.find_elements(*self._bold_locator)
+
+                    def count_occurrences(self, word):
+                        return self.content.lower().count(word.lower())
+
+                    def count_bold_occurrences(self, word):
+                        lowercase_word = word.lower()
+                        return len([bold for bold in self.bolds
+                                    if lowercase_word in bold.text.lower()])
+
+                    def click_link(self):
+                        current_url = self.driver.current_url
+                        self.link.click()
+                        return self.page.wait_for_url_to_change(current_url)
 
     # This entire region can be overwritten (and the modal automatically closed) at any time,
     # so any tests that use it must be ready to retry StaleElementReferenceExceptions

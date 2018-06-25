@@ -202,7 +202,7 @@ class SearchResults(Page):
 
         def count_bold_occurrences(self, word):
             lowercase_word = word.lower()
-            return len([bold for bold in self.bolds if bold.text.lower() == lowercase_word])
+            return len([bold for bold in self.bolds if lowercase_word in bold.text.lower()])
 
         def click_title_link(self):
             self.title_link.click()

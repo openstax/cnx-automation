@@ -243,6 +243,32 @@ def test_share_on_top_right_corner(webview_base_url, selenium):
 
 
 @markers.webview
+@markers.test_case('C132549')
+@markers.nondestructive
+@markers.parametrize('uuid,query', [('d50f6e32-0fda-46ef-a362-9bd36ca7c97d', 'table')])
+def test_in_book_search(webview_base_url, selenium, uuid, query):
+    # GIVEN a book's content page and a query
+    content = Content(selenium, webview_base_url, id=uuid).open()
+
+    # WHEN we search the book for the given query
+    search_results = content.header_nav.search(query)
+
+    # THEN search results are present and bolded and link to the matching content
+    results = search_results.results
+    assert len(results) > 0
+
+    words = query.split()
+    for result in results:
+        for word in words:
+            assert result.count_occurrences(word) == result.count_bold_occurrences(word)
+
+    result = results[0]
+    title = result.title
+    content = result.click_link()
+    assert content.section_title == title
+
+
+@markers.webview
 @markers.test_case('C176258', 'C176259', 'C176260', 'C176261')
 @markers.nondestructive
 def test_share_links_displayed(webview_base_url, selenium):
