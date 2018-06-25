@@ -3,8 +3,9 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 import pytest
+import re
 
-from selenium.webdriver.common.action_chains import ActionChains
+from selenium.webdriver.common.by import By
 
 from tests import markers
 
@@ -151,9 +152,7 @@ def test_get_this_book(webview_base_url, selenium):
 
     # THEN links to download the pdf, epub and offline zip versions are displayed
     # Look at the footer to see which downloads should have been available
-    footer = content.footer
-    ActionChains(selenium).move_to_element(footer.root).perform()
-    downloads = footer.click_downloads_tab()
+    downloads = content.footer.click_downloads_tab()
 
     if not button_displayed:
         assert not downloads.is_any_available
@@ -193,9 +192,9 @@ def test_content_displays_and_has_figures(webview_base_url, selenium):
     content_page = book.click_book_cover()
 
     # THEN the book content is present and contains figure(s)
-    content = content_page.content
-    assert not content.is_blank
-    assert content.has_figures
+    content_region = content_page.content_region
+    assert not content_region.is_blank
+    assert content_region.has_figures
 
 
 @markers.webview
@@ -207,8 +206,7 @@ def test_scroll(webview_base_url, selenium):
     content = book.click_book_cover()
 
     # WHEN we scroll to the bottom
-    footer = content.footer
-    ActionChains(selenium).move_to_element(footer.root).perform()
+    footer = content.footer.scroll_to()
 
     # THEN the content nav is displayed on top without the site navbar or any social links
     # The header nav is offscreen but still considered displayed
@@ -253,10 +251,10 @@ def test_back_to_top(webview_base_url, selenium):
     book = home.featured_books.openstax_list[0]
     content = book.click_book_cover()
     footer = content.footer
-    ActionChains(selenium).move_to_element(footer.root).perform()
 
-    # WHEN we click the back to top link
-    content = footer.nav.click_back_to_top_link()
+    # WHEN we scroll to the bottom then click the back to top link
+    footer_nav = footer.nav.scroll_to()
+    content = footer_nav.click_back_to_top_link()
 
     # THEN the content page is no longer scrolled
     assert content.header.is_nav_displayed
@@ -313,17 +311,12 @@ def test_navigation(webview_base_url, selenium):
     assert content.chapter_section == '1.1'
     assert header_nav.progress_bar_fraction_is(3 / num_pages)
 
-    action_chains = ActionChains(selenium)
-    footer_nav = content.footer_nav
-    action_chains.move_to_element(footer_nav.root).perform()
-    content = footer_nav.click_next_link()
+    content = content.footer_nav.click_next_link()
     assert type(content) == Content
     assert content.chapter_section == '1.2'
     assert header_nav.progress_bar_fraction_is(4 / num_pages)
 
-    footer_nav = content.footer_nav
-    action_chains.move_to_element(footer_nav.root).perform()
-    content = footer_nav.click_back_link()
+    content = content.footer_nav.click_back_link()
     assert type(content) == Content
     assert content.chapter_section == '1.1'
     assert header_nav.progress_bar_fraction_is(3 / num_pages)
@@ -347,3 +340,39 @@ def test_ncy_is_not_displayed(american_gov_url, selenium):
 
     # THEN :NOT_CONVERTED_YET is not displayed
     assert page.is_ncy_displayed is False
+
+
+@markers.webview
+@markers.test_case('C132547', 'C132548')
+@markers.nondestructive
+@markers.parametrize(
+    'page_uuid,is_baked_book_index',
+    [('d50f6e32-0fda-46ef-a362-9bd36ca7c97d:72a3ef21-e30b-5ba4-9ea6-eac9699a2f09', True),
+     ('b3c1e1d2-839c-42b0-a314-e119a8aafbdd', False)]
+)
+def test_id_links_and_back_button(page_uuid, is_baked_book_index, webview_base_url, selenium):
+    # GIVEN an index page in a baked book or a page with anchor links in an unbaked book
+    content_page = Content(selenium, webview_base_url, id=page_uuid).open()
+    content_url = selenium.current_url
+    assert '#' not in content_url
+
+    # WHEN we click on a term (baked index) or an anchor link
+    content_region = content_page.content_region
+    if is_baked_book_index:
+        content_page = content_region.click_index_term()
+    else:
+        content_page = content_region.click_anchor_link()
+        assert selenium.current_url.startswith(content_url)
+
+    # THEN we end up at the linked page and the element with the same id as the link is displayed
+    new_url = selenium.current_url
+    assert '#' in new_url
+    assert not new_url.endswith('#')
+    id = re.search('#(.+)$', new_url)[1]
+    assert content_page.is_element_displayed(By.ID, id)
+
+    # WHEN we click the browser's back button
+    selenium.back()
+
+    # THEN we end up at the previous page
+    assert selenium.current_url == content_url

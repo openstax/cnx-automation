@@ -3,8 +3,8 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 import pypom
-
 from selenium.webdriver.common.by import By
+from selenium.webdriver.common.action_chains import ActionChains
 
 from regions.webview.base import Region
 
@@ -19,6 +19,19 @@ class Page(pypom.Page):
     def header(self):
         # Need to wait for the header to display because the nav menu initially loads with 0 height
         return self.Header(self).wait_for_region_to_display()
+
+    def scroll_to(self, element):
+        """Scrolls to the given element. Returns the page."""
+        ActionChains(self.driver).move_to_element(element).perform()
+        return self
+
+    def offscreen_click(self, element):
+        """Clicks the given element, even if it is offscreen. Returns the page."""
+        # We actually navigate using the ENTER key because scrolling the page can be flaky
+        # https://stackoverflow.com/a/39918249
+        from selenium.webdriver.common.keys import Keys
+        element.send_keys(Keys.ENTER)
+        return self
 
     class Header(Region):
         _root_locator = (By.ID, 'header')

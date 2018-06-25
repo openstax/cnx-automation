@@ -14,6 +14,7 @@ from regions.webview.content_item import ContentItem
 
 
 class Content(Page):
+    URL_TEMPLATE = '/contents/{id}'
     # An at sign, then one or more non-colon chars, followed by a forward slash
     _url_regex = re.compile('@[^:]+/')
     _section_title_div_locator = (By.CSS_SELECTOR, '#main-content div.media-header div.title')
@@ -92,8 +93,8 @@ class Content(Page):
         return self.is_element_displayed(*self._ncy_locator)
 
     @property
-    def content(self):
-        return self.Content(self)
+    def content_region(self):
+        return self.ContentRegion(self)
 
     @property
     def footer(self):
@@ -407,9 +408,11 @@ class Content(Page):
         def is_order_printed_book_link_displayed(self):
             return self.is_element_present(*self._order_printed_book_link_locator)
 
-    class Content(Region):
+    class ContentRegion(Region):
         _root_locator = (By.ID, 'content')
         _figure_locator = (By.TAG_NAME, 'figure')
+        _anchor_links_locator = (By.CSS_SELECTOR, 'a[href*="#"]')
+        _index_terms_locator = (By.CSS_SELECTOR, 'div.os-index-item a.os-term-section-link')
 
         @property
         def is_blank(self):
@@ -418,6 +421,26 @@ class Content(Page):
         @property
         def has_figures(self):
             return self.is_element_present(*self._figure_locator)
+
+        @property
+        def anchor_links(self):
+            return self.find_elements(*self._anchor_links_locator)
+
+        @property
+        def index_terms(self):
+            return self.find_elements(*self._index_terms_locator)
+
+        def click_anchor_link(self, index=0):
+            current_url = self.driver.current_url
+            anchor_link = self.anchor_links[index]
+            self.offscreen_click(anchor_link)
+            return self.page.wait_for_url_to_change(current_url)
+
+        def click_index_term(self, index=0):
+            current_url = self.driver.current_url
+            index_term = self.index_terms[index]
+            self.offscreen_click(index_term)
+            return self.page.wait_for_url_to_change(current_url)
 
     class Footer(Region):
         _root_locator = (By.CSS_SELECTOR, '#main-content div.media-footer')
@@ -467,7 +490,7 @@ class Content(Page):
             return self.Downloads(self.page)
 
         def click_downloads_tab(self):
-            self.downloads_tab.click()
+            self.scroll_to().downloads_tab.click()
             return self.downloads.wait_for_region_to_display()
 
         class Downloads(Region):
@@ -533,7 +556,7 @@ class Content(Page):
 
             def click_back_link(self):
                 current_url = self.driver.current_url
-                self.back_link.click()
+                self.scroll_to().back_link.click()
                 return self.page.wait_for_url_to_change(current_url)
 
             def click_back_to_top_link(self):
@@ -542,5 +565,5 @@ class Content(Page):
 
             def click_next_link(self):
                 current_url = self.driver.current_url
-                self.next_link.click()
+                self.scroll_to().next_link.click()
                 return self.page.wait_for_url_to_change(current_url)

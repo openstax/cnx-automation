@@ -32,3 +32,17 @@ class Region(pypom.Region):
     def wait_for_region_to_display(self):
         self.wait.until(lambda _: self.is_displayed)
         return self
+
+    def scroll_to(self, element=None):
+        """Scrolls to the given element (or the region's root). Returns the region."""
+        if element is None:
+            element = self.root
+        self.page.scroll_to(element)
+        return self
+
+    def offscreen_click(self, element=None):
+        """Scrolls to the given element (or the region's root) and clicks it. Returns the region."""
+        if element is None:
+            element = self.root
+        self.page.offscreen_click(element)
+        return self

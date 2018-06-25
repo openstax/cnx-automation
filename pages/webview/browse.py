@@ -55,7 +55,7 @@ class Browse(Page):
     def search(self, query):
         self.search_input.send_keys(query)
         from selenium.webdriver.common.keys import Keys
-        self.search_input.send_keys(Keys.RETURN)
+        self.search_input.send_keys(Keys.ENTER)
         return SearchResults(self.driver, self.base_url, self.timeout).wait_for_page_to_load()
 
     def click_advanced_search_link(self):
