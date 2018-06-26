@@ -253,7 +253,7 @@ def test_attribution(webview_base_url, selenium):
     content = book.click_book_cover()
 
     # WHEN we click the attribution tab
-    attribution = content.footer.click_attribution_tab()
+    attribution = content.content_footer.click_attribution_tab()
 
     # THEN the attribution is displayed and has the correct support email
     assert attribution.is_displayed
