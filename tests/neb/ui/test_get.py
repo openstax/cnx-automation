@@ -25,6 +25,7 @@ def test_get_help():
 
 
 @markers.neb
+@markers.test_case('C195563')
 @markers.nondestructive
 def test_get_no_env():
     # GIVEN neb
@@ -39,6 +40,7 @@ def test_get_no_env():
 
 
 @markers.neb
+@markers.test_case('C195563')
 @markers.nondestructive
 def test_get_no_col_id(neb_env):
     # GIVEN neb and an environment
@@ -53,6 +55,7 @@ def test_get_no_col_id(neb_env):
 
 
 @markers.neb
+@markers.test_case('C195563')
 @markers.nondestructive
 @markers.parametrize('col_id', ['col11562'])
 def test_get_no_col_version(neb_env, col_id):
@@ -68,6 +71,7 @@ def test_get_no_col_version(neb_env, col_id):
 
 
 @markers.neb
+@markers.test_case('C195237')
 @markers.nondestructive
 @markers.parametrize('col_id,col_minimum_version', [('col11562', '1.19')])
 def test_get_col_latest(neb_env, col_id, col_minimum_version):
@@ -90,6 +94,7 @@ def test_get_col_latest(neb_env, col_id, col_minimum_version):
 
 
 @markers.neb
+@markers.test_case('C195559')
 @markers.nondestructive
 @markers.parametrize('col_id,col_version', [('col11562', '1.19')])
 def test_get_col_version(neb_env, col_id, col_version, snapshot):

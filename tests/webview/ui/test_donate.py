@@ -10,6 +10,7 @@ from pages.webview.donate_form import DonateForm
 
 
 @markers.webview
+@markers.test_case('C176262')
 @markers.nondestructive
 def test_donate_form_loads(webview_base_url, selenium):
     # GIVEN the home page
@@ -26,6 +27,7 @@ def test_donate_form_loads(webview_base_url, selenium):
 
 
 @markers.webview
+@markers.test_case('C176266', 'C176267')
 @markers.nondestructive
 def test_donate_form_incomplete(webview_base_url, selenium):
     # GIVEN the donation form
@@ -47,6 +49,7 @@ def test_donate_form_incomplete(webview_base_url, selenium):
 
 
 @markers.webview
+@markers.test_case('C176264')
 @markers.nondestructive
 def test_donate_slider(webview_base_url, selenium):
     # GIVEN the home page

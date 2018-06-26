@@ -17,6 +17,7 @@ class Content(Page):
     URL_TEMPLATE = '/contents/{id}'
     # An at sign, then one or more non-colon chars, followed by a forward slash
     _url_regex = re.compile('@[^:]+/')
+    _main_content_section_locator = (By.ID, 'main-content')
     _section_title_div_locator = (By.CSS_SELECTOR, '#main-content div.media-header div.title')
     _chapter_section_span_locator = (By.CSS_SELECTOR, 'span.title-chapter')
     _get_this_book_button_locator = (
@@ -45,6 +46,10 @@ class Content(Page):
     @property
     def share(self):
         return self.content_header.share
+
+    @property
+    def main_content_section(self):
+        return self.find_element(*self._main_content_section_locator)
 
     # The media-header div can be reloaded at seemingly random times
     # Any method that accesses an element inside this header
@@ -169,53 +174,58 @@ class Content(Page):
 
         class Share(Region):
             _root_locator = (By.CSS_SELECTOR, '#content div.pinnable div.share')
-
-            @property
-            def normalized_title(self):
-                return self.page.title.replace(' ', '%20')
-
-            def _share_link_locator(self, url):
-                return (By.CSS_SELECTOR, 'a[href="{url}"]'.format(url=url.replace('#', '')))
-
-            @property
-            def _facebook_share_link_locator(self):
-                url = 'https://facebook.com/sharer/sharer.php?u={url}'.format(url=self.current_url)
-                return self._share_link_locator(url)
-
-            @property
-            def _twitter_share_link_locator(self):
-                url = 'https://twitter.com/share?url={url}&text={title}&via=cnxorg'.format(
-                      url=self.current_url, title=self.normalized_title)
-                return self._share_link_locator(url)
-
-            @property
-            def _google_share_link_locator(self):
-                url = 'https://plus.google.com/share?url={url}'.format(url=self.current_url)
-                return self._share_link_locator(url)
-
-            @property
-            def _linkedin_share_link_locator(self):
-                url = (
-                    'https://www.linkedin.com/shareArticle?mini=true&url={url}&title={title}&'
-                    'summary=An%20OpenStax%20CNX%20book&source=OpenStax%20CNX'
-                ).format(url=self.current_url, title=self.normalized_title)
-                return self._share_link_locator(url)
+            _facebook_share_link_locator = (By.CSS_SELECTOR, 'ul li a.facebook')
+            _twitter_share_link_locator = (By.CSS_SELECTOR, 'ul li a.twitter')
+            _google_share_link_locator = (By.CSS_SELECTOR, 'ul li a.google')
+            _linkedin_share_link_locator = (By.CSS_SELECTOR, 'ul li a.linkedin')
 
             @property
             def is_facebook_share_link_displayed(self):
                 return self.is_element_displayed(*self._facebook_share_link_locator)
 
             @property
+            def facebook_share_link(self):
+                return self.find_element(*self._facebook_share_link_locator)
+
+            @property
+            def facebook_share_url(self):
+                return self.facebook_share_link.get_attribute('href')
+
+            @property
             def is_twitter_share_link_displayed(self):
                 return self.is_element_displayed(*self._twitter_share_link_locator)
+
+            @property
+            def twitter_share_link(self):
+                return self.find_element(*self._twitter_share_link_locator)
+
+            @property
+            def twitter_share_url(self):
+                return self.twitter_share_link.get_attribute('href')
 
             @property
             def is_google_share_link_displayed(self):
                 return self.is_element_displayed(*self._google_share_link_locator)
 
             @property
+            def google_share_link(self):
+                return self.find_element(*self._google_share_link_locator)
+
+            @property
+            def google_share_url(self):
+                return self.google_share_link.get_attribute('href')
+
+            @property
             def is_linkedin_share_link_displayed(self):
                 return self.is_element_displayed(*self._linkedin_share_link_locator)
+
+            @property
+            def linkedin_share_link(self):
+                return self.find_element(*self._linkedin_share_link_locator)
+
+            @property
+            def linkedin_share_url(self):
+                return self.linkedin_share_link.get_attribute('href')
 
         class HeaderNav(Region):
             _root_locator = (By.CSS_SELECTOR, 'div.media-nav')
@@ -410,7 +420,7 @@ class Content(Page):
 
     class ContentRegion(Region):
         _root_locator = (By.ID, 'content')
-        _figure_locator = (By.TAG_NAME, 'figure')
+        _figures_locator = (By.TAG_NAME, 'figure')
         _anchor_links_locator = (By.CSS_SELECTOR, 'a[href*="#"]')
         _index_terms_locator = (By.CSS_SELECTOR, 'div.os-index-item a.os-term-section-link')
 
@@ -420,7 +430,15 @@ class Content(Page):
 
         @property
         def has_figures(self):
-            return self.is_element_present(*self._figure_locator)
+            return self.is_element_present(*self._figures_locator)
+
+        @property
+        def is_figure_displayed(self):
+            return self.is_element_displayed(*self._figures_locator)
+
+        @property
+        def figures(self):
+            return self.find_elements(*self._figures_locator)
 
         @property
         def anchor_links(self):

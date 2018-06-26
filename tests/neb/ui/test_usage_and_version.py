@@ -49,6 +49,7 @@ def test_help():
 
 
 @markers.neb
+@markers.test_case('C195248')
 @markers.nondestructive
 def test_version():
     # GIVEN neb and its __version__

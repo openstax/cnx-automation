@@ -21,7 +21,7 @@ class Contact(AboutPage):
 
     class ContactContent(Region):
         _root_locator = (By.CSS_SELECTOR, '#about .about-content div.contact')
-        _email_link_locator = (By.CSS_SELECTOR, 'a[href="mailto:support@openstax.org"]')
+        _email_link_locator = (By.CSS_SELECTOR, 'span[data-l10n-id="about-contact-email"] a')
         _map_img_locator = (By.CSS_SELECTOR, 'img[src="/locale/en-US/images/map.png"]')
         _questions_header_locator = (
             By.CSS_SELECTOR, '[data-l10n-id="about-contact-questions-header"]')
@@ -33,6 +33,14 @@ class Contact(AboutPage):
         @property
         def is_email_displayed(self):
             return self.is_element_displayed(*self._email_link_locator)
+
+        @property
+        def email_link(self):
+            return self.find_element(*self._email_link_locator)
+
+        @property
+        def email_url(self):
+            return self.email_link.get_attribute('href')
 
         @property
         def is_map_displayed(self):
