@@ -512,11 +512,11 @@ class Content(Page):
             return self.Attribution(self.page)
 
         def click_downloads_tab(self):
-            self.scroll_to().downloads_tab.click()
+            self.offscreen_click(self.downloads_tab)
             return self.downloads.wait_for_region_to_display()
 
         def click_attribution_tab(self):
-            self.scroll_to().attribution_tab.click()
+            self.offscreen_click(self.attribution_tab)
             return self.attribution.wait_for_region_to_display()
 
         class Downloads(Region):
