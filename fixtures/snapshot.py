@@ -56,7 +56,8 @@ class Snapshot(object):
                             snapshot_value = snapshot_file.read()
                         with open(subpath, 'rb') as file:
                             value = file.read()
-                        assert value == snapshot_value
+                        assert value == snapshot_value, (
+                            '{path} failed to match against the snapshot.'.format(path=subpath))
         else:
             with tarfile.open(snapshot_path, 'w|gz') as snapshot_tar:
                 # arcname='.' makes tar not save the absolute path
