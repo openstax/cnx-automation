@@ -243,19 +243,29 @@ def test_share_on_top_right_corner(webview_base_url, selenium):
 
 
 @markers.webview
-@markers.test_case('C132549')
+@markers.test_case('C132549', 'C175148')
 @markers.nondestructive
-@markers.parametrize('uuid,query', [('d50f6e32-0fda-46ef-a362-9bd36ca7c97d', 'table')])
-def test_in_book_search(webview_base_url, selenium, uuid, query):
+@markers.parametrize('uuid,query,has_results', [
+    ('d50f6e32-0fda-46ef-a362-9bd36ca7c97d', 'table', True),
+    ('185cbf87-c72e-48f5-b51e-f14f21b5eabd', 'mitosis genetics gorilla', False),
+    ('185cbf87-c72e-48f5-b51e-f14f21b5eabd', 'mitosis genetics', True)])
+def test_in_book_search(webview_base_url, selenium, uuid, query, has_results):
     # GIVEN a book's content page and a query
     content = Content(selenium, webview_base_url, id=uuid).open()
 
     # WHEN we search the book for the given query
     search_results = content.header_nav.search(query)
 
-    # THEN search results are present and bolded and link to the matching content
+    # THEN search results are present (or not) and bolded and link to the matching content
     results = search_results.results
-    assert len(results) > 0
+    result_count = search_results.result_count
+    assert len(results) == result_count
+
+    if not has_results:
+        assert result_count == 0
+        return
+
+    assert result_count > 0
 
     words = query.split()
     for result in results:

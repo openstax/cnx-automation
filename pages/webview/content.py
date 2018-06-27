@@ -410,9 +410,19 @@ class Content(Page):
 
             class InBookSearchResults(Region):
                 _root_locator = (By.CSS_SELECTOR, '#content div.sidebar div.table-of-contents')
+                _result_count_div_locator = (By.CSS_SELECTOR, 'div.result-count')
                 _results_locator = (By.XPATH,
                                     (".//div[contains(@class, 'toc')]"
                                      "//ul//li[./div/span[contains(@class, 'name-wrapper')]//a]"))
+
+                @property
+                def result_count_div(self):
+                    return self.find_element(*self._result_count_div_locator)
+
+                @property
+                def result_count(self):
+                    import json
+                    return json.loads(self.result_count_div.get_attribute('data-l10n-args'))['hits']
 
                 @property
                 def results(self):
