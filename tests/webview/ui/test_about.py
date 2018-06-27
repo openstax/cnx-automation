@@ -8,6 +8,7 @@ from tests import markers
 
 
 @markers.webview
+@markers.test_case('C176246')
 @markers.nondestructive
 def test_about_us_links_are_positioned_properly(webview_base_url, selenium):
     # GIVEN the home page
@@ -35,6 +36,7 @@ def test_about_us_links_are_positioned_properly(webview_base_url, selenium):
 
 
 @markers.webview
+@markers.test_case('C176247')
 @markers.nondestructive
 def test_about_us_content_includes_openstax_goals(webview_base_url, selenium):
     # GIVEN the home page
@@ -50,6 +52,7 @@ def test_about_us_content_includes_openstax_goals(webview_base_url, selenium):
 
 
 @markers.webview
+@markers.test_case('C176248')
 @markers.nondestructive
 def test_about_us_content_links(webview_base_url, selenium):
     # GIVEN the home page

@@ -29,6 +29,7 @@ def test_search_input_and_button_are_displayed(webview_base_url, selenium):
 
 
 @markers.webview
+@markers.test_case('C176281')
 @markers.nondestructive
 def test_search_no_results(webview_base_url, selenium):
     # GIVEN the browse page and a bogus query
@@ -47,6 +48,7 @@ def test_search_no_results(webview_base_url, selenium):
 
 
 @markers.webview
+@markers.test_case('C176270')
 @markers.nondestructive
 def test_subject_categories_load(webview_base_url, selenium):
     # GIVEN the webview base url and Selenium driver
@@ -61,6 +63,7 @@ def test_subject_categories_load(webview_base_url, selenium):
 
 
 @markers.webview
+@markers.test_case('C176271')
 @markers.nondestructive
 def test_subject_categories_have_page_and_book_counts(webview_base_url, selenium):
     # GIVEN the home page
@@ -76,6 +79,7 @@ def test_subject_categories_have_page_and_book_counts(webview_base_url, selenium
 
 
 @markers.webview
+@markers.test_case('C176272')
 @markers.nondestructive
 def test_click_subject_category(webview_base_url, selenium):
     # GIVEN the browse page
@@ -98,7 +102,7 @@ def test_click_subject_category(webview_base_url, selenium):
 # The query needs to contain a rare word, otherwise we may timeout when searching
 # Postgres removes stop words automatically, so don't include those either
 @markers.webview
-@markers.test_case('C167403')
+@markers.test_case('C176273')
 @markers.nondestructive
 @markers.parametrize("query", ['Boreal Aardvark', 'mitosis genetics gorilla'])
 def test_search(webview_base_url, selenium, query):
@@ -122,6 +126,7 @@ def test_search(webview_base_url, selenium, query):
 # The query needs to contain few, rare words, otherwise we may timeout when searching
 # Postgres removes stop words automatically, so don't include those either
 @markers.webview
+@markers.test_case('C176274')
 @markers.nondestructive
 @markers.parametrize("query", ['Boreal Aardvark'])
 def test_search_filter(webview_base_url, selenium, query):
@@ -149,6 +154,7 @@ def test_search_filter(webview_base_url, selenium, query):
 # The query needs to contain few, rare words, otherwise we may timeout when searching
 # Postgres removes stop words automatically, so don't include those either
 @markers.webview
+@markers.test_case('C176275')
 @markers.nondestructive
 @markers.parametrize("query", ['Boreal Aardvark'])
 def test_search_unfilter(webview_base_url, selenium, query):
@@ -174,6 +180,7 @@ def test_search_unfilter(webview_base_url, selenium, query):
 # Postgres removes stop words automatically, so don't include those either
 # At least one of the words must appear in some headline text to test the bolding feature
 @markers.webview
+@markers.test_case('C176276')
 @markers.nondestructive
 @markers.parametrize("query", ['Aardvark Syllabi'])
 def test_search_bold(webview_base_url, selenium, query):
@@ -209,6 +216,7 @@ def test_search_bold(webview_base_url, selenium, query):
 # The query needs to contain few, rare words, otherwise we may timeout when searching
 # Postgres removes stop words automatically, so don't include those either
 @markers.webview
+@markers.test_case('C176277')
 @markers.nondestructive
 @markers.parametrize("query", ['Boreal Aardvark'])
 def test_search_click_result(webview_base_url, selenium, query):
@@ -230,6 +238,7 @@ def test_search_click_result(webview_base_url, selenium, query):
 # The query needs to contain few, rare words, otherwise we may timeout when searching
 # Postgres removes stop words automatically, so don't include those either
 @markers.webview
+@markers.test_case('C176278')
 @markers.nondestructive
 @markers.parametrize("query", ['Boreal Aardvark'])
 def test_search_pagination(webview_base_url, selenium, query):
@@ -266,6 +275,7 @@ def test_search_pagination(webview_base_url, selenium, query):
 # The query needs to contain few, rare words, otherwise we may timeout when searching
 # Postgres removes stop words automatically, so don't include those either
 @markers.webview
+@markers.test_case('C176278')
 @markers.nondestructive
 @markers.parametrize("query", ['Boreal Aardvark'])
 def test_search_click_pagination(webview_base_url, selenium, query):
@@ -302,6 +312,7 @@ def test_search_click_pagination(webview_base_url, selenium, query):
 
 
 @markers.webview
+@markers.test_case('C176279')
 @markers.nondestructive
 def test_advanced_search(webview_base_url, selenium):
     # GIVEN the advanced search page, advanced search field values, and the expected breadcrumbs
@@ -350,6 +361,7 @@ def test_advanced_search(webview_base_url, selenium):
 
 
 @markers.webview
+@markers.test_case('C176230')
 @markers.nondestructive
 def test_logo_link_loads_home_page(webview_base_url, selenium):
     # GIVEN the browse page

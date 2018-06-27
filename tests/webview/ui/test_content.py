@@ -14,6 +14,7 @@ from pages.webview.content import Content
 
 
 @markers.webview
+@markers.test_case('C176231', 'C176232', 'C176233')
 @markers.nondestructive
 def test_navs_and_elements_are_displayed(webview_base_url, selenium):
     # GIVEN the home page
@@ -25,11 +26,13 @@ def test_navs_and_elements_are_displayed(webview_base_url, selenium):
 
     # THEN the site navbar and content nav are displayed
     assert content.header.is_nav_displayed
+
     content_header = content.content_header
     assert content_header.is_displayed
     assert content_header.is_title_displayed
     assert content_header.is_book_by_displayed
     assert content_header.is_share_displayed
+
     header_nav = content_header.nav
     assert header_nav.is_contents_button_displayed
     assert header_nav.is_searchbar_displayed
@@ -37,6 +40,22 @@ def test_navs_and_elements_are_displayed(webview_base_url, selenium):
     assert header_nav.is_progress_bar_displayed
     assert header_nav.is_next_link_displayed
     assert content.is_section_title_displayed
+
+    # Section title is on top of main content section (white area)
+    main_content_section = content.main_content_section
+    section_title_div = content.section_title_div
+
+    # Section title inside main content section
+    assert section_title_div.location['x'] >= main_content_section.location['x']
+    assert section_title_div.location['y'] >= main_content_section.location['y']
+    assert (section_title_div.location['x'] + section_title_div.size['width'] <=
+            main_content_section.location['x'] + main_content_section.size['width'])
+    assert (section_title_div.location['y'] + section_title_div.size['height'] <=
+            main_content_section.location['y'] + main_content_section.size['height'])
+
+    # Section title on top of main content section
+    assert (section_title_div.location['y'] - main_content_section.location['y'] <=
+            section_title_div.size['height'])
 
 
 @markers.webview
@@ -58,8 +77,9 @@ def test_author_is_openstax(webview_base_url, selenium):
 
 
 @markers.webview
+@markers.test_case('C176242')
 @markers.nondestructive
-def test_toc_displayed(webview_base_url, selenium):
+def test_toc_is_displayed(webview_base_url, selenium):
     # GIVEN a book's content page
     home = Home(selenium, webview_base_url).open()
     book = home.featured_books.openstax_list[0]
@@ -75,6 +95,7 @@ def test_toc_displayed(webview_base_url, selenium):
 
 
 @markers.webview
+@markers.test_case('C176243', 'C176244')
 @markers.nondestructive
 def test_toc_navigation(webview_base_url, selenium):
     # GIVEN a book's table of contents
@@ -98,6 +119,7 @@ def test_toc_navigation(webview_base_url, selenium):
 
 
 @markers.webview
+@markers.test_case('C176257')
 @markers.nondestructive
 def test_share_on_top_right_corner(webview_base_url, selenium):
     # GIVEN the home page
@@ -108,6 +130,12 @@ def test_share_on_top_right_corner(webview_base_url, selenium):
     content = book.click_book_cover()
 
     # THEN social share links are displayed in the top right corner
+    share = content.share
+    assert share.is_displayed
+    assert share.is_facebook_share_link_displayed
+    assert share.is_twitter_share_link_displayed
+    assert share.is_google_share_link_displayed
+    assert share.is_linkedin_share_link_displayed
     root = content.share.root
     # Top half
     assert root.location['y'] + root.size['height'] < selenium.get_window_size()['height']/2
@@ -116,6 +144,7 @@ def test_share_on_top_right_corner(webview_base_url, selenium):
 
 
 @markers.webview
+@markers.test_case('C176258', 'C176259', 'C176260', 'C176261')
 @markers.nondestructive
 def test_share_links_displayed(webview_base_url, selenium):
     # GIVEN the home page
@@ -125,16 +154,30 @@ def test_share_links_displayed(webview_base_url, selenium):
     book = home.featured_books.openstax_list[0]
     content = book.click_book_cover()
 
-    # THEN social share links are displayed with the expected urls
+    # THEN social share links have the expected urls
+    current_url = selenium.current_url
+    normalized_title = content.title.replace(' ', '%20')
     share = content.share
-    assert share.is_displayed
-    assert share.is_facebook_share_link_displayed
-    assert share.is_twitter_share_link_displayed
-    assert share.is_google_share_link_displayed
-    assert share.is_linkedin_share_link_displayed
+
+    expected_facebook_url = 'https://facebook.com/sharer/sharer.php?u={url}'.format(url=current_url)
+    assert share.facebook_share_url == expected_facebook_url
+
+    expected_twitter_url = 'https://twitter.com/share?url={url}&text={title}&via=cnxorg'.format(
+        url=current_url, title=normalized_title)
+    assert share.twitter_share_url == expected_twitter_url
+
+    expected_google_url = 'https://plus.google.com/share?url={url}'.format(url=current_url)
+    assert share.google_share_url == expected_google_url
+
+    expected_linkedin_url = (
+        'https://www.linkedin.com/shareArticle?mini=true&url={url}&title={title}&'
+        'summary=An%20OpenStax%20CNX%20book&source=OpenStax%20CNX'
+    ).format(url=current_url, title=normalized_title)
+    assert share.linkedin_share_url == expected_linkedin_url
 
 
 @markers.webview
+@markers.test_case('C176234')
 @markers.nondestructive
 def test_get_this_book(webview_base_url, selenium):
     # GIVEN a book's content page
@@ -183,23 +226,26 @@ def test_section_title_for_no_markup(webview_base_url, selenium):
 @markers.webview
 @markers.test_case('C176236')
 @markers.nondestructive
-def test_content_displays_and_has_figures(webview_base_url, selenium):
-    # GIVEN the home page
+def test_content_and_figures_display_after_scrolling(webview_base_url, selenium):
+    # GIVEN a book's content page with figures
     home = Home(selenium, webview_base_url).open()
-
-    # WHEN a book is clicked
     book = home.featured_books.openstax_list[0]
     content_page = book.click_book_cover()
-
-    # THEN the book content is present and contains figure(s)
     content_region = content_page.content_region
     assert not content_region.is_blank
     assert content_region.has_figures
 
+    # WHEN we scroll to a figure
+    content_region.scroll_to(content_region.figures[0])
+
+    # THEN some figure is displayed
+    assert content_region.is_figure_displayed
+
 
 @markers.webview
+@markers.test_case('C176235', 'C176237')
 @markers.nondestructive
-def test_scroll(webview_base_url, selenium):
+def test_nav_and_menus_display_after_scrolling(webview_base_url, selenium):
     # GIVEN a book's content page
     home = Home(selenium, webview_base_url).open()
     book = home.featured_books.openstax_list[0]
@@ -262,6 +308,7 @@ def test_attribution(webview_base_url, selenium):
 
 
 @markers.webview
+@markers.test_case('C176241')
 @markers.nondestructive
 def test_back_to_top(webview_base_url, selenium):
     # GIVEN a book's scrolled content page
@@ -308,6 +355,7 @@ def test_back_to_top(webview_base_url, selenium):
 
 
 @markers.webview
+@markers.test_case('C176238', 'C176239', 'C176240', 'C176245')
 @markers.nondestructive
 def test_navigation(webview_base_url, selenium):
     # GIVEN a book's content page

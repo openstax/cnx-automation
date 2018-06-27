@@ -144,6 +144,7 @@ class TestCreateImportPublishModuleAndCollection(object):
         assert module.title == 'CNX Automation Test Module'
 
     @markers.legacy
+    @markers.test_case('C195231')
     @markers.slow
     def test_publish_collection(self, archive_base_url, legacy_base_url,
                                 legacy_username, legacy_password, selenium, snapshot):
