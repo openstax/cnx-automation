@@ -25,4 +25,4 @@ before_script:
   - ln -s /usr/lib/chromium-browser/chromedriver ~/bin/chromedriver
 
 script:
-  - tox -- -m $MARK
+  - tox -- -m $MARK -vv
