@@ -13,6 +13,7 @@ from patches import connection_reset_by_peer  # noqa
 
 # Import fixtures
 pytest_plugins = (
+    'fixtures.applitools',
     'fixtures.base',
     'fixtures.github',
     'fixtures.snapshot',
@@ -48,6 +49,9 @@ def pytest_addoption(parser):
     parser.addoption('--github-token',
                      default=os.getenv('GITHUB_TOKEN', None),
                      help='OAuth token used to login to GitHub.')
+    parser.addoption('--applitools-api-key',
+                     default=os.getenv('APPLITOOLS_API_TOKEN', None),
+                     help='Applitools api token used to upload screenshots')
     parser.addoption('--runslow',
                      action='store_true',
                      default=os.getenv('RUNSLOW', False),
