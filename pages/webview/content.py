@@ -127,6 +127,8 @@ class Content(Page):
             By.CSS_SELECTOR,
             'div.info span[data-l10n-id="textbook-view-book-by"] span.collection-authors'
         )
+        _derived_from_span_locator = (By.CSS_SELECTOR,
+                                      'span[data-l10n-id="textbook-view-derived-from"]')
 
         # The title and author divs can be reloaded at seemingly random times so we must
         # retry StaleElementReferenceExceptions using retry_stale_element_reference_exception
@@ -159,6 +161,18 @@ class Content(Page):
         @retry_stale_element_reference_exception
         def author(self):
             return self.find_element(*self._author_span_locator).text
+
+        @property
+        def is_derived_from_displayed(self):
+            return self.is_element_displayed(*self._derived_from_span_locator)
+
+        @property
+        def derived_from_span(self):
+            return self.find_element(*self._derived_from_span_locator)
+
+        @property
+        def derived_from_text(self):
+            return self.derived_from_span.text
 
         @property
         def share(self):
