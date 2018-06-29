@@ -67,10 +67,9 @@ class SearchResults(Page):
 
             if not self.search_took_too_long:
                 return self
-
-            # Sometimes the search takes too long and we get a timeout.
-            # When this happens, we reload the page and try again.
-            if i < max_attempts - 1:
+            elif i < max_attempts - 1:
+                # Sometimes the search takes too long and we get a timeout.
+                # When this happens, we reload the page and try again.
                 self.driver.refresh()
 
         from pytest import fail
