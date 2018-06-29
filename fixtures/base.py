@@ -40,7 +40,7 @@ def selenium(request, selenium, pytestconfig):
 
 @pytest.fixture
 def language(request):
-    if request.param:
+    if hasattr(request, 'param') and isinstance(request.param, str):
         return request.param
     else:
         return 'en'
