@@ -58,6 +58,7 @@ def chrome_options(language, chrome_options, pytestconfig):
         chrome_options.add_argument('--disable-dev-shm-usage')
 
     # Set the browser language
+    chrome_options.add_argument('--lang={lang}'.format(lang=language))
     chrome_options.add_experimental_option('prefs', {'intl.accept_languages': language})
 
     return chrome_options
