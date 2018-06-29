@@ -45,9 +45,10 @@ class Snapshot(object):
         snapshot_path = self.get_snapshot_path_and_ensure_dir_exists('tar_gz', name)
 
         if os.path.isfile(snapshot_path):
-            with tarfile.open(snapshot_path, 'r|gz') as snapshot_tar:
+            with tarfile.open(snapshot_path, 'r|gz', encoding='utf-8') as snapshot_tar:
                 for snapshot_tarinfo in snapshot_tar:
-                    subpath = os.path.join(path, snapshot_tarinfo.name)
+                    name = snapshot_tarinfo.name
+                    subpath = os.path.join(path, name)
 
                     if snapshot_tarinfo.isdir():
                         assert os.path.isdir(subpath)
@@ -56,9 +57,10 @@ class Snapshot(object):
                             snapshot_value = snapshot_file.read()
                         with open(subpath, 'rb') as file:
                             value = file.read()
-                        assert value == snapshot_value
+                        assert value == snapshot_value, (
+                            '{name} did not match the snapshot.'.format(name=name))
         else:
-            with tarfile.open(snapshot_path, 'w|gz') as snapshot_tar:
+            with tarfile.open(snapshot_path, 'w|gz', encoding='utf-8') as snapshot_tar:
                 # arcname='.' makes tar not save the absolute path
                 # See comments in https://stackoverflow.com/a/2239679
                 snapshot_tar.add(path, arcname='.')
