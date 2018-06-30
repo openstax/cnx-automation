@@ -39,17 +39,6 @@ class Region(pypom.Region):
             element = self.root
         return self.page.scroll_to(element)
 
-    def focus(self, element=None):
-        """Focus (and scrolls to) the given element (or the region's root).
-
-        Focus (and scrolls to) the given element (or the region's root).
-        More reliable than scroll_to(), but can only be used on focusable elements.
-        Returns the element.
-        """
-        if element is None:
-            element = self.root
-        return self.page.focus(element)
-
     def offscreen_click(self, element=None):
         """Clicks an offscreen element (or the region's root).
 

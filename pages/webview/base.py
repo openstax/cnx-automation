@@ -33,16 +33,6 @@ class Page(pypom.Page):
         ActionChains(self.driver).move_to_element(element).perform()
         return element
 
-    def focus(self, element):
-        """Focus (and scrolls to) the given element.
-
-        Focus (and scrolls to) the given element.
-        More reliable than scroll_to(), but can only be used on focusable elements.
-        Returns the element.
-        """
-        element.send_keys('')
-        return element
-
     def offscreen_click(self, element):
         """Clicks an offscreen element.
 

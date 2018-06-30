@@ -276,7 +276,7 @@ def test_nav_and_menus_display_after_scrolling(webview_base_url, selenium):
 
     # WHEN we scroll to the bottom
     footer = content.footer
-    footer.focus(footer.downloads_tab)
+    footer.scroll_to()
 
     # THEN the content nav is displayed on top without the site navbar or any social links
     # The header nav is offscreen but still considered displayed
