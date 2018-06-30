@@ -27,8 +27,19 @@ class Page(pypom.Page):
         self.wait.until(lambda _: element.is_displayed())
         return self
 
+    def scroll_to(self, element=None):
+        """Scrolls to the given element. Returns the element."""
+        from selenium.webdriver.common.action_chains import ActionChains
+        ActionChains(self.driver).move_to_element(element).perform()
+        return element
+
     def focus(self, element):
-        """Focus (and scrolls to) the given element. Returns the element."""
+        """Focus (and scrolls to) the given element.
+
+        Focus (and scrolls to) the given element.
+        More reliable than scroll_to(), but can only be used on focusable elements.
+        Returns the element.
+        """
         element.send_keys('')
         return element
 

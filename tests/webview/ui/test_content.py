@@ -259,7 +259,7 @@ def test_content_and_figures_display_after_scrolling(webview_base_url, selenium)
     assert content_region.has_figures
 
     # WHEN we scroll to a figure
-    content_region.focus(content_region.figures[0])
+    content_region.scroll_to(content_region.figures[0])
 
     # THEN some figure is displayed
     assert content_region.is_figure_displayed

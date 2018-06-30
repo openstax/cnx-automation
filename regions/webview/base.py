@@ -33,8 +33,19 @@ class Region(pypom.Region):
     def wait_for_element_to_display(self, element):
         return self.page.wait_for_element_to_display(element)
 
+    def scroll_to(self, element=None):
+        """Scrolls to the given element (or the region's root). Returns the element."""
+        if element is None:
+            element = self.root
+        return self.page.scroll_to(element)
+
     def focus(self, element=None):
-        """Focus (and scrolls to) the given element (or the region's root). Returns the element."""
+        """Focus (and scrolls to) the given element (or the region's root).
+
+        Focus (and scrolls to) the given element (or the region's root).
+        More reliable than scroll_to(), but can only be used on focusable elements.
+        Returns the element.
+        """
         if element is None:
             element = self.root
         return self.page.focus(element)

@@ -604,7 +604,7 @@ class Content(Page):
                 return self.page.wait_for_url_to_change(current_url)
 
             def click_back_to_top_link(self):
-                self.back_to_top_link.click()
+                self.offscreen_click(self.back_to_top_link)
                 return self.page.wait_for_page_to_load()
 
             def click_next_link(self):
