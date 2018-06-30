@@ -526,11 +526,11 @@ class Content(Page):
             return self.Attribution(self.page)
 
         def click_downloads_tab(self):
-            self.scroll_to().downloads_tab.click()
+            self.offscreen_click(self.downloads_tab)
             return self.downloads.wait_for_region_to_display()
 
         def click_attribution_tab(self):
-            self.scroll_to().attribution_tab.click()
+            self.offscreen_click(self.attribution_tab)
             return self.attribution.wait_for_region_to_display()
 
         class Downloads(Region):
@@ -600,7 +600,7 @@ class Content(Page):
 
             def click_back_link(self):
                 current_url = self.driver.current_url
-                self.scroll_to().back_link.click()
+                self.offscreen_click(self.back_link)
                 return self.page.wait_for_url_to_change(current_url)
 
             def click_back_to_top_link(self):
@@ -609,5 +609,5 @@ class Content(Page):
 
             def click_next_link(self):
                 current_url = self.driver.current_url
-                self.scroll_to().next_link.click()
+                self.offscreen_click(self.next_link)
                 return self.page.wait_for_url_to_change(current_url)

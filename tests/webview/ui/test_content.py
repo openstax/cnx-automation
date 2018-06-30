@@ -259,7 +259,7 @@ def test_content_and_figures_display_after_scrolling(webview_base_url, selenium)
     assert content_region.has_figures
 
     # WHEN we scroll to a figure
-    content_region.scroll_to(content_region.figures[0])
+    content_region.focus(content_region.figures[0])
 
     # THEN some figure is displayed
     assert content_region.is_figure_displayed
@@ -275,7 +275,8 @@ def test_nav_and_menus_display_after_scrolling(webview_base_url, selenium):
     content = book.click_book_cover()
 
     # WHEN we scroll to the bottom
-    footer = content.footer.scroll_to()
+    footer = content.footer
+    footer.focus(footer.downloads_tab)
 
     # THEN the content nav is displayed on top without the site navbar or any social links
     # The header nav is offscreen but still considered displayed
@@ -341,8 +342,7 @@ def test_back_to_top(webview_base_url, selenium):
     footer = content.footer
 
     # WHEN we scroll to the bottom then click the back to top link
-    footer_nav = footer.nav.scroll_to()
-    content = footer_nav.click_back_to_top_link()
+    content = footer.nav.click_back_to_top_link()
 
     # THEN the content page is no longer scrolled
     assert content.header.is_nav_displayed

@@ -4,7 +4,6 @@
 
 import pypom
 from selenium.webdriver.common.by import By
-from selenium.webdriver.common.action_chains import ActionChains
 
 from regions.webview.base import Region
 
@@ -20,18 +19,30 @@ class Page(pypom.Page):
         # Need to wait for the header to display because the nav menu initially loads with 0 height
         return self.Header(self).wait_for_region_to_display()
 
-    def scroll_to(self, element):
-        """Scrolls to the given element. Returns the page."""
-        ActionChains(self.driver).move_to_element(element).perform()
+    def wait_for_region_to_display(self, region):
+        self.wait.until(lambda _: region.is_displayed)
         return self
 
+    def wait_for_element_to_display(self, element):
+        self.wait.until(lambda _: element.is_displayed())
+        return self
+
+    def focus(self, element):
+        """Focus (and scrolls to) the given element. Returns the element."""
+        element.send_keys('')
+        return element
+
     def offscreen_click(self, element):
-        """Clicks the given element, even if it is offscreen. Returns the page."""
+        """Clicks an offscreen element.
+
+        Clicks the given element, even if it is offscreen, by sending the ENTER key.
+        Returns the element.
+        """
         # We actually navigate using the ENTER key because scrolling the page can be flaky
         # https://stackoverflow.com/a/39918249
         from selenium.webdriver.common.keys import Keys
         element.send_keys(Keys.ENTER)
-        return self
+        return element
 
     class Header(Region):
         _root_locator = (By.ID, 'header')
@@ -131,11 +142,14 @@ class Page(pypom.Page):
             return self.donate_link.get_attribute('href')
 
         @property
+        def are_nav_links_displayed(self):
+            return (self.is_browse_link_displayed and
+                    self.is_about_us_link_displayed and
+                    self.is_donate_link_displayed)
+
+        @property
         def is_nav_displayed(self):
-            return (self.is_nav_button_displayed or
-                    (self.is_browse_link_displayed and
-                     self.is_about_us_link_displayed and
-                     self.is_donate_link_displayed))
+            return self.is_nav_button_displayed or self.are_nav_links_displayed
 
         @property
         def rice_logo(self):
@@ -156,10 +170,18 @@ class Page(pypom.Page):
                     self.is_cnx_logo_displayed and
                     self.is_nav_displayed)
 
+        def wait_for_nav_links_to_display(self):
+            self.wait.until(lambda _: self.are_nav_links_displayed)
+            return self
+
         def click_cnx_logo(self):
             self.cnx_logo.click()
             from pages.webview.home import Home
             return Home(self.driver, self.page.base_url, self.page.timeout).wait_for_page_to_load()
+
+        def click_nav_button(self):
+            self.nav_button.click()
+            return self.wait_for_nav_links_to_display()
 
         def click_search(self):
             self.find_element(*self._browse_link_locator).click()

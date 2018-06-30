@@ -44,7 +44,7 @@ def test_top_right_links_and_nav(width, height, webview_base_url, legacy_base_ur
         assert not header.is_about_us_link_displayed
         assert not header.is_donate_link_displayed
         assert not header.is_rice_logo_displayed
-        header.nav_button.click()
+        header.click_nav_button()
 
     assert header.is_browse_link_displayed
     assert header.browse_url == '{webview_url}/browse'.format(webview_url=webview_base_url)
