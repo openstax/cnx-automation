@@ -7,7 +7,7 @@ import pytest
 from lxml import etree
 from lxml.etree import XMLSyntaxError
 
-__all__ = ['selenium', 'chrome_options']
+__all__ = ['language', 'selenium', 'chrome_options']
 
 
 # https://docs.pytest.org/en/latest/example/simple.html#making-test-result-information-available-in-fixtures
