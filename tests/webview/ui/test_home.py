@@ -16,10 +16,9 @@ _number_of_tested_books = 2
 @markers.webview
 @markers.test_case('C167405')
 @markers.nondestructive
-@markers.parametrize('width,height', [(1024, 768), (640, 480)])
+@markers.parametrize('width, height', [(1024, 768), (640, 480)])
 def test_top_right_links_and_nav(width, height, webview_base_url, legacy_base_url, selenium):
-    # GIVEN the window width and height, the webview URL, the legacy URL, and the Selenium driver
-    selenium.set_window_size(width, height)
+    # GIVEN the webview URL, the legacy URL, and the Selenium driver with the window size set
 
     # WHEN the webview home page is fully loaded
     home = Home(selenium, webview_base_url).open()
