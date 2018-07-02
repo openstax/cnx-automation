@@ -10,6 +10,11 @@ from lxml.etree import XMLSyntaxError
 __all__ = ['language', 'selenium', 'chrome_options']
 
 
+@pytest.fixture
+def language(request):
+    return 'en'
+
+
 # https://docs.pytest.org/en/latest/example/simple.html#making-test-result-information-available-in-fixtures
 @pytest.fixture
 def selenium(request, selenium, pytestconfig):
@@ -39,15 +44,7 @@ def selenium(request, selenium, pytestconfig):
 
 
 @pytest.fixture
-def language(request):
-    if hasattr(request, 'param') and isinstance(request.param, str):
-        return request.param
-    else:
-        return 'en'
-
-
-@pytest.fixture
-def chrome_options(language, chrome_options, pytestconfig):
+def chrome_options(chrome_options, language, pytestconfig):
     if pytestconfig.getoption('--headless'):
         chrome_options.headless = True
 
