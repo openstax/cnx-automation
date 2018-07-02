@@ -183,6 +183,7 @@ def test_share_links_displayed(webview_base_url, selenium):
 def test_newer_version_leads_to_correct_page(webview_base_url, selenium, id):
     # GIVEN the content page
     content = Content(selenium, webview_base_url, id=id).open()
+    version = content.book_version
     section_title = content.section_title
 
     # WHEN the newer version link is clicked
@@ -190,6 +191,7 @@ def test_newer_version_leads_to_correct_page(webview_base_url, selenium, id):
 
     # THEN we end up in a newer version of the same page
     assert content.section_title == section_title
+    assert content.book_version > version
 
 
 @markers.webview

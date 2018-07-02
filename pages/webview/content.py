@@ -2,6 +2,7 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
+from pkg_resources import parse_version
 import re
 
 from selenium.webdriver.common.by import By
@@ -15,8 +16,10 @@ from regions.webview.content_item import ContentItem
 
 class Content(Page):
     URL_TEMPLATE = '/contents/{id}'
-    # An at sign, then one or more non-colon chars, followed by a forward slash
-    _url_regex = re.compile('@[^:]+/')
+    # The page is loaded when the last uuid/short id in the url has an @ version, followed by a /
+    # This regex requires that version and additionally captures an optional book version
+    _url_regex = re.compile(
+        '/(?:[^:@/]+@(?P<book_version>[^:@/]+):)?[^:@/]+@(?P<page_version>[^:@/]+)/')
     _newer_version_link_locator = (
         By.CSS_SELECTOR, '#content div.latest span[data-l10n-id="media-latest-content"] a'
     )
@@ -29,10 +32,17 @@ class Content(Page):
     )
     _ncy_locator = (By.CLASS_NAME, 'not-converted-yet')
 
-    # The page is loaded when an `@` is present in the url and the uuid is no longer there
     @property
     def loaded(self):
-        return self._url_regex.search(self.driver.current_url)
+        return bool(self._url_regex.search(self.driver.current_url))
+
+    @property
+    def book_version(self):
+        return parse_version(self._url_regex.search(self.driver.current_url)['book_version'])
+
+    @property
+    def page_version(self):
+        return parse_version(self._url_regex.search(self.driver.current_url)['page_version'])
 
     @property
     def content_header(self):
