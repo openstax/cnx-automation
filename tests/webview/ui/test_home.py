@@ -124,8 +124,9 @@ def test_read_more_loads_correct_page(webview_base_url, selenium):
         # THEN The book title from the home page matches the content page title
         assert book_title == content_page.title
 
-        selenium.back()
-        home = home.wait_for_page_to_load()
+        if i < _number_of_tested_books - 1:
+            selenium.back()
+            home = home.wait_for_page_to_load()
 
 
 @markers.xfail(reason='https://trello.com/c/mFRaZRqK', raises=AssertionError)
@@ -148,8 +149,9 @@ def test_book_cover_loads_correct_page(webview_base_url, selenium):
         # THEN The book title from the home page matches the content page title
         assert book_title == content_page.title
 
-        selenium.back()
-        home = home.wait_for_page_to_load()
+        if i < _number_of_tested_books - 1:
+            selenium.back()
+            home = home.wait_for_page_to_load()
 
 
 @markers.xfail(reason='https://trello.com/c/mFRaZRqK', raises=AssertionError)
@@ -172,8 +174,9 @@ def test_title_link_loads_correct_page(webview_base_url, selenium):
         # THEN The book title from the home page matches the content page title
         assert book_title == content_page.title
 
-        selenium.back()
-        home = home.wait_for_page_to_load()
+        if i < _number_of_tested_books - 1:
+            selenium.back()
+            home = home.wait_for_page_to_load()
 
 
 @markers.webview
