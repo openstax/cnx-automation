@@ -57,8 +57,11 @@ class Page(pypom.Page):
         )
         _nav_button_locator = (By.CSS_SELECTOR,
                                '#header button.navbar-toggle[data-target="#page-nav"]')
+        _browse_li_locator = (By.XPATH, ".//li[.//a[text()='Search']]")
         _browse_link_locator = (By.CSS_SELECTOR, '#page-nav #nav-browse a')
+        _about_us_li_locator = (By.XPATH, ".//li[.//a[text()='About Us']]")
         _about_us_link_locator = (By.CSS_SELECTOR, '#page-nav #nav-about a')
+        _donate_li_locator = (By.XPATH, ".//li[.//a[text()='Give']]")
         _donate_link_locator = (By.CSS_SELECTOR, '#page-nav #nav-donate a')
         _rice_logo_locator = (By.XPATH, ".//a[.//img[@src='/images/rice.png']]")
 
@@ -107,6 +110,14 @@ class Page(pypom.Page):
             return self.is_element_displayed(*self._nav_button_locator)
 
         @property
+        def browse_li(self):
+            return self.find_element(*self._browse_li_locator)
+
+        @property
+        def browse_li_id(self):
+            return self.browse_li.get_attribute('id')
+
+        @property
         def browse_link(self):
             return self.find_element(*self._browse_link_locator)
 
@@ -119,6 +130,14 @@ class Page(pypom.Page):
             return self.browse_link.get_attribute('href')
 
         @property
+        def about_us_li(self):
+            return self.find_element(*self._about_us_li_locator)
+
+        @property
+        def about_us_li_id(self):
+            return self.about_us_li.get_attribute('id')
+
+        @property
         def about_us_link(self):
             return self.find_element(*self._about_us_link_locator)
 
@@ -129,6 +148,14 @@ class Page(pypom.Page):
         @property
         def about_us_url(self):
             return self.about_us_link.get_attribute('href')
+
+        @property
+        def donate_li(self):
+            return self.find_element(*self._donate_li_locator)
+
+        @property
+        def donate_li_id(self):
+            return self.donate_li.get_attribute('id')
 
         @property
         def donate_link(self):
