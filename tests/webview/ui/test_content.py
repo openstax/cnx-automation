@@ -67,6 +67,29 @@ def test_content_status_codes(webview_base_url, archive_base_url, is_archive,
 
 
 @markers.webview
+@markers.test_case('C194465')
+@markers.nondestructive
+@markers.parametrize('id', [
+    'r-QzKsl_@9.1:_97x1rAv@4',
+    'r-QzKsl_@9.1:atsvhJiF@5',
+    'r-QzKsl_@7.23:OkLwVQKH@8',
+    'eg-XcBxE@3.30:dh0GjBEd@2'])
+def test_canonical_link_is_correct(webview_base_url, selenium, id):
+    # GIVEN a book's content page
+    content = Content(selenium, webview_base_url, id=id).open()
+    section_title = content.section_title
+
+    # WHEN the book's canonical url is visited
+    selenium.get(content.canonical_url)
+    content.wait_for_page_to_load()
+
+    # THEN we end up in the same page
+    # NOTE: we check the section title instead of the url because the canonical link seems to
+    #       take us to the latest version of the content, no matter which version we started on
+    assert content.section_title == section_title
+
+
+@markers.webview
 @markers.test_case('C176231', 'C176232', 'C176233')
 @markers.nondestructive
 def test_navs_and_elements_are_displayed(webview_base_url, selenium):
