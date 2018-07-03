@@ -537,3 +537,17 @@ def test_id_links_and_back_button(page_uuid, is_baked_book_index, webview_base_u
 
     # THEN we end up at the previous page
     assert selenium.current_url == content_url
+
+
+@markers.webview
+@markers.test_case('C181754')
+@markers.nondestructive
+@markers.parametrize('ch_review_id', ['eg-XcBxE@9.2:PNQSpSVj', 'eg-XcBxE:PNQSpSVj'])
+def test_chapter_review_version_matches_book_version(webview_base_url, selenium, ch_review_id):
+    # GIVEN the webview base url, a chapter review id, and the Selenium driver
+
+    # WHEN we visit the chapter review page
+    content = Content(selenium, webview_base_url, id=ch_review_id).open()
+
+    # THEN the chapter review version matches the book version
+    assert content.page_version == content.book_version
