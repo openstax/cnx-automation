@@ -14,10 +14,10 @@ _number_of_tested_books = 2
 @markers.webview
 @markers.test_case('C167405')
 @markers.nondestructive
-@markers.parametrize('width,height', [(1024, 768), (640, 480)])
-def test_top_right_links_and_nav(width, height, webview_base_url, legacy_base_url, selenium):
-    # GIVEN the window width and height, the webview URL, the legacy URL, and the Selenium driver
-    selenium.set_window_size(width, height)
+@markers.parametrize('width, height', [(1024, 768), (640, 480)])
+def test_top_right_links_and_nav_are_displayed_and_have_ids(width, height, webview_base_url,
+                                                            legacy_base_url, selenium):
+    # GIVEN the webview URL, the legacy URL, and the Selenium driver with the window size set
 
     # WHEN the webview home page is fully loaded
     home = Home(selenium, webview_base_url).open()
@@ -44,15 +44,18 @@ def test_top_right_links_and_nav(width, height, webview_base_url, legacy_base_ur
         assert not header.is_about_us_link_displayed
         assert not header.is_donate_link_displayed
         assert not header.is_rice_logo_displayed
-        header.nav_button.click()
+        header.click_nav_button()
 
     assert header.is_browse_link_displayed
+    assert header.browse_li_id == 'nav-browse'
     assert header.browse_url == '{webview_url}/browse'.format(webview_url=webview_base_url)
 
     assert header.is_about_us_link_displayed
+    assert header.about_us_li_id == 'nav-about'
     assert header.about_us_url == '{webview_url}/about'.format(webview_url=webview_base_url)
 
     assert header.is_donate_link_displayed
+    assert header.donate_li_id == 'nav-donate'
     assert header.donate_url == '{webview_url}/donate'.format(webview_url=webview_base_url)
 
     assert header.is_rice_logo_displayed

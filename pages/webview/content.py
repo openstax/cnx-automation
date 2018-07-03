@@ -127,6 +127,8 @@ class Content(Page):
             By.CSS_SELECTOR,
             'div.info span[data-l10n-id="textbook-view-book-by"] span.collection-authors'
         )
+        _derived_from_span_locator = (By.CSS_SELECTOR,
+                                      'span[data-l10n-id="textbook-view-derived-from"]')
 
         # The title and author divs can be reloaded at seemingly random times so we must
         # retry StaleElementReferenceExceptions using retry_stale_element_reference_exception
@@ -159,6 +161,18 @@ class Content(Page):
         @retry_stale_element_reference_exception
         def author(self):
             return self.find_element(*self._author_span_locator).text
+
+        @property
+        def is_derived_from_displayed(self):
+            return self.is_element_displayed(*self._derived_from_span_locator)
+
+        @property
+        def derived_from_span(self):
+            return self.find_element(*self._derived_from_span_locator)
+
+        @property
+        def derived_from_text(self):
+            return self.derived_from_span.text
 
         @property
         def share(self):
@@ -512,11 +526,11 @@ class Content(Page):
             return self.Attribution(self.page)
 
         def click_downloads_tab(self):
-            self.scroll_to().downloads_tab.click()
+            self.offscreen_click(self.downloads_tab)
             return self.downloads.wait_for_region_to_display()
 
         def click_attribution_tab(self):
-            self.scroll_to().attribution_tab.click()
+            self.offscreen_click(self.attribution_tab)
             return self.attribution.wait_for_region_to_display()
 
         class Downloads(Region):
@@ -586,14 +600,14 @@ class Content(Page):
 
             def click_back_link(self):
                 current_url = self.driver.current_url
-                self.scroll_to().back_link.click()
+                self.offscreen_click(self.back_link)
                 return self.page.wait_for_url_to_change(current_url)
 
             def click_back_to_top_link(self):
-                self.back_to_top_link.click()
+                self.offscreen_click(self.back_to_top_link)
                 return self.page.wait_for_page_to_load()
 
             def click_next_link(self):
                 current_url = self.driver.current_url
-                self.scroll_to().next_link.click()
+                self.offscreen_click(self.next_link)
                 return self.page.wait_for_url_to_change(current_url)

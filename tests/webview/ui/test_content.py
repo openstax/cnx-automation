@@ -77,6 +77,29 @@ def test_author_is_openstax(webview_base_url, selenium):
 
 
 @markers.webview
+@markers.test_case('C189063')
+@markers.nondestructive
+# https://stackoverflow.com/a/33879151
+@markers.parametrize('language', ['en', 'pl'])
+@markers.parametrize('uuid', ['d6e3aa5a-10a9-4436-9d16-ae3b1d71ac8b'])
+def test_derived_from_content(webview_base_url, selenium, language, uuid):
+    # GIVEN the selenium driver set to a specific language and a derived book's uuid
+
+    # WHEN we visit the derived book's content page
+    content = Content(selenium, webview_base_url, id=uuid).open()
+
+    # THEN we get "derived from" text appropriate for the given language
+    content_header = content.content_header
+
+    assert content_header.is_derived_from_displayed
+
+    if language == 'en':
+        assert content_header.derived_from_text == 'Derived from Biology by OpenStax'
+    elif language == 'pl':
+        assert content_header.derived_from_text == 'Utworzone z Biology autorstwa OpenStax'
+
+
+@markers.webview
 @markers.test_case('C176242')
 @markers.nondestructive
 def test_toc_is_displayed(webview_base_url, selenium):
@@ -252,7 +275,8 @@ def test_nav_and_menus_display_after_scrolling(webview_base_url, selenium):
     content = book.click_book_cover()
 
     # WHEN we scroll to the bottom
-    footer = content.footer.scroll_to()
+    footer = content.footer
+    footer.scroll_to()
 
     # THEN the content nav is displayed on top without the site navbar or any social links
     # The header nav is offscreen but still considered displayed
@@ -318,8 +342,7 @@ def test_back_to_top(webview_base_url, selenium):
     footer = content.footer
 
     # WHEN we scroll to the bottom then click the back to top link
-    footer_nav = footer.nav.scroll_to()
-    content = footer_nav.click_back_to_top_link()
+    content = footer.nav.click_back_to_top_link()
 
     # THEN the content page is no longer scrolled
     assert content.header.is_nav_displayed
