@@ -4,6 +4,8 @@
 
 import pytest
 import re
+from urllib.parse import urljoin
+from requests import get
 
 from selenium.webdriver.common.by import By
 
@@ -11,6 +13,57 @@ from tests import markers
 
 from pages.webview.home import Home
 from pages.webview.content import Content
+
+
+@markers.webview
+@markers.test_case('C193738')
+@markers.nondestructive
+@markers.parametrize('is_archive,path,expected_response_status_code', [
+    (False, '/content/col11407', 301),
+    (True, '/content/col11407', 301),
+    (False, '/content/col11407/1.7', 301),
+    (True, '/content/col11407/1.7', 301),
+    (False, '/contents/afe4332a-c97f-4fc4-be27-4e4d384a32d8', 200),
+    (True, '/contents/afe4332a-c97f-4fc4-be27-4e4d384a32d8', 302),
+    (False, ('/contents/afe4332a-c97f-4fc4-be27-4e4d384a32d8'
+             ':3a42f055-0287-4654-9f10-59e34491be4e'), 200),
+    (True, ('/contents/afe4332a-c97f-4fc4-be27-4e4d384a32d8'
+            ':3a42f055-0287-4654-9f10-59e34491be4e'), 302),
+    (False, '/contents/afe4332a-c97f-4fc4-be27-4e4d384a32d8@7.23', 200),
+    (True, '/contents/afe4332a-c97f-4fc4-be27-4e4d384a32d8@7.23', 200),
+    (False, ('/contents/afe4332a-c97f-4fc4-be27-4e4d384a32d8@7.23'
+             ':3a42f055-0287-4654-9f10-59e34491be4e'), 200),
+    (True, ('/contents/afe4332a-c97f-4fc4-be27-4e4d384a32d8@7.23'
+            ':3a42f055-0287-4654-9f10-59e34491be4e'), 302),
+    (False, ('/contents/afe4332a-c97f-4fc4-be27-4e4d384a32d8@7.23'
+             ':3a42f055-0287-4654-9f10-59e34491be4e@8'), 200),
+    (True, ('/contents/afe4332a-c97f-4fc4-be27-4e4d384a32d8@7.23'
+            ':3a42f055-0287-4654-9f10-59e34491be4e@8'), 302),
+    (False, '/contents/r-QzKsl_', 200),
+    (True, '/contents/r-QzKsl_', 302),
+    (False, '/contents/r-QzKsl_:OkLwVQKH', 200),
+    (True, '/contents/r-QzKsl_:OkLwVQKH', 302),
+    (False, '/contents/r-QzKsl_@7.23', 200),
+    (True, '/contents/r-QzKsl_@7.23', 301),
+    (False, '/contents/r-QzKsl_@7.23:OkLwVQKH', 200),
+    (True, '/contents/r-QzKsl_@7.23:OkLwVQKH', 301),
+    (False, '/contents/r-QzKsl_@7.23:OkLwVQKH@8', 200),
+    (True, '/contents/r-QzKsl_@7.23:OkLwVQKH@8', 301)])
+def test_content_status_codes(webview_base_url, archive_base_url, is_archive,
+                              path, expected_response_status_code):
+    # GIVEN some URL and the expected redirect code
+    if is_archive:
+        url = urljoin(archive_base_url, path)
+    else:
+        url = urljoin(webview_base_url, path)
+
+    # WHEN we visit the URL
+    # NOTE: Don't bother trying to get status codes using Selenium
+    # https://github.com/seleniumhq/selenium-google-code-issue-archive/issues/141
+    response = get(url, allow_redirects=False)
+
+    # THEN we get the expected redirect code
+    assert response.status_code == expected_response_status_code
 
 
 @markers.webview
