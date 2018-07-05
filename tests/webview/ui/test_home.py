@@ -3,6 +3,8 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 import random
+from urllib.parse import urljoin
+from datetime import datetime
 
 from tests import markers
 
@@ -28,7 +30,7 @@ def test_top_right_links_and_nav(width, height, webview_base_url, legacy_base_ur
     assert header.support_url == 'http://openstax.force.com/support?l=en_US&c=Products%3ACNX'
 
     assert header.is_legacy_site_link_displayed
-    expected_legacy_url = '{legacy_url}/content?legacy=true'.format(legacy_url=legacy_base_url)
+    expected_legacy_url = urljoin(legacy_base_url, '/content?legacy=true')
     assert header.legacy_site_url == expected_legacy_url, (
                'The legacy URL in the CNX home page did not match the legacy_base_url. '
                'Check that both webview_base_url and legacy_base_url point to the same environment.'
@@ -47,13 +49,13 @@ def test_top_right_links_and_nav(width, height, webview_base_url, legacy_base_ur
         header.nav_button.click()
 
     assert header.is_browse_link_displayed
-    assert header.browse_url == '{webview_url}/browse'.format(webview_url=webview_base_url)
+    assert header.browse_url == urljoin(webview_base_url, '/browse')
 
     assert header.is_about_us_link_displayed
-    assert header.about_us_url == '{webview_url}/about'.format(webview_url=webview_base_url)
+    assert header.about_us_url == urljoin(webview_base_url, '/about')
 
     assert header.is_donate_link_displayed
-    assert header.donate_url == '{webview_url}/donate'.format(webview_url=webview_base_url)
+    assert header.donate_url == urljoin(webview_base_url, '/donate')
 
     assert header.is_rice_logo_displayed
     assert header.rice_logo_url.rstrip('/') == 'http://www.rice.edu'
@@ -188,3 +190,66 @@ def test_logo_link_stays_on_home_page(webview_base_url, selenium):
 
     # THEN we are still in the home page
     assert type(home) is Home
+
+
+@markers.webview
+@markers.test_case('C167406')
+@markers.nondestructive
+def test_footer_has_correct_content_and_links(webview_base_url, selenium):
+    # GIVEN the home page
+    home = Home(selenium, webview_base_url).open()
+
+    # WHEN we scroll to the footer
+    footer = home.footer.scroll_to()
+
+    # THEN the links point to the correct urls and all the content is displayed
+    assert footer.is_licensing_link_displayed
+    assert footer.licensing_url == urljoin(webview_base_url, '/license')
+
+    assert footer.is_terms_of_use_link_displayed
+    assert footer.terms_of_use_url == urljoin(webview_base_url, '/tos')
+
+    assert footer.is_accessibility_statement_link_displayed
+    assert footer.accessibility_statement_url == 'https://openstax.org/accessibility-statement'
+
+    assert footer.is_contact_link_displayed
+    assert footer.contact_url == urljoin(webview_base_url, '/about/contact')
+
+    assert footer.is_foundation_support_paragraph_displayed
+    assert footer.foundation_support_text == (
+        'Supported by William & Flora Hewlett Foundation, Bill & Melinda Gates Foundation,'
+        ' Michelson 20MM Foundation, Maxfield Foundation, Open Society Foundations, and'
+        ' Rice University. Powered by OpenStax CNX.')
+
+    assert footer.is_ap_paragraph_displayed
+    assert footer.ap_text == (
+        'Advanced Placement® and AP® are trademarks registered and/or owned by the College Board,'
+        ' which was not involved in the production of, and does not endorse, this site.')
+
+    assert footer.is_copyright_statement_paragraph_displayed
+    year = datetime.now().year
+    assert footer.copyright_statement_text == (
+        '© 1999-{year}, Rice University. Except where otherwise noted, content created on this site'
+        ' is licensed under a Creative Commons Attribution 4.0 License.'.format(year=year))
+
+    assert footer.is_android_app_link_displayed
+    assert footer.android_app_url == (
+        'https://play.google.com/store/apps/details?id=org.openstaxcollege.android')
+
+    webview_url = urljoin(webview_base_url, '/')
+
+    assert footer.is_facebook_link_displayed
+    assert footer.facebook_url == (
+        'https://facebook.com/sharer/sharer.php?u={webview_url}'.format(webview_url=webview_url))
+
+    assert footer.is_twitter_link_displayed
+    assert footer.twitter_url == ('https://twitter.com/share?url={webview_url}&text=An%20OpenStax'
+                                  '%20CNX%20book&via=cnxorg'.format(webview_url=webview_url))
+
+    assert footer.is_email_link_displayed
+    assert footer.email_url == 'mailto:support@openstax.org'
+
+    footer_text = footer.text
+    assert 'Dev Blog' not in footer_text
+    assert 'iTunes U' not in footer_text
+    assert 'Google Plus' not in footer_text

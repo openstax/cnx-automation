@@ -20,6 +20,10 @@ class Page(pypom.Page):
         # Need to wait for the header to display because the nav menu initially loads with 0 height
         return self.Header(self).wait_for_region_to_display()
 
+    @property
+    def footer(self):
+        return self.Footer(self)
+
     def scroll_to(self, element):
         """Scrolls to the given element. Returns the page."""
         ActionChains(self.driver).move_to_element(element).perform()
@@ -34,7 +38,7 @@ class Page(pypom.Page):
         return self
 
     class Header(Region):
-        _root_locator = (By.ID, 'header')
+        _root_locator = (By.CSS_SELECTOR, 'header#header div.page-header')
         _support_link_locator = (By.CSS_SELECTOR, 'a[data-l10n-id="all-header-support"]')
         _legacy_site_link_locator = (By.CSS_SELECTOR,
                                      'a[data-l10n-id="all-cnx-author-legacy-site"]')
@@ -178,3 +182,159 @@ class Page(pypom.Page):
             from pages.webview.donate import Donate
             donate = Donate(self.driver, self.page.base_url, self.page.timeout)
             return donate.wait_for_page_to_load()
+
+    class Footer(Region):
+        _root_locator = (By.CSS_SELECTOR, 'footer.footer div.page-footer')
+        _licensing_link_locator = (By.CSS_SELECTOR, 'a[data-l10n-id="all-footer-licensing"]')
+        _terms_of_use_link_locator = (By.CSS_SELECTOR, 'a[data-l10n-id="all-footer-terms-of-use"]')
+        _accessibility_statement_link_locator = (By.CSS_SELECTOR,
+                                                 'a[data-l10n-id="all-footer-accessibility"]')
+        _contact_link_locator = (By.CSS_SELECTOR, 'a[data-l10n-id="all-footer-contact"]')
+        _foundation_support_paragraph_locator = (
+            By.CSS_SELECTOR, 'div[data-l10n-id="all-footer-support"]')
+        _ap_paragraph_locator = (By.CSS_SELECTOR, 'div[data-l10n-id="all-footer-ap"]')
+        _copyright_statement_paragraph_locator = (
+            By.XPATH, ".//div[.//span[@data-l10n-id='all-footer-creative-commons']]")
+        _android_app_link_locator = (
+            By.CSS_SELECTOR, 'section.connect ul li a[data-l10n-id="all-footer-android-app"]')
+        _facebook_link_locator = (
+            By.XPATH, (".//section[contains(@class, 'share')]"
+                       "//ul//li//a[.//span[contains(@class, 'facebook')]]"))
+        _twitter_link_locator = (
+            By.XPATH, (".//section[contains(@class, 'share')]"
+                       "//ul//li//a[.//span[contains(@class, 'twitter')]]"))
+        _email_link_locator = (
+            By.XPATH, (".//section[contains(@class, 'share')]"
+                       "//ul//li//a[.//span[contains(@class, 'mail')]]"))
+
+        @property
+        def is_licensing_link_displayed(self):
+            return self.is_element_displayed(*self._licensing_link_locator)
+
+        @property
+        def licensing_link(self):
+            return self.find_element(*self._licensing_link_locator)
+
+        @property
+        def licensing_url(self):
+            return self.licensing_link.get_attribute('href')
+
+        @property
+        def is_terms_of_use_link_displayed(self):
+            return self.is_element_displayed(*self._terms_of_use_link_locator)
+
+        @property
+        def terms_of_use_link(self):
+            return self.find_element(*self._terms_of_use_link_locator)
+
+        @property
+        def terms_of_use_url(self):
+            return self.terms_of_use_link.get_attribute('href')
+
+        @property
+        def is_accessibility_statement_link_displayed(self):
+            return self.is_element_displayed(*self._accessibility_statement_link_locator)
+
+        @property
+        def accessibility_statement_link(self):
+            return self.find_element(*self._accessibility_statement_link_locator)
+
+        @property
+        def accessibility_statement_url(self):
+            return self.accessibility_statement_link.get_attribute('href')
+
+        @property
+        def is_contact_link_displayed(self):
+            return self.is_element_displayed(*self._contact_link_locator)
+
+        @property
+        def contact_link(self):
+            return self.find_element(*self._contact_link_locator)
+
+        @property
+        def contact_url(self):
+            return self.contact_link.get_attribute('href')
+
+        @property
+        def is_foundation_support_paragraph_displayed(self):
+            return self.is_element_displayed(*self._foundation_support_paragraph_locator)
+
+        @property
+        def foundation_support_paragraph(self):
+            return self.find_element(*self._foundation_support_paragraph_locator)
+
+        @property
+        def foundation_support_text(self):
+            return self.foundation_support_paragraph.text
+
+        @property
+        def is_ap_paragraph_displayed(self):
+            return self.is_element_displayed(*self._ap_paragraph_locator)
+
+        @property
+        def ap_paragraph(self):
+            return self.find_element(*self._ap_paragraph_locator)
+
+        @property
+        def ap_text(self):
+            return self.ap_paragraph.text
+
+        @property
+        def is_copyright_statement_paragraph_displayed(self):
+            return self.is_element_displayed(*self._copyright_statement_paragraph_locator)
+
+        @property
+        def copyright_statement_paragraph(self):
+            return self.find_element(*self._copyright_statement_paragraph_locator)
+
+        @property
+        def copyright_statement_text(self):
+            return self.copyright_statement_paragraph.text
+
+        @property
+        def is_android_app_link_displayed(self):
+            return self.is_element_displayed(*self._android_app_link_locator)
+
+        @property
+        def android_app_link(self):
+            return self.find_element(*self._android_app_link_locator)
+
+        @property
+        def android_app_url(self):
+            return self.android_app_link.get_attribute('href')
+
+        @property
+        def is_facebook_link_displayed(self):
+            return self.is_element_displayed(*self._facebook_link_locator)
+
+        @property
+        def facebook_link(self):
+            return self.find_element(*self._facebook_link_locator)
+
+        @property
+        def facebook_url(self):
+            return self.facebook_link.get_attribute('href')
+
+        @property
+        def is_twitter_link_displayed(self):
+            return self.is_element_displayed(*self._twitter_link_locator)
+
+        @property
+        def twitter_link(self):
+            return self.find_element(*self._twitter_link_locator)
+
+        @property
+        def twitter_url(self):
+            return self.twitter_link.get_attribute('href')
+
+        @property
+        def is_email_link_displayed(self):
+            return self.is_element_displayed(*self._email_link_locator)
+
+        @property
+        def email_link(self):
+            return self.find_element(*self._email_link_locator)
+
+        @property
+        def email_url(self):
+            return self.email_link.get_attribute('href')

@@ -195,7 +195,7 @@ def test_get_this_book(webview_base_url, selenium):
 
     # THEN links to download the pdf, epub and offline zip versions are displayed
     # Look at the footer to see which downloads should have been available
-    downloads = content.footer.click_downloads_tab()
+    downloads = content.content_footer.click_downloads_tab()
 
     if not button_displayed:
         assert not downloads.is_any_available
@@ -252,7 +252,7 @@ def test_nav_and_menus_display_after_scrolling(webview_base_url, selenium):
     content = book.click_book_cover()
 
     # WHEN we scroll to the bottom
-    footer = content.footer.scroll_to()
+    footer = content.content_footer.scroll_to()
 
     # THEN the content nav is displayed on top without the site navbar or any social links
     # The header nav is offscreen but still considered displayed
@@ -299,7 +299,7 @@ def test_attribution(webview_base_url, selenium):
     content = book.click_book_cover()
 
     # WHEN we click the attribution tab
-    attribution = content.footer.click_attribution_tab()
+    attribution = content.content_footer.click_attribution_tab()
 
     # THEN the attribution is displayed and has the correct support email
     assert attribution.is_displayed
@@ -315,7 +315,7 @@ def test_back_to_top(webview_base_url, selenium):
     home = Home(selenium, webview_base_url).open()
     book = home.featured_books.openstax_list[0]
     content = book.click_book_cover()
-    footer = content.footer
+    footer = content.content_footer
 
     # WHEN we scroll to the bottom then click the back to top link
     footer_nav = footer.nav.scroll_to()
