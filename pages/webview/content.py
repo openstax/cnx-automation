@@ -19,7 +19,7 @@ class Content(Page):
     # The page is loaded when the last uuid/short id in the url has an @ version, followed by a /
     # This regex requires that version and additionally captures an optional book version
     _url_regex = re.compile(
-        '/(?:[^:@/]+@(?P<book_version>[^:@/]+):)?[^:@/]+@(?P<page_version>[^:@/]+)/')
+        '/contents/(?:[^:@/]+@(?P<book_version>[^:@/]+):)?[^:@/]+@(?P<page_version>[^:@/]+)/')
     _newer_version_link_locator = (
         By.CSS_SELECTOR, '#content div.latest span[data-l10n-id="media-latest-content"] a'
     )
@@ -145,10 +145,7 @@ class Content(Page):
         _title_locator = (By.CSS_SELECTOR, 'div.title .large-header')
         _book_by_span_locator = (By.CSS_SELECTOR,
                                  'div.info span[data-l10n-id="textbook-view-book-by"]')
-        _author_span_locator = (
-            By.CSS_SELECTOR,
-            'div.info span[data-l10n-id="textbook-view-book-by"] span.collection-authors'
-        )
+        _authors_span_locator = (By.CSS_SELECTOR, 'div.info span.collection-authors')
         _derived_from_span_locator = (By.CSS_SELECTOR,
                                       'span[data-l10n-id="textbook-view-derived-from"]')
 
@@ -176,13 +173,13 @@ class Content(Page):
 
         @property
         @retry_stale_element_reference_exception
-        def is_author_displayed(self):
-            return self.is_element_displayed(*self._author_span_locator)
+        def are_authors_displayed(self):
+            return self.is_element_displayed(*self._authors_span_locator)
 
         @property
         @retry_stale_element_reference_exception
-        def author(self):
-            return self.find_element(*self._author_span_locator).text
+        def authors(self):
+            return self.find_element(*self._authors_span_locator).text
 
         @property
         def is_derived_from_displayed(self):
