@@ -7,7 +7,12 @@ import pytest
 from lxml import etree
 from lxml.etree import XMLSyntaxError
 
-__all__ = ['selenium', 'chrome_options']
+__all__ = ['language', 'selenium', 'chrome_options']
+
+
+@pytest.fixture
+def language(request):
+    return 'en'
 
 
 # https://docs.pytest.org/en/latest/example/simple.html#making-test-result-information-available-in-fixtures
@@ -39,7 +44,7 @@ def selenium(request, selenium, pytestconfig):
 
 
 @pytest.fixture
-def chrome_options(chrome_options, pytestconfig):
+def chrome_options(chrome_options, language, pytestconfig):
     if pytestconfig.getoption('--headless'):
         chrome_options.headless = True
 
@@ -49,8 +54,8 @@ def chrome_options(chrome_options, pytestconfig):
     if pytestconfig.getoption('--disable-dev-shm-usage'):
         chrome_options.add_argument('--disable-dev-shm-usage')
 
-    # This ensures the tests will still pass for someone who selected
-    # a language other than English as their preferred language in Chrome
-    chrome_options.add_argument('--lang=en')
+    # Set the browser language
+    chrome_options.add_argument('--lang={lang}'.format(lang=language))
+    chrome_options.add_experimental_option('prefs', {'intl.accept_languages': language})
 
     return chrome_options
