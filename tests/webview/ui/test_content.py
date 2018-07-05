@@ -399,11 +399,11 @@ def test_navigation(webview_base_url, selenium):
 @markers.test_case('C195073')
 @markers.slow
 @markers.nondestructive
-def test_ncy_is_not_displayed(american_gov_url, selenium):
-    # GIVEN An American Government URL and Selenium driver
+def test_ncy_is_not_displayed(webview_base_url, american_gov_uuid, selenium):
+    # GIVEN the webview base url, an American Government content page UUID, and the Selenium driver
 
-    # WHEN The page is fully loaded using the URL
-    page = Content(selenium, american_gov_url).open()
+    # WHEN the page is fully loaded using the URL
+    page = Content(selenium, webview_base_url, id=american_gov_uuid).open()
 
     # THEN :NOT_CONVERTED_YET is not displayed
     assert page.is_ncy_displayed is False
