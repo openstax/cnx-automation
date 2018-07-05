@@ -402,10 +402,11 @@ def test_content_and_figures_display_after_scrolling(webview_base_url, selenium)
     assert content_region.has_figures
 
     # WHEN we scroll to a figure
-    content_region.scroll_to(content_region.figures[0])
+    figure = content_region.figures[0]
+    content_region.scroll_to(figure)
 
     # THEN some figure is displayed
-    assert content_region.is_figure_displayed
+    assert figure.is_displayed()
 
 
 @markers.webview
@@ -416,26 +417,31 @@ def test_nav_and_menus_display_after_scrolling(webview_base_url, selenium):
     home = Home(selenium, webview_base_url).open()
     book = home.featured_books.openstax_list[0]
     content = book.click_book_cover()
+    content_header = content.content_header
+    original_content_header_y = content_header.root.location['y']
 
     # WHEN we scroll to the bottom
     footer = content.content_footer
     footer.scroll_to()
 
-    # THEN the content nav is displayed on top without the site navbar or any social links
-    # The header nav is offscreen but still considered displayed
+    # THEN - the header nav is offscreen but still considered displayed
+    #      - the content nav is displayed on top without the site navbar or any social links
     assert content.header.is_nav_displayed
-    content_header = content.content_header
+
     assert content_header.is_displayed
     assert content_header.is_title_displayed
     assert content_header.is_book_by_displayed
     assert not content_header.is_share_displayed
+
     header_nav = content_header.nav
     assert header_nav.is_contents_button_displayed
     assert header_nav.is_searchbar_displayed
     assert header_nav.is_back_link_displayed
     assert header_nav.is_progress_bar_displayed
     assert header_nav.is_next_link_displayed
+
     assert content.is_section_title_displayed
+
     share = content.share
     assert not share.is_displayed
     assert not share.is_facebook_share_link_displayed
@@ -452,8 +458,120 @@ def test_nav_and_menus_display_after_scrolling(webview_base_url, selenium):
 
     # Hard to check that the content_header is on top after scrolling, but we can check
     # that it at least has the pinned class and is above the footer
-    assert 'pinned' in content_header.root.get_attribute('class')
+    assert content_header.is_pinned
+    assert not content_header.is_opened
+    assert not content_header.is_closed
+    assert content_header.root.location['y'] > original_content_header_y
     assert content_header.root.location['y'] < footer.root.location['y']
+
+
+@markers.webview
+@markers.test_case('C195232')
+@markers.nondestructive
+@markers.parametrize('width,height', [(480, 640)])
+def test_mobile_nav_and_menus_hide_after_scrolling(webview_base_url, selenium, width, height):
+    # GIVEN a book's content page
+    home = Home(selenium, webview_base_url).open()
+    book = home.featured_books.openstax_list[0]
+    content = book.click_book_cover()
+    content_header = content.content_header
+    original_content_header_y = content_header.root.location['y']
+
+    # WHEN we scroll to the bottom
+    content.content_footer.scroll_to()
+
+    # THEN - the header nav is offscreen but still considered displayed
+    #      - the content nav is offscreen without the site navbar or any social links
+    assert content.header.is_nav_displayed
+
+    assert content_header.is_displayed
+    assert content_header.is_title_displayed
+    assert content_header.is_book_by_displayed
+    assert not content_header.is_share_displayed
+
+    header_nav = content_header.nav
+    assert header_nav.is_contents_button_displayed
+    assert header_nav.is_searchbar_displayed
+    assert header_nav.is_back_link_displayed
+    assert header_nav.is_progress_bar_displayed
+    assert header_nav.is_next_link_displayed
+    assert content.is_section_title_displayed
+
+    share = content.share
+    assert not share.is_displayed
+    assert not share.is_facebook_share_link_displayed
+    assert not share.is_twitter_share_link_displayed
+    assert not share.is_google_share_link_displayed
+    assert not share.is_linkedin_share_link_displayed
+
+    assert not content_header.is_pinned
+    assert content_header.root.location['y'] == original_content_header_y
+
+    # WHEN we scroll up
+    content.scroll_up()
+
+    # THEN - the header nav is offscreen but still considered displayed
+    #      - the content nav is now pinned and onscreen without the site navbar or any social links
+    assert content.header.is_nav_displayed
+
+    assert content_header.is_displayed
+    assert content_header.is_title_displayed
+    assert content_header.is_book_by_displayed
+    assert not content_header.is_share_displayed
+
+    header_nav = content_header.nav
+    assert header_nav.is_contents_button_displayed
+    assert header_nav.is_searchbar_displayed
+    assert header_nav.is_back_link_displayed
+    assert header_nav.is_progress_bar_displayed
+    assert header_nav.is_next_link_displayed
+    assert content.is_section_title_displayed
+
+    share = content.share
+    assert not share.is_displayed
+    assert not share.is_facebook_share_link_displayed
+    assert not share.is_twitter_share_link_displayed
+    assert not share.is_google_share_link_displayed
+    assert not share.is_linkedin_share_link_displayed
+
+    assert content_header.is_pinned
+    assert content_header.is_opened
+    assert not content_header.is_closed
+    previous_content_header_y = content_header.root.location['y']
+    assert previous_content_header_y > original_content_header_y
+
+    # WHEN we scroll down again
+    content.scroll_down()
+
+    # THEN - the header nav is offscreen but still considered displayed
+    #      - the content nav is now closed and offscreen without the site navbar or any social links
+    assert content.header.is_nav_displayed
+
+    assert content_header.is_displayed
+    assert content_header.is_title_displayed
+    assert content_header.is_book_by_displayed
+    assert not content_header.is_share_displayed
+
+    header_nav = content_header.nav
+    assert header_nav.is_contents_button_displayed
+    assert header_nav.is_searchbar_displayed
+    assert header_nav.is_back_link_displayed
+    assert header_nav.is_progress_bar_displayed
+    assert header_nav.is_next_link_displayed
+    assert content.is_section_title_displayed
+
+    share = content.share
+    assert not share.is_displayed
+    assert not share.is_facebook_share_link_displayed
+    assert not share.is_twitter_share_link_displayed
+    assert not share.is_google_share_link_displayed
+    assert not share.is_linkedin_share_link_displayed
+
+    assert content_header.is_pinned
+    assert not content_header.is_opened
+    assert content_header.is_closed
+    assert content_header.root.location['y'] > original_content_header_y
+    assert content_header.root.location['y'] < previous_content_header_y
 
 
 @markers.webview
@@ -483,17 +601,20 @@ def test_back_to_top(webview_base_url, selenium):
     book = home.featured_books.openstax_list[0]
     content = book.click_book_cover()
     footer = content.content_footer
+    content_header = content.content_header
+    original_content_header_y = content_header.root.location['y']
 
     # WHEN we scroll to the bottom then click the back to top link
     content = footer.nav.click_back_to_top_link()
 
     # THEN the content page is no longer scrolled
     assert content.header.is_nav_displayed
-    content_header = content.content_header
+
     assert content_header.is_displayed
     assert content_header.is_title_displayed
     assert content_header.is_book_by_displayed
     assert content_header.is_share_displayed
+
     header_nav = content_header.nav
     assert header_nav.is_contents_button_displayed
     assert header_nav.is_searchbar_displayed
@@ -501,9 +622,9 @@ def test_back_to_top(webview_base_url, selenium):
     assert header_nav.is_progress_bar_displayed
     assert header_nav.is_next_link_displayed
     assert content.is_section_title_displayed
+
     share = content.share
     assert share.is_displayed
-
     assert share.is_facebook_share_link_displayed
     assert share.is_twitter_share_link_displayed
     assert share.is_google_share_link_displayed
@@ -517,7 +638,8 @@ def test_back_to_top(webview_base_url, selenium):
     assert footer.is_more_information_tab_displayed
 
     # The header is no longer pinned
-    assert 'pinned' not in content_header.root.get_attribute('class')
+    assert not content_header.is_pinned
+    assert content_header.root.location['y'] == original_content_header_y
 
 
 @markers.webview

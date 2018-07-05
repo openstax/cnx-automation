@@ -152,6 +152,18 @@ class Content(Page):
         _derived_from_span_locator = (By.CSS_SELECTOR,
                                       'span[data-l10n-id="textbook-view-derived-from"]')
 
+        @property
+        def is_pinned(self):
+            return 'pinned' in self.root.get_attribute('class')
+
+        @property
+        def is_opened(self):
+            return 'opened' in self.root.get_attribute('class')
+
+        @property
+        def is_closed(self):
+            return 'closed' in self.root.get_attribute('class')
+
         # The title and author divs can be reloaded at seemingly random times so we must
         # retry StaleElementReferenceExceptions using retry_stale_element_reference_exception
         @property
@@ -580,10 +592,6 @@ class Content(Page):
         @property
         def has_os_tables(self):
             return bool(self.is_element_present(*self._os_table_divs_locator))
-
-        @property
-        def is_figure_displayed(self):
-            return self.is_element_displayed(*self._figures_locator)
 
         @property
         def figures(self):
