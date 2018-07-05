@@ -9,17 +9,21 @@ from regions.webview.base import Region
 
 
 class SearchResults(Page):
-    URL_TEMPLATE = '/search'
+    URL_TEMPLATE = '/search?q={q}'
+    _num_results_span_locator = (By.CSS_SELECTOR,
+                                 'span[data-l10n-id="search-results-number-results"]')
     _filters_locator = (By.CSS_SELECTOR, '#search div.results ul.filters li')
     _breadcrumbs_locator = (By.CSS_SELECTOR, '#search div.results div.breadcrumbs span.breadcrumb')
     _pagination_locator = (By.CSS_SELECTOR, '#results div.pagination ul li')
-    _results_locator = (By.CSS_SELECTOR, '#results table.table tbody tr')
+    _too_long_results_p_locator = (
+        By.CSS_SELECTOR, '#results p[data-l10n-id="search-results-list-search-taking-time"]')
     _no_results_p_locator = (By.CSS_SELECTOR,
                              '#results p[data-l10n-id="search-results-list-no-results"]')
+    _results_locator = (By.CSS_SELECTOR, '#results table.table tbody tr')
 
     @property
     def loaded(self):
-        return self.is_element_displayed(*self._filters_locator)
+        return self.is_element_displayed(*self._num_results_span_locator)
 
     @property
     def filters(self):
@@ -42,6 +46,10 @@ class SearchResults(Page):
         return [self.Result(self, element) for element in elements]
 
     @property
+    def search_took_too_long(self):
+        return self.is_element_displayed(*self._too_long_results_p_locator)
+
+    @property
     def has_no_results(self):
         return self.is_element_displayed(*self._no_results_p_locator)
 
@@ -52,6 +60,21 @@ class SearchResults(Page):
     @property
     def no_results_text(self):
         return self.no_results_p.text
+
+    def wait_for_page_to_load(self, max_attempts=3):
+        for i in range(max_attempts):
+            self = super().wait_for_page_to_load()
+
+            if not self.search_took_too_long:
+                return self
+            elif i < max_attempts - 1:
+                # Sometimes the search takes too long and we get a timeout.
+                # When this happens, we reload the page and try again.
+                self.driver.refresh()
+
+        from pytest import fail
+        fail('Maximum number of attempts exceeded for search'
+             ' ({attempts})'.format(attempts=max_attempts))
 
     class Filter(Region):
         _link_locator = (By.TAG_NAME, 'a')

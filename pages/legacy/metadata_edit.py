@@ -2,8 +2,6 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-import pytest
-
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import UnexpectedAlertPresentException
 
@@ -57,20 +55,20 @@ class MetadataEdit(PrivatePage):
             try:
                 edit = edit.wait_for_page_to_load()
 
-                if edit.has_site_error:
+                if not edit.has_site_error:
+                    return edit
+                elif i < max_attempts - 1:
                     # Sometimes creating a module or collection fails with a SiteError
                     # In those cases, we retry creating them a few times
-                    if i < max_attempts - 1:
-                        self.driver.back()
-                        self = self.wait_for_page_to_load()
-                        self.submit_button.click()
-                else:
-                    return edit
+                    self.driver.back()
+                    self = self.wait_for_page_to_load()
+                    self.submit_button.click()
             except UnexpectedAlertPresentException:
                 # When creating a module or collection we sometimes get an error alert
                 # In that case we dismiss it, which causes the page to actually load, and wait
                 if i < max_attempts - 1:
                     self.driver.switch_to.alert.dismiss()
 
-        pytest.fail('Maximum number of attempts exceeded for metadata form submission'
-                    ' ({attempts})'.format(attempts=max_attempts))
+        from pytest import fail
+        fail('Maximum number of attempts exceeded for metadata form submission'
+             ' ({attempts})'.format(attempts=max_attempts))
