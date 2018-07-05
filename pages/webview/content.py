@@ -297,6 +297,10 @@ class Content(Page):
                 return self.find_element(*self._contents_button_locator)
 
             @property
+            def searchbar(self):
+                return self.find_element(*self._searchbar_locator)
+
+            @property
             def back_link(self):
                 return self.find_element(*self._back_link_locator)
 
@@ -320,9 +324,30 @@ class Content(Page):
             def next_link(self):
                 return self.find_element(*self._next_link_locator)
 
+            @property
+            def table_of_contents(self):
+                return self.TableOfContents(self.page)
+
+            @property
+            def in_book_search_results(self):
+                return self.InBookSearchResults(self.page)
+
             def click_contents_button(self):
                 self.contents_button.click()
-                return self.TableOfContents(self.page).wait_for_region_to_display()
+                return self.table_of_contents.wait_for_region_to_display()
+
+            def search(self, query):
+                searchbar = self.searchbar
+                from selenium.webdriver.common.action_chains import ActionChains
+                from selenium.webdriver.common.keys import Keys
+                # For some reason self.searchbar.send_keys() fails with `cannot focus element`
+                # https://stackoverflow.com/a/39205317
+                ActionChains(self.driver).move_to_element(searchbar) \
+                                         .click(searchbar) \
+                                         .send_keys(query) \
+                                         .send_keys(Keys.ENTER) \
+                                         .perform()
+                return self.in_book_search_results.wait_for_region_to_display()
 
             def click_back_link(self):
                 current_url = self.driver.current_url
@@ -382,6 +407,84 @@ class Content(Page):
                             current_url = self.driver.current_url
                             self.root.click()
                             return self.page.wait_for_url_to_change(current_url)
+
+            class InBookSearchResults(Region):
+                _root_locator = (By.CSS_SELECTOR, '#content div.sidebar div.table-of-contents')
+                _result_count_div_locator = (By.CSS_SELECTOR, 'div.result-count')
+                _results_locator = (By.XPATH,
+                                    (".//div[contains(@class, 'toc')]"
+                                     "//ul//li[./div/span[contains(@class, 'name-wrapper')]//a]"))
+
+                @property
+                def result_count_div(self):
+                    return self.find_element(*self._result_count_div_locator)
+
+                @property
+                def result_count(self):
+                    import json
+                    return json.loads(self.result_count_div.get_attribute('data-l10n-args'))['hits']
+
+                @property
+                def results(self):
+                    elements = self.find_elements(*self._results_locator)
+                    return [self.InBookResult(self.page, element) for element in elements]
+
+                class InBookResult(Region):
+                    _link_locator = (By.CSS_SELECTOR, 'span.name-wrapper a')
+                    _chapter_section_span_locator = (By.CSS_SELECTOR,
+                                                     'span.chapter-number,span.os-number')
+                    _title_span_locator = (By.CSS_SELECTOR, 'span.title')
+                    _content_q_locator = (By.CSS_SELECTOR, 'div.snippet q')
+                    _bold_locator = (By.CSS_SELECTOR, 'span.q-match')
+
+                    @property
+                    def is_link_present(self):
+                        return self.is_element_present(*self._link_locator)
+
+                    @property
+                    def link(self):
+                        return self.find_element(*self._link_locator)
+
+                    @property
+                    def chapter_section_span(self):
+                        return self.link.find_element(*self._chapter_section_span_locator)
+
+                    @property
+                    def chapter_section(self):
+                        return self.chapter_section_span.text
+
+                    @property
+                    def title_span(self):
+                        return self.link.find_element(*self._title_span_locator)
+
+                    @property
+                    def title(self):
+                        return self.title_span.text.replace(self.chapter_section, '').lstrip()
+
+                    @property
+                    def content_q(self):
+                        return self.link.find_element(*self._content_q_locator)
+
+                    @property
+                    def content(self):
+                        return self.content_q.text
+
+                    @property
+                    def bolds(self):
+                        return self.content_q.find_elements(*self._bold_locator)
+
+                    def count_occurrences(self, word):
+                        return self.content.lower().count(word.lower())
+
+                    def count_bold_occurrences(self, word):
+                        lowercase_word = word.lower()
+                        return len([bold for bold in self.bolds
+                                    if lowercase_word in bold.text.lower()])
+
+                    def click_link(self):
+                        current_url = self.driver.current_url
+                        self.link.click()
+                        return self.page.wait_for_url_to_change(current_url)
 
     # This entire region can be overwritten (and the modal automatically closed) at any time,
     # so any tests that use it must be ready to retry StaleElementReferenceExceptions
@@ -457,6 +560,8 @@ class Content(Page):
     class ContentRegion(Region):
         _root_locator = (By.ID, 'content')
         _figures_locator = (By.TAG_NAME, 'figure')
+        _os_figure_divs_locator = (By.CSS_SELECTOR, 'div.os-figure')
+        _os_table_divs_locator = (By.CSS_SELECTOR, 'div.os-table')
         _anchor_links_locator = (By.CSS_SELECTOR, 'a[href*="#"]')
         _index_terms_locator = (By.CSS_SELECTOR, 'div.os-index-item a.os-term-section-link')
 
@@ -466,7 +571,15 @@ class Content(Page):
 
         @property
         def has_figures(self):
-            return self.is_element_present(*self._figures_locator)
+            return bool(self.is_element_present(*self._figures_locator))
+
+        @property
+        def has_os_figures(self):
+            return bool(self.is_element_present(*self._os_figure_divs_locator))
+
+        @property
+        def has_os_tables(self):
+            return bool(self.is_element_present(*self._os_table_divs_locator))
 
         @property
         def is_figure_displayed(self):
@@ -475,6 +588,16 @@ class Content(Page):
         @property
         def figures(self):
             return self.find_elements(*self._figures_locator)
+
+        @property
+        def os_figures(self):
+            return [self.OsFigure(self, figure_div)
+                    for figure_div in self.find_elements(*self._os_figure_divs_locator)]
+
+        @property
+        def os_tables(self):
+            return [self.OsTable(self, table_div)
+                    for table_div in self.find_elements(*self._os_table_divs_locator)]
 
         @property
         def anchor_links(self):
@@ -495,6 +618,63 @@ class Content(Page):
             index_term = self.index_terms[index]
             self.offscreen_click(index_term)
             return self.page.wait_for_url_to_change(current_url)
+
+        class ContentWithCaption(Region):
+            _caption_div_locator = (By.CSS_SELECTOR, 'div.os-caption-container')
+
+            @property
+            def caption_div(self):
+                return self.find_element(*self._caption_div_locator)
+
+            @property
+            def caption(self):
+                return self.Caption(self.page, self.caption_div)
+
+            class Caption(Region):
+                _label_span_locator = (By.CSS_SELECTOR, 'span.os-title-label')
+                _number_span_locator = (By.CSS_SELECTOR, 'span.os-number')
+
+                @property
+                def is_labeled(self):
+                    return self.is_element_displayed(*self._label_span_locator)
+
+                @property
+                def label_span(self):
+                    return self.find_element(*self._label_span_locator)
+
+                @property
+                def label(self):
+                    return self.label_span.text
+
+                @property
+                def is_numbered(self):
+                    return self.is_element_displayed(*self._number_span_locator)
+
+                @property
+                def number_span(self):
+                    return self.find_element(*self._number_span_locator)
+
+                @property
+                def number(self):
+                    return self.number_span.text
+
+                @property
+                def caption(self):
+                    return self.text.replace(self.label, '').replace(self.number, '').lstrip()
+
+        class OsFigure(ContentWithCaption):
+            _figure_locator = (By.TAG_NAME, 'figure')
+
+            @property
+            def figure(self):
+                return self.find_element(*self._figure_locator)
+
+        class OsTable(ContentWithCaption):
+            _table_locator = (By.TAG_NAME, 'table')
+
+            @property
+            def table(self):
+                return self.find_element(*self._table_locator)
 
     class ContentFooter(Region):
         _root_locator = (By.CSS_SELECTOR, '#main-content div.media-footer')
