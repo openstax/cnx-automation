@@ -10,6 +10,9 @@ env:
     - HEADLESS=true
     - NO_SANDBOX=true
     - PRINT_PAGE_SOURCE_ON_FAILURE=true
+    - ARCHIVE_BASE_URL=https://archive-qa.cnx.org
+    - LEGACY_BASE_URL=https://legacy-qa.cnx.org
+    - NEB_ENV=qa
     - WEBVIEW_BASE_URL=https://qa.cnx.org
   matrix:
     - MARK=webview
