@@ -2,6 +2,7 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
+from pkg_resources import parse_version
 import re
 
 from selenium.webdriver.common.by import By
@@ -15,21 +16,33 @@ from regions.webview.content_item import ContentItem
 
 class Content(Page):
     URL_TEMPLATE = '/contents/{id}'
-    # An at sign, then one or more non-colon chars, followed by a forward slash
-    _url_regex = re.compile('@[^:]+/')
+    # The page is loaded when the last uuid/short id in the url has an @ version, followed by a /
+    # This regex requires that version and additionally captures an optional book version
+    _url_regex = re.compile(
+        '/(?:[^:@/]+@(?P<book_version>[^:@/]+):)?[^:@/]+@(?P<page_version>[^:@/]+)/')
+    _newer_version_link_locator = (
+        By.CSS_SELECTOR, '#content div.latest span[data-l10n-id="media-latest-content"] a'
+    )
     _main_content_section_locator = (By.ID, 'main-content')
     _section_title_div_locator = (By.CSS_SELECTOR, '#main-content div.media-header div.title')
-    _chapter_section_span_locator = (By.CSS_SELECTOR, 'span.title-chapter')
+    _chapter_section_span_locator = (By.CSS_SELECTOR, 'span.title-chapter,span.os-number')
     _get_this_book_button_locator = (
         By.CSS_SELECTOR, ('#main-content div.media-header div.info div.downloads'
                           ' button[type="submit"][data-l10n-id="textbook-view-btn-get-this-book"]')
     )
     _ncy_locator = (By.CLASS_NAME, 'not-converted-yet')
 
-    # The page is loaded when an `@` is present in the url and the uuid is no longer there
     @property
     def loaded(self):
-        return self._url_regex.search(self.driver.current_url)
+        return bool(self._url_regex.search(self.driver.current_url))
+
+    @property
+    def book_version(self):
+        return parse_version(self._url_regex.search(self.driver.current_url)['book_version'])
+
+    @property
+    def page_version(self):
+        return parse_version(self._url_regex.search(self.driver.current_url)['page_version'])
 
     @property
     def content_header(self):
@@ -46,6 +59,10 @@ class Content(Page):
     @property
     def share(self):
         return self.content_header.share
+
+    @property
+    def newer_version_link(self):
+        return self.find_element(*self._newer_version_link_locator)
 
     @property
     def main_content_section(self):
@@ -77,7 +94,7 @@ class Content(Page):
     @property
     @retry_stale_element_reference_exception
     def section_title(self):
-        return self.section_title_div.text.lstrip(self.chapter_section).strip()
+        return self.section_title_div.text.replace(self.chapter_section, '').lstrip()
 
     @property
     @retry_stale_element_reference_exception
@@ -112,6 +129,11 @@ class Content(Page):
     def wait_for_url_to_change(self, current_url):
         self.wait.until(lambda _: self.driver.current_url != current_url)
         return self.wait_for_page_to_load()
+
+    def click_newer_version_link(self):
+        current_url = self.driver.current_url
+        self.newer_version_link.click()
+        return self.wait_for_url_to_change(current_url)
 
     @retry_stale_element_reference_exception
     def click_get_this_book_button(self):

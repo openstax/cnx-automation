@@ -253,6 +253,24 @@ def test_share_links_displayed(webview_base_url, selenium):
 
 
 @markers.webview
+@markers.test_case('C193880')
+@markers.nondestructive
+@markers.parametrize('id', ['eg-XcBxE@3.30:dh0GjBEd@2'])
+def test_newer_version_leads_to_correct_page(webview_base_url, selenium, id):
+    # GIVEN the content page
+    content = Content(selenium, webview_base_url, id=id).open()
+    version = content.book_version
+    section_title = content.section_title
+
+    # WHEN the newer version link is clicked
+    content = content.click_newer_version_link()
+
+    # THEN we end up in a newer version of the same page
+    assert content.section_title == section_title
+    assert content.book_version > version
+
+
+@markers.webview
 @markers.test_case('C176234')
 @markers.nondestructive
 def test_get_this_book(webview_base_url, selenium):
