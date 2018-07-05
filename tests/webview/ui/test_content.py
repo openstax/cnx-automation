@@ -245,12 +245,12 @@ def test_share_on_top_right_corner(webview_base_url, selenium):
 @markers.webview
 @markers.test_case('C132549', 'C175148')
 @markers.nondestructive
-@markers.parametrize('uuid,query,has_results,result_index,has_figures,has_tables', [
+@markers.parametrize('uuid,query,has_results,result_index,has_os_figures,has_os_tables', [
     ('d50f6e32-0fda-46ef-a362-9bd36ca7c97d', 'table', True, 1, True, True),
     ('185cbf87-c72e-48f5-b51e-f14f21b5eabd', 'mitosis genetics gorilla', False, None, None, None),
     ('185cbf87-c72e-48f5-b51e-f14f21b5eabd', 'mitosis genetics', True, 0, False, False)])
 def test_in_book_search(webview_base_url, selenium, uuid, query,
-                        has_results, result_index, has_figures, has_tables):
+                        has_results, result_index, has_os_figures, has_os_tables):
     # GIVEN a book's content page and a query
     content = Content(selenium, webview_base_url, id=uuid).open()
 
@@ -280,13 +280,13 @@ def test_in_book_search(webview_base_url, selenium, uuid, query,
 
     content_region = content.content_region
 
-    assert content_region.has_figures == has_figures
-    for figure in content_region.figures:
+    assert content_region.has_os_figures == has_os_figures
+    for figure in content_region.os_figures:
         assert figure.caption.is_labeled
         assert figure.caption.is_numbered
 
-    assert content_region.has_tables == has_tables
-    for table in content_region.tables:
+    assert content_region.has_os_tables == has_os_tables
+    for table in content_region.os_tables:
         assert table.caption.is_labeled
         assert table.caption.is_numbered
 

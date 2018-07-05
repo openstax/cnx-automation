@@ -559,8 +559,9 @@ class Content(Page):
 
     class ContentRegion(Region):
         _root_locator = (By.ID, 'content')
-        _figure_divs_locator = (By.CSS_SELECTOR, 'div.os-figure')
-        _table_divs_locator = (By.CSS_SELECTOR, 'div.os-table')
+        _figures_locator = (By.TAG_NAME, 'figure')
+        _os_figure_divs_locator = (By.CSS_SELECTOR, 'div.os-figure')
+        _os_table_divs_locator = (By.CSS_SELECTOR, 'div.os-table')
         _anchor_links_locator = (By.CSS_SELECTOR, 'a[href*="#"]')
         _index_terms_locator = (By.CSS_SELECTOR, 'div.os-index-item a.os-term-section-link')
 
@@ -570,11 +571,15 @@ class Content(Page):
 
         @property
         def has_figures(self):
-            return bool(self.is_element_present(*self._figure_divs_locator))
+            return bool(self.is_element_present(*self._figures_locator))
 
         @property
-        def has_tables(self):
-            return bool(self.is_element_present(*self._table_divs_locator))
+        def has_os_figures(self):
+            return bool(self.is_element_present(*self._os_figure_divs_locator))
+
+        @property
+        def has_os_tables(self):
+            return bool(self.is_element_present(*self._os_table_divs_locator))
 
         @property
         def is_figure_displayed(self):
@@ -582,13 +587,17 @@ class Content(Page):
 
         @property
         def figures(self):
-            return [self.Figure(self, figure_div)
-                    for figure_div in self.find_elements(*self._figure_divs_locator)]
+            return self.find_elements(*self._figures_locator)
 
         @property
-        def tables(self):
-            return [self.Table(self, table_div)
-                    for table_div in self.find_elements(*self._table_divs_locator)]
+        def os_figures(self):
+            return [self.OsFigure(self, figure_div)
+                    for figure_div in self.find_elements(*self._os_figure_divs_locator)]
+
+        @property
+        def os_tables(self):
+            return [self.OsTable(self, table_div)
+                    for table_div in self.find_elements(*self._os_table_divs_locator)]
 
         @property
         def anchor_links(self):
@@ -653,14 +662,14 @@ class Content(Page):
                 def caption(self):
                     return self.text.replace(self.label, '').replace(self.number, '').lstrip()
 
-        class Figure(ContentWithCaption):
+        class OsFigure(ContentWithCaption):
             _figure_locator = (By.TAG_NAME, 'figure')
 
             @property
             def figure(self):
                 return self.find_element(*self._figure_locator)
 
-        class Table(ContentWithCaption):
+        class OsTable(ContentWithCaption):
             _table_locator = (By.TAG_NAME, 'table')
 
             @property
