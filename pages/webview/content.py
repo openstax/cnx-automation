@@ -559,7 +559,8 @@ class Content(Page):
 
     class ContentRegion(Region):
         _root_locator = (By.ID, 'content')
-        _figures_locator = (By.TAG_NAME, 'figure')
+        _figure_divs_locator = (By.CSS_SELECTOR, 'div.os-figure')
+        _table_divs_locator = (By.CSS_SELECTOR, 'div.os-table')
         _anchor_links_locator = (By.CSS_SELECTOR, 'a[href*="#"]')
         _index_terms_locator = (By.CSS_SELECTOR, 'div.os-index-item a.os-term-section-link')
 
@@ -569,7 +570,11 @@ class Content(Page):
 
         @property
         def has_figures(self):
-            return self.is_element_present(*self._figures_locator)
+            return bool(self.is_element_present(*self._figure_divs_locator))
+
+        @property
+        def has_tables(self):
+            return bool(self.is_element_present(*self._table_divs_locator))
 
         @property
         def is_figure_displayed(self):
@@ -577,7 +582,13 @@ class Content(Page):
 
         @property
         def figures(self):
-            return self.find_elements(*self._figures_locator)
+            return [self.Figure(self, figure_div)
+                    for figure_div in self.find_elements(*self._figure_divs_locator)]
+
+        @property
+        def tables(self):
+            return [self.Table(self, table_div)
+                    for table_div in self.find_elements(*self._table_divs_locator)]
 
         @property
         def anchor_links(self):
@@ -598,6 +609,63 @@ class Content(Page):
             index_term = self.index_terms[index]
             self.offscreen_click(index_term)
             return self.page.wait_for_url_to_change(current_url)
+
+        class ContentWithCaption(Region):
+            _caption_div_locator = (By.CSS_SELECTOR, 'div.os-caption-container')
+
+            @property
+            def caption_div(self):
+                return self.find_element(*self._caption_div_locator)
+
+            @property
+            def caption(self):
+                return self.Caption(self.page, self.caption_div)
+
+            class Caption(Region):
+                _label_span_locator = (By.CSS_SELECTOR, 'span.os-title-label')
+                _number_span_locator = (By.CSS_SELECTOR, 'span.os-number')
+
+                @property
+                def is_labeled(self):
+                    return self.is_element_displayed(*self._label_span_locator)
+
+                @property
+                def label_span(self):
+                    return self.find_element(*self._label_span_locator)
+
+                @property
+                def label(self):
+                    return self.label_span.text
+
+                @property
+                def is_numbered(self):
+                    return self.is_element_displayed(*self._number_span_locator)
+
+                @property
+                def number_span(self):
+                    return self.find_element(*self._number_span_locator)
+
+                @property
+                def number(self):
+                    return self.number_span.text
+
+                @property
+                def caption(self):
+                    return self.text.replace(self.label, '').replace(self.number, '').lstrip()
+
+        class Figure(ContentWithCaption):
+            _figure_locator = (By.TAG_NAME, 'figure')
+
+            @property
+            def figure(self):
+                return self.find_element(*self._figure_locator)
+
+        class Table(ContentWithCaption):
+            _table_locator = (By.TAG_NAME, 'table')
+
+            @property
+            def table(self):
+                return self.find_element(*self._table_locator)
 
     class ContentFooter(Region):
         _root_locator = (By.CSS_SELECTOR, '#main-content div.media-footer')
