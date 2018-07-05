@@ -199,7 +199,8 @@ def test_footer_has_correct_content_and_links(webview_base_url, selenium):
     home = Home(selenium, webview_base_url).open()
 
     # WHEN we scroll to the footer
-    footer = home.footer.scroll_to()
+    footer = home.footer
+    footer.scroll_to()
 
     # THEN the links point to the correct urls and all the content is displayed
     assert footer.is_licensing_link_displayed
