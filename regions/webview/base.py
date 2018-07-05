@@ -24,25 +24,27 @@ class Region(pypom.Region):
 
     @property
     def is_displayed(self):
-        if self._root_locator is None:
-            return self.root is not None
-        else:
-            return self.page.is_element_displayed(*self._root_locator)
+        return self.root.is_displayed()
 
     def wait_for_region_to_display(self):
-        self.wait.until(lambda _: self.is_displayed)
+        self.page.wait_for_region_to_display(self)
         return self
+
+    def wait_for_element_to_display(self, element):
+        return self.page.wait_for_element_to_display(element)
 
     def scroll_to(self, element=None):
-        """Scrolls to the given element (or the region's root). Returns the region."""
+        """Scrolls to the given element (or the region's root). Returns the element."""
         if element is None:
             element = self.root
-        self.page.scroll_to(element)
-        return self
+        return self.page.scroll_to(element)
 
     def offscreen_click(self, element=None):
-        """Scrolls to the given element (or the region's root) and clicks it. Returns the region."""
+        """Clicks an offscreen element (or the region's root).
+
+        Clicks the given element, even if it is offscreen, by sending the ENTER key.
+        Returns the element.
+        """
         if element is None:
             element = self.root
-        self.page.offscreen_click(element)
-        return self
+        return self.page.offscreen_click(element)
