@@ -7,7 +7,17 @@ import pytest
 from lxml import etree
 from lxml.etree import XMLSyntaxError
 
-__all__ = ['language', 'selenium', 'chrome_options']
+__all__ = ['width', 'height', 'language', 'selenium', 'chrome_options']
+
+
+@pytest.fixture
+def width(request):
+    return 1024
+
+
+@pytest.fixture
+def height(request):
+    return 768
 
 
 @pytest.fixture
@@ -17,8 +27,8 @@ def language(request):
 
 # https://docs.pytest.org/en/latest/example/simple.html#making-test-result-information-available-in-fixtures
 @pytest.fixture
-def selenium(request, selenium, pytestconfig):
-    selenium.implicitly_wait(0)
+def selenium(selenium, pytestconfig, width, height, request):
+    selenium.set_window_size(width, height)
     yield selenium
     # request.node is an "item" because we use the default "function" scope
     if pytestconfig.getoption('--print-page-source-on-failure') and \
@@ -44,7 +54,7 @@ def selenium(request, selenium, pytestconfig):
 
 
 @pytest.fixture
-def chrome_options(chrome_options, language, pytestconfig):
+def chrome_options(chrome_options, pytestconfig, language):
     if pytestconfig.getoption('--headless'):
         chrome_options.headless = True
 
