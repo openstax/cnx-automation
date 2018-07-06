@@ -4,6 +4,7 @@
 
 import pypom
 from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
 
 from regions.webview.base import Region
 
@@ -32,6 +33,10 @@ class Page(pypom.Page):
     def footer(self):
         return self.Footer(self)
 
+    @property
+    def active_element(self):
+        return self.driver.switch_to.active_element
+
     def wait_for_region_to_display(self, region):
         self.wait.until(lambda _: region.is_displayed)
         return self
@@ -39,6 +44,18 @@ class Page(pypom.Page):
     def wait_for_element_to_display(self, element):
         self.wait.until(lambda _: element.is_displayed())
         return self
+
+    def scroll_down(self):
+        """Scrolls using page down once. Returns the active element."""
+        active_element = self.active_element
+        active_element.send_keys(Keys.PAGE_DOWN)
+        return active_element
+
+    def scroll_up(self):
+        """Scrolls using page up once. Returns the active element."""
+        active_element = self.active_element
+        active_element.send_keys(Keys.PAGE_UP)
+        return active_element
 
     def scroll_to(self, element=None):
         """Scrolls to the given element. Returns the element."""
@@ -54,7 +71,6 @@ class Page(pypom.Page):
         """
         # We actually navigate using the ENTER key because scrolling the page can be flaky
         # https://stackoverflow.com/a/39918249
-        from selenium.webdriver.common.keys import Keys
         element.send_keys(Keys.ENTER)
         return element
 
