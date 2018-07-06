@@ -6,6 +6,7 @@ import pytest
 import re
 from urllib.parse import urljoin
 from requests import get
+from time import sleep
 
 from selenium.webdriver.common.by import By
 
@@ -387,6 +388,27 @@ def test_section_title_for_no_markup(webview_base_url, selenium):
     section_title = content.section_title
     assert '<' not in section_title
     assert '>' not in section_title
+
+
+@markers.webview
+@markers.test_case('C195074')
+@markers.nondestructive
+@markers.parametrize('id', ['56AW05H8@13.4:vs_mKpvU@6'])
+def test_page_with_unicode_characters_in_title_loads(webview_base_url, selenium, id):
+    # GIVEN the webview base url, the Selenium driver and the id of a page whose title has unicode
+    content = Content(selenium, webview_base_url, id=id)
+
+    # WHEN we load the content page
+    content = content.open()
+
+    # Find a figure element
+    figure = content.content_region.figures[0]
+
+    # THEN the page does not reload afterwards
+    # Wait 10 seconds to see if the page reloads
+    sleep(10)
+    # If we don't get a StaleElementReferenceException then the page didn't reload
+    assert figure.text
 
 
 @markers.webview
