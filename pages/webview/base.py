@@ -46,15 +46,15 @@ class Page(pypom.Page):
         return self
 
     def scroll_down(self):
-        """Scrolls the page down once. Returns the active element."""
+        """Scrolls using page down once. Returns the active element."""
         active_element = self.active_element
-        active_element.send_keys(Keys.DOWN)
+        active_element.send_keys(Keys.PAGE_DOWN)
         return active_element
 
     def scroll_up(self):
-        """Scrolls the page up once. Returns the active element."""
+        """Scrolls using page up once. Returns the active element."""
         active_element = self.active_element
-        active_element.send_keys(Keys.UP)
+        active_element.send_keys(Keys.PAGE_UP)
         return active_element
 
     def scroll_to(self, element=None):

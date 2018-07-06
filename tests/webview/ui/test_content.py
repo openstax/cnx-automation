@@ -570,8 +570,7 @@ def test_mobile_nav_and_menus_hide_after_scrolling(webview_base_url, selenium, w
     assert content_header.is_pinned
     assert not content_header.is_opened
     assert content_header.is_closed
-    assert content_header.root.location['y'] > original_content_header_y
-    assert content_header.root.location['y'] < previous_content_header_y
+    assert content_header.root.location['y'] > previous_content_header_y
 
 
 @markers.webview

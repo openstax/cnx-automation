@@ -34,11 +34,11 @@ class Region(pypom.Region):
         return self.page.wait_for_element_to_display(element)
 
     def scroll_down(self):
-        """Scrolls the page down once. Returns the active element."""
+        """Scrolls using page down once. Returns the active element."""
         return self.page.scroll_down()
 
     def scroll_up(self):
-        """Scrolls the page up once. Returns the active element."""
+        """Scrolls using page up once. Returns the active element."""
         return self.page.scroll_up()
 
     def scroll_to(self, element=None):
