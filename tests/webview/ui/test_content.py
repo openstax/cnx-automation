@@ -766,3 +766,17 @@ def test_chapter_review_version_matches_book_version(webview_base_url, selenium,
 
     # THEN the chapter review version matches the book version
     assert content.page_version == content.book_version
+
+
+@markers.webview
+@markers.test_case('C195071')
+@markers.nondestructive
+@markers.parametrize('id', ['yWshIYVW@1'])
+def test_buggy_msg_not_show_in_left_panel(webview_base_url, id, selenium):
+    # GIVEN the webview base url, a chapter page id, and the Selenium driver
+
+    # WHEN we visit that page of the chapter
+    content = Content(selenium, webview_base_url, id=id).open()
+
+    # THEN no buggy stuff in the left panel (the Book button not open)
+    assert content.find_element(By.CSS_SELECTOR, ".fa.open-indicator.fa-plus")
