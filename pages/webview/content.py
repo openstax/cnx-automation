@@ -33,6 +33,10 @@ class Content(Page):
     _ncy_locator = (By.CLASS_NAME, 'not-converted-yet')
 
     @property
+    def book_contents(self):
+        return self.BookContents(self)
+
+    @property
     def loaded(self):
         return bool(self._url_regex.search(self.driver.current_url))
 
@@ -139,6 +143,46 @@ class Content(Page):
     def click_get_this_book_button(self):
         self.get_this_book_button.click()
         return self.GetThisBook(self).wait_for_region_to_load()
+
+    @property
+    def books(self):
+        return self.Books(self)
+
+    class BookContents(Region):
+        _root_locator = (By.CSS_SELECTOR, '.booksContaining')
+        _overview_locator = (By.CLASS_NAME, "title")
+        _book_locator = (By.XPATH, './ul/li')
+
+        @property
+        def is_displayed(self):
+            return self.is_element_displayed(*self._book_locator)
+        
+        @property
+        def description(self):
+            self.find_element(*self._root_locator)
+            return self.find_element(*_overview_locator).text
+
+        @property
+        def books(self):
+            elements = self.find_elements(*self._book_locator)
+            return [self.Book(self.page, element) for element in elements]
+
+        class Book(Region):
+            _author_locator = (By.XPATH, ".//ul/li[1]")
+            _revision_date_locator = (By.XPATH, ".//ul/li[2]")
+            _go_to_book_locator = (By.XPATH, ".//ul/li[3]//a")
+
+            @property
+            def author(self):
+                return self.find_element(*self._author_locator).text
+
+            @property
+            def revision_date(self):
+                return self.find_element(*self._revision_date_locator).text
+
+            def go_to_book(self):
+                self.find_element(*self._go_to_book_locator).click()
+                return self.page.wait_for_page_to_load()
 
     class ContentHeader(Region):
         _root_locator = (By.CSS_SELECTOR, '#content div.pinnable')
