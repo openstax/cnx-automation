@@ -781,3 +781,21 @@ def test_buggy_msg_not_show_in_left_panel(webview_base_url, id, selenium):
     # THEN correct book info is listed in the left panel
     if content.is_left_panel_title_displayed:
         assert content.is_go_to_book_link_present
+
+
+@markers.webview
+@markers.test_case('C195061')
+@markers.nondestructive
+@markers.parametrize('id', ['BWYBGK7C@2'])
+def test_book_title_not_limited(webview_base_url, id, selenium):
+    # GIVEN the webview base url, a chapter page id, and the Selenium driver
+
+    # WHEN we visit that page of the chapter
+    content = Content(selenium, webview_base_url, id=id).open()
+
+    # THEN get the title text to check if it matches what it suppose to be
+    actual_title = content.get_left_nav_book_title
+    correct_title = '"Our Cultural Commonwealth" The Report of the American ' \
+                    'Council of Learned Societies Commission on Cyberinfrastructure ' \
+                    'for the Humanities and Social Sciences'
+    assert actual_title == correct_title
