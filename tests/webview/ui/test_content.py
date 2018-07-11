@@ -784,3 +784,18 @@ def test_book_containing_title_not_limited(webview_base_url, selenium, page_id):
     # THEN the title of the books are not truncated by ellipses
     for book in books:
         assert '...' not in book.title
+
+
+@markers.webview
+@markers.test_case('C195071')
+@markers.nondestructive
+@markers.parametrize('id', ['yWshIYVW@1'])
+def test_buggy_msg_not_show_in_left_panel(webview_base_url, id, selenium):
+    # GIVEN the webview base url, a chapter page id, and the Selenium driver
+
+    # WHEN we visit that page of the chapter
+    content = Content(selenium, webview_base_url, id=id).open()
+
+    # THEN correct book info is listed in the left panel
+    if content.is_left_panel_title_displayed:
+        assert content.is_go_to_book_link_present
