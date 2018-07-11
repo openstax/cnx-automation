@@ -23,7 +23,7 @@ pytest-variables==1.7.1
 python-dotenv==0.8.2
 requests==2.19.1
 selenium==3.13.0
-simplejson==3.15.0
+simplejson==3.16.0
 six==1.11.0
 tox==3.1.1
 uritemplate==3.0.0
