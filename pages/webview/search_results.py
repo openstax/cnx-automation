@@ -3,6 +3,7 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 from selenium.webdriver.common.by import By
+from selenium.common.exceptions import TimeoutException
 
 from pages.webview.base import Page
 from regions.webview.base import Region
@@ -63,13 +64,17 @@ class SearchResults(Page):
 
     def wait_for_page_to_load(self, max_attempts=3):
         for i in range(max_attempts):
-            self = super().wait_for_page_to_load()
+            # Sometimes the search takes too long and we get a timeout.
+            # When this happens, we reload the page and try again.
+            try:
+                self = super().wait_for_page_to_load()
+            except TimeoutException:
+                pass
+            else:
+                if not self.search_took_too_long:
+                    return self
 
-            if not self.search_took_too_long:
-                return self
-            elif i < max_attempts - 1:
-                # Sometimes the search takes too long and we get a timeout.
-                # When this happens, we reload the page and try again.
+            if i < max_attempts - 1:
                 self.driver.refresh()
 
         from pytest import fail
