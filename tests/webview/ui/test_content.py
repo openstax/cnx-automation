@@ -251,45 +251,45 @@ def test_share_on_top_right_corner(webview_base_url, selenium):
    ('185cbf87-c72e-48f5-b51e-f14f21b5eabd', 'mitosis genetics gorilla', False, None, None, None),
    ('185cbf87-c72e-48f5-b51e-f14f21b5eabd', 'mitosis genetics', True, 0, False, False)])
 def test_in_book_search(webview_base_url, selenium, uuid, query,
-                       has_results, result_index, has_os_figures, has_os_tables):
-   # GIVEN a book's content page and a query
-   content = Content(selenium, webview_base_url, id=uuid).open()
+                        has_results, result_index, has_os_figures, has_os_tables):
+    # GIVEN a book's content page and a query
+    content = Content(selenium, webview_base_url, id=uuid).open()
 
-   # WHEN we search the book for the given query
-   search_results = content.header_nav.search(query)
+    # WHEN we search the book for the given query
+    search_results = content.header_nav.search(query)
 
-   # THEN search results are present (or not) and bolded and link to the matching content
-   results = search_results.results
-   result_count = search_results.result_count
-   assert len(results) == result_count
+    # THEN search results are present (or not) and bolded and link to the matching content
+    results = search_results.results
+    result_count = search_results.result_count
+    assert len(results) == result_count
 
-   if not has_results:
-       assert result_count == 0
-       return
+    if not has_results:
+        assert result_count == 0
+        return
 
-   assert result_count > 0
+    assert result_count > 0
 
-   words = query.split()
-   for result in results:
-       for word in words:
-           assert result.count_occurrences(word) == result.count_bold_occurrences(word)
+    words = query.split()
+    for result in results:
+        for word in words:
+            assert result.count_occurrences(word) == result.count_bold_occurrences(word)
 
-   result = results[result_index]
-   title = result.title
-   content = result.click_link()
-   assert content.section_title == title
+    result = results[result_index]
+    title = result.title
+    content = result.click_link()
+    assert content.section_title == title
 
-   content_region = content.content_region
+    content_region = content.content_region
 
-   assert content_region.has_os_figures == has_os_figures
-   for figure in content_region.os_figures:
-       assert figure.caption.is_labeled
-       assert figure.caption.is_numbered
+    assert content_region.has_os_figures == has_os_figures
+    for figure in content_region.os_figures:
+        assert figure.caption.is_labeled
+        assert figure.caption.is_numbered
 
-   assert content_region.has_os_tables == has_os_tables
-   for table in content_region.os_tables:
-       assert table.caption.is_labeled
-       assert table.caption.is_numbered
+    assert content_region.has_os_tables == has_os_tables
+    for table in content_region.os_tables:
+        assert table.caption.is_labeled
+        assert table.caption.is_numbered
 
 
 @markers.webview
@@ -776,15 +776,16 @@ def test_go_to_first_page(webview_base_url, selenium, ch_review_id):
     content = Content(selenium, webview_base_url, id=ch_review_id).open()
     book_content = content.book_contents.wait_for_region_to_display()
     books = book_content.books
-    
+
     # WHEN we click the link to the first book
     book = books[0].go_to_book()
 
-    # THEN the chapter should be the very first module 1.1 
+    # THEN the chapter should be the very first module 1.1
     assert type(book) == Content
     assert book.chapter_section == '1.1'
 
     assert book.title == 'English Home Language Grade 5'
+
 
 @markers.webview
 @markers.test_case('C195063')

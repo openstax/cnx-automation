@@ -156,11 +156,11 @@ class Content(Page):
         @property
         def is_displayed(self):
             return self.is_element_displayed(*self._book_locator)
-        
+
         @property
         def description(self):
             self.find_element(*self._root_locator)
-            return self.find_element(*_overview_locator).text
+            return self.find_element(*self._overview_locator).text
 
         @property
         def books(self):
