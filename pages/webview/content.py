@@ -168,8 +168,8 @@ class Content(Page):
             return [self.Book(self.page, element) for element in elements]
 
         class Book(Region):
-            _author_locator = (By.XPATH, ".//ul/li[1]")
-            _revision_date_locator = (By.XPATH, ".//ul/li[2]")
+            _author_locator = (By.XPATH, ".//ul/li[1]//b")
+            _revision_date_locator = (By.XPATH, ".//ul/li[2]//b")
             _go_to_book_locator = (By.XPATH, ".//ul/li[3]//a")
 
             @property

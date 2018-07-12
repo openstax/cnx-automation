@@ -783,3 +783,5 @@ def test_go_to_first_page(webview_base_url, selenium, ch_review_id):
 	# THEN the chapter should be the very first module 1.1 
 	assert type(book) == Content
 	assert book.chapter_section == '1.1'
+
+	assert book.title == 'English Home Language Grade 5'
