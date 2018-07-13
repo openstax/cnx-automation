@@ -792,10 +792,7 @@ def test_book_title_not_limited(webview_base_url, id, selenium):
 
     # WHEN we visit that page of the chapter
     content = Content(selenium, webview_base_url, id=id).open()
-
+    sleep(0.25)
     # THEN get the title text to check if it matches what it suppose to be
     actual_title = content.get_left_nav_book_title
-    correct_title = '"Our Cultural Commonwealth" The Report of the American ' \
-                    'Council of Learned Societies Commission on Cyberinfrastructure ' \
-                    'for the Humanities and Social Sciences'
-    assert actual_title == correct_title
+    assert "..." not in actual_title
