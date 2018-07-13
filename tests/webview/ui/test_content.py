@@ -794,5 +794,5 @@ def test_book_title_not_limited(webview_base_url, id, selenium):
     content = Content(selenium, webview_base_url, id=id).open()
     sleep(0.25)
     # THEN get the title text to check if it matches what it suppose to be
-    actual_title = content.get_left_nav_book_title
+    actual_title = content.get_left_nav_book_title.text
     assert "..." not in actual_title

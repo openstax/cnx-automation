@@ -127,7 +127,7 @@ class Content(Page):
 
     @property
     def get_left_nav_book_title(self):
-        return self.find_element(*self._left_nav_book_title_finder).text
+        return self.find_element(*self._left_nav_book_title_finder)
 
     @property
     def content_region(self):
