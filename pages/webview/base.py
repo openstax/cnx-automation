@@ -6,15 +6,19 @@ import pypom
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 
+from pages.webview.applitools import ApplitoolsMixin
 from regions.webview.base import Region
 
 
-class Page(pypom.Page):
+class Page(ApplitoolsMixin, pypom.Page):
     _canonical_link_locator = (By.CSS_SELECTOR, 'head link[rel="canonical"]')
 
     # Default to a 60 second timeout for CNX webview
-    def __init__(self, driver, base_url=None, timeout=60, **url_kwargs):
+    def __init__(self, driver, base_url=None, eyes=None, timeout=60, **url_kwargs):
         super().__init__(driver, base_url, timeout, **url_kwargs)
+        if eyes:
+            self.eyes = eyes
+            self.app_name = 'webview'
 
     @property
     def canonical_link(self):

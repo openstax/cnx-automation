@@ -15,3 +15,4 @@ slow = mark.skipif(not config.getoption('runslow'), reason='need --runslow optio
 webview = mark.webview
 legacy = mark.legacy
 neb = mark.neb
+visual = mark.visual
