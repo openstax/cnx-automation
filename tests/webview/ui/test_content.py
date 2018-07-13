@@ -796,3 +796,25 @@ def test_book_title_not_limited(webview_base_url, id, selenium):
     # THEN get the title text to check if it matches what it suppose to be
     actual_title = content.get_left_nav_book_title.text
     assert "..." not in actual_title
+
+
+@markers.webview
+@markers.test_case('C195060')
+@markers.nondestructive
+@markers.parametrize('id', ['4fGVMb7P@1'])
+def test_book_title_link_and_highlight_on_view(webview_base_url, id, selenium):
+    # GIVEN the webview base url, a chapter page id, and the Selenium driver
+
+    # WHEN we visit that page of the chapter
+    content = Content(selenium, webview_base_url, id=id).open()
+
+    # THEN click the title
+    content.get_left_nav_book_title.click()
+
+    # AND get and click the Contents button
+    content.header_nav.click_contents_button()
+
+    # AND find the on viewing title and get the color
+    chapter_4 = content.header_nav.table_of_contents.chapters[-1]
+    page_6 = chapter_4.pages[-1]
+    print(page_6.text)
