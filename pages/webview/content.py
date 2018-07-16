@@ -172,7 +172,7 @@ class Content(Page):
             _author_locator = (By.CSS_SELECTOR, "li > ul > li:nth-child(1) > div")
             _revision_date_locator = (By.CSS_SELECTOR, "ul > li:nth-child(2) > div > b")
             _go_to_book_locator = (By.CSS_SELECTOR,
-                                    "ul > li > ul > li:nth-child(3) > div > a")
+                                   "ul > li > ul > li:nth-child(3) > div > a")
 
             @property
             def book_title(self):
