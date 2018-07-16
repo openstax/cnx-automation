@@ -770,32 +770,17 @@ def test_chapter_review_version_matches_book_version(webview_base_url, selenium,
 
 
 @markers.webview
-@markers.test_case('C195071')
-@markers.nondestructive
-@markers.parametrize('id', ['yWshIYVW@1'])
-def test_buggy_msg_not_show_in_left_panel(webview_base_url, id, selenium):
-    # GIVEN the webview base url, a chapter page id, and the Selenium driver
-
-    # WHEN we visit that page of the chapter
-    content = Content(selenium, webview_base_url, id=id).open()
-
-    # THEN correct book info is listed in the left panel
-    if content.is_left_panel_title_displayed:
-        assert content.is_go_to_book_link_present
-
-
-@markers.webview
 @markers.test_case('C195061')
 @markers.nondestructive
-@markers.parametrize('id', ['BWYBGK7C@2'])
-def test_book_containging_title_not_limited(webview_base_url, id, selenium):
-    # GIVEN the webview base url, a chapter page id, and the Selenium driver
+@markers.parametrize('page_id', ['BWYBGK7C@2'])
+def test_book_containging_title_not_limited(webview_base_url, selenium, page_id):
+    # GIVEN the webview base url, page_id, and the Selenium driver
 
-    # WHEN we visit that page of the chapter and we have a list of books containing
-    content = ContentPage(selenium, webview_base_url, id=id).open()
+    # WHEN we visit that page of the chapter and we have a list of books containing the page
+    content = ContentPage(selenium, webview_base_url, id=page_id).open()
 
     books = content.books_containing.book_list
 
-    # THEN the title of the books are not truncated
+    # THEN the title of the books are not truncated by ellipses
     for book in books:
         assert '...' not in book.title
