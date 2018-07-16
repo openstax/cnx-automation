@@ -33,8 +33,8 @@ class Content(Page):
     _ncy_locator = (By.CLASS_NAME, 'not-converted-yet')
 
     @property
-    def book_contents(self):
-        return self.BookContents(self)
+    def books_containing(self):
+        return self.BooksContaining(self)
 
     @property
     def loaded(self):
@@ -148,10 +148,10 @@ class Content(Page):
     def books(self):
         return self.Books(self)
 
-    class BookContents(Region):
+    class BooksContaining(Region):
         _root_locator = (By.CSS_SELECTOR, '.booksContaining')
         _overview_locator = (By.CLASS_NAME, "title")
-        _book_locator = (By.XPATH, './ul/li')
+        _book_locator = (By.CSS_SELECTOR, 'ul > li')
 
         @property
         def is_displayed(self):
@@ -168,19 +168,24 @@ class Content(Page):
             return [self.Book(self.page, element) for element in elements]
 
         class Book(Region):
-            _author_locator = (By.XPATH, ".//ul/li[1]//b")
-            _revision_date_locator = (By.XPATH, ".//ul/li[2]//b")
-            _go_to_book_locator = (By.XPATH, ".//ul/li[3]//a")
+            _book_title_locator = (By.CSS_SELECTOR, "a > b")
+            _author_locator = (By.CSS_SELECTOR, "li:nth-child(1) > ul > li:nth-child(1) > div")
+            _revision_date_locator = (By.CSS_SELECTOR, "ul > li:nth-child(2) > div > b")
+            _go_to_book_locator = (By.CSS_SELECTOR, "ul > li:nth-child(1) > ul > li:nth-child(3) > div > a")
 
+            @property
+            def book_title(self):
+                return self.find_element(*self._book_title_locator).text
             @property
             def author(self):
                 return self.find_element(*self._author_locator).text
 
             @property
             def revision_date(self):
-                return self.find_element(*self._revision_date_locator).text
+                return self.find_element(*self._revision_date_locator)
 
-            def go_to_book(self):
+            @property
+            def click_go_to_book_link(self):
                 self.find_element(*self._go_to_book_locator).click()
                 return self.page.wait_for_page_to_load()
 

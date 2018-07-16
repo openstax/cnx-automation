@@ -771,20 +771,20 @@ def test_chapter_review_version_matches_book_version(webview_base_url, selenium,
 @markers.test_case('C195064')
 @markers.nondestructive
 @markers.parametrize('ch_review_id', ['4fGVMb7P@1'])
-def test_go_to_first_page(webview_base_url, selenium, ch_review_id):
+def test_books_containing_go_to_book_link(webview_base_url, selenium, ch_review_id):
     # GIVEN the webview base url, a chapter review id, and the Selenium driver
     content = Content(selenium, webview_base_url, id=ch_review_id).open()
-    book_content = content.book_contents.wait_for_region_to_display()
+    book_content = content.books_containing.wait_for_region_to_display()
     books = book_content.books
 
     # WHEN we click the link to the first book
-    book = books[0].go_to_book()
-
+    title = books[0].book_title
+    book = books[0].click_go_to_book_link
+    
     # THEN the chapter should be the very first module 1.1
     assert type(book) == Content
     assert book.chapter_section == '1.1'
-
-    assert book.title == 'English Home Language Grade 5'
+    assert book.title == title
 
 
 @markers.webview
@@ -794,9 +794,8 @@ def test_go_to_first_page(webview_base_url, selenium, ch_review_id):
 def test_contain_revised_date(webview_base_url, selenium, ch_review_id):
     # GIVEN the webview base url, a chapter review id, and the Selenium driver
     content = Content(selenium, webview_base_url, id=ch_review_id).open()
-    book_content = content.book_contents.wait_for_region_to_display()
+    book_content = content.books_containing.wait_for_region_to_display()
     books = book_content.books
 
     # WHEN check all the Books contain revision date
-    for book in books:
-        assert(book.revision_date)
+    assert(books[0].revision_date.is_displayed)
