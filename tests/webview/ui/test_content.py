@@ -798,4 +798,4 @@ def test_book_containging_title_not_limited(webview_base_url, id, selenium):
 
     # THEN the title of the books are not truncated
     for book in books:
-        assert "..." not in book.title
+        assert '...' not in book.title
