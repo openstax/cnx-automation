@@ -10,6 +10,7 @@ from time import sleep
 
 from selenium.webdriver.common.by import By
 
+from pages.webview.content_page import ContentPage
 from tests import markers
 
 from pages.webview.home import Home
@@ -799,3 +800,19 @@ def test_contain_revised_date(webview_base_url, selenium, ch_review_id):
     # WHEN check all the Books contain revision date
     for book in books:
         assert(book.revision_date.is_displayed)
+
+ 
+@markers.test_case('C195061')
+@markers.nondestructive
+@markers.parametrize('page_id', ['BWYBGK7C@2'])
+def test_book_containing_title_not_limited(webview_base_url, selenium, page_id):
+    # GIVEN the webview base url, page_id, and the Selenium driver
+
+    # WHEN we visit that page of the chapter and we have a list of books containing the page
+    content = ContentPage(selenium, webview_base_url, id=page_id).open()
+
+    books = content.books_containing.book_list
+
+    # THEN the title of the books are not truncated by ellipses
+    for book in books:
+        assert '...' not in book.title

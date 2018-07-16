@@ -403,10 +403,10 @@ class Content(Page):
                 # For some reason self.searchbar.send_keys() fails with `cannot focus element`
                 # https://stackoverflow.com/a/39205317
                 ActionChains(self.driver).move_to_element(searchbar) \
-                                         .click(searchbar) \
-                                         .send_keys(query) \
-                                         .send_keys(Keys.ENTER) \
-                                         .perform()
+                    .click(searchbar) \
+                    .send_keys(query) \
+                    .send_keys(Keys.ENTER) \
+                    .perform()
                 return self.in_book_search_results.wait_for_region_to_display()
 
             def click_back_link(self):
