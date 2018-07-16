@@ -169,13 +169,15 @@ class Content(Page):
 
         class Book(Region):
             _book_title_locator = (By.CSS_SELECTOR, "a > b")
-            _author_locator = (By.CSS_SELECTOR, "li:nth-child(1) > ul > li:nth-child(1) > div")
+            _author_locator = (By.CSS_SELECTOR, "li > ul > li:nth-child(1) > div")
             _revision_date_locator = (By.CSS_SELECTOR, "ul > li:nth-child(2) > div > b")
-            _go_to_book_locator = (By.CSS_SELECTOR, "ul > li:nth-child(1) > ul > li:nth-child(3) > div > a")
+            _go_to_book_locator = (By.CSS_SELECTOR,
+                                    "ul > li > ul > li:nth-child(3) > div > a")
 
             @property
             def book_title(self):
                 return self.find_element(*self._book_title_locator).text
+
             @property
             def author(self):
                 return self.find_element(*self._author_locator).text

@@ -780,7 +780,7 @@ def test_books_containing_go_to_book_link(webview_base_url, selenium, ch_review_
     # WHEN we click the link to the first book
     title = books[0].book_title
     book = books[0].click_go_to_book_link
-    
+
     # THEN the chapter should be the very first module 1.1
     assert type(book) == Content
     assert book.chapter_section == '1.1'
