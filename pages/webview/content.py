@@ -31,9 +31,6 @@ class Content(Page):
                           ' button[type="submit"][data-l10n-id="textbook-view-btn-get-this-book"]')
     )
     _ncy_locator = (By.CLASS_NAME, 'not-converted-yet')
-    _book_info_title_locator = (By.CSS_SELECTOR, '.booksContaining > div > span')
-    _go_to_book_link_locator = (By.CSS_SELECTOR, 'li:nth-child(3) > div > a')
-    _left_nav_book_title_finder = (By.CSS_SELECTOR, 'div.booksContaining > ul > li > div > a > b')
 
     @property
     def loaded(self):
@@ -116,18 +113,6 @@ class Content(Page):
     @property
     def is_ncy_displayed(self):
         return self.is_element_displayed(*self._ncy_locator)
-
-    @property
-    def is_left_panel_title_displayed(self):
-        return self.is_element_displayed(*self._book_info_title_locator)
-
-    @property
-    def is_go_to_book_link_present(self):
-        return self.is_element_present(*self._go_to_book_link_locator)
-
-    @property
-    def get_left_nav_book_title(self):
-        return self.find_element(*self._left_nav_book_title_finder)
 
     @property
     def content_region(self):
