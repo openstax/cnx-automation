@@ -37,8 +37,7 @@ class Content(Page):
 
     @property
     def loaded(self):
-        return bool(self._url_regex.search(self.driver.current_url)) and self.find_element(
-            *self._book_info_title_locator)
+        return bool(self._url_regex.search(self.driver.current_url))
 
     @property
     def book_version(self):
