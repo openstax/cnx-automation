@@ -10,6 +10,7 @@ from time import sleep
 
 from selenium.webdriver.common.by import By
 
+from pages.webview.content_page import ContentPage
 from tests import markers
 
 from pages.webview.home import Home
@@ -766,3 +767,20 @@ def test_chapter_review_version_matches_book_version(webview_base_url, selenium,
 
     # THEN the chapter review version matches the book version
     assert content.page_version == content.book_version
+
+
+@markers.webview
+@markers.test_case('C195061')
+@markers.nondestructive
+@markers.parametrize('page_id', ['BWYBGK7C@2'])
+def test_book_containing_title_not_limited(webview_base_url, selenium, page_id):
+    # GIVEN the webview base url, page_id, and the Selenium driver
+
+    # WHEN we visit that page of the chapter and we have a list of books containing the page
+    content = ContentPage(selenium, webview_base_url, id=page_id).open()
+
+    books = content.books_containing.book_list
+
+    # THEN the title of the books are not truncated by ellipses
+    for book in books:
+        assert '...' not in book.title
