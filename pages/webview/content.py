@@ -151,7 +151,7 @@ class Content(Page):
     class BooksContaining(Region):
         _root_locator = (By.CSS_SELECTOR, '.booksContaining')
         _overview_locator = (By.CLASS_NAME, "title")
-        _book_locator = (By.CSS_SELECTOR, 'ul > li')
+        _book_locator = (By.CSS_SELECTOR, 'div.booksContaining > ul > li')
 
         @property
         def is_displayed(self):
@@ -168,7 +168,7 @@ class Content(Page):
             return [self.Book(self.page, element) for element in elements]
 
         class Book(Region):
-            _book_title_locator = (By.CSS_SELECTOR, "a > b")
+            _book_title_locator = (By.CSS_SELECTOR, "div")
             _author_locator = (By.CSS_SELECTOR, "li > ul > li:nth-child(1) > div")
             _revision_date_locator = (By.CSS_SELECTOR, "ul > li:nth-child(2) > div > b")
             _go_to_book_locator = (By.CSS_SELECTOR,

@@ -796,6 +796,6 @@ def test_contain_revised_date(webview_base_url, selenium, ch_review_id):
     content = Content(selenium, webview_base_url, id=ch_review_id).open()
     book_content = content.books_containing.wait_for_region_to_display()
     books = book_content.books
-
     # WHEN check all the Books contain revision date
-    assert(books[0].revision_date.is_displayed)
+    for book in books:
+        assert(book.revision_date.is_displayed)
