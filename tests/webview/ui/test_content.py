@@ -10,6 +10,7 @@ from time import sleep
 
 from selenium.webdriver.common.by import By
 
+from pages.webview.content_page import ContentPage
 from tests import markers
 
 from pages.webview.home import Home
@@ -787,12 +788,14 @@ def test_buggy_msg_not_show_in_left_panel(webview_base_url, id, selenium):
 @markers.test_case('C195061')
 @markers.nondestructive
 @markers.parametrize('id', ['BWYBGK7C@2'])
-def test_book_title_not_limited(webview_base_url, id, selenium):
+def test_book_containging_title_not_limited(webview_base_url, id, selenium):
     # GIVEN the webview base url, a chapter page id, and the Selenium driver
 
-    # WHEN we visit that page of the chapter
-    content = Content(selenium, webview_base_url, id=id).open()
-    sleep(0.25)
-    # THEN get the title text to check if it matches what it suppose to be
-    actual_title = content.get_left_nav_book_title.text
-    assert "..." not in actual_title
+    # WHEN we visit that page of the chapter and we have a list of books containing
+    content = ContentPage(selenium, webview_base_url, id=id).open()
+
+    books = content.books_containing.book_list
+
+    # THEN the title of the books are not truncated
+    for book in books:
+        assert "..." not in book.title
