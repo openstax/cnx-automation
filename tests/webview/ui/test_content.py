@@ -797,13 +797,13 @@ def test_book_containing_message_is_correct(webview_base_url, selenium, page_id)
     content = ContentPage(selenium, webview_base_url, id=page_id).open()
 
     book_num = len(content.books_containing.book_list)
-    overview_msg = content.books_containing.overview_msg
+    overview = content.books_containing.overview_msg
 
     # THEN ensure the proper books containing overview message is displayed
     if book_num > 1:
-        assert overview_msg == f'This page is in {book_num} books:'
+        assert overview == f'This page is in {book_num} books:'
     elif book_num > 0:
-        assert overview_msg == f'This page is in this book:'
+        assert overview == f'This page is in this book:'
     else:
-        assert overview_msg == 'This page is not in any books.'
+        assert overview == 'This page is not in any books.'
 

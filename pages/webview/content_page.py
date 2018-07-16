@@ -9,15 +9,11 @@ class ContentPage(Content):
     @property
     def loaded(self):
         return bool(self._url_regex.search(
-            self.driver.current_url)) and self.books_containing.overview_msg_is_displayed
+            self.driver.current_url)) and self.books_containing.overview_is_displayed
 
     @property
     def books_containing(self):
         return self.BooksContaining(self).wait_for_region_to_display()
-
-    @property
-    def books_containing_num(self):
-        return len(self.books_containing.book_list)
 
     class BooksContaining(Region):
         _root_locator = (By.CLASS_NAME, 'booksContaining')
@@ -29,11 +25,11 @@ class ContentPage(Content):
             return [self.Book(self.page, el) for el in self.find_elements(*self._book_list_locator)]
 
         @property
-        def overview_msg_is_displayed(self):
+        def overview_is_displayed(self):
             return self.find_element(*self._overview_locator).is_displayed()
 
         @property
-        def overview_msg(self):
+        def overview(self):
             return self.find_element(*self._overview_locator).text
 
         class Book(Region):
