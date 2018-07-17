@@ -774,12 +774,12 @@ def test_chapter_review_version_matches_book_version(webview_base_url, selenium,
 @markers.parametrize('ch_review_id', ['4fGVMb7P@1'])
 def test_books_containing_go_to_book_link(webview_base_url, selenium, ch_review_id):
     # GIVEN the webview base url, a chapter review id, and the Selenium driver
-    content = Content(selenium, webview_base_url, id=ch_review_id).open()
-    book_content = content.books_containing.wait_for_region_to_display()
-    books = book_content.books
+    content = ContentPage(selenium, webview_base_url, id=ch_review_id).open()
+    books = content.books_containing.book_list
 
     # WHEN we click the link to the first book
-    title = books[0].book_title
+    title = books[0].title
+
     book = books[0].click_go_to_book_link
 
     # THEN the chapter should be the very first module 1.1
@@ -794,9 +794,8 @@ def test_books_containing_go_to_book_link(webview_base_url, selenium, ch_review_
 @markers.parametrize('ch_review_id', ['SjdU64Og@4'])
 def test_contain_revised_date(webview_base_url, selenium, ch_review_id):
     # GIVEN the webview base url, a chapter review id, and the Selenium driver
-    content = Content(selenium, webview_base_url, id=ch_review_id).open()
-    book_content = content.books_containing.wait_for_region_to_display()
-    books = book_content.books
+    content = ContentPage(selenium, webview_base_url, id=ch_review_id).open()
+    books = content.books_containing.book_list
     # WHEN check all the Books contain revision date
     for book in books:
         assert(book.revision_date.is_displayed)
