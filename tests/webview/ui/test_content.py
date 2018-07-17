@@ -800,6 +800,7 @@ def test_contain_revised_date(webview_base_url, selenium, ch_review_id):
     for book in books:
         assert(book.revision_date.is_displayed)
 
+
 @markers.webview
 @markers.test_case('C195061')
 @markers.nondestructive
@@ -815,6 +816,7 @@ def test_book_containing_title_not_limited(webview_base_url, selenium, page_id):
     # THEN the title of the books are not truncated by ellipses
     for book in books:
         assert '...' not in book.title
+
 
 @markers.webview
 @markers.test_case('C195062')
