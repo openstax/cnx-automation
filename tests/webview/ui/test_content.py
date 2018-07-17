@@ -785,7 +785,6 @@ def test_book_containing_title_not_limited(webview_base_url, selenium, page_id):
     for book in books:
         assert '...' not in book.title
 
-
 @markers.webview
 @markers.test_case('C195055')
 @markers.nondestructive
@@ -806,10 +805,10 @@ def test_toc_button_labelled_books(webview_base_url, selenium, page_id):
 @markers.nondestructive
 @markers.parametrize('id', ['4fGVMb7P@1'])
 def test_book_title_link_and_highlight_on_view(webview_base_url, id, selenium):
-    # GIVEN the webview base url, a chapter page id, and the Selenium driver
-
+    # GIVEN the webview base url, a chapter page id, the color and the Selenium driver
+    right_color = "#78b04a"
     # WHEN we visit that page of the chapter
-    content = Content(selenium, webview_base_url, id=id).open()
+    content = ContentPage(selenium, webview_base_url, id=id).open()
 
     # THEN click the title
     content.get_left_nav_book_title.click()
@@ -819,5 +818,5 @@ def test_book_title_link_and_highlight_on_view(webview_base_url, id, selenium):
 
     # AND find the on viewing title and get the color
     chapter_4 = content.header_nav.table_of_contents.chapters[-1]
-    page_6 = chapter_4.pages[-1]
-    print(page_6.text)
+    page_6_color = chapter_4.pages[-1].color()
+    assert page_6_color == right_color
