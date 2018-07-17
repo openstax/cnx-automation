@@ -9,7 +9,7 @@ class ContentPage(Content):
     @property
     def loaded(self):
         return bool(
-            self._url_regex.search(self.driver.current_url)) and self.books_containing.is_displayed
+            self._url_regex.search(self.driver.current_url)) and self.books_containing.book_list
 
     @property
     def books_containing(self):
