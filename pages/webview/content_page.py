@@ -4,6 +4,7 @@ from tests.utils import retry_stale_element_reference_exception
 
 from pages.webview.content import Content
 from regions.webview.base import Region
+from tests.utils import retry_stale_element_reference_exception
 
 
 class ContentPage(Content):
@@ -24,6 +25,7 @@ class ContentPage(Content):
         _root_locator = (By.CLASS_NAME, 'booksContaining')
         _book_list_locator = (By.CSS_SELECTOR, 'div > ul > li')
 
+        @retry_stale_element_reference_exception
         @property
         def book_list(self):
             return [self.Book(self.page, el) for el in self.find_elements(*self._book_list_locator)]
