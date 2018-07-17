@@ -57,4 +57,3 @@ class ContentPage(Content):
                 self.find_element(*self._go_to_book_locator).click()
                 return Content(self.driver, self.page.base_url,
                                self.page.timeout).wait_for_page_to_load()
-
