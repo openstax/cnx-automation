@@ -793,7 +793,9 @@ def test_book_containing_title_not_limited(webview_base_url, selenium, page_id):
 def test_book_containing_message_is_correct(webview_base_url, selenium, page_id):
     # GIVEN the webview base url, page_id, and the Selenium driver
 
-    # WHEN we visit that page of the chapter and we have a books containing count
+    # WHEN we visit the content page
+    # AND  we have a books containing count
+    # AND  we have the overview message
     content = ContentPage(selenium, webview_base_url, id=page_id).open()
 
     book_count = len(content.books_containing.book_list)
