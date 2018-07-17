@@ -770,57 +770,6 @@ def test_chapter_review_version_matches_book_version(webview_base_url, selenium,
 
 
 @markers.webview
-markers.test_case('C195071')
-@markers.nondestructive
-@markers.parametrize('id', ['yWshIYVW@1'])
-def test_buggy_msg_not_show_in_left_panel(webview_base_url, id, selenium):
-    # GIVEN the webview base url, a chapter page id, and the Selenium driver
-
-    # WHEN we visit that page of the chapter
-    content = Content(selenium, webview_base_url, id=id).open()
-
-    # THEN correct book info is listed in the left panel
-    if content.is_left_panel_title_displayed:
-        assert content.is_go_to_book_link_present
-
-
-@markers.webview
-@markers.test_case('C195061')
-@markers.nondestructive
-@markers.parametrize('id', ['BWYBGK7C@2'])
-def test_book_title_not_limited(webview_base_url, id, selenium):
-    # GIVEN the webview base url, a chapter page id, and the Selenium driver
-
-    # WHEN we visit that page of the chapter
-    content = Content(selenium, webview_base_url, id=id).open()
-    sleep(0.25)
-    # THEN get the title text to check if it matches what it suppose to be
-    actual_title = content.get_left_nav_book_title.text
-    assert "..." not in actual_title
-
-
-@markers.webview
-@markers.test_case('C195060')
-@markers.nondestructive
-@markers.parametrize('id', ['4fGVMb7P@1'])
-def test_book_title_link_and_highlight_on_view(webview_base_url, id, selenium):
-    # GIVEN the webview base url, a chapter page id, and the Selenium driver
-
-    # WHEN we visit that page of the chapter
-    content = Content(selenium, webview_base_url, id=id).open()
-
-    # THEN click the title
-    content.get_left_nav_book_title.click()
-
-    # AND get and click the Contents button
-    content.header_nav.click_contents_button()
-
-    # AND find the on viewing title and get the color
-    chapter_4 = content.header_nav.table_of_contents.chapters[-1]
-    page_6 = chapter_4.pages[-1]
-    print(page_6.text)
-
-
 @markers.test_case('C195061')
 @markers.nondestructive
 @markers.parametrize('page_id', ['BWYBGK7C@2'])
@@ -836,3 +785,24 @@ def test_book_containing_title_not_limited(webview_base_url, selenium, page_id):
     for book in books:
         assert '...' not in book.title
 
+
+@markers.webview
+@markers.test_case('C195060')
+@markers.nondestructive
+@markers.parametrize('id', ['4fGVMb7P@1'])
+def test_book_title_link_and_highlight_on_view(webview_base_url, id, selenium):
+    # GIVEN the webview base url, a chapter page id, the color and the Selenium driver
+    right_color = "#78b04a"
+    # WHEN we visit that page of the chapter
+    content = ContentPage(selenium, webview_base_url, id=id).open()
+
+    # THEN click the title
+    content.get_left_nav_book_title.click()
+
+    # AND get and click the Contents button
+    content.header_nav.click_contents_button()
+
+    # AND find the on viewing title and get the color
+    chapter_4 = content.header_nav.table_of_contents.chapters[-1]
+    page_6_color = chapter_4.pages[-1].color()
+    assert page_6_color == right_color
