@@ -806,4 +806,3 @@ def test_book_containing_message_is_correct(webview_base_url, selenium, page_id)
         assert overview == f'This page is in this book:'
     else:
         assert overview == 'This page is not in any books.'
-
