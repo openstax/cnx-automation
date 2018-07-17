@@ -46,7 +46,7 @@ class ContentPage(Content):
 
             @property
             def author(self):
-                return self.find_element(*self._author_locator).text
+                return self.find_element(*self._author_locator)
 
             @property
             def revision_date(self):

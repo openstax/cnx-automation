@@ -800,7 +800,7 @@ def test_contain_revised_date(webview_base_url, selenium, ch_review_id):
     for book in books:
         assert(book.revision_date.is_displayed)
 
-
+@markers.webview
 @markers.test_case('C195061')
 @markers.nondestructive
 @markers.parametrize('page_id', ['BWYBGK7C@2'])
@@ -815,3 +815,19 @@ def test_book_containing_title_not_limited(webview_base_url, selenium, page_id):
     # THEN the title of the books are not truncated by ellipses
     for book in books:
         assert '...' not in book.title
+
+@markers.webview
+@markers.test_case('C195062')
+@markers.nondestructive
+@markers.parametrize('page_id', ['SjdU64Og@4'])
+def test_book_contain_authors(webview_base_url, selenium, page_id):
+    # GIVEN the webview base url, page_id, and the Selenium driver
+
+    # WHEN we visit that page of the chapter and we have a list of books containing page
+    content = ContentPage(selenium, webview_base_url, id=page_id).open()
+
+    books = content.books_containing.book_list
+
+    # THEN the authors of the book should be displayed
+    for book in books:
+        assert(book.author.is_displayed)
