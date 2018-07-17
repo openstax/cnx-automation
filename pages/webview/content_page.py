@@ -30,6 +30,7 @@ class ContentPage(Content):
         def nav_title(self):
             return self.find_element(*self._nav_title_locator)
 
+        @retry_stale_element_reference_exception
         @property
         @retry_stale_element_reference_exception
         def book_list(self):
