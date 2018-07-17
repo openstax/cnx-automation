@@ -2,6 +2,7 @@ from selenium.webdriver.common.by import By
 
 from pages.webview.content import Content
 from regions.webview.base import Region
+from tests.utils import retry_stale_element_reference_exception
 
 
 class ContentPage(Content):
@@ -25,6 +26,7 @@ class ContentPage(Content):
             return [self.Book(self.page, el) for el in self.find_elements(*self._book_list_locator)]
 
         @property
+        @retry_stale_element_reference_exception
         def overview_is_displayed(self):
             return self.find_element(*self._overview_locator).is_displayed()
 
