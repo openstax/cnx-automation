@@ -793,16 +793,16 @@ def test_book_containing_title_not_limited(webview_base_url, selenium, page_id):
 def test_book_containing_message_is_correct(webview_base_url, selenium, page_id):
     # GIVEN the webview base url, page_id, and the Selenium driver
 
-    # WHEN we visit that page of the chapter and we have a list of books containing the page
+    # WHEN we visit that page of the chapter and we have a books containing count
     content = ContentPage(selenium, webview_base_url, id=page_id).open()
 
-    book_num = len(content.books_containing.book_list)
-    overview = content.books_containing.overview_msg
+    book_count = len(content.books_containing.book_list)
+    overview = content.books_containing.overview
 
     # THEN ensure the proper books containing overview message is displayed
-    if book_num > 1:
-        assert overview == f'This page is in {book_num} books:'
-    elif book_num > 0:
+    if book_count > 1:
+        assert overview == f'This page is in {book_count} books:'
+    elif book_count > 0:
         assert overview == f'This page is in this book:'
     else:
         assert overview == 'This page is not in any books.'
