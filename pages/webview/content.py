@@ -34,7 +34,8 @@ class Content(Page):
     _ncy_locator = (By.CLASS_NAME, 'not-converted-yet')
     _book_info_title_locator = (By.CSS_SELECTOR, '.booksContaining > div > span')
     _go_to_book_link_locator = (By.CSS_SELECTOR, 'li:nth-child(3) > div > a')
-    _left_nav_book_title_locator = (By.CSS_SELECTOR, 'div.booksContaining > ul > li:nth-child(1) > div > a > b')
+    _left_nav_book_title_locator = (By.CSS_SELECTOR, 'div.booksContaining > ul > li:nth-child(1) '
+                                                     '> div > a > b')
 
     @property
     def loaded(self):
