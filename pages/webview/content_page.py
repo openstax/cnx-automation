@@ -33,10 +33,18 @@ class ContentPage(Content):
             self.find_element(*self._root_locator)
             return self.find_element(*self._overview_locator).text
 
+        @property
+        def date_list(self):
+            return [(self.Book(self.page, el).revision_date.text).split(":")[1:] for el in self.find_elements(*self._book_list_locator)]
+
+        @property 
+        def author_list(self):
+            return [(self.Book(self.page, el).author.text.split(': ')[1:]) for el in self.find_elements(*self._book_list_locator)]
+
         class Book(Region):
             _title_locator = (By.CSS_SELECTOR, 'div')
             _author_locator = (By.CSS_SELECTOR, "li > ul > li:nth-child(1) > div")
-            _revision_date_locator = (By.CSS_SELECTOR, "ul > li:nth-child(2) > div > b")
+            _revision_date_locator = (By.CSS_SELECTOR, "ul > li:nth-child(2) > div")
             _go_to_book_locator = (By.CSS_SELECTOR,
                                    "ul > li > ul > li:nth-child(3) > div > a")
 

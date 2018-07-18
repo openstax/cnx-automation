@@ -833,3 +833,35 @@ def test_book_contain_authors(webview_base_url, selenium, page_id):
     # THEN the authors of the book should be displayed
     for book in books:
         assert(book.author.is_displayed)
+
+
+@markers.webview
+@markers.test_case('C195065')
+@markers.nondestructive
+@markers.parametrize('page_id', ['HOATLqlR@5'])
+def test_books_listed_sorted(webview_base_url, selenium, page_id):
+    # GIVEN the webview base url, page_id, and the Selenium driver
+
+    # WHEN we visit that page of the chapter and we have a list of books containing page
+    content = Content(selenium, webview_base_url, id=page_id).open()
+
+    # AND store the main author
+    main_author = content.content_header.authors
+
+    # AND Save list of authors and dates
+    content = ContentPage(selenium, webview_base_url, id=page_id).open()
+    dates = content.books_containing.date_list
+    author = content.books_containing.author_list
+
+    # THEN main author should be the author of the first book listed 
+    assert(author[0][0] == main_author)
+
+    # AND check the dates of other books are sorted in decreasing order
+    from datetime import datetime
+
+    date_list = []
+    for date in dates[2:]:
+        s = date[0]
+        d = datetime.strptime(s, '%b %d, %Y')
+        date_list.append(d)
+    assert(sorted(date_list, reverse = True) == date_list)
