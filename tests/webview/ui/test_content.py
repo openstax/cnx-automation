@@ -853,7 +853,7 @@ def test_books_listed_sorted(webview_base_url, selenium, page_id):
     dates = content.books_containing.date_list
     author = content.books_containing.author_list
 
-    # THEN main author should be the author of the first book listed 
+    # THEN main author should be the author of the first book listed
     assert(author[0][0] == main_author)
 
     # AND check the dates of other books are sorted in decreasing order
@@ -861,7 +861,5 @@ def test_books_listed_sorted(webview_base_url, selenium, page_id):
 
     date_list = []
     for date in dates[2:]:
-        s = date[0]
-        d = datetime.strptime(s, '%b %d, %Y')
-        date_list.append(d)
-    assert(sorted(date_list, reverse = True) == date_list)
+        date_list.append(datetime.strptime(date[0], '%b %d, %Y'))
+    assert(date_list == sorted(date_list, reverse = True))
