@@ -26,11 +26,12 @@ class ContentPage(Content):
         def book_list(self):
             return [self.Book(self.page, el) for el in self.find_elements(*self._book_list_locator)]
 
-        @property
         @retry_stale_element_reference_exception
+        @property
         def overview_is_displayed(self):
             return self.find_element(*self._overview_locator).is_displayed()
 
+        @retry_stale_element_reference_exception
         @property
         def overview(self):
             return self.find_element(*self._overview_locator).text
