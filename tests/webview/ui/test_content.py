@@ -862,4 +862,4 @@ def test_books_listed_sorted(webview_base_url, selenium, page_id):
     date_list = []
     for date in dates[2:]:
         date_list.append(datetime.strptime(date[0], '%b %d, %Y'))
-    assert(date_list == sorted(date_list, reverse = True))
+    assert(date_list == sorted(date_list, reverse=True))
