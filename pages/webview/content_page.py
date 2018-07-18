@@ -30,6 +30,7 @@ class ContentPage(Content):
         def book_list(self):
             return [self.Book(self.page, el) for el in self.find_elements(*self._book_list_locator)]
 
+        @retry_stale_element_reference_exception
         @property
         def go_to_book_link(self):
             return [self.Book(self.page, el).go_to_book for el in
