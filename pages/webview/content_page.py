@@ -23,16 +23,17 @@ class ContentPage(Content):
         _book_list_locator = (By.CSS_SELECTOR, 'div > ul > li')
 
         @property
+        @retry_stale_element_reference_exception
         def book_list(self):
             return [self.Book(self.page, el) for el in self.find_elements(*self._book_list_locator)]
 
-        @retry_stale_element_reference_exception
         @property
+        @retry_stale_element_reference_exception
         def overview_is_displayed(self):
             return self.find_element(*self._overview_locator).is_displayed()
 
-        @retry_stale_element_reference_exception
         @property
+        @retry_stale_element_reference_exception
         def overview(self):
             return self.find_element(*self._overview_locator).text
 
@@ -40,5 +41,6 @@ class ContentPage(Content):
             _title_locator = (By.CSS_SELECTOR, 'div')
 
             @property
+            @retry_stale_element_reference_exception
             def title(self):
                 return self.find_element(*self._title_locator).text
