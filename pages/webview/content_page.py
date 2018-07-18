@@ -35,13 +35,13 @@ class ContentPage(Content):
 
         @property
         def date_list(self):
-            return [(self.Book(self.page, el).revision_date.text).split(":")[1:] /
-                     for el in self.find_elements(*self._book_list_locator)]
+            return [self.Book(self.page, el).revision_date.text.split(":")[1:]
+                    for el in self.find_elements(*self._book_list_locator)]
 
-        @property 
+        @property
         def author_list(self):
-            return [(self.Book(self.page, el).author.text.split(': ')[1:]) /
-                     for el in self.find_elements(*self._book_list_locator)]
+            return [(self.Book(self.page, el).author.text.split(': ')[1:])
+                    for el in self.find_elements(*self._book_list_locator)]
 
         class Book(Region):
             _title_locator = (By.CSS_SELECTOR, 'div')
