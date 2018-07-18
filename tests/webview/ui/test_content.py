@@ -809,8 +809,8 @@ def test_buggy_msg_not_show_in_left_panel(webview_base_url, id, selenium):
     # GIVEN the webview base url, a chapter page id, and the Selenium driver
 
     # WHEN we visit that page of the chapter
-    content = Content(selenium, webview_base_url, id=id).open()
+    content = ContentPage(selenium, webview_base_url, id=id).open()
 
     # THEN correct book info is listed in the left panel
-    if content.is_left_panel_title_displayed:
-        assert content.is_go_to_book_link_present
+    if content.books_containing.nav_title:
+        assert content.books_containing.go_to_book_link
