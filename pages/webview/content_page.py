@@ -20,8 +20,8 @@ class ContentPage(Content):
         _root_locator = (By.CLASS_NAME, 'booksContaining')
         _book_list_locator = (By.CSS_SELECTOR, 'div > ul > li')
 
-        @retry_stale_element_reference_exception
         @property
+        @retry_stale_element_reference_exception
         def book_list(self):
             return [self.Book(self.page, el) for el in self.find_elements(*self._book_list_locator)]
 
