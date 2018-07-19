@@ -784,3 +784,17 @@ def test_book_containing_title_not_limited(webview_base_url, selenium, page_id):
     # THEN the title of the books are not truncated by ellipses
     for book in books:
         assert '...' not in book.title
+
+
+@markers.webview
+@markers.test_case('C195054')
+@markers.nondestructive
+@markers.parametrize('page_id', ['4fGVMb7P@1'])
+def test_books_this_page_in_list(webview_base_url, selenium, page_id):
+    # GIVEN the webview base url, page_id, and the Selenium driver
+
+    # WHEN we visit that page of the chapter and we have a list of books containing the page
+    content = ContentPage(selenium, webview_base_url, id=page_id).open()
+
+    # THEN check if the books list exists
+    assert content.books_containing.book_list
