@@ -856,10 +856,15 @@ def test_books_listed_sorted(webview_base_url, selenium, page_id):
     # THEN main author should be the author of the first book listed
     assert(author[0][0] == main_author)
 
+    # AND if there are more books with main author, they should be listed first
+    i = 1
+    while i < len(author) -1 and author[i][0] == main_author:
+        i += 1
+
     # AND check the dates of other books are sorted in decreasing order
     from datetime import datetime
 
     date_list = []
-    for date in dates[2:]:
+    for date in dates[i:]:
         date_list.append(datetime.strptime(date[0], '%b %d, %Y'))
     assert(date_list == sorted(date_list, reverse=True))
