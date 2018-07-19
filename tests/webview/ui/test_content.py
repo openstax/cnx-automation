@@ -16,6 +16,8 @@ from tests import markers
 from pages.webview.home import Home
 from pages.webview.content import Content
 
+import tests.utils as utils
+
 
 @markers.webview
 @markers.test_case('C193738')
@@ -784,3 +786,24 @@ def test_book_containing_title_not_limited(webview_base_url, selenium, page_id):
     # THEN the title of the books are not truncated by ellipses
     for book in books:
         assert '...' not in book.title
+
+
+@markers.webview
+@markers.test_case('C195056')
+@markers.nondestructive
+@markers.parametrize('page_id', ['4fGVMb7P@1'])
+def test_button_open_with_certain_window_size(webview_base_url, selenium, page_id):
+    # GIVEN the webview base url, page_id, and the Selenium driver
+
+    # WHEN we visit that page of the chapter and we have a list of books containing the page
+    content = ContentPage(selenium, webview_base_url, id=page_id).open()
+
+    # THEN if window width >= 640, button should be open
+    window_width = utils.get_window_size(content, 'width')
+    if window_width >= 640:
+        assert "open" in content.header_nav.contents_button.get_attribute("class")
+
+    # AND if window width < 640, button should be closed
+    utils.set_window_size(content, 630, 640)
+    utils.refresh(content)
+    assert "open" not in content.header_nav.contents_button.get_attribute("class")
