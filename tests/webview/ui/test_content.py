@@ -858,7 +858,7 @@ def test_books_listed_sorted(webview_base_url, selenium, page_id):
 
     # AND if there are more books with main author, they should be listed first
     i = 1
-    while i < len(author) -1 and author[i][0] == main_author:
+    while i < len(author) - 1 and author[i][0] == main_author:
         i += 1
 
     # AND check the dates of other books are sorted in decreasing order
