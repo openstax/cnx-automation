@@ -784,3 +784,18 @@ def test_book_containing_title_not_limited(webview_base_url, selenium, page_id):
     # THEN the title of the books are not truncated by ellipses
     for book in books:
         assert '...' not in book.title
+
+
+@markers.webview
+@markers.test_case('C195055')
+@markers.nondestructive
+@markers.parametrize('page_id', ['4fGVMb7P@1'])
+def test_toc_button_labelled_books(webview_base_url, selenium, page_id):
+    # GIVEN the webview base url, page_id, and the Selenium driver
+
+    # WHEN we visit that page of the chapter and we have a list of books containing the page
+    content = ContentPage(selenium, webview_base_url, id=page_id).open()
+
+    # THEN the button name is "Books" instead of "Contents"
+    btn_name = content.header_nav.contents_button.text
+    assert btn_name == "Books"
