@@ -501,7 +501,7 @@ def test_mobile_nav_and_menus_hide_after_scrolling(webview_base_url, selenium, w
     original_content_header_y = content_header.root.location['y']
 
     # WHEN we scroll to the bottom
-    content.content_footer.scroll_to()
+    content.footer.scroll_to()
 
     # THEN - the header nav is offscreen but still considered displayed
     #      - the content nav is offscreen without the site navbar or any social links
