@@ -786,7 +786,6 @@ def test_book_containing_title_not_limited(webview_base_url, selenium, page_id):
         assert '...' not in book.title
 
 
-@markers.webview
 @markers.test_case('C195055')
 @markers.nondestructive
 @markers.parametrize('page_id', ['4fGVMb7P@1'])
