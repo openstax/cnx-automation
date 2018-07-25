@@ -787,6 +787,7 @@ def test_book_containing_title_not_limited(webview_base_url, selenium, page_id):
 
 
 @markers.webview
+<<<<<<< HEAD
 @markers.test_case('C195055')
 @markers.nondestructive
 @markers.parametrize('page_id', ['4fGVMb7P@1'])
@@ -802,6 +803,8 @@ def test_toc_button_labelled_books(webview_base_url, selenium, page_id):
 
 
 @markers.webview
+=======
+>>>>>>> 9425fa0dfd3959236be84de26774cee7892e3a54
 @markers.test_case('C195054')
 @markers.nondestructive
 @markers.parametrize('page_id', ['4fGVMb7P@1'])
