@@ -9,7 +9,7 @@ github3.py==1.1.0
 idna==2.7
 lxml==4.2.3
 more-itertools==4.2.0
-nebuchadnezzar==5.0.1
+nebuchadnezzar==5.0.2
 pluggy==0.6.0
 py==1.5.4
 PyPOM==2.0.0
