@@ -13,7 +13,7 @@ class ContentPage(Content):
         return bool(
             self._url_regex.search(self.driver.current_url)) and self.books_containing.book_list
 
-    # This region is reloaded when the page extras API call returns
+    # This region is reloaded when the pages extras API call returns
     # So we must retry StaleElementReferenceExceptions
     @property
     @retry_stale_element_reference_exception
