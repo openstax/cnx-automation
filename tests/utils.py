@@ -3,7 +3,7 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 import time
 from functools import wraps
-from random import random
+import random
 
 from selenium.common.exceptions import StaleElementReferenceException
 
