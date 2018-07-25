@@ -785,6 +785,7 @@ def test_book_containing_title_not_limited(webview_base_url, selenium, page_id):
     for book in books:
         assert '...' not in book.title
 
+
 @markers.webview
 @markers.test_case('C195055')
 @markers.nondestructive
@@ -807,6 +808,7 @@ def test_toc_button_labelled_books(webview_base_url, selenium, page_id):
 def test_book_title_link_and_highlight_on_view(webview_base_url, id, selenium):
     # GIVEN the webview base url, a chapter page id, the color and the Selenium driver
     right_color = "#78b04a"
+
     # WHEN we visit that page of the chapter
     content = ContentPage(selenium, webview_base_url, id=id).open()
 

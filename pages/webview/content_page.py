@@ -1,7 +1,5 @@
 from selenium.webdriver.common.by import By
 
-from tests.utils import retry_stale_element_reference_exception
-
 from pages.webview.content import Content
 from regions.webview.base import Region
 from tests.utils import retry_stale_element_reference_exception
