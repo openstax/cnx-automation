@@ -46,6 +46,7 @@ class Home(Page):
         _book_name_locator = (By.CSS_SELECTOR, 'h3')
         _book_intro_locator = (By.CSS_SELECTOR, 'p')
         _book_cover_link_locator = (By.CSS_SELECTOR, '.book > a')
+        _book_cover_img_locator = (By.CSS_SELECTOR, '.book > a > img')
         _title_link_locator = (By.CSS_SELECTOR, 'h3 > a')
 
         @property
@@ -55,6 +56,21 @@ class Home(Page):
         @property
         def is_show_less_displayed(self):
             return self.is_element_displayed(*self._show_less_locator)
+
+        @property
+        def book_cover_link(self):
+            return self.find_element(*self._book_cover_link_locator)
+
+        @property
+        def book_cover_img(self):
+            return self.find_element(*self._book_cover_img_locator)
+
+        @property
+        def is_book_cover_clickable(self):
+            if not self.is_element_present(*self._book_cover_img_locator):
+                return False
+            size = self.book_cover_img.size
+            return size['width'] > 0 and size['height'] > 0
 
         @property
         def title(self):
@@ -79,7 +95,8 @@ class Home(Page):
             return self
 
         def click_book_cover(self):
-            self.offscreen_click(self.find_element(*self._book_cover_link_locator))
+            self.wait.until(lambda _: self.is_book_cover_clickable)
+            self.offscreen_click(self.book_cover_link)
             from pages.webview.content import Content
             content = Content(self.driver, self.page.base_url, self.page.timeout)
             return content.wait_for_page_to_load()
