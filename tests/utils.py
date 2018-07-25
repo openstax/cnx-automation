@@ -6,8 +6,6 @@ from functools import wraps
 
 from selenium.common.exceptions import StaleElementReferenceException
 
-from time import sleep
-
 
 def gen_from_file(filepath):
     """Creates a generator from an input file
@@ -73,33 +71,3 @@ def skip_if_destructive_and_sensitive(request, base_url):
 def shorten_tag(tag):
     """Returns the short version of a git tag when given the long (or short) version."""
     return tag.split('-')[0]
-
-
-def get_window_size(self, dimension=None):
-    """Return the current window dimensions."""
-    get_size = self.driver.get_window_size()
-    if not dimension:
-        return get_size
-    if dimension not in get_size:
-        raise IndexError('Unknown dimension: %s' % dimension)
-    return get_size[dimension]
-
-
-def set_window_size(self, width=0, height=0):
-    """Attempt to change the browser window size."""
-    if width >= 1 and height >= 1:
-        self.driver.set_window_size(width, height)
-        sleep(1.0)
-    # return self.get_window_size()
-
-
-def set_window_position(self, x_=0, y_=0):
-    """Move the browser window anchor."""
-    if x_ >= 0 and y_ >= 0:
-        self.driver.set_window_position(x_, y_)
-        sleep(1.0)
-
-
-def refresh(self):
-    """Refresh the current page"""
-    self.driver.refresh()
