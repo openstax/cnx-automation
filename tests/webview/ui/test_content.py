@@ -869,7 +869,7 @@ def test_books_listed_sorted(webview_base_url, selenium, page_id):
         date_list.append(datetime.strptime(date[0], '%b %d, %Y'))
     assert(date_list == sorted(date_list, reverse=True))
 
- 
+
 @markers.test_case('C195055')
 @markers.nondestructive
 @markers.parametrize('page_id', ['4fGVMb7P@1'])
@@ -882,5 +882,3 @@ def test_toc_button_labelled_books(webview_base_url, selenium, page_id):
     # THEN the button name is "Books" instead of "Contents"
     btn_name = content.header_nav.contents_button.text
     assert btn_name == "Books"
-
-    
