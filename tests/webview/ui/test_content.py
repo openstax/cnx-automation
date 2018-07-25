@@ -796,12 +796,12 @@ def test_toc_button_labelled_books(webview_base_url, selenium, page_id):
 
     # WHEN we visit that page of the chapter and we have a list of books containing the page
     content = ContentPage(selenium, webview_base_url, id=page_id).open()
-  
+
     # THEN the button name is "Books" instead of "Contents"
     btn_name = content.header_nav.contents_button.text
     assert btn_name == "Books"
-        
-        
+
+
 @markers.webview
 @markers.test_case('C195056')
 @markers.nondestructive
