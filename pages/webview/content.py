@@ -107,6 +107,16 @@ class Content(Page):
 
     @property
     @retry_stale_element_reference_exception
+    def section_title_div_location(self):
+        return self.section_title_div.location
+
+    @property
+    @retry_stale_element_reference_exception
+    def section_title_div_size(self):
+        return self.section_title_div.size
+
+    @property
+    @retry_stale_element_reference_exception
     def chapter_section_span(self):
         return self.section_title_div.find_element(*self._chapter_section_span_locator)
 
