@@ -29,10 +29,6 @@ class ContentPage(Content):
         _root_locator = (By.CLASS_NAME, 'booksContaining')
         _book_list_locator = (By.CSS_SELECTOR, 'div > ul > li')
 
-        # @property
-        # def content_position(self):
-        #     return self.location
-
         @property
         def book_list(self):
             return [self.Book(self.page, el) for el in self.find_elements(*self._book_list_locator)]
