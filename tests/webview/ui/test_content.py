@@ -812,13 +812,13 @@ def test_book_title_link_and_highlight_on_view(webview_base_url, id, selenium):
     # WHEN we visit that page of the chapter
     content = ContentPage(selenium, webview_base_url, id=id).open()
 
-    # THEN click the title
+    # AND click the title
     content.get_left_nav_book_title.click()
 
     # AND get and click the Contents button
     content.header_nav.click_contents_button()
 
-    # AND find the on viewing title and get the color
+    # THEN find the on viewing title and get the color
     chapter_4 = content.header_nav.table_of_contents.chapters[-1]
     page_6_color = chapter_4.pages[-1].color()
     assert page_6_color == right_color
