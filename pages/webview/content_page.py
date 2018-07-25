@@ -22,7 +22,7 @@ class ContentPage(Content):
 
     class BooksContaining(Region):
         _root_locator = (By.CLASS_NAME, 'booksContaining')
-        _overview_locator = (By.CLASS_NAME, "title")
+        _overview_locator = (By.CLASS_NAME, 'title')
         _book_list_locator = (By.CSS_SELECTOR, 'div > ul > li')
 
         @property
@@ -50,10 +50,10 @@ class ContentPage(Content):
 
         class Book(Region):
             _title_locator = (By.CSS_SELECTOR, 'div')
-            _author_locator = (By.CSS_SELECTOR, "li > ul > li:nth-child(1) > div")
-            _revision_date_locator = (By.CSS_SELECTOR, "ul > li:nth-child(2) > div")
+            _author_locator = (By.CSS_SELECTOR, 'li > ul > li:nth-child(1) > div')
+            _revision_date_locator = (By.CSS_SELECTOR, 'ul > li:nth-child(2) > div')
             _go_to_book_locator = (By.CSS_SELECTOR,
-                                   "ul > li > ul > li:nth-child(3) > div > a")
+                                   'ul > li > ul > li:nth-child(3) > div > a')
 
             @property
             def title(self):
