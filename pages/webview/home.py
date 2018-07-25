@@ -67,6 +67,14 @@ class Home(Page):
 
         @property
         def is_book_cover_clickable(self):
+            """Returns a boolean if the book cover is clickable
+
+            Slow connections causing images to be rendered slowly which causes errors
+            when trying to click the element before it has an actual width and height.
+            This property allows for us to wait until the image has an actual size before
+            attempting a click.
+
+            """
             if not self.is_element_present(*self._book_cover_img_locator):
                 return False
             size = self.book_cover_img.size
