@@ -444,8 +444,8 @@ def test_nav_and_menus_display_after_scrolling(webview_base_url, selenium):
     original_content_header_y = content_header.root.location['y']
 
     # WHEN we scroll to the bottom
-    footer = content.content_footer
-    footer.scroll_to()
+    content.footer.scroll_to()
+    content_footer = content.content_footer
 
     # THEN - the header nav is offscreen but still considered displayed
     #      - the content nav is displayed on top without the site navbar or any social links
@@ -473,11 +473,11 @@ def test_nav_and_menus_display_after_scrolling(webview_base_url, selenium):
     assert not share.is_linkedin_share_link_displayed
 
     # The footer is displayed at the bottom
-    assert footer.is_displayed
-    assert footer.is_downloads_tab_displayed
-    assert footer.is_history_tab_displayed
-    assert footer.is_attribution_tab_displayed
-    assert footer.is_more_information_tab_displayed
+    assert content_footer.is_displayed
+    assert content_footer.is_downloads_tab_displayed
+    assert content_footer.is_history_tab_displayed
+    assert content_footer.is_attribution_tab_displayed
+    assert content_footer.is_more_information_tab_displayed
 
     # Hard to check that the content_header is on top after scrolling, but we can check
     # that it at least has the pinned class and is above the footer
@@ -485,7 +485,7 @@ def test_nav_and_menus_display_after_scrolling(webview_base_url, selenium):
     assert not content_header.is_opened
     assert not content_header.is_closed
     assert content_header.root.location['y'] > original_content_header_y
-    assert content_header.root.location['y'] < footer.root.location['y']
+    assert content_header.root.location['y'] < content_footer.root.location['y']
 
 
 @markers.webview
@@ -501,7 +501,7 @@ def test_mobile_nav_and_menus_hide_after_scrolling(webview_base_url, selenium, w
     original_content_header_y = content_header.root.location['y']
 
     # WHEN we scroll to the bottom
-    content.content_footer.scroll_to()
+    content.footer.scroll_to()
 
     # THEN - the header nav is offscreen but still considered displayed
     #      - the content nav is offscreen without the site navbar or any social links
@@ -786,6 +786,20 @@ def test_book_containing_title_not_limited(webview_base_url, selenium, page_id):
         assert '...' not in book.title
 
 
+@markers.test_case('C195055')
+@markers.nondestructive
+@markers.parametrize('page_id', ['4fGVMb7P@1'])
+def test_toc_button_labelled_books(webview_base_url, selenium, page_id):
+    # GIVEN the webview base url, page_id, and the Selenium driver
+
+    # WHEN we visit that page of the chapter and we have a list of books containing the page
+    content = ContentPage(selenium, webview_base_url, id=page_id).open()
+
+    # THEN the button name is "Books" instead of "Contents"
+    btn_name = content.header_nav.contents_button.text
+    assert btn_name == "Books"
+
+ 
 @markers.webview
 @markers.test_case('C195060')
 @markers.nondestructive

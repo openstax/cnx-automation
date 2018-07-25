@@ -86,7 +86,6 @@ def test_featured_books_load(webview_base_url, selenium):
     assert len(page.featured_books.cnx_list) > 0
 
 
-@markers.xfail(reason='https://trello.com/c/DL7xEWon', raises=AssertionError)
 @markers.webview
 @markers.test_case('C176226')
 @markers.nondestructive
@@ -96,38 +95,54 @@ def test_featured_books_have_title_and_intro(webview_base_url, selenium):
     # WHEN the home page is fully loaded
     home = Home(selenium, webview_base_url).open()
 
-    # THEN all featured books have titles and intros
-    books = home.featured_books.openstax_list + home.featured_books.cnx_list
-
-    for book in books:
+    # THEN all OpenStax books have titles and intros and all CNX books have titles
+    # Book intros must not contain `...`. They may contain `…` but can't contain ONLY `…`.
+    for book in home.featured_books.openstax_list:
         assert book.title
-        assert book.intro
-        assert book.intro != '...'
+        intro = book.intro
+        assert intro
+        assert '...' not in intro
+        assert intro != '…'
+
+    # 2 CNX books have no intros and that is a WON'T FIX
+    # because it would require us to contact the authors
+    num_no_intro_cnx_books = 0
+    for book in home.featured_books.cnx_list:
+        assert book.title
+        intro = book.intro
+        if not intro:
+            num_no_intro_cnx_books += 1
+        assert '...' not in intro
+        assert intro != '…'
+    assert num_no_intro_cnx_books == 2
 
 
-@markers.xfail(reason='https://trello.com/c/mFRaZRqK', raises=AssertionError)
 @markers.webview
 @markers.test_case('C176227')
 @markers.nondestructive
-def test_read_more_loads_correct_page(webview_base_url, selenium):
+def test_show_more_and_less_expands_or_contracts_book_intro(webview_base_url, selenium):
     # GIVEN the webview base url and the Selenium driver
 
     # WHEN the home page is fully loaded,
-    #      find the first OpenStax book and click the Read More link
+    #      find the first OpenStax book and click Show More
     home = Home(selenium, webview_base_url).open()
-    for i in range(_number_of_tested_books):
-        # Can't use `for book in sample(home.featured_books.openstax_list, _number_of_tested_books)`
-        # because it causes StaleElementReferenceExceptions
-        book = random.choice(home.featured_books.openstax_list)
-        book_title = book.title
-        content_page = book.click_read_more()
+    books = home.featured_books.openstax_list
+    books_with_show_more = [book for book in books if book.is_show_more_displayed]
+    assert len(books_with_show_more) >= _number_of_tested_books
+    for book in random.sample(books_with_show_more, _number_of_tested_books):
+        short_intro = book.intro
+        assert book.is_intro_collapsed
+        book = book.click_show_more()
 
-        # THEN The book title from the home page matches the content page title
-        assert book_title == content_page.title
+        # THEN The book description is expanded and can be collapsed again
+        long_intro = book.intro
+        assert '…' not in long_intro
+        assert book.is_show_less_displayed
+        assert long_intro.startswith(short_intro.rstrip('…'))
 
-        if i < _number_of_tested_books - 1:
-            selenium.back()
-            home = home.wait_for_page_to_load()
+        book = book.click_show_less()
+        assert book.intro == short_intro
+        assert book.is_show_more_displayed
 
 
 @markers.xfail(reason='https://trello.com/c/mFRaZRqK', raises=AssertionError)
