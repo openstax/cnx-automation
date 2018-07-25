@@ -16,6 +16,8 @@ from tests import markers
 from pages.webview.home import Home
 from pages.webview.content import Content
 
+import tests.utils as utils
+
 
 @markers.webview
 @markers.test_case('C193738')
@@ -811,5 +813,8 @@ def test_books_this_page_in_list(webview_base_url, selenium, page_id):
     # WHEN we visit that page of the chapter and we have a list of books containing the page
     content = ContentPage(selenium, webview_base_url, id=page_id).open()
 
-    # THEN check if the books list exists
+    # THEN check if the books list exists and on the left
     assert content.books_containing.book_list
+
+    window_width = utils.get_window_size(content, 'width')
+    assert content.location['x'] < window_width/2
