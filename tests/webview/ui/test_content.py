@@ -794,13 +794,14 @@ def test_books_containing_go_to_book_link(webview_base_url, selenium, ch_review_
 @markers.parametrize('ch_review_id', ['SjdU64Og@4'])
 def test_contain_revised_date(webview_base_url, selenium, ch_review_id):
     # GIVEN the webview base url, a chapter review id, and the Selenium driver
-    content = ContentPage(selenium, webview_base_url, id=ch_review_id).open()
 
-    #WHEN we get the list of books used
+    #WHEN the content_page is fully loaded and we have a list of books containing the page
+    content = ContentPage(selenium, webview_base_url, id=ch_review_id).open()
     books = content.books_containing.book_list
+
     # THEN all the Books should contain revision date
     for book in books:
-        assert(book.revision_date.is_displayed)
+        assert book.revision_date.is_displayed
 
 
 @markers.webview

@@ -69,6 +69,6 @@ class ContentPage(Content):
 
             @property
             def click_go_to_book_link(self):
-                self.find_element(*self._go_to_book_locator).click()
+                self.offscreen_click(self.find_element(*self._go_to_book_locator))
                 return Content(self.driver, self.page.base_url,
                                self.page.timeout).wait_for_page_to_load()
