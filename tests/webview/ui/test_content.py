@@ -16,8 +16,6 @@ from tests import markers
 from pages.webview.home import Home
 from pages.webview.content import Content
 
-import tests.utils as utils
-
 
 @markers.webview
 @markers.test_case('C193738')
@@ -813,11 +811,11 @@ def test_button_open_with_certain_window_size(webview_base_url, selenium, page_i
     content = ContentPage(selenium, webview_base_url, id=page_id).open()
 
     # THEN if window width >= 640, button should be open
-    window_width = utils.get_window_size(content, 'width')
+    window_width = content.get_window_size('width')
     if window_width >= 640:
         assert "open" in content.header_nav.contents_button.get_attribute("class")
 
     # AND if window width < 640, button should be closed
-    utils.set_window_size(content, 630, 640)
-    utils.refresh(content)
+    content.set_window_size(630, 640)
+    content.refresh()
     assert "open" not in content.header_nav.contents_button.get_attribute("class")
