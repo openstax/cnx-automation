@@ -804,7 +804,7 @@ def test_toc_button_labelled_books(webview_base_url, selenium, page_id):
 @markers.test_case('C195071')
 @markers.nondestructive
 @markers.parametrize('id', ['yWshIYVW@1'])
-def test_buggy_msg_not_show_in_left_panel(webview_base_url, id, selenium):
+def test_this_page_in_books_message_has_books_list(webview_base_url, id, selenium):
     # GIVEN the webview base url, a chapter page id, and the Selenium driver
 
     # WHEN we visit that page of the chapter
