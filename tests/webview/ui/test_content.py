@@ -860,7 +860,7 @@ def test_books_containing_have_authors(webview_base_url, selenium, page_id):
 
     # THEN the authors of the book should be displayed
     for book in books:
-        assert book.author.is_displayed
+        assert book.author.is_displayed()
 
 
 @markers.webview

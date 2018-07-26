@@ -38,8 +38,6 @@ def retry_stale_element_reference_exception(method_or_max_attempts):
                 except StaleElementReferenceException:
                     if i >= max_attempts - 1:
                         raise
-                    # sleep a bit with an exponential backoff rate
-                    time.sleep((2 ** i) + (random.randint(0, 1000) / 1000))
         return wrapper
 
     if callable(method_or_max_attempts):
