@@ -40,10 +40,42 @@ class ContentPage(Content):
         def overview(self):
             return self.find_element(*self._overview_locator).text
 
+        @property
+        def description(self):
+            return self.find_element(*self._overview_locator).text
+
+        @property
+        def date_list(self):
+            return [self.Book(self.page, el).revision_date.text.split(":")[1:]
+                    for el in self.find_elements(*self._book_list_locator)]
+
+        @property
+        def author_list(self):
+            return [(self.Book(self.page, el).author.text.split(': ')[1:])
+                    for el in self.find_elements(*self._book_list_locator)]
+
         class Book(Region):
             _title_locator = (By.CSS_SELECTOR, 'div')
+            _author_locator = (By.CSS_SELECTOR, 'li > ul > li:nth-child(1) > div')
+            _revision_date_locator = (By.CSS_SELECTOR, 'ul > li:nth-child(2) > div')
+            _go_to_book_locator = (By.CSS_SELECTOR,
+                                   'ul > li > ul > li:nth-child(3) > div > a')
 
             @property
             @retry_stale_element_reference_exception
             def title(self):
                 return self.find_element(*self._title_locator).text
+
+            @property
+            def author(self):
+                return self.find_element(*self._author_locator)
+
+            @property
+            def revision_date(self):
+                return self.find_element(*self._revision_date_locator)
+
+            @property
+            def click_go_to_book_link(self):
+                self.offscreen_click(self.find_element(*self._go_to_book_locator))
+                return Content(self.driver, self.page.base_url,
+                               self.page.timeout).wait_for_page_to_load()
