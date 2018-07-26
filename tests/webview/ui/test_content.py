@@ -7,9 +7,11 @@ import re
 from urllib.parse import urljoin
 from requests import get
 from time import sleep
+from datetime import datetime
 
 from selenium.webdriver.common.by import By
 
+from pages.webview.content_page import ContentPage
 from tests import markers
 
 from pages.webview.home import Home
@@ -443,8 +445,8 @@ def test_nav_and_menus_display_after_scrolling(webview_base_url, selenium):
     original_content_header_y = content_header.root.location['y']
 
     # WHEN we scroll to the bottom
-    footer = content.content_footer
-    footer.scroll_to()
+    content.footer.scroll_to()
+    content_footer = content.content_footer
 
     # THEN - the header nav is offscreen but still considered displayed
     #      - the content nav is displayed on top without the site navbar or any social links
@@ -472,11 +474,11 @@ def test_nav_and_menus_display_after_scrolling(webview_base_url, selenium):
     assert not share.is_linkedin_share_link_displayed
 
     # The footer is displayed at the bottom
-    assert footer.is_displayed
-    assert footer.is_downloads_tab_displayed
-    assert footer.is_history_tab_displayed
-    assert footer.is_attribution_tab_displayed
-    assert footer.is_more_information_tab_displayed
+    assert content_footer.is_displayed
+    assert content_footer.is_downloads_tab_displayed
+    assert content_footer.is_history_tab_displayed
+    assert content_footer.is_attribution_tab_displayed
+    assert content_footer.is_more_information_tab_displayed
 
     # Hard to check that the content_header is on top after scrolling, but we can check
     # that it at least has the pinned class and is above the footer
@@ -484,7 +486,7 @@ def test_nav_and_menus_display_after_scrolling(webview_base_url, selenium):
     assert not content_header.is_opened
     assert not content_header.is_closed
     assert content_header.root.location['y'] > original_content_header_y
-    assert content_header.root.location['y'] < footer.root.location['y']
+    assert content_header.root.location['y'] < content_footer.root.location['y']
 
 
 @markers.webview
@@ -500,7 +502,7 @@ def test_mobile_nav_and_menus_hide_after_scrolling(webview_base_url, selenium, w
     original_content_header_y = content_header.root.location['y']
 
     # WHEN we scroll to the bottom
-    content.content_footer.scroll_to()
+    content.footer.scroll_to()
 
     # THEN - the header nav is offscreen but still considered displayed
     #      - the content nav is offscreen without the site navbar or any social links
@@ -699,8 +701,7 @@ def test_navigation(webview_base_url, selenium):
     content = content.header_nav.click_back_link()
 
     # THEN we arrive back at the initial page
-    assert type(content) == Content
-    assert content.chapter_section == '1'
+
     assert header_nav.progress_bar_fraction_is(2 / num_pages)
 
 
@@ -766,3 +767,160 @@ def test_chapter_review_version_matches_book_version(webview_base_url, selenium,
 
     # THEN the chapter review version matches the book version
     assert content.page_version == content.book_version
+
+
+@markers.webview
+@markers.test_case('C195064')
+@markers.nondestructive
+@markers.parametrize('ch_review_id', ['4fGVMb7P@1'])
+def test_books_containing_go_to_book_link(webview_base_url, selenium, ch_review_id):
+    # GIVEN the webview base url, a chapter review id, and the Selenium driver
+    content = ContentPage(selenium, webview_base_url, id=ch_review_id).open()
+    books = content.books_containing.book_list
+
+    # WHEN we click the link to the first book
+    title = books[0].title
+
+    book = books[0].click_go_to_book_link
+
+    # THEN the chapter should be the very first module 1.1
+    assert type(book) == Content
+    assert book.chapter_section == '1.1'
+    assert book.title == title
+
+
+@markers.webview
+@markers.test_case('C195063')
+@markers.nondestructive
+@markers.parametrize('ch_review_id', ['SjdU64Og@4'])
+def test_books_containing_have_revised_date(webview_base_url, selenium, ch_review_id):
+    # GIVEN the webview base url, a chapter review id, and the Selenium driver
+
+    # WHEN the content_page is fully loaded and we have a list of books containing the page
+    content = ContentPage(selenium, webview_base_url, id=ch_review_id).open()
+    books = content.books_containing.book_list
+
+    # THEN all the Books should contain revision date
+    for book in books:
+        assert book.revision_date.is_displayed
+
+
+@markers.webview
+@markers.test_case('C195061')
+@markers.nondestructive
+@markers.parametrize('page_id', ['BWYBGK7C@2'])
+def test_book_containing_title_not_limited(webview_base_url, selenium, page_id):
+    # GIVEN the webview base url, page_id, and the Selenium driver
+
+    # WHEN we visit that page of the chapter and we have a list of books containing the page
+    content = ContentPage(selenium, webview_base_url, id=page_id).open()
+
+    books = content.books_containing.book_list
+
+    # THEN the title of the books are not truncated by ellipses
+    for book in books:
+        assert '...' not in book.title
+
+
+@markers.webview
+@markers.test_case('C195057', 'C195058', 'C195059', 'C195072')
+@markers.nondestructive
+@markers.parametrize('page_id', ['mjO9LQWq@1', 'bJs8AcSE@1', '4fGVMb7P@1'])
+def test_book_containing_message_is_correct(webview_base_url, selenium, page_id):
+    # GIVEN the webview base url, page_id, and the Selenium driver
+
+    # WHEN we visit the content page
+    # AND  we have a books containing count
+    # AND  we have the overview message
+    content = ContentPage(selenium, webview_base_url, id=page_id).open()
+
+    book_count = len(content.books_containing.book_list)
+    overview = content.books_containing.overview
+
+    # THEN ensure the proper books containing overview message is displayed
+    if book_count > 1:
+        assert overview == f'This page is in {book_count} books:'
+    elif book_count > 0:
+        assert overview == f'This page is in this book:'
+    else:
+        assert overview == 'This page is not in any books.'
+
+
+@markers.webview
+@markers.test_case('C195062')
+@markers.nondestructive
+@markers.parametrize('page_id', ['SjdU64Og@4'])
+def test_books_containing_have_authors(webview_base_url, selenium, page_id):
+    # GIVEN the webview base url, page_id, and the Selenium driver
+
+    # WHEN we visit that page of the chapter and we have a list of books containing page
+    content = ContentPage(selenium, webview_base_url, id=page_id).open()
+
+    books = content.books_containing.book_list
+
+    # THEN the authors of the book should be displayed
+    for book in books:
+        assert book.author.is_displayed()
+
+
+@markers.webview
+@markers.test_case('C195065')
+@markers.nondestructive
+@markers.parametrize('page_id', ['HOATLqlR@5'])
+def test_books_containing_list_in_sorted_order(webview_base_url, selenium, page_id):
+    # GIVEN the webview base url, page_id, and the Selenium driver
+
+    # WHEN we visit that page of the chapter and we have a list of books containing page
+    content = Content(selenium, webview_base_url, id=page_id).open()
+
+    # AND store the main author
+    main_author = content.content_header.authors
+
+    # AND Save list of authors and dates
+    content = ContentPage(selenium, webview_base_url, id=page_id).open()
+    dates = content.books_containing.date_list
+    author = content.books_containing.author_list
+
+    # THEN main author should be the author of the first book listed
+    assert author[0][0] == main_author
+
+    # AND if there are more books with main author, they should be listed first
+    i = 1
+    while i < len(author) - 1 and author[i][0] == main_author:
+        i += 1
+
+    # AND for the rest of the books, the revision dates are sorted in decreasing order
+    date_list = []
+    for date in dates[i:]:
+        date_list.append(datetime.strptime(date[0], '%b %d, %Y'))
+    assert date_list == sorted(date_list, reverse=True)
+
+
+@markers.test_case('C195055')
+@markers.nondestructive
+@markers.parametrize('page_id', ['4fGVMb7P@1'])
+def test_toc_button_labelled_books(webview_base_url, selenium, page_id):
+    # GIVEN the webview base url, page_id, and the Selenium driver
+
+    # WHEN we visit that page of the chapter and we have a list of books containing the page
+    content = ContentPage(selenium, webview_base_url, id=page_id).open()
+
+    # THEN the button name is "Books" instead of "Contents"
+    btn_name = content.header_nav.contents_button.text
+    assert btn_name == "Books"
+
+
+@markers.webview
+@markers.test_case('C195054')
+@markers.nondestructive
+@markers.parametrize('page_id', ['4fGVMb7P@1'])
+def test_books_containing_list_is_on_left_of_page(webview_base_url, selenium, page_id):
+    # GIVEN the webview base url, page_id, and the Selenium driver
+
+    # WHEN we load the page of the chapter and we have the width of the window
+    content = ContentPage(selenium, webview_base_url, id=page_id).open()
+    window_width = content.get_window_size('width')
+
+    # THEN check if the books list exists and on the left
+    assert content.books_containing.book_list
+    assert content.location['x'] < window_width / 2

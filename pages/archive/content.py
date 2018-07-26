@@ -131,6 +131,10 @@ class Content(Page):
         revised_time = head.find('./{http://www.w3.org/1999/xhtml}meta[@name="revised-time"]')
         head.remove(revised_time)
 
+        # Remove data-cnxml-to-html-ver from the body tag
+        body = html.find('{http://www.w3.org/1999/xhtml}body')
+        body.attrib.pop('data-cnxml-to-html-ver')
+
         return ET.tostring(html, encoding='unicode')
 
     @property
