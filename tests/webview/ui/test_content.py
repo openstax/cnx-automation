@@ -810,6 +810,10 @@ def test_this_page_in_books_message_has_books_list(webview_base_url, id, seleniu
     # WHEN we visit that page of the chapter
     content = ContentPage(selenium, webview_base_url, id=id).open()
 
+    # AND get the list of books
+    book_list = content.books_containing.book_list
+
     # THEN correct book info is listed in the left panel
     if content.books_containing.nav_title:
-        assert content.books_containing.go_to_book_link
+        for book in book_list:
+            assert book.go_to_book_link.is_displayed()
