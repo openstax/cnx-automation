@@ -805,7 +805,7 @@ def test_toc_button_labelled_books(webview_base_url, selenium, page_id):
 @markers.test_case('C195054')
 @markers.nondestructive
 @markers.parametrize('page_id', ['4fGVMb7P@1'])
-def test_books_this_page_in_list(webview_base_url, selenium, page_id):
+def test_books_containing_list_is_on_left_of_page(webview_base_url, selenium, page_id):
     # GIVEN the webview base url, page_id, and the Selenium driver
 
     # WHEN we load the page of the chapter and we have the width of the window
