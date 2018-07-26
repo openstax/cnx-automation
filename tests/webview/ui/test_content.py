@@ -7,6 +7,7 @@ import re
 from urllib.parse import urljoin
 from requests import get
 from time import sleep
+from datetime import datetime
 
 from selenium.webdriver.common.by import By
 
@@ -248,9 +249,9 @@ def test_share_on_top_right_corner(webview_base_url, selenium):
 @markers.test_case('C132549', 'C175148')
 @markers.nondestructive
 @markers.parametrize('uuid,query,has_results,result_index,has_os_figures,has_os_tables', [
-    ('d50f6e32-0fda-46ef-a362-9bd36ca7c97d', 'table', True, 1, True, True),
-    ('185cbf87-c72e-48f5-b51e-f14f21b5eabd', 'mitosis genetics gorilla', False, None, None, None),
-    ('185cbf87-c72e-48f5-b51e-f14f21b5eabd', 'mitosis genetics', True, 0, False, False)])
+   ('d50f6e32-0fda-46ef-a362-9bd36ca7c97d', 'table', True, 1, True, True),
+   ('185cbf87-c72e-48f5-b51e-f14f21b5eabd', 'mitosis genetics gorilla', False, None, None, None),
+   ('185cbf87-c72e-48f5-b51e-f14f21b5eabd', 'mitosis genetics', True, 0, False, False)])
 def test_in_book_search(webview_base_url, selenium, uuid, query,
                         has_results, result_index, has_os_figures, has_os_tables):
     # GIVEN a book's content page and a query
@@ -700,8 +701,7 @@ def test_navigation(webview_base_url, selenium):
     content = content.header_nav.click_back_link()
 
     # THEN we arrive back at the initial page
-    assert type(content) == Content
-    assert content.chapter_section == '1'
+
     assert header_nav.progress_bar_fraction_is(2 / num_pages)
 
 
@@ -770,13 +770,49 @@ def test_chapter_review_version_matches_book_version(webview_base_url, selenium,
 
 
 @markers.webview
+@markers.test_case('C195064')
+@markers.nondestructive
+@markers.parametrize('ch_review_id', ['4fGVMb7P@1'])
+def test_books_containing_go_to_book_link(webview_base_url, selenium, ch_review_id):
+    # GIVEN the webview base url, a chapter review id, and the Selenium driver
+    content = ContentPage(selenium, webview_base_url, id=ch_review_id).open()
+    books = content.books_containing.book_list
+
+    # WHEN we click the link to the first book
+    title = books[0].title
+
+    book = books[0].click_go_to_book_link
+
+    # THEN the chapter should be the very first module 1.1
+    assert type(book) == Content
+    assert book.chapter_section == '1.1'
+    assert book.title == title
+
+
+@markers.webview
+@markers.test_case('C195063')
+@markers.nondestructive
+@markers.parametrize('ch_review_id', ['SjdU64Og@4'])
+def test_books_containing_have_revised_date(webview_base_url, selenium, ch_review_id):
+    # GIVEN the webview base url, a chapter review id, and the Selenium driver
+
+    # WHEN the content_page is fully loaded and we have a list of books containing the page
+    content = ContentPage(selenium, webview_base_url, id=ch_review_id).open()
+    books = content.books_containing.book_list
+
+    # THEN all the Books should contain revision date
+    for book in books:
+        assert book.revision_date.is_displayed
+
+
+@markers.webview
 @markers.test_case('C195061')
 @markers.nondestructive
 @markers.parametrize('page_id', ['BWYBGK7C@2'])
 def test_book_containing_title_not_limited(webview_base_url, selenium, page_id):
     # GIVEN the webview base url, page_id, and the Selenium driver
 
-    # WHEN we visit that page of the chapter and we have a list of books containing the page
+    # WHEN we visit that page of the chapter and we have a list of books containing page
     content = ContentPage(selenium, webview_base_url, id=page_id).open()
 
     books = content.books_containing.book_list
@@ -787,6 +823,55 @@ def test_book_containing_title_not_limited(webview_base_url, selenium, page_id):
 
 
 @markers.webview
+@markers.test_case('C195062')
+@markers.nondestructive
+@markers.parametrize('page_id', ['SjdU64Og@4'])
+def test_books_containing_have_authors(webview_base_url, selenium, page_id):
+    # GIVEN the webview base url, page_id, and the Selenium driver
+
+    # WHEN we visit that page of the chapter and we have a list of books containing page
+    content = ContentPage(selenium, webview_base_url, id=page_id).open()
+
+    books = content.books_containing.book_list
+
+    # THEN the authors of the book should be displayed
+    for book in books:
+        assert book.author.is_displayed
+
+
+@markers.webview
+@markers.test_case('C195065')
+@markers.nondestructive
+@markers.parametrize('page_id', ['HOATLqlR@5'])
+def test_books_containing_list_in_sorted_order(webview_base_url, selenium, page_id):
+    # GIVEN the webview base url, page_id, and the Selenium driver
+
+    # WHEN we visit that page of the chapter and we have a list of books containing page
+    content = Content(selenium, webview_base_url, id=page_id).open()
+
+    # AND store the main author
+    main_author = content.content_header.authors
+
+    # AND Save list of authors and dates
+    content = ContentPage(selenium, webview_base_url, id=page_id).open()
+    dates = content.books_containing.date_list
+    author = content.books_containing.author_list
+
+    # THEN main author should be the author of the first book listed
+    assert author[0][0] == main_author
+
+    # AND if there are more books with main author, they should be listed first
+    i = 1
+    while i < len(author) - 1 and author[i][0] == main_author:
+        i += 1
+
+    # AND for the rest of the books, the revision dates are sorted in decreasing order
+    date_list = []
+    for date in dates[i:]:
+        date_list.append(datetime.strptime(date[0], '%b %d, %Y'))
+    assert date_list == sorted(date_list, reverse=True)
+
+
 @markers.test_case('C195055')
 @markers.nondestructive
 @markers.parametrize('page_id', ['4fGVMb7P@1'])
