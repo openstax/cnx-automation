@@ -792,7 +792,7 @@ def test_books_containing_go_to_book_link(webview_base_url, selenium, ch_review_
 @markers.test_case('C195063')
 @markers.nondestructive
 @markers.parametrize('ch_review_id', ['SjdU64Og@4'])
-def test_contain_revised_date(webview_base_url, selenium, ch_review_id):
+def test_books_containing_have_revised_date(webview_base_url, selenium, ch_review_id):
     # GIVEN the webview base url, a chapter review id, and the Selenium driver
 
     # WHEN the content_page is fully loaded and we have a list of books containing the page
@@ -825,7 +825,7 @@ def test_book_containing_title_not_limited(webview_base_url, selenium, page_id):
 @markers.test_case('C195062')
 @markers.nondestructive
 @markers.parametrize('page_id', ['SjdU64Og@4'])
-def test_book_contain_authors(webview_base_url, selenium, page_id):
+def test_book_containg_have_authors(webview_base_url, selenium, page_id):
     # GIVEN the webview base url, page_id, and the Selenium driver
 
     # WHEN we visit that page of the chapter and we have a list of books containing page
@@ -835,14 +835,14 @@ def test_book_contain_authors(webview_base_url, selenium, page_id):
 
     # THEN the authors of the book should be displayed
     for book in books:
-        assert(book.author.is_displayed)
+        assert book.author.is_displayed
 
 
 @markers.webview
 @markers.test_case('C195065')
 @markers.nondestructive
 @markers.parametrize('page_id', ['HOATLqlR@5'])
-def test_books_listed_sorted(webview_base_url, selenium, page_id):
+def test_books_containing_list_in_sorted_order(webview_base_url, selenium, page_id):
     # GIVEN the webview base url, page_id, and the Selenium driver
 
     # WHEN we visit that page of the chapter and we have a list of books containing page
@@ -857,20 +857,20 @@ def test_books_listed_sorted(webview_base_url, selenium, page_id):
     author = content.books_containing.author_list
 
     # THEN main author should be the author of the first book listed
-    assert(author[0][0] == main_author)
+    assert author[0][0] == main_author
 
     # AND if there are more books with main author, they should be listed first
     i = 1
     while i < len(author) - 1 and author[i][0] == main_author:
         i += 1
 
-    # AND check the dates of other books are sorted in decreasing order
+    # AND for the rest of the books, the revision dates are sorted in decreasing order
     from datetime import datetime
 
     date_list = []
     for date in dates[i:]:
         date_list.append(datetime.strptime(date[0], '%b %d, %Y'))
-    assert(date_list == sorted(date_list, reverse=True))
+    assert date_list == sorted(date_list, reverse=True)
 
 
 @markers.test_case('C195055')
