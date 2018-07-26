@@ -7,6 +7,7 @@ import re
 from urllib.parse import urljoin
 from requests import get
 from time import sleep
+from datetime import datetime
 
 from selenium.webdriver.common.by import By
 
@@ -825,7 +826,7 @@ def test_book_containing_title_not_limited(webview_base_url, selenium, page_id):
 @markers.test_case('C195062')
 @markers.nondestructive
 @markers.parametrize('page_id', ['SjdU64Og@4'])
-def test_book_containg_have_authors(webview_base_url, selenium, page_id):
+def test_books_containing_have_authors(webview_base_url, selenium, page_id):
     # GIVEN the webview base url, page_id, and the Selenium driver
 
     # WHEN we visit that page of the chapter and we have a list of books containing page
@@ -865,8 +866,6 @@ def test_books_containing_list_in_sorted_order(webview_base_url, selenium, page_
         i += 1
 
     # AND for the rest of the books, the revision dates are sorted in decreasing order
-    from datetime import datetime
-
     date_list = []
     for date in dates[i:]:
         date_list.append(datetime.strptime(date[0], '%b %d, %Y'))

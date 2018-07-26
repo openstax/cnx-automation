@@ -35,7 +35,6 @@ class ContentPage(Content):
 
         @property
         def description(self):
-            self.find_element(*self._root_locator)
             return self.find_element(*self._overview_locator).text
 
         @property
