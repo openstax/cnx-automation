@@ -884,3 +884,19 @@ def test_toc_button_labelled_books(webview_base_url, selenium, page_id):
     # THEN the button name is "Books" instead of "Contents"
     btn_name = content.header_nav.contents_button.text
     assert btn_name == "Books"
+
+
+@markers.webview
+@markers.test_case('C195054')
+@markers.nondestructive
+@markers.parametrize('page_id', ['4fGVMb7P@1'])
+def test_books_containing_list_is_on_left_of_page(webview_base_url, selenium, page_id):
+    # GIVEN the webview base url, page_id, and the Selenium driver
+
+    # WHEN we load the page of the chapter and we have the width of the window
+    content = ContentPage(selenium, webview_base_url, id=page_id).open()
+    window_width = content.get_window_size('width')
+
+    # THEN check if the books list exists and on the left
+    assert content.books_containing.book_list
+    assert content.location['x'] < window_width / 2

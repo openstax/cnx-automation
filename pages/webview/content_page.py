@@ -20,6 +20,11 @@ class ContentPage(Content):
     def books_containing(self):
         return self.BooksContaining(self).wait_for_region_to_display()
 
+    @property
+    def location(self):
+        content = self.find_element(By.CSS_SELECTOR, ".table-of-contents")
+        return content.location
+
     class BooksContaining(Region):
         _root_locator = (By.CLASS_NAME, 'booksContaining')
         _overview_locator = (By.CLASS_NAME, 'title')
