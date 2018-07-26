@@ -249,9 +249,9 @@ def test_share_on_top_right_corner(webview_base_url, selenium):
 @markers.test_case('C132549', 'C175148')
 @markers.nondestructive
 @markers.parametrize('uuid,query,has_results,result_index,has_os_figures,has_os_tables', [
-   ('d50f6e32-0fda-46ef-a362-9bd36ca7c97d', 'table', True, 1, True, True),
-   ('185cbf87-c72e-48f5-b51e-f14f21b5eabd', 'mitosis genetics gorilla', False, None, None, None),
-   ('185cbf87-c72e-48f5-b51e-f14f21b5eabd', 'mitosis genetics', True, 0, False, False)])
+    ('d50f6e32-0fda-46ef-a362-9bd36ca7c97d', 'table', True, 1, True, True),
+    ('185cbf87-c72e-48f5-b51e-f14f21b5eabd', 'mitosis genetics gorilla', False, None, None, None),
+    ('185cbf87-c72e-48f5-b51e-f14f21b5eabd', 'mitosis genetics', True, 0, False, False)])
 def test_in_book_search(webview_base_url, selenium, uuid, query,
                         has_results, result_index, has_os_figures, has_os_tables):
     # GIVEN a book's content page and a query
@@ -812,7 +812,7 @@ def test_books_containing_have_revised_date(webview_base_url, selenium, ch_revie
 def test_book_containing_title_not_limited(webview_base_url, selenium, page_id):
     # GIVEN the webview base url, page_id, and the Selenium driver
 
-    # WHEN we visit that page of the chapter and we have a list of books containing page
+    # WHEN we visit that page of the chapter and we have a list of books containing the page
     content = ContentPage(selenium, webview_base_url, id=page_id).open()
 
     books = content.books_containing.book_list
@@ -820,6 +820,30 @@ def test_book_containing_title_not_limited(webview_base_url, selenium, page_id):
     # THEN the title of the books are not truncated by ellipses
     for book in books:
         assert '...' not in book.title
+
+
+@markers.webview
+@markers.test_case('C195057', 'C195058', 'C195059', 'C195072')
+@markers.nondestructive
+@markers.parametrize('page_id', ['mjO9LQWq@1', 'bJs8AcSE@1', '4fGVMb7P@1'])
+def test_book_containing_message_is_correct(webview_base_url, selenium, page_id):
+    # GIVEN the webview base url, page_id, and the Selenium driver
+
+    # WHEN we visit the content page
+    # AND  we have a books containing count
+    # AND  we have the overview message
+    content = ContentPage(selenium, webview_base_url, id=page_id).open()
+
+    book_count = len(content.books_containing.book_list)
+    overview = content.books_containing.overview
+
+    # THEN ensure the proper books containing overview message is displayed
+    if book_count > 1:
+        assert overview == f'This page is in {book_count} books:'
+    elif book_count > 0:
+        assert overview == f'This page is in this book:'
+    else:
+        assert overview == 'This page is not in any books.'
 
 
 @markers.webview
@@ -836,7 +860,7 @@ def test_books_containing_have_authors(webview_base_url, selenium, page_id):
 
     # THEN the authors of the book should be displayed
     for book in books:
-        assert book.author.is_displayed
+        assert book.author.is_displayed()
 
 
 @markers.webview

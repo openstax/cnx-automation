@@ -1,9 +1,8 @@
 from selenium.webdriver.common.by import By
 
-from tests.utils import retry_stale_element_reference_exception
-
 from pages.webview.content import Content
 from regions.webview.base import Region
+from tests.utils import retry_stale_element_reference_exception
 
 
 class ContentPage(Content):
@@ -11,9 +10,10 @@ class ContentPage(Content):
     @property
     def loaded(self):
         return bool(
-            self._url_regex.search(self.driver.current_url)) and self.books_containing.book_list
+            self._url_regex.search(
+                self.driver.current_url)) and self.books_containing.overview_is_displayed
 
-    # This region is reloaded when the pages extras API call returns
+    # This region is reloaded when the page extras API call returns
     # So we must retry StaleElementReferenceExceptions
     @property
     @retry_stale_element_reference_exception
@@ -31,12 +31,19 @@ class ContentPage(Content):
         _book_list_locator = (By.CSS_SELECTOR, 'div > ul > li')
 
         @property
-        def is_displayed(self):
-            return self.is_element_displayed(*self._book_list_locator)
-
-        @property
+        @retry_stale_element_reference_exception
         def book_list(self):
             return [self.Book(self.page, el) for el in self.find_elements(*self._book_list_locator)]
+
+        @property
+        @retry_stale_element_reference_exception
+        def overview_is_displayed(self):
+            return self.find_element(*self._overview_locator).is_displayed()
+
+        @property
+        @retry_stale_element_reference_exception
+        def overview(self):
+            return self.find_element(*self._overview_locator).text
 
         @property
         def description(self):
@@ -60,6 +67,7 @@ class ContentPage(Content):
                                    'ul > li > ul > li:nth-child(3) > div > a')
 
             @property
+            @retry_stale_element_reference_exception
             def title(self):
                 return self.find_element(*self._title_locator).text
 
