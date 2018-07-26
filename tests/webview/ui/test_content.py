@@ -787,7 +787,7 @@ def test_book_containing_title_not_limited(webview_base_url, selenium, page_id):
 
 
 @markers.webview
-@markers.test_case('C195058')
+@markers.test_case('C195057', 'C195058', 'C195059')
 @markers.nondestructive
 @markers.parametrize('page_id', ['mjO9LQWq@1', 'bJs8AcSE@1', '4fGVMb7P@1'])
 def test_book_containing_message_is_correct(webview_base_url, selenium, page_id):
