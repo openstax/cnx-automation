@@ -82,7 +82,7 @@ class Page(pypom.Page):
         if not dimension:
             return get_size
         if dimension not in get_size:
-            raise IndexError('Unknown dimension: %s' % dimension)
+            raise IndexError('Unknown dimension: {}'.format(dimension))
         return get_size[dimension]
 
     def set_window_size(self, width=0, height=0):
@@ -91,10 +91,10 @@ class Page(pypom.Page):
             self.driver.set_window_size(width, height)
             sleep(1.0)
 
-    def set_window_position(self, x_=0, y_=0):
+    def set_window_position(self, x=0, y=0):
         """Move the browser window anchor."""
-        if x_ >= 0 and y_ >= 0:
-            self.driver.set_window_position(x_, y_)
+        if x >= 0 and y >= 0:
+            self.driver.set_window_position(x, y)
             sleep(1.0)
 
     def refresh(self):
