@@ -29,6 +29,11 @@ class ContentPage(Content):
         _root_locator = (By.CLASS_NAME, 'booksContaining')
         _overview_locator = (By.CLASS_NAME, 'title')
         _book_list_locator = (By.CSS_SELECTOR, 'div > ul > li')
+        _overview_locator = (By.CSS_SELECTOR, 'span.title')
+
+        @property
+        def nav_title(self):
+            return self.find_element(*self._overview_locator)
 
         @property
         @retry_stale_element_reference_exception
@@ -61,6 +66,7 @@ class ContentPage(Content):
 
         class Book(Region):
             _title_locator = (By.CSS_SELECTOR, 'div')
+            _go_to_book_link_locator = (By.CSS_SELECTOR, 'ul > li > div')
             _author_locator = (By.CSS_SELECTOR, 'li > ul > li:nth-child(1) > div')
             _revision_date_locator = (By.CSS_SELECTOR, 'ul > li:nth-child(2) > div')
             _go_to_book_locator = (By.CSS_SELECTOR,
@@ -72,6 +78,9 @@ class ContentPage(Content):
                 return self.find_element(*self._title_locator).text
 
             @property
+            def go_to_book_link(self):
+                return self.find_element(*self._go_to_book_link_locator)
+
             def author(self):
                 return self.find_element(*self._author_locator)
 

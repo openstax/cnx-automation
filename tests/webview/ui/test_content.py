@@ -896,6 +896,7 @@ def test_books_containing_list_in_sorted_order(webview_base_url, selenium, page_
     assert date_list == sorted(date_list, reverse=True)
 
 
+@markers.webview
 @markers.test_case('C195055')
 @markers.nondestructive
 @markers.parametrize('page_id', ['4fGVMb7P@1'])
@@ -924,3 +925,22 @@ def test_books_containing_list_is_on_left_of_page(webview_base_url, selenium, pa
     # THEN check if the books list exists and on the left
     assert content.books_containing.book_list
     assert content.location['x'] < window_width / 2
+
+
+@markers.webview
+@markers.test_case('C195071')
+@markers.nondestructive
+@markers.parametrize('id', ['yWshIYVW@1'])
+def test_this_page_in_books_message_has_books_list(webview_base_url, id, selenium):
+    # GIVEN the webview base url, a chapter page id, and the Selenium driver
+
+    # WHEN we visit that page of the chapter
+    content = ContentPage(selenium, webview_base_url, id=id).open()
+
+    # AND get the list of books
+    book_list = content.books_containing.book_list
+
+    # THEN correct book info is listed in the left panel
+    if content.books_containing.nav_title:
+        for book in book_list:
+            assert book.go_to_book_link.is_displayed()
