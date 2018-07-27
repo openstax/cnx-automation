@@ -71,6 +71,10 @@ class ContentPage(Content):
             def title(self):
                 return self.find_element(*self._title_locator).text
 
+            @retry_stale_element_reference_exception
+            def click_title(self):
+                return self.find_element(*self._title_locator).click()
+
             @property
             def author(self):
                 return self.find_element(*self._author_locator)

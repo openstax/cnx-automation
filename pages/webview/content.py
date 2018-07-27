@@ -388,6 +388,8 @@ class Content(Page):
                                  '#content div.sidebar div.table-of-contents div.toc')
                 _chapter_div_locator = (By.CSS_SELECTOR, 'ul li div[data-expandable="true"]')
                 _page_link_locator = (By.CSS_SELECTOR, 'ul li a')
+                _highlight_page_locator = (By.CSS_SELECTOR, '.table-of-contents>.toc ul '
+                                                            'li>div>.name-wrapper .active')
 
                 @property
                 def number_of_chapters(self):
@@ -401,6 +403,13 @@ class Content(Page):
                 def chapters(self):
                     return [self.ContentChapter(self.page, self.root, index) for index
                             in range(len(self.find_elements(*self._chapter_div_locator)))]
+
+                @property
+                def highlight_page_color(self):
+                    rgba = self.find_element(*self._highlight_page_locator). \
+                        value_of_css_property('color')
+                    hex = Color.from_string(rgba).hex
+                    return hex
 
                 class ContentChapter(ContentItem):
                     _root_locator_template = ("(.//ul//li[descendant::div"
