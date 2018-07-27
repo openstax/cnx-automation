@@ -8,6 +8,8 @@ from selenium.webdriver.common.keys import Keys
 
 from regions.webview.base import Region
 
+from time import sleep
+
 
 class Page(pypom.Page):
     _canonical_link_locator = (By.CSS_SELECTOR, 'head link[rel="canonical"]')
@@ -73,6 +75,31 @@ class Page(pypom.Page):
         # https://stackoverflow.com/a/39918249
         element.send_keys(Keys.ENTER)
         return element
+
+    def get_window_size(self, dimension=None):
+        """Return the current window dimensions."""
+        get_size = self.driver.get_window_size()
+        if not dimension:
+            return get_size
+        if dimension not in get_size:
+            raise IndexError('Unknown dimension: {}'.format(dimension))
+        return get_size[dimension]
+
+    def set_window_size(self, width=0, height=0):
+        """Attempt to change the browser window size."""
+        if width >= 1 and height >= 1:
+            self.driver.set_window_size(width, height)
+            sleep(1.0)
+
+    def set_window_position(self, x=0, y=0):
+        """Move the browser window anchor."""
+        if x >= 0 and y >= 0:
+            self.driver.set_window_position(x, y)
+            sleep(1.0)
+
+    def refresh(self):
+        """Refresh the current page"""
+        self.driver.refresh()
 
     class Header(Region):
         _root_locator = (By.CSS_SELECTOR, 'header#header div.page-header')
