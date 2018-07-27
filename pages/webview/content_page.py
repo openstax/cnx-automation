@@ -69,6 +69,8 @@ class ContentPage(Content):
             _go_to_book_link_locator = (By.CSS_SELECTOR, 'ul > li > div')
             _author_locator = (By.CSS_SELECTOR, 'li > ul > li:nth-child(1) > div')
             _revision_date_locator = (By.CSS_SELECTOR, 'ul > li:nth-child(2) > div')
+            _go_to_book_locator = (By.CSS_SELECTOR,
+                                   'ul > li > ul > li:nth-child(3) > div > a')
 
             @property
             @retry_stale_element_reference_exception
