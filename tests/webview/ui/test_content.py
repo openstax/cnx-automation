@@ -924,8 +924,8 @@ def test_books_containing_list_is_on_left_of_page(webview_base_url, selenium, pa
 
     # THEN check if the books list exists and on the left
     assert content.books_containing.book_list
-    assert content.location['x'] < window_width / 2    
-    
+    assert content.location['x'] < window_width / 2
+
 
 @markers.webview
 @markers.test_case('C195056')
