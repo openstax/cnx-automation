@@ -931,18 +931,16 @@ def test_books_containing_list_is_on_left_of_page(webview_base_url, selenium, pa
 @markers.test_case('C195056')
 @markers.nondestructive
 @markers.parametrize('page_id', ['4fGVMb7P@1'])
-def test_button_open_with_certain_window_size(webview_base_url, selenium, page_id):
+@markers.parametrize('width,height', [(1024, 768), (630, 480)])
+def test_button_open_with_certain_window_size(webview_base_url, selenium, page_id, width, height):
     # GIVEN the webview base url, page_id, and the Selenium driver
 
     # WHEN we visit that page of the chapter and we have a list of books containing the page
     content = ContentPage(selenium, webview_base_url, id=page_id).open()
 
     # THEN if window width >= 640, button should be open
-    window_width = content.get_window_size('width')
-    if window_width >= 640:
-        assert "open" in content.header_nav.contents_button.get_attribute("class")
-
+    if width >= 640:
+        assert content.books_containing.overview_is_displayed
     # AND if window width < 640, button should be closed
-    content.set_window_size(630, 640)
-    content.refresh()
-    assert "open" not in content.header_nav.contents_button.get_attribute("class")
+    else:
+        assert not content.books_containing.overview_is_displayed

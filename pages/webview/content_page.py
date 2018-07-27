@@ -11,14 +11,14 @@ class ContentPage(Content):
     def loaded(self):
         return bool(
             self._url_regex.search(
-                self.driver.current_url)) and self.books_containing.overview_is_displayed
+                self.driver.current_url)) and self.books_containing.overview_is_present
 
     # This region is reloaded when the page extras API call returns
     # So we must retry StaleElementReferenceExceptions
     @property
     @retry_stale_element_reference_exception
     def books_containing(self):
-        return self.BooksContaining(self).wait_for_region_to_display()
+        return self.BooksContaining(self)
 
     @property
     def location(self):
@@ -39,6 +39,11 @@ class ContentPage(Content):
         @retry_stale_element_reference_exception
         def overview_is_displayed(self):
             return self.find_element(*self._overview_locator).is_displayed()
+
+        @property
+        @retry_stale_element_reference_exception
+        def overview_is_present(self):
+            return self.is_element_present(*self._overview_locator)
 
         @property
         @retry_stale_element_reference_exception
