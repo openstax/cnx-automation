@@ -926,7 +926,7 @@ def test_books_containing_list_is_on_left_of_page(webview_base_url, selenium, pa
     assert content.books_containing.book_list
     assert content.location['x'] < window_width / 2
 
-    
+
 @markers.webview
 @markers.test_case('C195071')
 @markers.nondestructive
