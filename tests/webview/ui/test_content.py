@@ -896,6 +896,7 @@ def test_books_containing_list_in_sorted_order(webview_base_url, selenium, page_
     assert date_list == sorted(date_list, reverse=True)
 
 
+@markers.webview
 @markers.test_case('C195055')
 @markers.nondestructive
 @markers.parametrize('page_id', ['4fGVMb7P@1'])
@@ -923,6 +924,25 @@ def test_books_containing_list_is_on_left_of_page(webview_base_url, selenium, pa
     # THEN check if the books list exists and on the left
     assert content.books_containing.book_list
     assert content.location['x'] < window_width / 2
+
+
+@markers.webview
+@markers.test_case('C195056')
+@markers.nondestructive
+@markers.parametrize('page_id', ['4fGVMb7P@1'])
+@markers.parametrize('width,height', [(1024, 768), (630, 480)])
+def test_button_open_with_certain_window_size(webview_base_url, selenium, page_id, width, height):
+    # GIVEN the webview base url, page_id, and the Selenium driver
+
+    # WHEN we visit that page of the chapter and we have a list of books containing the page
+    content = ContentPage(selenium, webview_base_url, id=page_id).open()
+
+    # THEN if window width >= 640, button should be open
+    if width >= 640:
+        assert content.books_containing.overview_is_displayed
+    # AND if window width < 640, button should be closed
+    else:
+        assert not content.books_containing.overview_is_displayed
 
 
 @markers.webview
