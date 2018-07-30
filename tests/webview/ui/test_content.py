@@ -910,7 +910,6 @@ def test_toc_button_labelled_books(webview_base_url, selenium, page_id):
     assert btn_name == "Books"
 
 
-@markers.webview
 @markers.test_case('C195054')
 @markers.nondestructive
 @markers.parametrize('page_id', ['4fGVMb7P@1'])
@@ -924,3 +923,29 @@ def test_books_containing_list_is_on_left_of_page(webview_base_url, selenium, pa
     # THEN check if the books list exists and on the left
     assert content.books_containing.book_list
     assert content.location['x'] < window_width / 2
+
+
+@markers.webview
+@markers.test_case('C195060')
+@markers.nondestructive
+@markers.parametrize('id', ['4fGVMb7P@1'])
+@markers.parametrize('highlight_color', ['#78b04a'])
+def test_book_title_link_and_highlight_on_view(webview_base_url, id, selenium, highlight_color):
+    # GIVEN the webview base url, a chapter page id, the color and the Selenium driver
+
+    # WHEN we visit that page of the chapter
+    content = ContentPage(selenium, webview_base_url, id=id).open()
+    content_page_title = content.title
+
+    # AND click the title
+    content.books_containing.book_list[0].click_title_link()
+
+    # AND get and click the Contents button
+    content.header_nav.click_contents_button()
+
+    # AND find the on viewing title and get the color
+    active_color = content.header_nav.table_of_contents.active_page_color
+
+    # THEN make sure the section matches the original page title and the highlight color is correct
+    assert content_page_title == content.section_title
+    assert active_color == highlight_color
