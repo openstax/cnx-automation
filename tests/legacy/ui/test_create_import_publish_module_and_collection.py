@@ -195,3 +195,23 @@ class TestCreateImportPublishModuleAndCollection(object):
         # THEN save and msg shows 'Saved'
         module_edit.save()
         assert module_edit.portal_msg == 'Saved.'
+
+    @markers.legacy
+    @markers.test_case('C175153')
+    @markers.slow
+    def test_empty_collection_publish_not_allowed(self, legacy_base_url, legacy_username,
+                                                  legacy_password, selenium):
+        # GIVEN a logged in user on their dashboard
+        login_page = LoginForm(selenium, legacy_base_url).open()
+        my_cnx = login_page.login(legacy_username, legacy_password)
+
+        # WHEN the user clicks to create a new collection,
+        # agrees to the license and fills in the Title
+        cc_license = my_cnx.create_collection()
+        metadata_edit = cc_license.agree().submit()
+        collection_edit = metadata_edit.fill_in_title('CNX Automation Test Collection').submit()
+
+        # THEN click publish and publish is blocked (block msg, no submit button)
+        content_published = collection_edit.publish()
+        assert content_published.block_msg()
+        assert not content_published.submit_button()
