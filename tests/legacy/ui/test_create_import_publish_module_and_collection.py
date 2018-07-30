@@ -213,5 +213,4 @@ class TestCreateImportPublishModuleAndCollection(object):
 
         # THEN click publish and publish is blocked (block msg, no submit button)
         content_published = collection_edit.publish()
-        assert content_published.block_msg()
-        assert not content_published.submit_button()
+        assert content_published.block_msg
