@@ -8,7 +8,7 @@ cnxml==2.1.0
 github3.py==1.1.0
 idna==2.7
 lxml==4.2.3
-more-itertools==4.2.0
+more-itertools==4.3.0
 nebuchadnezzar==5.0.2
 pluggy==0.7.1
 py==1.5.4
