@@ -48,7 +48,7 @@ def retry_stale_element_reference_exception(method_or_max_attempts):
 
 
 def similar(a, b):
-    """Gives a similarity ratio between two strings"""
+    """Returns a similarity ratio between two strings"""
     return SequenceMatcher(None, a, b).ratio()
 
 
