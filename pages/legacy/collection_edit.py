@@ -17,6 +17,8 @@ class CollectionEdit(PrivatePage):
     _root_collection_locator = (By.CSS_SELECTOR, 'ul.x-tree-root-ct li.x-tree-node')
     _publish_link_locator = (By.CSS_SELECTOR, 'a[href$="collection_publish"]')
     _modal_locator = (By.CSS_SELECTOR, 'div.x-window')
+    _metadata_tab_locator = (By.ID, 'contentview-edit')
+    _portal_msg_locator = (By.CLASS_NAME, 'portalMessage')
 
     @property
     def username(self):
@@ -33,6 +35,10 @@ class CollectionEdit(PrivatePage):
     @property
     def title(self):
         return self._title_regex.match(self.title_header.text).group(1)
+
+    @property
+    def portal_msg(self):
+        return self.find_element(*self._portal_msg_locator).text
 
     @property
     def publish_link(self):
@@ -53,3 +59,9 @@ class CollectionEdit(PrivatePage):
         from pages.legacy.content_publish import ContentPublish
         content_publish = ContentPublish(self.driver, self.base_url, self.timeout)
         return content_publish.wait_for_page_to_load()
+
+    def metadata(self):
+        self.find_element(*self._metadata_tab_locator).click()
+        from pages.legacy.metadata_edit import MetadataEdit
+        metadata_edit = MetadataEdit(self.driver, self.base_url, self.timeout)
+        return metadata_edit.wait_for_page_to_load()

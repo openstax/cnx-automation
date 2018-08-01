@@ -170,3 +170,51 @@ class TestCreateImportPublishModuleAndCollection(object):
                                         legacy_id=content_published.id).open()
         assert archive_content.title == 'CNX Automation Test Collection'
         snapshot.assert_dict_match(archive_content.stable_dict, 'legacy/col_with_m46922_1.13.json')
+
+    @markers.legacy
+    @markers.test_case('C195052')
+    @markers.slow
+    @markers.parametrize('code', ['UA-8675309-1', 'UA-101537094-1 UA-8675309-1'])
+    def test_google_analytics_validator_xpass(self, legacy_base_url,
+                                              legacy_username, legacy_password, code, selenium):
+        # GIVEN a logged in user on their dashboard with a collection created in the previous test
+        login_page = LoginForm(selenium, legacy_base_url).open()
+        my_cnx = login_page.login(legacy_username, legacy_password)
+
+        collections = my_cnx.workspace_collection()
+        if collections.has_content is None:
+            pytest.skip('This test requires a CNX collection and '
+                        'a CNX module from previous tests that failed')
+
+        # WHEN choose a collection and click on Metadata tab
+        workspace_collection_edit = collections.collection_list[0].click_collection_link
+        metadata_edit = workspace_collection_edit.metadata()
+
+        # THEN send different tracking code and save
+        metadata_edit.visitor_tracking(code)
+        page = metadata_edit.submit()
+        assert page.portal_msg == 'Changes saved.'
+
+    @markers.legacy
+    @markers.test_case('C195052')
+    @markers.slow
+    @markers.parametrize('code', ['TEST1', 'UA-8675309-1 TEST1'])
+    def test_google_analytics_validator_xfail(self, legacy_base_url,
+                                              legacy_username, legacy_password, code, selenium):
+        # GIVEN a logged in user on their dashboard with a collection created in the previous test
+        login_page = LoginForm(selenium, legacy_base_url).open()
+        my_cnx = login_page.login(legacy_username, legacy_password)
+
+        collections = my_cnx.workspace_collection()
+        if collections.has_content is None:
+            pytest.skip('This test requires a CNX collection and '
+                        'a CNX module from previous tests that failed')
+
+        # WHEN choose a collection and click on Metadata tab
+        workspace_collection_edit = collections.collection_list[0].click_collection_link
+        metadata_edit = workspace_collection_edit.metadata()
+
+        # THEN send different tracking code and save
+        metadata_edit.visitor_tracking(code)
+        page = metadata_edit.submit()
+        assert page.portal_msg == 'Please correct the indicated errors.'

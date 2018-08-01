@@ -12,7 +12,10 @@ class MetadataEdit(PrivatePage):
     _metadata_form_locator = (By.CSS_SELECTOR, 'form[action="content_title"]')
     _title_field_locator = (By.CSS_SELECTOR, 'input[type="text"][name="title"]')
     _collection_subtype_select_locator = (By.ID, 'collectionType')
-    _submit_button_locator = (By.CSS_SELECTOR, 'input[type="submit"][name="form.button.next"]')
+    _submit_button_locator = (By.CSS_SELECTOR, 'input[type="submit"][name="form.button.next"], '
+                                               'input[type="submit"][name="form_submit"]')
+    _visitor_tracking_field_locator = (By.CSS_SELECTOR, 'input[type="text"]'
+                                                        '[name="GoogleAnalyticsTrackingCode"]')
 
     @property
     def metadata_form(self):
@@ -23,8 +26,12 @@ class MetadataEdit(PrivatePage):
         return self.metadata_form.find_element(*self._title_field_locator)
 
     @property
+    def visitor_tracking_field(self):
+        return self.find_element(*self._visitor_tracking_field_locator)
+
+    @property
     def submit_button(self):
-        return self.metadata_form.find_element(*self._submit_button_locator)
+        return self.find_element(*self._submit_button_locator)
 
     @property
     def is_collection(self):
@@ -72,3 +79,8 @@ class MetadataEdit(PrivatePage):
         from pytest import fail
         fail('Maximum number of attempts exceeded for metadata form submission'
              ' ({attempts})'.format(attempts=max_attempts))
+
+    def visitor_tracking(self, code):
+        self.visitor_tracking_field.clear()
+        self.visitor_tracking_field.send_keys(code)
+        return self
