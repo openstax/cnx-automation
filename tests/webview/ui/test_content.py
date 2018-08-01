@@ -9,8 +9,6 @@ from requests import get
 from time import sleep
 from datetime import datetime
 
-from selenium.webdriver.common.by import By
-
 from pages.webview.content_page import ContentPage
 from tests import markers
 
