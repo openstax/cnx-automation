@@ -214,7 +214,7 @@ class TestCreateImportPublishModuleAndCollection(object):
         workspace_collection_edit = collections.collection_list[0].click_collection_link
         metadata_edit = workspace_collection_edit.metadata()
 
-        # THEN send different tracking code and save
+        # THEN send different tracking code and save, check if save is successful
         metadata_edit.visitor_tracking(code)
         page = metadata_edit.submit()
         assert page.portal_msg == 'Please correct the indicated errors.'
