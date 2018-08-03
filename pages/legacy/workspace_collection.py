@@ -41,7 +41,7 @@ class WorkspaceCollection(PrivatePage):
                 self.find_elements(*self._collection_locator)]
 
     class WorkspaceCollectionEdit(Region):
-        _link_locator = (By.CLASS_NAME, 'contenttype-collection')
+        _link_locator = (By.CSS_SELECTOR, '.visualIcon > a')
 
         @property
         def click_collection_link(self):
