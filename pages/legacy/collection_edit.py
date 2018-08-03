@@ -17,6 +17,7 @@ class CollectionEdit(PrivatePage):
     _root_collection_locator = (By.CSS_SELECTOR, 'ul.x-tree-root-ct li.x-tree-node')
     _publish_link_locator = (By.CSS_SELECTOR, 'a[href$="collection_publish"]')
     _modal_locator = (By.CSS_SELECTOR, 'div.x-window')
+    _roles_tab_locator = (By.ID, 'contentview-roles')
 
     @property
     def username(self):
@@ -53,3 +54,9 @@ class CollectionEdit(PrivatePage):
         from pages.legacy.content_publish import ContentPublish
         content_publish = ContentPublish(self.driver, self.base_url, self.timeout)
         return content_publish.wait_for_page_to_load()
+
+    def roles(self):
+        self.find_element(*self._roles_tab_locator).click()
+        from pages.legacy.roles_edit import RolesEdit
+        roles_edit = RolesEdit(self.driver, self.base_url, self.timeout)
+        return roles_edit.wait_for_page_to_load()

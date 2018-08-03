@@ -218,3 +218,40 @@ class TestCreateImportPublishModuleAndCollection(object):
                                                    'This collection has no content. ' \
                                                    'You will not be able to ' \
                                                    'publish until you add some.'
+    @markers.legacy
+    @markers.test_case('C195230')
+    @markers.slow
+    @markers.parametrize('collection_id', ['col10699'])
+    def test_reorder_author(self, legacy_base_url, legacy_username,
+                            legacy_password, collection_id, selenium):
+        # GIVEN a logged in user on their dashboard with a collection created in the previous test
+        login_page = LoginForm(selenium, legacy_base_url).open()
+        my_cnx = login_page.login(legacy_username, legacy_password)
+        collections = my_cnx.workspace_collection()
+
+        if collections.has_content is None:
+            pytest.skip('This test requires a CNX collection and '
+                        'a CNX module from previous tests that failed')
+
+        # WHEN choose the collection for test and click on Roles tab
+        cols = collections.collection_list
+
+        test_col = -1
+        for col_idx in range(len(cols)-1):
+            if cols[col_idx].collection_id == collection_id:
+                test_col = col_idx
+
+        if test_col == -1:
+            pytest.skip('This test requires a specific CNX collection '
+                        'and test failed to find')
+
+        workspace_collection_edit = cols[test_col].click_collection_link
+        roles_edit = workspace_collection_edit.roles()
+
+        # THEN choose the first author and move it down, the first author changes
+        author = roles_edit.author_list[0]
+        old_author = author.name
+
+        author.order_control.move_item_down()
+
+        assert roles_edit.author_list[0].name != old_author
