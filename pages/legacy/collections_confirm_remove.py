@@ -2,23 +2,10 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-from pages.legacy.base import PrivatePage
-
-from selenium.webdriver.common.by import By
+from pages.legacy.confirm_remove import ConfirmRemove
 
 
-class CollectionsConfirmRemove(PrivatePage):
-
-    _form_locator = (By.CSS_SELECTOR, 'form[action="folder_delete_confirm"]')
-    _remove_button_locator = (By.CSS_SELECTOR, 'input[type="submit"][name="form.button.delete"]')
-
-    @property
-    def form(self):
-        return self.find_element(*self._form_locator)
-
-    @property
-    def remove_button(self):
-        return self.form.find_element(*self._remove_button_locator)
+class CollectionsConfirmRemove(ConfirmRemove):
 
     def confirm(self):
         self.remove_button.click()

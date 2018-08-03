@@ -53,14 +53,14 @@ class RolesEdit(PrivatePage):
             _move_item_down_locator = (By.CSS_SELECTOR, 'a:nth-child(3)')
             _bottom_locator = (By.CSS_SELECTOR, 'a:nth-child(4)')
 
-            def top(self):
+            def click_top(self):
                 self.find_element(*self._top_locator).click()
 
-            def move_item_up(self):
+            def click_move_item_up(self):
                 self.find_element(*self._move_item_up_locator).click()
 
-            def move_item_down(self):
+            def click_move_item_down(self):
                 self.find_element(*self._move_item_down_locator).click()
 
-            def bottom(self):
+            def click_bottom(self):
                 self.find_element(*self._bottom_locator).click()

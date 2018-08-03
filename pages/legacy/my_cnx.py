@@ -51,7 +51,7 @@ class MyCnx(PrivatePage):
         workspace = Workspace(self.driver, self.base_url, self.timeout)
         return workspace.wait_for_page_to_load()
 
-    def workspace_collection(self):
+    def click_workspace_collection(self):
         self.go_to_collections_link.click()
         from pages.legacy.workspace_collection import WorkspaceCollection
         collections = WorkspaceCollection(self.driver, self.base_url, self.timeout)

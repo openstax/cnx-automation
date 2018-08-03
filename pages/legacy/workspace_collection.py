@@ -2,32 +2,14 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-from pages.legacy.base import PrivatePage
 from regions.webview.base import Region
+from pages.legacy.workspace import Workspace
 
 from selenium.webdriver.common.by import By
 
 
-class WorkspaceCollection(PrivatePage):
-    _select_all_checkbox_locator = (By.CSS_SELECTOR, 'input[type="checkbox"][name="selectButton"]')
-    _remove_button_locator = (By.CSS_SELECTOR, 'input[type="context"][value="Remove"]')
+class WorkspaceCollection(Workspace):
     _collection_locator = (By.CSS_SELECTOR, 'tr.odd, tr.even')
-
-    @property
-    def has_content(self):
-        return self.is_element_displayed(*self._select_all_checkbox_locator)
-
-    @property
-    def select_all_checkbox(self):
-        return self.find_element(*self._select_all_checkbox_locator)
-
-    @property
-    def remove_button(self):
-        return self.find_element(*self._remove_button_locator)
-
-    def select_all(self):
-        self.select_all_checkbox.click()
-        return self
 
     def remove(self):
         self.remove_button.click()
@@ -44,7 +26,6 @@ class WorkspaceCollection(PrivatePage):
         _link_locator = (By.CSS_SELECTOR, '.visualIcon > a')
         _id_locator = (By.CSS_SELECTOR, 'td:nth-child(3)')
 
-        @property
         def click_collection_link(self):
             self.find_element(*self._link_locator).click()
             from pages.legacy.collection_edit import CollectionEdit

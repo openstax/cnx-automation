@@ -55,7 +55,7 @@ class CollectionEdit(PrivatePage):
         content_publish = ContentPublish(self.driver, self.base_url, self.timeout)
         return content_publish.wait_for_page_to_load()
 
-    def roles(self):
+    def click_roles_tab(self):
         self.find_element(*self._roles_tab_locator).click()
         from pages.legacy.roles_edit import RolesEdit
         roles_edit = RolesEdit(self.driver, self.base_url, self.timeout)
