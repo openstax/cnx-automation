@@ -7,7 +7,7 @@ cnx-litezip==1.3.1
 cnxml==2.2.0
 github3.py==1.1.0
 idna==2.7
-lxml==4.2.3
+lxml==4.2.4
 more-itertools==4.3.0
 nebuchadnezzar==5.0.2
 pluggy==0.7.1
