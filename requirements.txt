@@ -20,7 +20,7 @@ pytest-metadata==1.7.0
 pytest-selenium==1.13.0
 pytest-testrail==1.1.6
 pytest-variables==1.7.1
-python-dotenv==0.9.0
+python-dotenv==0.9.1
 requests==2.19.1
 selenium==3.13.0
 simplejson==3.16.0
