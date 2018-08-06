@@ -5,6 +5,8 @@
 import re
 
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
 from pages.legacy.base import PrivatePage
 
@@ -61,7 +63,11 @@ class CollectionEdit(PrivatePage):
         return content_publish.wait_for_page_to_load()
 
     def metadata(self):
-        self.find_element(*self._metadata_tab_locator).click()
+        metadata_tab = WebDriverWait(self.driver, self.timeout).until(
+            EC.presence_of_element_located((By.ID, 'contentview-edit'))
+        )
+        metadata_tab.click()
+
         from pages.legacy.metadata_edit import MetadataEdit
         metadata_edit = MetadataEdit(self.driver, self.base_url, self.timeout)
         return metadata_edit.wait_for_page_to_load()
