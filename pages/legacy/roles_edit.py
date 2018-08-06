@@ -48,10 +48,10 @@ class RolesEdit(PrivatePage):
             return self.Order(self, self.find_element(*self._order_control_locator))
 
         class Order(Region):
-            _top_locator = (By.CSS_SELECTOR, 'a:nth-child(1)')
-            _move_item_up_locator = (By.CSS_SELECTOR, 'a:nth-child(2)')
-            _move_item_down_locator = (By.CSS_SELECTOR, 'a:nth-child(3)')
-            _bottom_locator = (By.CSS_SELECTOR, 'a:nth-child(4)')
+            _top_locator = (By.CSS_SELECTOR, '[title="Move item to top"]')
+            _move_item_up_locator = (By.CSS_SELECTOR, '[title="Move item up"]')
+            _move_item_down_locator = (By.CSS_SELECTOR, '[title="Move item down"]')
+            _bottom_locator = (By.CSS_SELECTOR, '[title="Move item to bottom"]')
 
             def click_top(self):
                 self.find_element(*self._top_locator).click()
