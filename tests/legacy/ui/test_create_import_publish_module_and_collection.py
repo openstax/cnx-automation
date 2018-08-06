@@ -174,10 +174,11 @@ class TestCreateImportPublishModuleAndCollection(object):
     @markers.legacy
     @markers.test_case('C195231')
     @markers.slow
-    @markers.parametrize('sample', ['xml'])
     def test_mathmal3_valid_in_legacy(self, legacy_base_url, legacy_username,
-                                      legacy_password, sample, selenium):
-        # GIVEN a logged in user on their dashboard
+                                      legacy_password, sample_mathml3_cnxml_filepath, selenium):
+        # GIVEN a logged in user on their dashboard, and the sample mathml3
+        with open(sample_mathml3_cnxml_filepath) as file:
+            sample = file.read()
         login_page = LoginForm(selenium, legacy_base_url).open()
         my_cnx = login_page.login(legacy_username, legacy_password)
 
@@ -193,4 +194,6 @@ class TestCreateImportPublishModuleAndCollection(object):
 
         # THEN save and msg shows 'Saved'
         module_edit.save()
+        # from time import sleep
+        # sleep(10)
         assert module_edit.portal_msg == 'Saved.'
