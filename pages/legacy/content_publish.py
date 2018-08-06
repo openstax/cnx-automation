@@ -41,3 +41,7 @@ class ContentPublish(PrivatePage):
     @property
     def block_msg(self):
         return self.find_element(*self._block_msg_locator)
+
+    @property
+    def is_block_msg_displayed(self):
+        return self.block_msg.is_displayed()

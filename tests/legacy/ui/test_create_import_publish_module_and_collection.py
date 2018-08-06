@@ -213,4 +213,8 @@ class TestCreateImportPublishModuleAndCollection(object):
 
         # THEN click publish and publish is blocked (block msg, no submit button)
         content_published = collection_edit.publish()
-        assert content_published.block_msg
+        assert content_published.is_block_msg_displayed
+        assert content_published.block_msg.text == 'PUBLISH BLOCKED: ' \
+                                                   'This collection has no content. ' \
+                                                   'You will not be able to ' \
+                                                   'publish until you add some.'
