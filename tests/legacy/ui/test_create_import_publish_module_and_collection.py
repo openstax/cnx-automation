@@ -194,6 +194,4 @@ class TestCreateImportPublishModuleAndCollection(object):
 
         # THEN save and msg shows 'Saved'
         module_edit.save()
-        # from time import sleep
-        # sleep(10)
         assert module_edit.portal_msg == 'Saved.'

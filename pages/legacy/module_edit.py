@@ -6,8 +6,6 @@ import re
 import xml.etree.ElementTree as ET
 
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
 
 from pages.legacy.base import PrivatePage
 from regions.legacy.base import Region
@@ -46,12 +44,13 @@ class ModuleEdit(PrivatePage):
         return self._title_regex.match(self.title_header.text).group(1)
 
     @property
+    def is_portal_msg_present(self):
+        return self.is_element_present(By.CLASS_NAME, 'portalMessage')
+
+    @property
     def portal_msg(self):
-        msg = WebDriverWait(self.driver, self.timeout).until(
-            EC.presence_of_element_located((By.CLASS_NAME, 'portalMessage'))
-        )
-        return msg.text
-        # return self.find_element(*self._portal_msg_locator).text
+        self.wait.until(lambda _: self.is_portal_msg_present)
+        return self.find_element(*self._portal_msg_locator).text
 
     @property
     def publish_link(self):
