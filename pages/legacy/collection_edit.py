@@ -5,8 +5,6 @@
 import re
 
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
 
 from pages.legacy.base import PrivatePage
 
@@ -39,7 +37,12 @@ class CollectionEdit(PrivatePage):
         return self._title_regex.match(self.title_header.text).group(1)
 
     @property
+    def is_portal_msg_present(self):
+        return self.is_element_present(By.CLASS_NAME, 'portalMessage')
+
+    @property
     def portal_msg(self):
+        self.wait.until(lambda _: self.is_portal_msg_present)
         return self.find_element(*self._portal_msg_locator).text
 
     @property
@@ -62,10 +65,14 @@ class CollectionEdit(PrivatePage):
         content_publish = ContentPublish(self.driver, self.base_url, self.timeout)
         return content_publish.wait_for_page_to_load()
 
+    @property
+    def is_metadata_tab_present(self):
+        return self.is_element_present(By.ID, 'contentview-edit')
+
     def metadata(self):
-        metadata_tab = WebDriverWait(self.driver, self.timeout).until(
-            EC.presence_of_element_located((By.ID, 'contentview-edit'))
-        )
+        self.wait.until(lambda _: self.is_metadata_tab_present)
+
+        metadata_tab = self.find_element(*self._metadata_tab_locator)
         metadata_tab.click()
 
         from pages.legacy.metadata_edit import MetadataEdit
