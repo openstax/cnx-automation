@@ -1,6 +1,7 @@
 # This Source Code Form is subject to the terms of the Mozilla Public
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
+from difflib import SequenceMatcher
 from functools import wraps
 
 from selenium.common.exceptions import StaleElementReferenceException
@@ -44,6 +45,11 @@ def retry_stale_element_reference_exception(method_or_max_attempts):
     else:
         max_attempts = method_or_max_attempts
         return wrap
+
+
+def similar(a, b):
+    """Returns a similarity ratio between two strings"""
+    return SequenceMatcher(None, a, b).ratio()
 
 
 # Like https://github.com/pytest-dev/pytest-selenium/blob/master/pytest_selenium/safety.py

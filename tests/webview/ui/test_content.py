@@ -9,8 +9,6 @@ from requests import get
 from time import sleep
 from datetime import datetime
 
-from selenium.webdriver.common.by import By
-
 from pages.webview.content_page import ContentPage
 from tests import markers
 
@@ -730,7 +728,7 @@ def test_ncy_is_not_displayed(webview_base_url, american_gov_uuid, selenium):
 def test_id_links_and_back_button(page_uuid, is_baked_book_index, webview_base_url, selenium):
     # GIVEN an index page in a baked book or a page with anchor links in an unbaked book
     content_page = Content(selenium, webview_base_url, id=page_uuid).open()
-    content_url = selenium.current_url
+    content_url = content_page.current_url
     assert '#' not in content_url
 
     # WHEN we click on a term (baked index) or an anchor link
@@ -739,20 +737,20 @@ def test_id_links_and_back_button(page_uuid, is_baked_book_index, webview_base_u
         content_page = content_region.click_index_term()
     else:
         content_page = content_region.click_anchor_link()
-        assert selenium.current_url.startswith(content_url)
+        assert content_page.current_url.startswith(content_url)
 
     # THEN we end up at the linked page and the element with the same id as the link is displayed
-    new_url = selenium.current_url
+    new_url = content_page.current_url
     assert '#' in new_url
     assert not new_url.endswith('#')
     id = re.search('#(.+)$', new_url)[1]
-    assert content_page.is_element_displayed(By.ID, id)
+    assert content_page.is_element_id_displayed(id)
 
     # WHEN we click the browser's back button
-    selenium.back()
+    content_page.back()
 
     # THEN we end up at the previous page
-    assert selenium.current_url == content_url
+    assert content_page.current_url == content_url
 
 
 @markers.webview

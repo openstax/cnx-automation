@@ -19,6 +19,13 @@ class Page(pypom.Page):
         super().__init__(driver, base_url, timeout, **url_kwargs)
 
     @property
+    def current_url(self):
+        return self.selenium.current_url
+
+    def is_element_id_displayed(self, id):
+        return self.is_element_displayed(By.ID, id)
+
+    @property
     def canonical_link(self):
         return self.find_element(*self._canonical_link_locator)
 
@@ -100,6 +107,10 @@ class Page(pypom.Page):
     def refresh(self):
         """Refresh the current page"""
         self.driver.refresh()
+
+    def back(self):
+        """Go to the previous page"""
+        self.driver.back()
 
     class Header(Region):
         _root_locator = (By.CSS_SELECTOR, 'header#header div.page-header')
