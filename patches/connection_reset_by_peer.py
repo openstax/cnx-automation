@@ -13,7 +13,6 @@ def __init__(self, remote_server_addr, keep_alive=False, resolve_ip=True):
     # Attempt to resolve the hostname and get an IP address.
     self.keep_alive = keep_alive
     parsed_url = parse.urlparse(remote_server_addr)
-    addr = parsed_url.hostname
     if parsed_url.hostname and resolve_ip:
         port = parsed_url.port or None
         if parsed_url.scheme == "https":
@@ -23,7 +22,6 @@ def __init__(self, remote_server_addr, keep_alive=False, resolve_ip=True):
                                                   port=port)
         if ip:
             netloc = ip
-            addr = netloc
             if parsed_url.port:
                 netloc = common_utils.join_host_port(netloc,
                                                      parsed_url.port)
