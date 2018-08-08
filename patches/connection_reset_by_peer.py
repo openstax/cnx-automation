@@ -1,8 +1,9 @@
+import urllib3
+
 from selenium.webdriver.remote.remote_connection import (
     RemoteConnection,
     parse,
     common_utils,
-    httplib,
     Command,
     LOGGER
 )
@@ -40,8 +41,7 @@ def __init__(self, remote_server_addr, keep_alive=False, resolve_ip=True):
 
     self._url = remote_server_addr
     if keep_alive:
-        self._conn = httplib.HTTPConnection(
-            str(addr), str(parsed_url.port), timeout=self._timeout)
+        self._conn = urllib3.PoolManager()
 
     self._commands = {
         Command.STATUS: ('GET', '/status'),
