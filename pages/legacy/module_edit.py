@@ -22,6 +22,7 @@ class ModuleEdit(PrivatePage):
     _blank_module_content_string = (
         '<ns0:content xmlns:ns0="http://cnx.rice.edu/cnxml">\n  '
         '<ns0:para id="delete_me">\n     \n  </ns0:para>\n</ns0:content>\n\n')
+    _files_tab_locator = (By.ID, 'contentview-contents')
 
     @property
     def username(self):
@@ -87,3 +88,10 @@ class ModuleEdit(PrivatePage):
         from pages.legacy.module_import import ModuleImport
         module_import = ModuleImport(self.driver, self.base_url, self.timeout)
         return module_import.wait_for_page_to_load()
+
+    @property
+    def click_files_tab(self):
+        self.find_element(*self._files_tab_locator).click()
+        from pages.legacy.files_edit import FilesEdit
+        files_edit = FilesEdit(self.driver, self.base_url, self.timeout)
+        return files_edit.wait_for_page_to_load()

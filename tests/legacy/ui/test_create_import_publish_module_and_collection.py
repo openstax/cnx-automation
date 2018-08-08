@@ -170,3 +170,25 @@ class TestCreateImportPublishModuleAndCollection(object):
                                         legacy_id=content_published.id).open()
         assert archive_content.title == 'CNX Automation Test Collection'
         snapshot.assert_dict_match(archive_content.stable_dict, 'legacy/col_with_m46922_1.13.json')
+
+    @markers.legacy
+    @markers.test_case('C195235')
+    @markers.slow
+    def test_image_display_correct(self, legacy_base_url, legacy_username,
+                                   legacy_password, sample, selenium):
+        # GIVEN a logged in user on their dashboard
+        login_page = LoginForm(selenium, legacy_base_url).open()
+        my_cnx = login_page.login(legacy_username, legacy_password)
+
+        # WHEN the user clicks to create a new module,
+        # agrees to the license and fills in the Title
+        cc_license = my_cnx.create_module()
+        metadata_edit = cc_license.agree().submit()
+        module_edit = metadata_edit.fill_in_title('CNX Automation Test Module Image').submit()
+
+        # AND click file tab to add image
+        files_edit = module_edit.click_files_tab
+        files_edit.add_new_file.choose_file('/Users/openstax/Desktop/m16020_DotPlot.png')
+        files_edit.add_new_file.click_upload()
+
+        # THEN save and msg shows 'Saved'
