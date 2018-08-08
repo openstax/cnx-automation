@@ -6,6 +6,7 @@ from pkg_resources import parse_version
 import re
 
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support.color import Color
 
 from tests.utils import retry_stale_element_reference_exception
 
@@ -31,6 +32,9 @@ class Content(Page):
                           ' button[type="submit"][data-l10n-id="textbook-view-btn-get-this-book"]')
     )
     _ncy_locator = (By.CLASS_NAME, 'not-converted-yet')
+    _go_to_book_link_locator = (By.CSS_SELECTOR, 'li:nth-child(3) > div > a')
+    _left_nav_book_title_locator = (By.CSS_SELECTOR, 'div.booksContaining > ul > li:nth-child(1) '
+                                                     '> div > a > b')
 
     @property
     def loaded(self):
@@ -113,6 +117,14 @@ class Content(Page):
     @property
     def is_ncy_displayed(self):
         return self.is_element_displayed(*self._ncy_locator)
+
+    @property
+    def is_go_to_book_link_present(self):
+        return self.is_element_present(*self._go_to_book_link_locator)
+
+    @property
+    def get_left_nav_book_title(self):
+        return self.find_element(*self._left_nav_book_title_locator)
 
     @property
     def content_region(self):
@@ -376,6 +388,8 @@ class Content(Page):
                                  '#content div.sidebar div.table-of-contents div.toc')
                 _chapter_div_locator = (By.CSS_SELECTOR, 'ul li div[data-expandable="true"]')
                 _page_link_locator = (By.CSS_SELECTOR, 'ul li a')
+                _active_page_locator = (By.CSS_SELECTOR, '.table-of-contents>.toc ul '
+                                                         'li>div>.name-wrapper .active')
 
                 @property
                 def number_of_chapters(self):
@@ -389,6 +403,13 @@ class Content(Page):
                 def chapters(self):
                     return [self.ContentChapter(self.page, self.root, index) for index
                             in range(len(self.find_elements(*self._chapter_div_locator)))]
+
+                @property
+                def active_page_color(self):
+                    active_page = self.find_element(*self._active_page_locator)
+                    rgba = active_page.value_of_css_property('color')
+                    hex = Color.from_string(rgba).hex
+                    return hex
 
                 class ContentChapter(ContentItem):
                     _root_locator_template = ("(.//ul//li[descendant::div"
@@ -411,11 +432,18 @@ class Content(Page):
 
                     class ContentPage(ContentItem):
                         _root_locator_template = "(.//ul[@data-expanded='true']//li//a)[{index}]"
+                        _title_locator = (By.CSS_SELECTOR, "span.title")
 
                         def click(self):
                             current_url = self.driver.current_url
                             self.root.click()
                             return self.page.wait_for_url_to_change(current_url)
+
+                        def color(self):
+                            title = self.find_element(*self._title_locator)
+                            rgba = title.value_of_css_property("color")
+                            hex = Color.from_string(rgba).hex
+                            return hex
 
             class InBookSearchResults(Region):
                 _root_locator = (By.CSS_SELECTOR, '#content div.sidebar div.table-of-contents')

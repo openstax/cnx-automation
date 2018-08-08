@@ -107,10 +107,10 @@ class Page(pypom.Page):
         _legacy_site_link_locator = (By.CSS_SELECTOR,
                                      'a[data-l10n-id="all-cnx-author-legacy-site"]')
         # This is the CSS selector that currently applies the CNX logo background-image
-        _cnx_logo_locator = (
-            By.CSS_SELECTOR,
-            '.page-header > .navbar > .container-fluid > .navbar-header > .navbar-brand'
-        )
+        _cnx_logo_locator = (By.CSS_SELECTOR,
+                             '#header .page-header .navbar .navbar-header .navbar-brand')
+        _cnx_logo_url_locator = (By.CSS_SELECTOR,
+                                 '#header .page-header .navbar .navbar-header a')
         _nav_button_locator = (By.CSS_SELECTOR,
                                '#header button.navbar-toggle[data-target="#page-nav"]')
         _browse_link_locator = (By.CSS_SELECTOR, '#page-nav #nav-browse a')
@@ -152,7 +152,8 @@ class Page(pypom.Page):
 
         @property
         def cnx_logo_url(self):
-            return self.cnx_logo.get_attribute('href')
+            return self.find_element(
+                *self._cnx_logo_url_locator).get_attribute('href')
 
         @property
         def nav_button(self):
