@@ -7,7 +7,7 @@ cnx-litezip==1.3.1
 cnxml==2.2.0
 github3.py==1.1.0
 idna==2.7
-lxml==4.2.3
+lxml==4.2.4
 more-itertools==4.3.0
 nebuchadnezzar==5.0.2
 pluggy==0.7.1
@@ -20,12 +20,12 @@ pytest-metadata==1.7.0
 pytest-selenium==1.13.0
 pytest-testrail==1.1.6
 pytest-variables==1.7.1
-python-dotenv==0.9.0
+python-dotenv==0.9.1
 requests==2.19.1
-selenium==3.13.0
+selenium==3.14.0
 simplejson==3.16.0
 six==1.11.0
-tox==3.1.2
+tox==3.1.3
 uritemplate==3.0.0
 urllib3==1.22
 virtualenv==16.0.0
