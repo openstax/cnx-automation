@@ -25,7 +25,7 @@ Follow the instructions to install [Docker Compose](https://docs.docker.com/comp
 
 ### Execute the tests
 
-    $ docker run --user root --name test --shm-size=2g --rm tox
+    $ docker run --user root --name test --shm-size=2g --rm cnx-automation tox
 
 > Note: The [Run the tests using tox](#run-the-tests-using-tox) section covers how to pass arguments to tox in order to target specific tests
 
