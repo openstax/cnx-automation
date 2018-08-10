@@ -1,0 +1,12 @@
+
+*.venv
+report.html
+.tox/
+.pytest_cache/
+.env
+.python_version
+
+ Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
