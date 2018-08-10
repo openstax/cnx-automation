@@ -1,9 +1,9 @@
 pipeline {
-    agent any
+    agent { dockerfile true}
     stages {
-        stage('build') {
+        stage('test') {
             steps {
-                sh 'python --version'
+                sh 'tox -- -m webview'
             }
         }
     }
