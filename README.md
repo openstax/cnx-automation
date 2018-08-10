@@ -19,13 +19,13 @@ Follow the instructions to install [Docker](https://docs.docker.com/install/).
 
 Follow the instructions to install [Docker Compose](https://docs.docker.com/compose/install/).
 
-### Run Docker Compose
+### Run Docker Build
 
-    $ docker-compose up -d
+    $ docker build -t cnx-automation .
 
 ### Execute the tests
 
-    $ docker-compose exec --user root selenium-chrome tox
+    $ docker run --user root --name test --shm-size=2g --rm tox
 
 > Note: The [Run the tests using tox](#run-the-tests-using-tox) section covers how to pass arguments to tox in order to target specific tests
 
