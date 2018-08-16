@@ -6,12 +6,15 @@ from tests.utils import retry_stale_element_reference_exception
 
 
 class ContentPage(Content):
-
     @property
     def loaded(self):
         return bool(
             self._url_regex.search(
                 self.driver.current_url)) and self.books_containing.overview_is_present
+
+    @property
+    def location(self):
+        return self.table_of_contents_div.location
 
     # This region is reloaded when the page extras API call returns
     # So we must retry StaleElementReferenceExceptions
@@ -19,11 +22,6 @@ class ContentPage(Content):
     @retry_stale_element_reference_exception
     def books_containing(self):
         return self.BooksContaining(self)
-
-    @property
-    def location(self):
-        content = self.find_element(By.CSS_SELECTOR, ".table-of-contents")
-        return content.location
 
     class BooksContaining(Region):
         _root_locator = (By.CLASS_NAME, 'booksContaining')
