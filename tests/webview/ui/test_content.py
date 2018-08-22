@@ -898,7 +898,7 @@ def test_books_containing_list_in_sorted_order(webview_base_url, selenium, page_
 @markers.test_case('C195055')
 @markers.nondestructive
 @markers.parametrize('page_id', ['4fGVMb7P@1'])
-def test_books_containing_button_labelled_books(webview_base_url, selenium, page_id):
+def test_books_containing_button_toggles_and_labelled_books(webview_base_url, selenium, page_id):
     # GIVEN the webview base url, page_id, and the Selenium driver
 
     # WHEN we visit that page of the chapter and we have a list of books containing the page
