@@ -360,8 +360,11 @@ class Content(Page):
                 return self.InBookSearchResults(self.page)
 
             def click_contents_button(self):
-                self.contents_button.click()
-                return self.table_of_contents.wait_for_region_to_display()
+                if 'open' in self.contents_button.get_attribute('class'):
+                    self.contents_button.click()
+                else:
+                    self.contents_button.click()
+                    return self.table_of_contents.wait_for_region_to_display()
 
             def search(self, query):
                 searchbar = self.searchbar

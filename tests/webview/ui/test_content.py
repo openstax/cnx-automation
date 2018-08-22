@@ -807,7 +807,7 @@ def test_books_containing_have_revised_date(webview_base_url, selenium, ch_revie
 @markers.test_case('C195061')
 @markers.nondestructive
 @markers.parametrize('page_id', ['BWYBGK7C@2'])
-def test_book_containing_title_not_limited(webview_base_url, selenium, page_id):
+def test_books_containing_title_not_limited(webview_base_url, selenium, page_id):
     # GIVEN the webview base url, page_id, and the Selenium driver
 
     # WHEN we visit that page of the chapter and we have a list of books containing the page
@@ -824,7 +824,7 @@ def test_book_containing_title_not_limited(webview_base_url, selenium, page_id):
 @markers.test_case('C195057', 'C195058', 'C195059', 'C195072')
 @markers.nondestructive
 @markers.parametrize('page_id', ['mjO9LQWq@1', 'bJs8AcSE@1', '4fGVMb7P@1'])
-def test_book_containing_message_is_correct(webview_base_url, selenium, page_id):
+def test_books_containing_message_is_correct(webview_base_url, selenium, page_id):
     # GIVEN the webview base url, page_id, and the Selenium driver
 
     # WHEN we visit the content page
@@ -898,13 +898,18 @@ def test_books_containing_list_in_sorted_order(webview_base_url, selenium, page_
 @markers.test_case('C195055')
 @markers.nondestructive
 @markers.parametrize('page_id', ['4fGVMb7P@1'])
-def test_toc_button_labelled_books(webview_base_url, selenium, page_id):
+def test_books_containing_button_toggles_and_labelled_books(webview_base_url, selenium, page_id):
     # GIVEN the webview base url, page_id, and the Selenium driver
 
     # WHEN we visit that page of the chapter and we have a list of books containing the page
     content = ContentPage(selenium, webview_base_url, id=page_id).open()
 
-    # THEN the button name is "Books" instead of "Contents"
+    # THEN the books_containing side nav is opened by default
+    # AND when the books button is clicked the books containing element hides
+    # AND the text of the button is "Books"
+    assert content.books_containing.is_displayed
+    content.header_nav.click_contents_button()
+    assert not content.books_containing.is_displayed
     btn_name = content.header_nav.contents_button.text
     assert btn_name == "Books"
 
