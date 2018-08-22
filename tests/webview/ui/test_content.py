@@ -810,7 +810,7 @@ def test_books_containing_have_revised_date(webview_base_url, selenium, ch_revie
 @markers.test_case('C195061')
 @markers.nondestructive
 @markers.parametrize('page_id', ['BWYBGK7C@2'])
-def test_book_containing_title_not_limited(webview_base_url, selenium, page_id):
+def test_books_containing_title_not_limited(webview_base_url, selenium, page_id):
     # GIVEN the webview base url, page_id, and the Selenium driver
 
     # WHEN we visit that page of the chapter and we have a list of books containing the page
@@ -827,7 +827,7 @@ def test_book_containing_title_not_limited(webview_base_url, selenium, page_id):
 @markers.test_case('C195057', 'C195058', 'C195059', 'C195072')
 @markers.nondestructive
 @markers.parametrize('page_id', ['mjO9LQWq@1', 'bJs8AcSE@1', '4fGVMb7P@1'])
-def test_book_containing_message_is_correct(webview_base_url, selenium, page_id):
+def test_books_containing_message_is_correct(webview_base_url, selenium, page_id):
     # GIVEN the webview base url, page_id, and the Selenium driver
 
     # WHEN we visit the content page
@@ -901,7 +901,7 @@ def test_books_containing_list_in_sorted_order(webview_base_url, selenium, page_
 @markers.test_case('C195055')
 @markers.nondestructive
 @markers.parametrize('page_id', ['4fGVMb7P@1'])
-def test_toc_button_labelled_books(webview_base_url, selenium, page_id):
+def test_books_containing_button_toggles_and_labelled_books(webview_base_url, selenium, page_id):
     # GIVEN the webview base url, page_id, and the Selenium driver
 
     # WHEN we visit a single content page (not a book)
@@ -920,6 +920,7 @@ def test_toc_button_labelled_books(webview_base_url, selenium, page_id):
     assert books_containing.is_displayed
 
 
+@markers.webview
 @markers.webview
 @markers.test_case('C195054')
 @markers.nondestructive
@@ -974,7 +975,7 @@ def test_book_title_link_and_highlight_on_view(webview_base_url, id, selenium, h
     content.header_nav.click_contents_button()
 
     # AND find the on viewing title and get the color
-    active_color = content.table_of_contents.active_page_color
+    active_color = content.header_nav.table_of_contents.active_page_color
 
     # THEN make sure the section matches the original page title and the highlight color is correct
     assert content_page_title == content.section_title
