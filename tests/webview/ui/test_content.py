@@ -975,7 +975,7 @@ def test_book_title_link_and_highlight_on_view(webview_base_url, id, selenium, h
     content.header_nav.click_contents_button()
 
     # AND find the on viewing title and get the color
-    active_color = content.header_nav.table_of_contents.active_page_color
+    active_color = content.table_of_contents.active_page_color
 
     # THEN make sure the section matches the original page title and the highlight color is correct
     assert content_page_title == content.section_title
