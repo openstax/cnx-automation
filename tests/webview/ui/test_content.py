@@ -914,6 +914,7 @@ def test_books_containing_button_toggles_and_labelled_books(webview_base_url, se
     assert btn_name == "Books"
 
 
+@markers.webview
 @markers.test_case('C195054')
 @markers.nondestructive
 @markers.parametrize('page_id', ['4fGVMb7P@1'])
