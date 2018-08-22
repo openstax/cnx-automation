@@ -25,6 +25,7 @@ class Content(Page):
         By.CSS_SELECTOR, '#content div.latest span[data-l10n-id="media-latest-content"] a'
     )
     _main_content_section_locator = (By.ID, 'main-content')
+    _table_of_contents_div_locator = (By.CSS_SELECTOR, ".table-of-contents")
     _section_title_div_locator = (By.CSS_SELECTOR, '#main-content div.media-header div.title')
     _chapter_section_span_locator = (By.CSS_SELECTOR, 'span.title-chapter,span.os-number')
     _get_this_book_button_locator = (
@@ -77,6 +78,18 @@ class Content(Page):
     @property
     def main_content_section(self):
         return self.find_element(*self._main_content_section_locator)
+
+    @property
+    def table_of_contents_div(self):
+        return self.find_element(*self._table_of_contents_div_locator)
+
+    @property
+    def table_of_contents(self):
+        return self.TableOfContents(self)
+
+    @property
+    def in_book_search_results(self):
+        return self.InBookSearchResults(self)
 
     # The media-header div can be reloaded at seemingly random times
     # Any method that accesses an element inside this header
@@ -351,20 +364,12 @@ class Content(Page):
             def next_link(self):
                 return self.find_element(*self._next_link_locator)
 
-            @property
-            def table_of_contents(self):
-                return self.TableOfContents(self.page)
-
-            @property
-            def in_book_search_results(self):
-                return self.InBookSearchResults(self.page)
-
             def click_contents_button(self):
-                if 'open' in self.contents_button.get_attribute('class'):
-                    self.contents_button.click()
-                else:
-                    self.contents_button.click()
-                    return self.table_of_contents.wait_for_region_to_display()
+                table_of_contents_div = self.page.table_of_contents_div
+                initial_state = table_of_contents_div.is_displayed()
+                self.contents_button.click()
+                self.wait.until(lambda _: table_of_contents_div.is_displayed() != initial_state)
+                return self
 
             def search(self, query):
                 searchbar = self.searchbar
@@ -377,7 +382,7 @@ class Content(Page):
                     .send_keys(query) \
                     .send_keys(Keys.ENTER) \
                     .perform()
-                return self.in_book_search_results.wait_for_region_to_display()
+                return self.page.in_book_search_results.wait_for_region_to_display()
 
             def click_back_link(self):
                 current_url = self.driver.current_url
@@ -392,145 +397,144 @@ class Content(Page):
                 self.next_link.click()
                 return self.page.wait_for_url_to_change(current_url)
 
-            class TableOfContents(Region):
-                _root_locator = (By.CSS_SELECTOR,
-                                 '#content div.sidebar div.table-of-contents div.toc')
-                _chapter_div_locator = (By.CSS_SELECTOR, 'ul li div[data-expandable="true"]')
-                _page_link_locator = (By.CSS_SELECTOR, 'ul li a')
-                _active_page_locator = (By.CSS_SELECTOR, '.table-of-contents>.toc ul '
-                                                         'li>div>.name-wrapper .active')
+    class TableOfContents(Region):
+        _root_locator = (By.CSS_SELECTOR, '#content div.sidebar div.table-of-contents div.toc')
+        _chapter_div_locator = (By.CSS_SELECTOR, 'ul li div[data-expandable="true"]')
+        _page_link_locator = (By.CSS_SELECTOR, 'ul li a')
+        _active_page_locator = (By.CSS_SELECTOR, '.table-of-contents>.toc ul '
+                                                 'li>div>.name-wrapper .active')
 
-                @property
-                def number_of_chapters(self):
-                    return len(self.find_elements(*self._chapter_div_locator))
+        @property
+        def number_of_chapters(self):
+            return len(self.find_elements(*self._chapter_div_locator))
 
-                @property
-                def number_of_pages(self):
-                    return len(self.find_elements(*self._page_link_locator))
+        @property
+        def number_of_pages(self):
+            return len(self.find_elements(*self._page_link_locator))
 
-                @property
-                def chapters(self):
-                    return [self.ContentChapter(self.page, self.root, index) for index
-                            in range(len(self.find_elements(*self._chapter_div_locator)))]
+        @property
+        def chapters(self):
+            return [self.ContentChapter(self.page, self.root, index) for index
+                    in range(len(self.find_elements(*self._chapter_div_locator)))]
 
-                @property
-                def active_page_color(self):
-                    active_page = self.find_element(*self._active_page_locator)
-                    rgba = active_page.value_of_css_property('color')
+        @property
+        def active_page_color(self):
+            active_page = self.find_element(*self._active_page_locator)
+            rgba = active_page.value_of_css_property('color')
+            hex = Color.from_string(rgba).hex
+            return hex
+
+        class ContentChapter(ContentItem):
+            _root_locator_template = ("(.//ul//li[descendant::div"
+                                      "[@data-expandable='true']])[{index}]")
+            _page_link_locator = (By.CSS_SELECTOR, 'ul li a')
+
+            @property
+            def has_pages(self):
+                return self.is_element_displayed(*self._page_link_locator)
+
+            @property
+            def pages(self):
+                return [self.ContentPage(self.page, self.root, index) for index
+                        in range(len(self.find_elements(*self._page_link_locator)))]
+
+            def click(self):
+                self.root.click()
+                chapter = self.__class__(self.page, self.parent_root, self.index)
+                return chapter.wait_for_region_to_display()
+
+            class ContentPage(ContentItem):
+                _root_locator_template = "(.//ul[@data-expanded='true']//li//a)[{index}]"
+                _title_locator = (By.CSS_SELECTOR, "span.title")
+
+                def click(self):
+                    current_url = self.driver.current_url
+                    self.root.click()
+                    return self.page.wait_for_url_to_change(current_url)
+
+                def color(self):
+                    title = self.find_element(*self._title_locator)
+                    rgba = title.value_of_css_property("color")
                     hex = Color.from_string(rgba).hex
                     return hex
 
-                class ContentChapter(ContentItem):
-                    _root_locator_template = ("(.//ul//li[descendant::div"
-                                              "[@data-expandable='true']])[{index}]")
-                    _page_link_locator = (By.CSS_SELECTOR, 'ul li a')
+    class InBookSearchResults(Region):
+        _root_locator = (By.CSS_SELECTOR, '#content div.sidebar div.table-of-contents')
+        _result_count_div_locator = (By.CSS_SELECTOR, 'div.result-count')
+        _results_locator = (By.XPATH,
+                            (".//div[contains(@class, 'toc')]"
+                             "//ul//li[./div/span[contains(@class, 'name-wrapper')]//a]"))
 
-                    @property
-                    def has_pages(self):
-                        return self.is_element_displayed(*self._page_link_locator)
+        @property
+        def result_count_div(self):
+            return self.find_element(*self._result_count_div_locator)
 
-                    @property
-                    def pages(self):
-                        return [self.ContentPage(self.page, self.root, index) for index
-                                in range(len(self.find_elements(*self._page_link_locator)))]
+        @property
+        def result_count(self):
+            import json
+            return json.loads(self.result_count_div.get_attribute('data-l10n-args'))['hits']
 
-                    def click(self):
-                        self.root.click()
-                        chapter = self.__class__(self.page, self.parent_root, self.index)
-                        return chapter.wait_for_region_to_display()
+        @property
+        def results(self):
+            elements = self.find_elements(*self._results_locator)
+            return [self.InBookResult(self.page, element) for element in elements]
 
-                    class ContentPage(ContentItem):
-                        _root_locator_template = "(.//ul[@data-expanded='true']//li//a)[{index}]"
-                        _title_locator = (By.CSS_SELECTOR, "span.title")
+        class InBookResult(Region):
+            _link_locator = (By.CSS_SELECTOR, 'span.name-wrapper a')
+            _chapter_section_span_locator = (By.CSS_SELECTOR,
+                                             'span.chapter-number,span.os-number')
+            _title_span_locator = (By.CSS_SELECTOR, 'span.title')
+            _content_q_locator = (By.CSS_SELECTOR, 'div.snippet q')
+            _bold_locator = (By.CSS_SELECTOR, 'span.q-match')
 
-                        def click(self):
-                            current_url = self.driver.current_url
-                            self.root.click()
-                            return self.page.wait_for_url_to_change(current_url)
+            @property
+            def is_link_present(self):
+                return self.is_element_present(*self._link_locator)
 
-                        def color(self):
-                            title = self.find_element(*self._title_locator)
-                            rgba = title.value_of_css_property("color")
-                            hex = Color.from_string(rgba).hex
-                            return hex
+            @property
+            def link(self):
+                return self.find_element(*self._link_locator)
 
-            class InBookSearchResults(Region):
-                _root_locator = (By.CSS_SELECTOR, '#content div.sidebar div.table-of-contents')
-                _result_count_div_locator = (By.CSS_SELECTOR, 'div.result-count')
-                _results_locator = (By.XPATH,
-                                    (".//div[contains(@class, 'toc')]"
-                                     "//ul//li[./div/span[contains(@class, 'name-wrapper')]//a]"))
+            @property
+            def chapter_section_span(self):
+                return self.link.find_element(*self._chapter_section_span_locator)
 
-                @property
-                def result_count_div(self):
-                    return self.find_element(*self._result_count_div_locator)
+            @property
+            def chapter_section(self):
+                return self.chapter_section_span.text
 
-                @property
-                def result_count(self):
-                    import json
-                    return json.loads(self.result_count_div.get_attribute('data-l10n-args'))['hits']
+            @property
+            def title_span(self):
+                return self.link.find_element(*self._title_span_locator)
 
-                @property
-                def results(self):
-                    elements = self.find_elements(*self._results_locator)
-                    return [self.InBookResult(self.page, element) for element in elements]
+            @property
+            def title(self):
+                return self.title_span.text.replace(self.chapter_section, '').lstrip()
 
-                class InBookResult(Region):
-                    _link_locator = (By.CSS_SELECTOR, 'span.name-wrapper a')
-                    _chapter_section_span_locator = (By.CSS_SELECTOR,
-                                                     'span.chapter-number,span.os-number')
-                    _title_span_locator = (By.CSS_SELECTOR, 'span.title')
-                    _content_q_locator = (By.CSS_SELECTOR, 'div.snippet q')
-                    _bold_locator = (By.CSS_SELECTOR, 'span.q-match')
+            @property
+            def content_q(self):
+                return self.link.find_element(*self._content_q_locator)
 
-                    @property
-                    def is_link_present(self):
-                        return self.is_element_present(*self._link_locator)
+            @property
+            def content(self):
+                return self.content_q.text
 
-                    @property
-                    def link(self):
-                        return self.find_element(*self._link_locator)
+            @property
+            def bolds(self):
+                return self.content_q.find_elements(*self._bold_locator)
 
-                    @property
-                    def chapter_section_span(self):
-                        return self.link.find_element(*self._chapter_section_span_locator)
+            def count_occurrences(self, word):
+                return self.content.lower().count(word.lower())
 
-                    @property
-                    def chapter_section(self):
-                        return self.chapter_section_span.text
+            def count_bold_occurrences(self, word):
+                lowercase_word = word.lower()
+                return len([bold for bold in self.bolds
+                            if lowercase_word in bold.text.lower()])
 
-                    @property
-                    def title_span(self):
-                        return self.link.find_element(*self._title_span_locator)
-
-                    @property
-                    def title(self):
-                        return self.title_span.text.replace(self.chapter_section, '').lstrip()
-
-                    @property
-                    def content_q(self):
-                        return self.link.find_element(*self._content_q_locator)
-
-                    @property
-                    def content(self):
-                        return self.content_q.text
-
-                    @property
-                    def bolds(self):
-                        return self.content_q.find_elements(*self._bold_locator)
-
-                    def count_occurrences(self, word):
-                        return self.content.lower().count(word.lower())
-
-                    def count_bold_occurrences(self, word):
-                        lowercase_word = word.lower()
-                        return len([bold for bold in self.bolds
-                                    if lowercase_word in bold.text.lower()])
-
-                    def click_link(self):
-                        current_url = self.driver.current_url
-                        self.link.click()
-                        return self.page.wait_for_url_to_change(current_url)
+            def click_link(self):
+                current_url = self.driver.current_url
+                self.link.click()
+                return self.page.wait_for_url_to_change(current_url)
 
     # This entire region can be overwritten (and the modal automatically closed) at any time,
     # so any tests that use it must be ready to retry StaleElementReferenceExceptions

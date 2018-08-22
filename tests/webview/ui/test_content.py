@@ -186,7 +186,8 @@ def test_toc_is_displayed(webview_base_url, selenium):
     content = book.click_book_cover()
 
     # WHEN the contents button is clicked
-    toc = content.header_nav.click_contents_button()
+    content.header_nav.click_contents_button()
+    toc = content.table_of_contents
 
     # THEN the table of contents is displayed
     assert toc.is_displayed
@@ -202,7 +203,8 @@ def test_toc_navigation(webview_base_url, selenium):
     home = Home(selenium, webview_base_url).open()
     book = home.featured_books.openstax_list[0]
     content = book.click_book_cover()
-    toc = content.header_nav.click_contents_button()
+    content.header_nav.click_contents_button()
+    toc = content.table_of_contents
 
     # WHEN a chapter is expanded and we navigate to one of its pages
     chapter = toc.chapters[1]
@@ -672,7 +674,8 @@ def test_navigation(webview_base_url, selenium):
     book = home.featured_books.openstax_list[0]
     content = book.click_book_cover()
     header_nav = content.header_nav
-    toc = header_nav.click_contents_button()
+    header_nav.click_contents_button()
+    toc = content.table_of_contents
     num_pages = toc.number_of_pages
 
     assert type(content) == Content
@@ -790,7 +793,7 @@ def test_books_containing_go_to_book_link(webview_base_url, selenium, ch_review_
 @markers.webview
 @markers.test_case('C195063')
 @markers.nondestructive
-@markers.parametrize('ch_review_id', ['SjdU64Og@4'])
+@markers.parametrize('ch_review_id', ['SjdU64Og@3'])
 def test_books_containing_have_revised_date(webview_base_url, selenium, ch_review_id):
     # GIVEN the webview base url, a chapter review id, and the Selenium driver
 
@@ -847,7 +850,7 @@ def test_books_containing_message_is_correct(webview_base_url, selenium, page_id
 @markers.webview
 @markers.test_case('C195062')
 @markers.nondestructive
-@markers.parametrize('page_id', ['SjdU64Og@4'])
+@markers.parametrize('page_id', ['SjdU64Og@3'])
 def test_books_containing_have_authors(webview_base_url, selenium, page_id):
     # GIVEN the webview base url, page_id, and the Selenium driver
 
@@ -901,19 +904,23 @@ def test_books_containing_list_in_sorted_order(webview_base_url, selenium, page_
 def test_books_containing_button_toggles_and_labelled_books(webview_base_url, selenium, page_id):
     # GIVEN the webview base url, page_id, and the Selenium driver
 
-    # WHEN we visit that page of the chapter and we have a list of books containing the page
+    # WHEN we visit a single content page (not a book)
     content = ContentPage(selenium, webview_base_url, id=page_id).open()
+    books_containing = content.books_containing
+    assert books_containing.is_displayed
 
-    # THEN the books_containing side nav is opened by default
-    # AND when the books button is clicked the books containing element hides
-    # AND the text of the button is "Books"
-    assert content.books_containing.is_displayed
-    content.header_nav.click_contents_button()
-    assert not content.books_containing.is_displayed
-    btn_name = content.header_nav.contents_button.text
-    assert btn_name == "Books"
+    # THEN the button that opens and closes the "ToC" is labelled "Books" instead of "Contents"
+    contents_button = content.header_nav.contents_button
+    assert contents_button.text == "Books"
+
+    contents_button.click()
+    assert not books_containing.is_displayed
+
+    contents_button.click()
+    assert books_containing.is_displayed
 
 
+@markers.webview
 @markers.webview
 @markers.test_case('C195054')
 @markers.nondestructive
@@ -968,7 +975,7 @@ def test_book_title_link_and_highlight_on_view(webview_base_url, id, selenium, h
     content.header_nav.click_contents_button()
 
     # AND find the on viewing title and get the color
-    active_color = content.header_nav.table_of_contents.active_page_color
+    active_color = content.table_of_contents.active_page_color
 
     # THEN make sure the section matches the original page title and the highlight color is correct
     assert content_page_title == content.section_title
