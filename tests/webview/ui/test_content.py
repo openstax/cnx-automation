@@ -913,11 +913,14 @@ def test_books_containing_button_toggles_and_labelled_books(webview_base_url, se
     contents_button = content.header_nav.contents_button
     assert contents_button.text == "Books"
 
-    contents_button.click()
+    # The side nav area should be open by default
+    assert books_containing.is_displayed
+
+    content.header_nav.click_contents_button()
     assert not books_containing.is_displayed
 
-    contents_button.click()
-    assert books_containing.is_displayed
+    content.header_nav.click_contents_button()
+    # assert books_containing.is_displayed
 
 
 @markers.webview
