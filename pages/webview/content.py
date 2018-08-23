@@ -365,11 +365,12 @@ class Content(Page):
                 return self.find_element(*self._next_link_locator)
 
             def click_contents_button(self):
-                table_of_contents_div = self.page.table_of_contents_div
-                initial_state = table_of_contents_div.is_displayed()
-                self.contents_button.click()
-                self.wait.until(lambda _: table_of_contents_div.is_displayed() != initial_state)
-                return self
+                if 'open' in self.contents_button.get_attribute('class'):
+                    self.contents_button.click()
+                    return self
+                else:
+                    self.contents_button.click()
+                    return self.page.table_of_contents.wait_for_region_to_display()
 
             def search(self, query):
                 searchbar = self.searchbar
