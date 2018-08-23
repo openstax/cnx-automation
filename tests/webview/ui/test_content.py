@@ -907,9 +907,9 @@ def test_books_containing_button_toggles_and_labelled_books(webview_base_url, se
     # WHEN we visit a single content page (not a book)
     content = ContentPage(selenium, webview_base_url, id=page_id).open()
     books_containing = content.books_containing
-    assert books_containing.is_displayed
 
     # THEN the button that opens and closes the "ToC" is labelled "Books" instead of "Contents"
+    # AND the button opens and closes the "This page is in # books" side nav
     contents_button = content.header_nav.contents_button
     assert contents_button.text == "Books"
 
@@ -920,7 +920,8 @@ def test_books_containing_button_toggles_and_labelled_books(webview_base_url, se
     assert not books_containing.is_displayed
 
     content.header_nav.click_contents_button()
-    # assert books_containing.is_displayed
+    content.books_containing.wait_for_region_to_display()
+    assert books_containing.is_displayed
 
 
 @markers.webview
