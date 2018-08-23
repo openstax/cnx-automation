@@ -6,6 +6,7 @@ from pkg_resources import parse_version
 import re
 
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as expected
 from selenium.webdriver.support.color import Color
 
 from tests.utils import retry_stale_element_reference_exception
@@ -367,7 +368,8 @@ class Content(Page):
             def click_contents_button(self):
                 if 'open' in self.contents_button.get_attribute('class'):
                     self.contents_button.click()
-                    return self
+                    return self.wait.until(
+                        expected.invisibility_of_element_located(self.page.table_of_contents_div))
                 else:
                     self.contents_button.click()
                     return self.page.table_of_contents.wait_for_region_to_display()
