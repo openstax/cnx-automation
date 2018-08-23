@@ -401,7 +401,7 @@ class Content(Page):
                 return self.page.wait_for_url_to_change(current_url)
 
     class TableOfContents(Region):
-        _root_locator = (By.CSS_SELECTOR, '#content div.sidebar div.table-of-contents div.toc')
+        _root_locator = (By.CLASS_NAME, 'table-of-contents')
         _chapter_div_locator = (By.CSS_SELECTOR, 'ul li div[data-expandable="true"]')
         _page_link_locator = (By.CSS_SELECTOR, 'ul li a')
         _active_page_locator = (By.CSS_SELECTOR, '.table-of-contents>.toc ul '
