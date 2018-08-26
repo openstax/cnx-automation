@@ -1,8 +1,5 @@
 pipeline {
-    agent {
-        dockerfile true
-        args '--tmpfs /.config'
-    }
+    agent { dockerfile true }
     stages {
         stage('test') {
             steps {
