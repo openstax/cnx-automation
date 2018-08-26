@@ -3,8 +3,8 @@ pipeline {
     stages {
         stage('test') {
             agent {
-                docker{
-                    dockerfile true
+                dockerfile{
+                    additionalBuildArgs '--build-arg USER_ID=$(id -u) --build-arg GROUP_ID=$(id -g)'
                 }
             }
             steps {
