@@ -20,15 +20,10 @@ class Contact(AboutPage):
         return self.contact_content.loaded and super().loaded
 
     class ContactContent(Region):
-        _root_locator = (By.CSS_SELECTOR, '#about .about-content div.contact')
-        _email_link_locator = (By.CSS_SELECTOR, 'span[data-l10n-id="about-contact-email"] a')
-        _map_img_locator = (By.CSS_SELECTOR, 'img[src="/locale/en-US/images/map.png"]')
+        _root_locator = (By.ID, 'about')
+        _email_link_locator = (By.CSS_SELECTOR, '.contact > p:nth-child(5) > a')
         _questions_header_locator = (
             By.CSS_SELECTOR, '[data-l10n-id="about-contact-questions-header"]')
-        _technical_support_header_locator = (
-            By.CSS_SELECTOR, '[data-l10n-id="about-contact-technical-support-header"]')
-        _general_questions_header_locator = (
-            By.CSS_SELECTOR, '[data-l10n-id="about-contact-general-questions-header"]')
 
         @property
         def is_email_displayed(self):
@@ -43,23 +38,5 @@ class Contact(AboutPage):
             return self.email_link.get_attribute('href')
 
         @property
-        def is_map_displayed(self):
-            return self.is_element_displayed(*self._map_img_locator)
-
-        @property
         def questions_header(self):
             return self.find_element(*self._questions_header_locator)
-
-        @property
-        def technical_support_header(self):
-            return self.find_element(*self._technical_support_header_locator)
-
-        @property
-        def general_questions_header(self):
-            return self.find_element(*self._general_questions_header_locator)
-
-        @property
-        def loaded(self):
-            # super().loaded checks that the Region root element is present
-            # is_map_displayed waits until the map has at least started loading
-            return super().loaded and self.is_map_displayed
