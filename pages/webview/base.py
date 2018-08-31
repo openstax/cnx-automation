@@ -15,7 +15,7 @@ class Page(pypom.Page):
     _canonical_link_locator = (By.CSS_SELECTOR, 'head link[rel="canonical"]')
 
     # Default to a 60 second timeout for CNX webview
-    def __init__(self, driver, base_url=None, timeout=60, **url_kwargs):
+    def __init__(self, driver, base_url=None, timeout=90, **url_kwargs):
         super().__init__(driver, base_url, timeout, **url_kwargs)
 
     @property
