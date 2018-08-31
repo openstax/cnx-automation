@@ -8,6 +8,7 @@ import xml.etree.ElementTree as ET
 from selenium.webdriver.common.by import By
 
 from pages.legacy.base import PrivatePage
+from regions.legacy.base import Region
 
 
 class ModuleEdit(PrivatePage):
@@ -22,6 +23,9 @@ class ModuleEdit(PrivatePage):
     _blank_module_content_string = (
         '<ns0:content xmlns:ns0="http://cnx.rice.edu/cnxml">\n  '
         '<ns0:para id="delete_me">\n     \n  </ns0:para>\n</ns0:content>\n\n')
+    _edit_method_locator = (By.ID, 'eipTopEditingMode')
+    _save_button_locator = (By.CSS_SELECTOR, '[type="submit"][name="save"]')
+    _portal_msg_locator = (By.CLASS_NAME, 'portalMessage')
 
     @property
     def username(self):
@@ -38,6 +42,15 @@ class ModuleEdit(PrivatePage):
     @property
     def title(self):
         return self._title_regex.match(self.title_header.text).group(1)
+
+    @property
+    def is_portal_msg_present(self):
+        return self.is_element_present(By.CLASS_NAME, 'portalMessage')
+
+    @property
+    def portal_msg(self):
+        self.wait.until(lambda _: self.is_portal_msg_present)
+        return self.find_element(*self._portal_msg_locator).text
 
     @property
     def publish_link(self):
@@ -87,3 +100,25 @@ class ModuleEdit(PrivatePage):
         from pages.legacy.module_import import ModuleImport
         module_import = ModuleImport(self.driver, self.base_url, self.timeout)
         return module_import.wait_for_page_to_load()
+
+    @property
+    def edit_method(self):
+        return self.EditMethod(self, self.find_element(*self._edit_method_locator))
+
+    class EditMethod(Region):
+        _edit_in_place_locator = (By.ID, 'eipEditInPlaceEditingMode')
+        _full_source_editing_locator = (By.ID, 'eipFullSourceEditingMode')
+
+        def edit_in_place(self):
+            self.find_element(*self._edit_in_place_locator).click()
+
+        def full_source_editing(self):
+            self.find_element(*self._full_source_editing_locator).click()
+
+    def edit_content_text(self, text):
+        self.content_textarea.clear()
+        self.content_textarea.send_keys(text)
+        return self
+
+    def save(self):
+        return self.find_element(*self._save_button_locator).click()
