@@ -27,7 +27,7 @@ def test_top_right_links_and_nav(width, height, webview_base_url, legacy_base_ur
 
     # THEN the top right links, logos and nav are displayed and point to the correct URLs
     assert header.is_support_link_displayed
-    assert header.support_url == 'http://openstax.force.com/support?l=en_US&c=Products%3ACNX'
+    assert header.support_url == 'https://openstax.secure.force.com/help'
 
     assert header.is_legacy_site_link_displayed
     expected_legacy_url = urljoin(legacy_base_url, '/content?legacy=true')
