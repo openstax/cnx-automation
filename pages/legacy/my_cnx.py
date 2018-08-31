@@ -14,6 +14,8 @@ class MyCnx(PrivatePage):
     _create_a_new_collection_locator = (
         By.CSS_SELECTOR, 'p.createlink a[href$="/mydashboard/cc_license?type_name=Collection"')
     _workspace_link_locator = (By.CSS_SELECTOR, '#cnx_by_location_contents li a')
+    _go_to_collections_link_locator = (By.CSS_SELECTOR, '#cnx_by_type_contents > '
+                                                        'li:nth-child(2) > a')
 
     @property
     def create_a_new_collection_link(self):
@@ -22,6 +24,10 @@ class MyCnx(PrivatePage):
     @property
     def create_a_new_module_link(self):
         return self.find_element(*self._create_a_new_module_locator)
+
+    @property
+    def go_to_collections_link(self):
+        return self.find_element(*self._go_to_collections_link_locator)
 
     @property
     def workspace_link(self):
@@ -44,3 +50,9 @@ class MyCnx(PrivatePage):
         from pages.legacy.workspace import Workspace
         workspace = Workspace(self.driver, self.base_url, self.timeout)
         return workspace.wait_for_page_to_load()
+
+    def click_workspace_collection(self):
+        self.go_to_collections_link.click()
+        from pages.legacy.workspace_collection import WorkspaceCollection
+        collections = WorkspaceCollection(self.driver, self.base_url, self.timeout)
+        return collections.wait_for_page_to_load()
