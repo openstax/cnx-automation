@@ -218,6 +218,7 @@ class TestCreateImportPublishModuleAndCollection(object):
                                                    'This collection has no content. ' \
                                                    'You will not be able to ' \
                                                    'publish until you add some.'
+
     @markers.legacy
     @markers.test_case('C195230')
     @markers.slow
