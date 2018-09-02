@@ -120,19 +120,20 @@ def test_navs_and_elements_are_displayed(webview_base_url, selenium):
 
     # Section title is on top of main content section (white area)
     main_content_section = content.main_content_section
-    section_title_div = content.section_title_div
+    section_title_div_location = content.section_title_div_location
+    section_title_div_size = content.section_title_div_size
 
     # Section title inside main content section
-    assert section_title_div.location['x'] >= main_content_section.location['x']
-    assert section_title_div.location['y'] >= main_content_section.location['y']
-    assert (section_title_div.location['x'] + section_title_div.size['width'] <=
+    assert section_title_div_location['x'] >= main_content_section.location['x']
+    assert section_title_div_location['y'] >= main_content_section.location['y']
+    assert (section_title_div_location['x'] + section_title_div_size['width'] <=
             main_content_section.location['x'] + main_content_section.size['width'])
-    assert (section_title_div.location['y'] + section_title_div.size['height'] <=
+    assert (section_title_div_location['y'] + section_title_div_size['height'] <=
             main_content_section.location['y'] + main_content_section.size['height'])
 
     # Section title on top of main content section
-    assert (section_title_div.location['y'] - main_content_section.location['y'] <=
-            section_title_div.size['height'])
+    assert (section_title_div_location['y'] - main_content_section.location['y'] <=
+            section_title_div_size['height'])
 
 
 @markers.webview
