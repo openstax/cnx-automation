@@ -17,11 +17,16 @@ class CollectionEdit(PrivatePage):
     _root_collection_locator = (By.CSS_SELECTOR, 'ul.x-tree-root-ct li.x-tree-node')
     _publish_link_locator = (By.CSS_SELECTOR, 'a[href$="collection_publish"]')
     _modal_locator = (By.CSS_SELECTOR, 'div.x-window')
+    _portal_msg_locator = (By.CLASS_NAME, 'portalMessage')
     _roles_tab_locator = (By.ID, 'contentview-roles')
 
     @property
     def username(self):
         return self._url_regex.search(self.driver.current_url).group(1)
+
+    @property
+    def portal_msg(self):
+        return self.find_element(*self._portal_msg_locator).text
 
     @property
     def id(self):

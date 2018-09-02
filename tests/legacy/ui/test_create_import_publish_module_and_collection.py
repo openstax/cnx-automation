@@ -174,6 +174,24 @@ class TestCreateImportPublishModuleAndCollection(object):
     @markers.legacy
     @markers.test_case('C195231')
     @markers.slow
+    def test_new_collection_without_summary(self, legacy_base_url, legacy_username,
+                                            legacy_password, selenium):
+        # GIVEN a logged in user on their dashboard
+        login_page = LoginForm(selenium, legacy_base_url).open()
+        my_cnx = login_page.login(legacy_username, legacy_password)
+
+        # WHEN the user clicks to create a new collection,
+        # agrees to the license and fills in the Title
+        cc_license = my_cnx.create_collection()
+        metadata_edit = cc_license.agree().submit()
+        collection_edit = metadata_edit.fill_in_title('CNX Automation Test Collection').submit()
+
+        # THEN changes are saved
+        assert collection_edit.portal_msg == 'Changes saved.'
+
+    @markers.legacy
+    @markers.test_case('C195231')
+    @markers.slow
     def test_mathmal3_valid_in_legacy(self, legacy_base_url, legacy_username,
                                       legacy_password, sample_mathml3_cnxml_filepath, selenium):
         # GIVEN a logged in user on their dashboard, and the sample mathml3
