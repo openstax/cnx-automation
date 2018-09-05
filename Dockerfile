@@ -1,4 +1,4 @@
-FROM openstax/selenium-chrome:latest
+FROM openstax/selenium-chrome-debug:latest
 
 USER root
 
@@ -9,3 +9,4 @@ WORKDIR /code
 # Install Tox
 RUN pip3 install tox
 
+USER seluser
