@@ -1,6 +1,202 @@
-version: "3"
+# TODO: artifacts volume shared with services
 
+# Note, the port mappings in this file are for developer use.
+# The mappings give the developer a way reach the service outside of the
+# container network.
+# For example, the 'archive' service is mapped to 6400:6543. When configuring
+# connections between services, use the exposed port of the container image
+# (i.e. for archive that is 6543).
+
+
+version: '3'
 services:
+  ###
+  # third-party or out-of-scope services
+  ###
+  proxy-openstax-org:
+    image: nginx:latest
+    volumes:
+      - .dockerfiles/proxy-openstax-org.conf:/etc/nginx/conf.d/default.conf:ro
+    ports:
+      - "8081:80"
+
+  # TODO: MathMLCloud
+  # TODO: OpenStax Exercises
+
+  ###
+  # core third-party components
+  ###
+  rabbitmq:
+    image: rabbitmq:latest
+
+  db:
+    image: openstax/cnx-db:latest
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      # TODO: Load slim data via a startup script
+    environment:
+      - DB_URL=postgresql://rhaptos@/repository
+      - DB_SUPER_URL=postgresql://rhaptos_admin@/repository
+
+  memcached:
+    image: memcached:latest
+
+  ###
+  # CNX components
+  ###
+
+  # TODO: Must touchup configuration to be strictly environ
+  archive:
+    image: openstax/cnx-archive:latest
+    # command: <use default entry-point>
+    ports:
+      - "6400:6543"
+    links:
+      - db
+      - memcached
+
+  # TODO: Must touchup configuration to be strictly environ
+  publishing:
+    image: openstax/cnx-publishing:latest
+    command: bash -c "pserve $${PYRAMID_INI}"
+    ports:
+      - "6500:6543"
+    links:
+      - db
+      - rabbitmq
+    environment:
+      - DB_URL=postgresql://rhaptos@db/repository
+      - DB_SUPER_URL=postgresql://rhaptos_admin@db/repository
+      - AMQP_URL=amqp://guest@rabbitmq:5672//
+      - USERS=foo\nbar\nbaz
+      - MODERATORS=foo
+      - ADMINISTRATORS=bar
+
+  channel-processing:
+    image: openstax/cnx-publishing:latest
+    command: bash -c "cnx-publishing-channel-processing $PYRAMID_INI"
+    links:
+      - db
+      - rabbitmq
+    environment:
+      # FIXME: Build PYRAMID_INI into the Dockerfile
+      - PYRAMID_INI=environ.ini
+      - DB_URL=postgresql://rhaptos@db/repository
+      - DB_SUPER_URL=postgresql://rhaptos_admin@db/repository
+      - AMQP_URL=amqp://guest@rabbitmq:5672//
+
+  publishing-worker:
+    image: openstax/cnx-publishing:latest
+    command: celery worker -A cnxpublishing -Q default,deferred --loglevel debug
+    links:
+      - db
+      - rabbitmq
+      - memcached
+      # TODO: link mathmlcloud
+      # - mathmlcloud
+      # TODO: link exercises
+      # - exercises
+    environment:
+      # FIXME: Build PYRAMID_INI into the Dockerfile
+      - PYRAMID_INI=environ.ini
+      - DB_URL=postgresql://rhaptos@db/repository
+      - DB_SUPER_URL=postgresql://rhaptos_admin@db/repository
+      - AMQP_URL=amqp://guest@rabbitmq:5672//
+      # TODO: Need to add this to the environ.ini
+      - MEMCACHE_HOST=memcached
+      # TODO: Need to add this to the environ.ini
+      - EXERCISES_URL=http://exercises
+      # TODO: Need to add this to the environ.ini
+      - MATHMLCLOUD_URL=???
+
+  press:
+    image: openstax/cnx-press:latest
+    command: gunicorn -b 0.0.0.0:6543 --access-logfile - --error-logfile - -n press --reload wsgi:app --timeout=180
+    ports:
+      - "6700:6543"
+    links:
+      - db
+      - rabbitmq
+    environment:
+      - SHARED_DIR=/app/var
+      - DB_URL=postgresql://rhaptos@db/repository
+      - DB_SUPER_URL=postgresql://rhaptos_admin@db/repository
+      - AMQP_URL=amqp://guest@rabbitmq:5672//
+
+  press-worker:
+    image: openstax/cnx-press:latest
+    command: celery -A press worker --beat --loglevel debug
+    links:
+      - db
+      - rabbitmq
+    environment:
+      - SHARED_DIR=/app/var
+      - DB_URL=postgresql://rhaptos@db/repository
+      - DB_SUPER_URL=postgresql://rhaptos_admin@db/repository
+      - AMQP_URL=amqp://guest@rabbitmq:5672//
+
+
+  # # TODO: AHH!!! Why is this thing still alive?!?!
+  # zeo:
+  #   image: openstax/cnx-legacy:latest
+
+  # pdf-gen:
+  #   image: openstax/cnx-legacy:latest
+  #   links:
+  #     - zeo
+
+  # legacy-ui:
+  #   image: openstax/cnx-legacy:latest
+  #   links:
+  #     - zeo
+  # !!! Place holder to allow our varnish config to resolve the address !!!
+  legacy-ui:
+      image: openstax/cnx-webview:latest
+      ports:
+        - 8080:8000
+
+  ui:
+    image: openstax/cnx-webview:latest
+    ports:
+      - 8000:8000
+    environment:
+      - ENVIRONMENT=prod
+    volumes:
+      - .dockerfiles/settings.js:/code/dist/scripts/settings.js:z
+
+  files-server:
+    # TODO: We're using nginx in production, but this works for the moment.
+    image: python:3
+    command: python -m http.server 9000 --directory /artifacts
+    ports:
+      - 9000:9000
+    volumes:
+      - artifacts:/artifacts:z
+
+  # TODO: Keep an eye on https://github.com/docker-library/official-images/pull/4404
+  varnish:
+    # image: openstax/cnx-varnish
+    # FIXME: This image isn't ideal, but it does allow us close to the target.
+    #        See also, https://github.com/million12/docker-varnish
+    image: million12/varnish
+    links:
+      - files-server
+      - ui
+      - archive
+      - publishing
+      - press
+      - legacy-ui
+    ports:
+      - 80:80
+    volumes:
+      - .dockerfiles/cnx.vcl:/etc/varnish/cnx.vcl:z
+    environment:
+      - VCL_CONFIG=/etc/varnish/cnx.vcl
+      # - CACHE_SIZE=???
+      # - VARNISHD_PARAMS=???
+
   selenium-chrome:
     environment:
       - DISPLAY=:0
@@ -22,3 +218,12 @@ services:
     ports:
       - "5900"
     shm_size: 2g
+    links:
+      - ui
+      - proxy-openstax-org
+      # FIXME: Temporarily link raw archive without the varnish wrapper
+      - archive
+
+volumes:
+  artifacts:
+  pgdata:
