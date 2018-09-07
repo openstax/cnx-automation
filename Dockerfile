@@ -1,11 +1,12 @@
-FROM openstax/selenium-chrome:latest
+FROM openstax/selenium-chrome-debug:latest
 
 USER root
 
-COPY . /code
+COPY --chown=seluser:seluser . /code
 
 WORKDIR /code
 
 # Install Tox
 RUN pip3 install tox
 
+USER seluser
