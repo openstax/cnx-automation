@@ -19,15 +19,34 @@ Follow the instructions to install [Docker](https://docs.docker.com/install/).
 
 Follow the instructions to install [Docker Compose](https://docs.docker.com/compose/install/).
 
-### Run Docker Build
+### Run Docker Compose
 
-    $ docker build -t cnx-automation .
+    $ docker compose up -d
 
 ### Execute the tests
 
-    $ docker run --user root --name test --shm-size=2g --rm cnx-automation tox
+    $ docker-compose exec selenium-chrome tox 
 
 > Note: The [Run the tests using tox](#run-the-tests-using-tox) section covers how to pass arguments to tox in order to target specific tests
+
+### View the browser
+
+List the docker containers and find the one for selenium-chrome
+
+    $ docker container ls
+
+A table will be displayed with column names. Find the one labeled PORTS
+
+    PORTS
+    4444/tcp, 0.0.0.0:32778->5900/tcp
+
+Use a VNC application to connect to `0.0.0.0:32778`. The port number `32778` may be different.
+
+Execute the tests as described above.
+
+    $ docker-compose exec selenium-chrome tox
+
+Switch over to the VNC window to see your tests running!
 
 ## How prepare the project locally
 
@@ -53,10 +72,10 @@ Tests are run using the command line using the `tox` command. By default this
 will run all of the environments configured, including checking your tests against
 recommended style conventions using [flake8][flake8].
 
-To run against a different base URL, pass in a value for `--webview-base-url`, `--legacy-base-url`, `--archive-base-url`:
+To run against a different base URL, pass in a value for `--webview_base_url`, `--legacy_base_url`, `--archive_base_url`:
 
 ```bash
-$ tox -- --webview-base-url=https://staging.cnx.org
+$ tox -- --webview_base_url=https://staging.cnx.org
 ```
 
 To run Chrome in headless mode, pass in `--headless` or set the HEADLESS environment variable:
