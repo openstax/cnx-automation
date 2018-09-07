@@ -2,7 +2,7 @@ FROM openstax/selenium-chrome-debug:latest
 
 USER root
 
-COPY . /code
+COPY --chown=seluser:seluser . /code
 
 WORKDIR /code
 
