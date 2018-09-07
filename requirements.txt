@@ -13,7 +13,7 @@ nebuchadnezzar==5.1.0
 pluggy==0.7.1
 py==1.6.0
 PyPOM==2.1.0
-pytest==3.7.4
+pytest==3.8.0
 pytest-base-url==1.4.1
 pytest-html==1.19.0
 pytest-metadata==1.7.0
