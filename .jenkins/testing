@@ -9,7 +9,7 @@ pipeline {
     stage('Test') {
       steps {
         withDockerServer([uri: env.SWARM_URI, credentialsId: '']) {
-          sh "docker stack deploy --prune -c docker-compose.yml -c docker-compose.test.yml cnx-automation"
+          sh "docker stack deploy --prune -c docker-compose.yml cnx-automation"
         }
       }
     }
