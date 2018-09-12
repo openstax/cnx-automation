@@ -3,7 +3,7 @@ pipeline {
   stages {
     stage('Build') {
       steps {
-        sh "docker build -t cnx-automation ."
+        sh "docker build -t openstax/cnx-automation:dev ."
       }
     }
     stage('Test') {
