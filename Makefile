@@ -41,7 +41,7 @@ clean-test: ## remove test and coverage artifacts
 
 test: cnx_slim_dump.sql.gz $(STATEDIR)/docker-build
 	docker-compose up -d selenium-chrome
-	docker-compose docker-compose exec selenium-chrome tox -- --webview_base_url=http://ui:8000 --archive_base_url=http://archive:6543
+	docker-compose exec selenium-chrome wait-for db:5432 -- tox -- --webview_base_url=http://ui:8000 --archive_base_url=http://archive:6543
 
 venv:
 	python3 -m venv .venv && \
