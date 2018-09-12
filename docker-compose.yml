@@ -36,6 +36,7 @@ services:
     volumes:
       - pgdata:/var/lib/postgresql/data
       # TODO: Load slim data via a startup script
+      - ${PWD}/cnx_slim_dump.sql.gz:/docker-entrypoint-initdb.d/cnx_slim_dump.sql.gz
     environment:
       - DB_URL=postgresql://rhaptos@/repository
       - DB_SUPER_URL=postgresql://rhaptos_admin@/repository

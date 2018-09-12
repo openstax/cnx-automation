@@ -12,6 +12,10 @@ $(STATEDIR)/docker-build: Dockerfile requirements.txt
 	mkdir -p $(STATEDIR)
 	touch $(STATEDIR)/docker-build
 
+cnx_slim_dump.sql.gz:
+	scp backup2.cnx.org:`ssh backup2.cnx.org 'ls -t /var/backups/cnx_slim_dump.*.sql.gz | awk "{print $1; exit}"'` cnx_slim_dump.sql.gz
+
+
 clean: clean-build clean-pyc clean-state clean-test
 
 clean-build: ## remove build artifacts
@@ -35,7 +39,7 @@ clean-test: ## remove test and coverage artifacts
 	rm -fr assets/
 	rm -f report.html
 
-test: $(STATEDIR)/docker-build
+test: cnx_slim_dump.sql.gz $(STATEDIR)/docker-build
 	docker-compose up -d selenium-chrome
 	docker-compose docker-compose exec selenium-chrome tox -- --webview_base_url=http://ui:8000 --archive_base_url=http://archive:6543
 
