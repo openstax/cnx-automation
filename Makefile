@@ -1,7 +1,18 @@
+STATEDIR = $(PWD)/.state
+
 .PHONY: clean clean-test clean-pyc clean-build help
 .DEFAULT_GOAL := help
 
-clean: clean-build clean-pyc clean-test
+# Create a marker file for the docker-build
+$(STATEDIR)/docker-build: Dockerfile requirements.txt
+	# Build our docker container(s) for this project.
+	docker-compose build
+
+	# Mark the state so we don't rebuild this needlessly.
+	mkdir -p $(STATEDIR)
+	touch $(STATEDIR)/docker-build
+
+clean: clean-build clean-pyc clean-state clean-test
 
 clean-build: ## remove build artifacts
 	rm -fr build/
@@ -16,10 +27,17 @@ clean-pyc: ## remove Python file artifacts
 	find . -name '*~' -exec rm -f {} +
 	find . -name '__pycache__' -exec rm -fr {} +
 
+clean-state: ## remove the build state
+	rm -rf $(STATEDIR)
+
 clean-test: ## remove test and coverage artifacts
 	rm -fr .tox/
 	rm -fr assets/
 	rm -f report.html
+
+test: $(STATEDIR)/docker-build
+	docker-compose up -d selenium-chrome
+	docker-compose docker-compose exec selenium-chrome tox -- --webview_base_url=http://ui:8000 --archive_base_url=http://archive:6543
 
 venv:
 	python3 -m venv .venv && \
@@ -31,4 +49,6 @@ help:
 	@echo "clean			Remove build, test, and file artifacts"
 	@echo "clean-build 		Remove build artifacts"
 	@echo "clean-pyc		Remove file artifacts"
+	@echo "clean-state		Remove make's build state"
 	@echo "clean-test		Remove test artifacts"
+	@echo "test			Runs the tests in an contained environment"
