@@ -20,36 +20,36 @@ from pages.webview.content import Content
 @markers.test_case('C193738')
 @markers.nondestructive
 @markers.parametrize('is_archive,path,expected_response_status_code', [
-    (False, '/content/col11407', 301),
-    (True, '/content/col11407', 301),
-    (False, '/content/col11407/1.7', 301),
-    (True, '/content/col11407/1.7', 301),
-    (False, '/contents/afe4332a-c97f-4fc4-be27-4e4d384a32d8', 200),
-    (True, '/contents/afe4332a-c97f-4fc4-be27-4e4d384a32d8', 302),
-    (False, ('/contents/afe4332a-c97f-4fc4-be27-4e4d384a32d8'
-             ':3a42f055-0287-4654-9f10-59e34491be4e'), 200),
-    (True, ('/contents/afe4332a-c97f-4fc4-be27-4e4d384a32d8'
-            ':3a42f055-0287-4654-9f10-59e34491be4e'), 302),
-    (False, '/contents/afe4332a-c97f-4fc4-be27-4e4d384a32d8@7.23', 200),
-    (True, '/contents/afe4332a-c97f-4fc4-be27-4e4d384a32d8@7.23', 200),
-    (False, ('/contents/afe4332a-c97f-4fc4-be27-4e4d384a32d8@7.23'
-             ':3a42f055-0287-4654-9f10-59e34491be4e'), 200),
-    (True, ('/contents/afe4332a-c97f-4fc4-be27-4e4d384a32d8@7.23'
-            ':3a42f055-0287-4654-9f10-59e34491be4e'), 302),
-    (False, ('/contents/afe4332a-c97f-4fc4-be27-4e4d384a32d8@7.23'
-             ':3a42f055-0287-4654-9f10-59e34491be4e@8'), 200),
-    (True, ('/contents/afe4332a-c97f-4fc4-be27-4e4d384a32d8@7.23'
-            ':3a42f055-0287-4654-9f10-59e34491be4e@8'), 302),
-    (False, '/contents/r-QzKsl_', 200),
-    (True, '/contents/r-QzKsl_', 302),
-    (False, '/contents/r-QzKsl_:OkLwVQKH', 200),
-    (True, '/contents/r-QzKsl_:OkLwVQKH', 302),
-    (False, '/contents/r-QzKsl_@7.23', 200),
-    (True, '/contents/r-QzKsl_@7.23', 301),
-    (False, '/contents/r-QzKsl_@7.23:OkLwVQKH', 200),
-    (True, '/contents/r-QzKsl_@7.23:OkLwVQKH', 301),
-    (False, '/contents/r-QzKsl_@7.23:OkLwVQKH@8', 200),
-    (True, '/contents/r-QzKsl_@7.23:OkLwVQKH@8', 301)])
+    (False, '/content/col11762', 301),
+    (True, '/content/col11762', 301),
+    (False, '/content/col11762/1.10', 301),
+    (True, '/content/col11762/1.10', 301),
+    (False, '/contents/02040312-72c8-441e-a685-20e9333f3e1d', 200),
+    (True, '/contents/02040312-72c8-441e-a685-20e9333f3e1d', 302),
+    (False, ('/contents/02040312-72c8-441e-a685-20e9333f3e1d'
+             ':40c45f23-6a75-414a-987a-cccd50bd04b8'), 200),
+    (True, ('/contents/02040312-72c8-441e-a685-20e9333f3e1d'
+            ':40c45f23-6a75-414a-987a-cccd50bd04b8'), 302),
+    (False, '/contents/02040312-72c8-441e-a685-20e9333f3e1d@10.1', 200),
+    (True, '/contents/02040312-72c8-441e-a685-20e9333f3e1d@10.1', 200),
+    (False, ('/contents/02040312-72c8-441e-a685-20e9333f3e1d@10.1'
+             ':40c45f23-6a75-414a-987a-cccd50bd04b8'), 200),
+    (True, ('/contents/02040312-72c8-441e-a685-20e9333f3e1d@10.1'
+            ':40c45f23-6a75-414a-987a-cccd50bd04b8'), 302),
+    (False, ('/contents/02040312-72c8-441e-a685-20e9333f3e1d@10.1'
+             ':40c45f23-6a75-414a-987a-cccd50bd04b8@8'), 200),
+    (True, ('/contents/02040312-72c8-441e-a685-20e9333f3e1d@10.1'
+            ':40c45f23-6a75-414a-987a-cccd50bd04b8@8'), 302),
+    (False, '/contents/AgQDEnLI', 200),
+    (True, '/contents/AgQDEnLI', 302),
+    (False, '/contents/AgQDEnLI:OkLwVQKH', 200),
+    (True, '/contents/AgQDEnLI:QMRfI2p1', 302),
+    (False, '/contents/AgQDEnLI@10.1', 200),
+    (True, '/contents/AgQDEnLI@10.1', 301),
+    (False, '/contents/AgQDEnLI@10.1:QMRfI2p1', 200),
+    (True, '/contents/AgQDEnLI@10.1:QMRfI2p1', 301),
+    (False, '/contents/AgQDEnLI@10.1:QMRfI2p1@8', 200),
+    (True, '/contents/AgQDEnLI@10.1:QMRfI2p1@8', 301)])
 def test_content_status_codes(webview_base_url, archive_base_url, is_archive,
                               path, expected_response_status_code):
     # GIVEN some URL and the expected redirect code
@@ -71,9 +71,9 @@ def test_content_status_codes(webview_base_url, archive_base_url, is_archive,
 @markers.test_case('C194465')
 @markers.nondestructive
 @markers.parametrize('id', [
-    'r-QzKsl_@9.1:_97x1rAv@4',
-    'r-QzKsl_@9.1:atsvhJiF@5',
-    'r-QzKsl_@7.23:OkLwVQKH@8',
+    'AgQDEnLI@10.1:TrIRM88K@5',
+    'AgQDEnLI@10.1:XZe6d2Jr@9',
+    'AgQDEnLI@10.1:QMRfI2p1@8',
     'eg-XcBxE@3.30:dh0GjBEd@2'])
 def test_canonical_link_is_correct(webview_base_url, selenium, id):
     # GIVEN a book's content page
