@@ -12,8 +12,8 @@ $(STATEDIR)/docker-build: Dockerfile requirements.txt
 	mkdir -p $(STATEDIR)
 	touch $(STATEDIR)/docker-build
 
-# cnx_slim_dump.sql.gz:
-# 	scp backup2.cnx.org:`ssh backup2.cnx.org 'ls -t /var/backups/cnx_slim_dump.*.sql.gz | awk "{print $1; exit}"'` cnx_slim_dump.sql.gz
+cnx_slim_dump.sql.gz:
+	scp backup2.cnx.org:`ssh backup2.cnx.org 'ls -t /var/backups/cnx_slim_dump.*.sql.gz | awk "{print $1; exit}"'` cnx_slim_dump.sql.gz
 
 
 clean: clean-build clean-pyc clean-state clean-test
@@ -39,7 +39,7 @@ clean-test: ## remove test and coverage artifacts
 	rm -fr assets/
 	rm -f report.html
 
-test: ##cnx_slim_dump.sql.gz $(STATEDIR)/docker-build
+test: cnx_slim_dump.sql.gz $(STATEDIR)/docker-build
 	docker-compose up -d selenium-chrome
 	docker-compose exec selenium-chrome wait-for db:5432 -t 900 -- tox -- --webview_base_url=http://ui:8000 --archive_base_url=http://archive:6543 -m "webview and not (requires_deployment or requires_varnish_routing)"
 
