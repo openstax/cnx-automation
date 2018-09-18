@@ -13,6 +13,7 @@ from pages.webview.history import History
 
 
 @markers.webview
+@markers.requires_deployment
 @markers.test_case('C175150')
 @markers.nondestructive
 def test_version(webview_base_url, selenium, github, record_property):

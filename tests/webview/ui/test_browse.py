@@ -64,7 +64,7 @@ def test_click_subject_category(webview_base_url, selenium):
     browse = home.header.click_search()
 
     # WHEN a subject category is clicked
-    subject = browse.subject_list[0]
+    subject = browse.subject_list[3]
     subject_name = subject.name
     search_results = subject.click()
 
