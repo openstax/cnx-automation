@@ -39,7 +39,7 @@ clean-test: ## remove test and coverage artifacts
 	rm -fr assets/
 	rm -f report.html
 
-test: cnx_slim_dump.sql.gz $(STATEDIR)/docker-build
+test-webview: cnx_slim_dump.sql.gz $(STATEDIR)/docker-build
 	docker-compose up -d selenium-chrome
 	docker-compose exec selenium-chrome wait-for db:5432 -t 900 -- tox -- --webview_base_url=http://ui:8000 --archive_base_url=http://archive:6543 -m "webview and not (requires_deployment or requires_varnish_routing or legacy)"
 
@@ -55,4 +55,4 @@ help:
 	@echo "clean-pyc		Remove file artifacts"
 	@echo "clean-state		Remove make's build state"
 	@echo "clean-test		Remove test artifacts"
-	@echo "test			Runs the tests in an contained environment"
+	@echo "test-webview		Runs the webview tests in an contained environment"
