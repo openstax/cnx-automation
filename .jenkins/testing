@@ -1,0 +1,17 @@
+pipeline {
+  agent { label 'docker' }
+  stages {
+    stage('Build') {
+      steps {
+        sh "docker build -t openstax/cnx-automation:dev ."
+      }
+    }
+    stage('Test') {
+      steps {
+        withDockerServer([uri: env.SWARM_URI, credentialsId: '']) {
+          sh "docker stack deploy --prune -c docker-compose.yml cnx-automation"
+        }
+      }
+    }
+  }
+}

@@ -15,3 +15,7 @@ slow = mark.skipif(not config.getoption('runslow'), reason='need --runslow optio
 webview = mark.webview
 legacy = mark.legacy
 neb = mark.neb
+
+requires_deployment = mark.requires_deployment
+requires_publishing = mark.requires_publishing
+requires_varnish_routing = mark.requires_varnish_routing

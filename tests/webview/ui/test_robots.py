@@ -8,6 +8,7 @@ from pages.robots import Robots
 
 
 @markers.webview
+@markers.requires_deployment
 @markers.test_case('C181347', 'C193737')
 @markers.nondestructive
 def test_robots(webview_base_url, archive_base_url, selenium):

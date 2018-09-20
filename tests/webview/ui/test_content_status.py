@@ -8,6 +8,8 @@ from pages.webview.content_status import ContentStatus
 
 
 @markers.webview
+@markers.requires_varnish_routing
+@markers.requires_publishing
 @markers.test_case('C175149')
 @markers.nondestructive
 def test_content_status_styles(webview_base_url, selenium):

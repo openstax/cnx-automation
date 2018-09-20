@@ -20,9 +20,11 @@ from pages.webview.content import Content
 @markers.test_case('C193738')
 @markers.nondestructive
 @markers.parametrize('is_archive,path,expected_response_status_code', [
-    (False, '/content/col11762', 301),
+    # FIXME Requires varnish
+    # (False, '/content/col11762', 301),
     (True, '/content/col11762', 301),
-    (False, '/content/col11762/1.10', 301),
+    # FIXME Requires varnish
+    # (False, '/content/col11762/1.10', 301),
     (True, '/content/col11762/1.10', 301),
     (False, '/contents/02040312-72c8-441e-a685-20e9333f3e1d', 200),
     (True, '/contents/02040312-72c8-441e-a685-20e9333f3e1d', 302),
@@ -159,7 +161,7 @@ def test_author_is_openstax(webview_base_url, selenium):
 @markers.nondestructive
 # https://stackoverflow.com/a/33879151
 @markers.parametrize('language', ['en', 'pl'])
-@markers.parametrize('uuid', ['d6e3aa5a-10a9-4436-9d16-ae3b1d71ac8b'])
+@markers.parametrize('uuid', ['02040312-72c8-441e-a685-20e9333f3e1d'])
 def test_derived_from_content(webview_base_url, selenium, language, uuid):
     # GIVEN the selenium driver set to a specific language and a derived book's uuid
 
@@ -172,9 +174,11 @@ def test_derived_from_content(webview_base_url, selenium, language, uuid):
     assert content_header.is_derived_from_displayed
 
     if language == 'en':
-        assert content_header.derived_from_text == 'Derived from Biology by OpenStax'
+        expected = 'Derived from Introduction to Sociology by OpenStax'
+        assert content_header.derived_from_text == expected
     elif language == 'pl':
-        assert content_header.derived_from_text == 'Utworzone z Biology autorstwa OpenStax'
+        expected = 'Utworzone z Introduction to Sociology autorstwa OpenStax'
+        assert content_header.derived_from_text == expected
 
 
 @markers.webview
@@ -250,7 +254,9 @@ def test_share_on_top_right_corner(webview_base_url, selenium):
 @markers.test_case('C132549', 'C175148')
 @markers.nondestructive
 @markers.parametrize('uuid,query,has_results,result_index,has_os_figures,has_os_tables', [
-    ('d50f6e32-0fda-46ef-a362-9bd36ca7c97d', 'table', True, 1, True, True),
+    # FIXME slim dump doesn't contain baked content:
+    #       https://github.com/openstax/quality-assurance-meta/issues/81
+    # ('d50f6e32-0fda-46ef-a362-9bd36ca7c97d', 'table', True, 1, True, True),
     ('185cbf87-c72e-48f5-b51e-f14f21b5eabd', 'mitosis genetics gorilla', False, None, None, None),
     ('185cbf87-c72e-48f5-b51e-f14f21b5eabd', 'mitosis genetics', True, 0, False, False)])
 def test_in_book_search(webview_base_url, selenium, uuid, query,
@@ -396,7 +402,7 @@ def test_section_title_for_no_markup(webview_base_url, selenium):
 @markers.webview
 @markers.test_case('C195074')
 @markers.nondestructive
-@markers.parametrize('id', ['56AW05H8@13.4:vs_mKpvU@6'])
+@markers.parametrize('id', ['u2KTPvIK@3.1:Zv6FJYpb@3'])
 def test_page_with_unicode_characters_in_title_loads(webview_base_url, selenium, id):
     # GIVEN the webview base url, the Selenium driver and the id of a page whose title has unicode
     content = Content(selenium, webview_base_url, id=id)
@@ -726,8 +732,13 @@ def test_ncy_is_not_displayed(webview_base_url, american_gov_uuid, selenium):
 @markers.nondestructive
 @markers.parametrize(
     'page_uuid,is_baked_book_index',
-    [('d50f6e32-0fda-46ef-a362-9bd36ca7c97d:72a3ef21-e30b-5ba4-9ea6-eac9699a2f09', True),
-     ('b3c1e1d2-839c-42b0-a314-e119a8aafbdd', False)]
+    [
+        # FIXME slim dump doesn't contain baked content:
+        #       https://github.com/openstax/quality-assurance-meta/issues/81
+        # ('d50f6e32-0fda-46ef-a362-9bd36ca7c97d:'
+        #  '72a3ef21-e30b-5ba4-9ea6-eac9699a2f09', True),
+        ('b3c1e1d2-839c-42b0-a314-e119a8aafbdd', False),
+    ]
 )
 def test_id_links_and_back_button(page_uuid, is_baked_book_index, webview_base_url, selenium):
     # GIVEN an index page in a baked book or a page with anchor links in an unbaked book
@@ -774,7 +785,7 @@ def test_chapter_review_version_matches_book_version(webview_base_url, selenium,
 @markers.webview
 @markers.test_case('C195064')
 @markers.nondestructive
-@markers.parametrize('ch_review_id', ['4fGVMb7P@1'])
+@markers.parametrize('ch_review_id', ['e5fbbjPE'])
 def test_books_containing_go_to_book_link(webview_base_url, selenium, ch_review_id):
     # GIVEN the webview base url, a chapter review id, and the Selenium driver
     content = ContentPage(selenium, webview_base_url, id=ch_review_id).open()
@@ -785,9 +796,9 @@ def test_books_containing_go_to_book_link(webview_base_url, selenium, ch_review_
 
     book = books[0].click_go_to_book_link
 
-    # THEN the chapter should be the very first module 1.1
+    # THEN the chapter should be the very first module 1
     assert type(book) == Content
-    assert book.chapter_section == '1.1'
+    assert book.chapter_section == '1'
     assert book.title == title
 
 

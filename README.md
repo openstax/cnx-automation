@@ -21,7 +21,7 @@ Follow the instructions to install [Docker Compose](https://docs.docker.com/comp
 
 ### Run Docker Compose
 
-    $ docker compose up -d
+    $ docker-compose up -d selenium-chrome
 
 ### Execute the tests
 
