@@ -410,14 +410,14 @@ def test_page_with_unicode_characters_in_title_loads(webview_base_url, selenium,
     # WHEN we load the content page
     content = content.open()
 
-    # Find a figure element
-    figure = content.content_region.figures[0]
+    # Ensure it has a figure element
+    assert content.content_region.has_figures
 
     # THEN the page does not reload afterwards
     # Wait 10 seconds to see if the page reloads
     sleep(10)
     # If we don't get a StaleElementReferenceException then the page didn't reload
-    assert figure.text
+    assert content.content_region.os_figures
 
 
 @markers.webview
