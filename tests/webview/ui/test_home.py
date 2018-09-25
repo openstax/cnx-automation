@@ -56,7 +56,7 @@ def test_top_right_links_and_nav(width, height, webview_base_url, legacy_base_ur
     assert header.about_us_url == urljoin(webview_base_url, '/about')
 
     assert header.is_donate_link_displayed
-    assert header.donate_url == urljoin(webview_base_url, '/donate')
+    assert header.donate_url == 'https://openstax.org/give'
 
     assert header.is_rice_logo_displayed
     assert header.rice_logo_url.rstrip('/') == 'http://www.rice.edu'
