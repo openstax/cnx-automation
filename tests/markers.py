@@ -16,6 +16,7 @@ webview = mark.webview
 legacy = mark.legacy
 neb = mark.neb
 
+requires_complete_dataset = mark.requires_complete_dataset
 requires_deployment = mark.requires_deployment
 requires_publishing = mark.requires_publishing
 requires_varnish_routing = mark.requires_varnish_routing
