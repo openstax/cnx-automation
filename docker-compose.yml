@@ -54,7 +54,7 @@ services:
     # command: <use default entry-point>
     ports:
       - "6400:6543"
-    links:
+    depends_on:
       - db
       - memcached
 
@@ -64,7 +64,7 @@ services:
     command: bash -c "pserve $${PYRAMID_INI}"
     ports:
       - "6500:6543"
-    links:
+    depends_on:
       - db
       - rabbitmq
     environment:
@@ -78,7 +78,7 @@ services:
   channel-processing:
     image: openstax/cnx-publishing:latest
     command: bash -c "cnx-publishing-channel-processing $PYRAMID_INI"
-    links:
+    depends_on:
       - db
       - rabbitmq
     environment:
@@ -91,7 +91,7 @@ services:
   publishing-worker:
     image: openstax/cnx-publishing:latest
     command: celery worker -A cnxpublishing -Q default,deferred --loglevel debug
-    links:
+    depends_on:
       - db
       - rabbitmq
       - memcached
@@ -117,7 +117,7 @@ services:
     command: gunicorn -b 0.0.0.0:6543 --access-logfile - --error-logfile - -n press --reload wsgi:app --timeout=180
     ports:
       - "6700:6543"
-    links:
+    depends_on:
       - db
       - rabbitmq
     environment:
@@ -129,7 +129,7 @@ services:
   press-worker:
     image: openstax/cnx-press:latest
     command: celery -A press worker --beat --loglevel debug
-    links:
+    depends_on:
       - db
       - rabbitmq
     environment:
@@ -145,12 +145,12 @@ services:
 
   # pdf-gen:
   #   image: openstax/cnx-legacy:latest
-  #   links:
+  #   depends_on:
   #     - zeo
 
   # legacy-ui:
   #   image: openstax/cnx-legacy:latest
-  #   links:
+  #   depends_on:
   #     - zeo
   # !!! Place holder to allow our varnish config to resolve the address !!!
   legacy-ui:
@@ -182,7 +182,7 @@ services:
     # FIXME: This image isn't ideal, but it does allow us close to the target.
     #        See also, https://github.com/million12/docker-varnish
     image: million12/varnish
-    links:
+    depends_on:
       - files-server
       - ui
       - archive
@@ -219,7 +219,7 @@ services:
     ports:
       - "5900"
     shm_size: 2g
-    links:
+    depends_on:
       - ui
       - proxy-openstax-org
       # FIXME: Temporarily link raw archive without the varnish wrapper
