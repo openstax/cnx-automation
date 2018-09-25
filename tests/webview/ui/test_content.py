@@ -819,6 +819,7 @@ def test_books_containing_have_revised_date(webview_base_url, selenium, ch_revie
 
 
 @markers.webview
+@markers.requires_complete_dataset
 @markers.test_case('C195061')
 @markers.nondestructive
 @markers.parametrize('page_id', ['BWYBGK7C@2'])
@@ -836,9 +837,10 @@ def test_books_containing_title_not_limited(webview_base_url, selenium, page_id)
 
 
 @markers.webview
+@markers.requires_complete_dataset
 @markers.test_case('C195057', 'C195058', 'C195059', 'C195072')
 @markers.nondestructive
-@markers.parametrize('page_id', ['mjO9LQWq@1', 'bJs8AcSE@1', '4fGVMb7P@1'])
+@markers.parametrize('page_id', ['mjO9LQWq@1', 'bJs8AcSE@1','4fGVMb7P@1'])
 def test_books_containing_message_is_correct(webview_base_url, selenium, page_id):
     # GIVEN the webview base url, page_id, and the Selenium driver
 
@@ -877,6 +879,7 @@ def test_books_containing_have_authors(webview_base_url, selenium, page_id):
 
 
 @markers.webview
+@markers.requires_complete_dataset
 @markers.test_case('C195065')
 @markers.nondestructive
 @markers.parametrize('page_id', ['HOATLqlR@5'])
@@ -910,6 +913,7 @@ def test_books_containing_list_in_sorted_order(webview_base_url, selenium, page_
 
 
 @markers.webview
+@markers.requires_complete_dataset
 @markers.test_case('C195055')
 @markers.nondestructive
 @markers.parametrize('page_id', ['4fGVMb7P@1'])
@@ -937,7 +941,7 @@ def test_books_containing_button_toggles_and_labelled_books(webview_base_url, se
 
 
 @markers.webview
-@markers.webview
+@markers.requires_complete_dataset
 @markers.test_case('C195054')
 @markers.nondestructive
 @markers.parametrize('page_id', ['4fGVMb7P@1'])
@@ -954,9 +958,10 @@ def test_books_containing_list_is_on_left_of_page(webview_base_url, selenium, pa
 
 
 @markers.webview
+@markers.requires_complete_dataset
 @markers.test_case('C195056')
 @markers.nondestructive
-@markers.parametrize('page_id', ['4fGVMb7P@1'])
+@markers.parametrize('page_id', ['QlYg2VHd'])
 @markers.parametrize('width,height', [(1024, 768), (630, 480)])
 def test_button_open_with_certain_window_size(webview_base_url, selenium, page_id, width, height):
     # GIVEN the webview base url, page_id, and the Selenium driver
