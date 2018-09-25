@@ -174,10 +174,10 @@ def test_derived_from_content(webview_base_url, selenium, language, uuid):
     assert content_header.is_derived_from_displayed
 
     if language == 'en':
-        expected = 'Derived from Introduction to Sociology by OpenStax'
+        expected = 'Derived from Introduction to Sociology by OpenStax College'
         assert content_header.derived_from_text == expected
     elif language == 'pl':
-        expected = 'Utworzone z Introduction to Sociology autorstwa OpenStax'
+        expected = 'Utworzone z Introduction to Sociology autorstwa OpenStax College'
         assert content_header.derived_from_text == expected
 
 
@@ -840,7 +840,7 @@ def test_books_containing_title_not_limited(webview_base_url, selenium, page_id)
 @markers.requires_complete_dataset
 @markers.test_case('C195057', 'C195058', 'C195059', 'C195072')
 @markers.nondestructive
-@markers.parametrize('page_id', ['mjO9LQWq@1', 'bJs8AcSE@1','4fGVMb7P@1'])
+@markers.parametrize('page_id', ['mjO9LQWq@1', 'bJs8AcSE@1', '4fGVMb7P@1'])
 def test_books_containing_message_is_correct(webview_base_url, selenium, page_id):
     # GIVEN the webview base url, page_id, and the Selenium driver
 
