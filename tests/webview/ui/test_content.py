@@ -153,7 +153,7 @@ def test_author_is_openstax(webview_base_url, selenium):
     content_header = content.content_header
     assert content_header.is_book_by_displayed
     assert content_header.are_authors_displayed
-    assert content_header.authors == 'OpenStax'
+    assert content_header.authors == 'OpenStax College'
 
 
 @markers.webview
