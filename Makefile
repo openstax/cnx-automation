@@ -50,7 +50,7 @@ venv:
 
 ci-test-webview:
 	docker-compose -f docker-compose.test.yml up -d
-	docker-compose -f docker-compose.test.yml exec -e ARCHIVE_BASE_URL=https://archive-staging.cnx.org -e LEGACY_BASE_URL=https://legacy-staging.cnx.org -e WEBVIEW_BASE_URL=https://staging.cnx.org -t selenium-chrome tox -- --new-first --failed-first -m "webview"
+	docker-compose -f docker-compose.test.yml exec -T -e ARCHIVE_BASE_URL=https://archive-staging.cnx.org -e LEGACY_BASE_URL=https://legacy-staging.cnx.org -e WEBVIEW_BASE_URL=https://staging.cnx.org selenium-chrome tox -- --new-first --failed-first -m "webview"
 
 ci-test: ci-test-webview ## run all ci-test-* recipes
 
