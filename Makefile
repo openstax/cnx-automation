@@ -48,6 +48,12 @@ venv:
 		source .venv/bin/activate && \
 		pip install -r requirements.txt
 
+ci-test-webview:
+	docker-compose -f docker-compose.test.yml up -d
+	docker-compose -f docker-compose.test.yml exec -e ARCHIVE_BASE_URL=https://archive-staging.cnx.org -e LEGACY_BASE_URL=https://legacy-staging.cnx.org -e WEBVIEW_BASE_URL=https://staging.cnx.org selenium-chrome tox -- --new-first --failed-first -m "webview"
+
+ci-test: ci-test-webview ## run all ci-test-* recipes
+
 help:
 	@echo "The following targets are available"
 	@echo "clean			Remove build, test, and file artifacts"
@@ -56,3 +62,6 @@ help:
 	@echo "clean-state		Remove make's build state"
 	@echo "clean-test		Remove test artifacts"
 	@echo "test-webview		Runs the webview tests in an contained environment"
+	@echo "--------------------------------------------------------------------------------"
+	@echo "ci-test			Runs all ci-test-* make recipes"
+	@echo "ci-test-webview		Runs the webview tests in a CI environment"

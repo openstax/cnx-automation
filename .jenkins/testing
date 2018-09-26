@@ -3,14 +3,14 @@ pipeline {
   stages {
     stage('Build') {
       steps {
-        sh "docker build -t openstax/cnx-automation:dev ."
+        echo 'Building ...'
+        sh 'docker build -t openstax/cnx-automation:dev .'
       }
     }
     stage('Test') {
       steps {
-        withDockerServer([uri: env.SWARM_URI, credentialsId: '']) {
-          sh "docker stack deploy --prune -c docker-compose.yml cnx-automation"
-        }
+        echo 'Testing ...'
+        sh 'make ci-test'
       }
     }
   }
