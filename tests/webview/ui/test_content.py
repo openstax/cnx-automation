@@ -751,7 +751,7 @@ def test_id_links_and_back_button(page_uuid, is_baked_book_index, webview_base_u
     if is_baked_book_index:
         content_page = content_region.click_index_term()
     else:
-        content_page = content_region.click_anchor_link()
+        content_page = content_region.click_anchor_link(internal_only=True)
         assert content_page.current_url.startswith(content_url)
 
     # THEN we end up at the linked page and the element with the same id as the link is displayed
