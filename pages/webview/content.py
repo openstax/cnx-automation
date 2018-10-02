@@ -666,9 +666,20 @@ class Content(Page):
         def index_terms(self):
             return self.find_elements(*self._index_terms_locator)
 
-        def click_anchor_link(self, index=0):
+        def _is_link_element_internal(self, current_url, element):
+            is_internal = False
+            url = element.get_attribute('href')
+            if url.startswith(current_url) or url.startswith('#'):
+                is_internal = True
+            return is_internal
+
+        def click_anchor_link(self, index=0, internal_only=False):
             current_url = self.driver.current_url
-            anchor_link = self.anchor_links[index]
+            anchor_link = [
+                link
+                for link in self.anchor_links
+                if internal_only and self._is_link_element_internal(current_url, link)
+            ][index]
             self.offscreen_click(anchor_link)
             return self.page.wait_for_url_to_change(current_url)
 
