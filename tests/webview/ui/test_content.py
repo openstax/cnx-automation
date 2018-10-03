@@ -141,7 +141,7 @@ def test_navs_and_elements_are_displayed(webview_base_url, selenium):
 @markers.webview
 @markers.test_case('C132542')
 @markers.nondestructive
-def test_author_is_openstax(webview_base_url, selenium):
+def test_author_contains_openstax(webview_base_url, selenium):
     # GIVEN the home page and a book
     home = Home(selenium, webview_base_url).open()
     book = home.featured_books.openstax_list[0]
@@ -153,7 +153,7 @@ def test_author_is_openstax(webview_base_url, selenium):
     content_header = content.content_header
     assert content_header.is_book_by_displayed
     assert content_header.are_authors_displayed
-    assert content_header.authors == 'OpenStax College'
+    assert 'OpenStax' in content_header.authors
 
 
 @markers.webview
