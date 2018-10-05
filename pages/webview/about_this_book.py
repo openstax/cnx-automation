@@ -10,4 +10,3 @@ class AboutBook(Content):
     @property
     def about_this_book_section(self):
         return self.find_element(*self._about_this_book_locator)
-
