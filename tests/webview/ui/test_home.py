@@ -120,6 +120,7 @@ def test_featured_books_have_title_and_intro(webview_base_url, selenium):
 
 
 @markers.webview
+@markers.xfail
 @markers.test_case('C176227')
 @markers.nondestructive
 def test_show_more_and_less_expands_or_contracts_book_intro(webview_base_url, selenium):
