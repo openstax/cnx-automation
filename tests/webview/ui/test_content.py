@@ -9,6 +9,7 @@ from requests import get
 from time import sleep
 from datetime import datetime
 
+from pages.webview.about_this_book import AboutBook
 from pages.webview.content_page import ContentPage
 from tests import markers
 
@@ -796,9 +797,9 @@ def test_books_containing_go_to_book_link(webview_base_url, selenium, ch_review_
 
     book = books[0].click_go_to_book_link
 
-    # THEN the chapter should be the very first module 1
-    assert type(book) == Content
-    assert book.chapter_section == '1'
+    # THEN we are on the About this Book page and it is displayed
+    assert type(book) == AboutBook
+    assert book.about_this_book_section.is_displayed
     assert book.title == title
 
 

@@ -1,5 +1,6 @@
 from selenium.webdriver.common.by import By
 
+from pages.webview.about_this_book import AboutBook
 from pages.webview.content import Content
 from regions.webview.base import Region
 from tests.utils import retry_stale_element_reference_exception
@@ -89,5 +90,5 @@ class ContentPage(Content):
             @property
             def click_go_to_book_link(self):
                 self.offscreen_click(self.find_element(*self._go_to_book_locator))
-                return Content(self.driver, self.page.base_url,
-                               self.page.timeout).wait_for_page_to_load()
+                return AboutBook(self.driver, self.page.base_url,
+                                 self.page.timeout).wait_for_page_to_load()
