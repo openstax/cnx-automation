@@ -29,6 +29,6 @@ tox==3.5.2
 uritemplate==3.0.0
 urllib3==1.23
 virtualenv==16.0.0
-zope.component==4.4.1
+zope.component==4.5
 zope.event==4.4.0
 zope.interface==4.5.0
