@@ -10,7 +10,7 @@ idna==2.7
 lxml==4.2.5
 more-itertools==4.3.0
 nebuchadnezzar==6.1.0
-pluggy==0.7.1
+pluggy==0.8.0
 py==1.7.0
 PyPOM==2.1.0
 pytest==3.8.2
