@@ -1,19 +1,7 @@
 STATEDIR = $(PWD)/.state
 
-.PHONY: clean clean-test clean-pyc clean-build help
+.PHONY: clean clean-test clean-pyc clean-build venv help
 .DEFAULT_GOAL := help
-
-# Create a marker file for the docker-build
-$(STATEDIR)/docker-build: Dockerfile requirements.txt
-	# Build our docker container(s) for this project.
-	docker-compose build
-
-	# Mark the state so we don't rebuild this needlessly.
-	mkdir -p $(STATEDIR)
-	touch $(STATEDIR)/docker-build
-
-cnx_slim_dump.sql.gz:
-	scp backup2.cnx.org:`ssh backup2.cnx.org 'ls -t /var/backups/cnx_slim_dump.*.sql.gz | awk "{print $1; exit}"'` cnx_slim_dump.sql.gz
 
 
 clean: clean-build clean-pyc clean-state clean-test
@@ -39,10 +27,6 @@ clean-test: ## remove test and coverage artifacts
 	rm -fr assets/
 	rm -f report.html
 
-test-webview: cnx_slim_dump.sql.gz $(STATEDIR)/docker-build
-	docker-compose up -d selenium-chrome
-	docker-compose exec selenium-chrome wait-for db:5432 -t 900 -- tox -- --new-first --failed-first --webview_base_url=http://ui:8000 --archive_base_url=http://archive:6543 -m "webview and not (requires_complete_dataset or requires_deployment or requires_varnish_routing or legacy)"
-
 venv:
 	python3 -m venv .venv && \
 		source .venv/bin/activate && \
@@ -55,4 +39,4 @@ help:
 	@echo "clean-pyc		Remove file artifacts"
 	@echo "clean-state		Remove make's build state"
 	@echo "clean-test		Remove test artifacts"
-	@echo "test-webview		Runs the webview tests in an contained environment"
+	@echo "venv			Set up a virtualenv for this project"
