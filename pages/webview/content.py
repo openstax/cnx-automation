@@ -37,7 +37,7 @@ class Content(Page):
     _go_to_book_link_locator = (By.CSS_SELECTOR, 'li:nth-child(3) > div > a')
     _left_nav_book_title_locator = (By.CSS_SELECTOR, 'div.booksContaining > ul > li:nth-child(1) '
                                                      '> div > a > b')
-    _sub_regex = re.compile('[^A-Za-z0-9 ]+')
+    _sub_regex = re.compile(r'[^A-Za-z0-9 ]+')
 
     @property
     def loaded(self):
