@@ -1,7 +1,7 @@
 pipeline {
   agent { label 'docker' }
   environment {
-    TESTING_CONTAINER_NAME = "cnx-func-testing-${env.BUILD_ID}"
+    TESTING_CONTAINER_NAME = "cnx-func-testing-${env.BUILD_NUMBER}-${env.BUILD_ID}"
   }
   stages {
     stage('Build Dev Container') {

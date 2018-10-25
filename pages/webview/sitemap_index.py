@@ -36,7 +36,7 @@ class SitemapIndex(Page):
 
     class SitemapRegion(Region):
         _loc_locator = (By.TAG_NAME, 'loc')
-        _url_regex = re.compile('/sitemap-([^\.]+).xml')
+        _url_regex = re.compile(r'/sitemap-([^\.]+).xml')
 
         @property
         def loc(self):
