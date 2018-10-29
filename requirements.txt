@@ -12,7 +12,7 @@ more-itertools==4.3.0
 nebuchadnezzar==6.1.0
 pluggy==0.7.1
 py==1.7.0
-PyPOM==2.1.0
+PyPOM==2.2.0
 pytest==3.8.2
 pytest-base-url==1.4.1
 pytest-html==1.19.0
