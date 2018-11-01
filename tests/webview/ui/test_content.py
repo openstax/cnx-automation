@@ -245,9 +245,9 @@ def test_share_on_top_right_corner(webview_base_url, selenium):
     assert share.is_linkedin_share_link_displayed
     root = content.share.root
     # Top half
-    assert root.location['y'] + root.size['height'] < selenium.get_window_size()['height']/2
+    assert root.location['y'] + root.size['height'] < selenium.get_window_size()['height'] / 2
     # Right half
-    assert root.location['x'] > selenium.get_window_size()['width']/2
+    assert root.location['x'] > selenium.get_window_size()['width'] / 2
 
 
 @markers.webview
@@ -955,7 +955,9 @@ def test_books_containing_list_is_on_left_of_page(webview_base_url, selenium, pa
 @markers.test_case('C195056')
 @markers.nondestructive
 @markers.parametrize('page_id', ['QlYg2VHd'])
-@markers.parametrize('width,height', [(1024, 768), (630, 480)])
+@markers.parametrize('width,height',
+                     [(1024, 768), pytest.param(630, 480, marks=markers.xfail(
+                         reason='https://github.com/Connexions/webview/issues/2021'))])
 def test_button_open_with_certain_window_size(webview_base_url, selenium, page_id, width, height):
     # GIVEN the webview base url, page_id, and the Selenium driver
 
