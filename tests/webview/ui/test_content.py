@@ -905,7 +905,7 @@ def test_books_containing_list_in_sorted_order(webview_base_url, selenium, page_
 
 
 @markers.webview
-@markers.xfail
+@markers.xfail(reason='https://github.com/Connexions/webview/issues/2021')
 @markers.requires_complete_dataset
 @markers.test_case('C195055')
 @markers.nondestructive
