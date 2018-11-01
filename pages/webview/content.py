@@ -263,7 +263,6 @@ class Content(Page):
             _root_locator = (By.CSS_SELECTOR, '#content div.pinnable div.share')
             _facebook_share_link_locator = (By.CSS_SELECTOR, 'ul li a.facebook')
             _twitter_share_link_locator = (By.CSS_SELECTOR, 'ul li a.twitter')
-            _google_share_link_locator = (By.CSS_SELECTOR, 'ul li a.google')
             _linkedin_share_link_locator = (By.CSS_SELECTOR, 'ul li a.linkedin')
 
             @property
@@ -289,18 +288,6 @@ class Content(Page):
             @property
             def twitter_share_url(self):
                 return self.twitter_share_link.get_attribute('href')
-
-            @property
-            def is_google_share_link_displayed(self):
-                return self.is_element_displayed(*self._google_share_link_locator)
-
-            @property
-            def google_share_link(self):
-                return self.find_element(*self._google_share_link_locator)
-
-            @property
-            def google_share_url(self):
-                return self.google_share_link.get_attribute('href')
 
             @property
             def is_linkedin_share_link_displayed(self):

@@ -242,7 +242,6 @@ def test_share_on_top_right_corner(webview_base_url, selenium):
     assert share.is_displayed
     assert share.is_facebook_share_link_displayed
     assert share.is_twitter_share_link_displayed
-    assert share.is_google_share_link_displayed
     assert share.is_linkedin_share_link_displayed
     root = content.share.root
     # Top half
@@ -324,9 +323,6 @@ def test_share_links_displayed(webview_base_url, selenium):
     expected_twitter_url = 'https://twitter.com/share?url={url}&text={title}&via=cnxorg'.format(
         url=current_url, title=normalized_title)
     assert share.twitter_share_url == expected_twitter_url
-
-    expected_google_url = 'https://plus.google.com/share?url={url}'.format(url=current_url)
-    assert share.google_share_url == expected_google_url
 
     expected_linkedin_url = (
         'https://www.linkedin.com/shareArticle?mini=true&url={url}&title={title}&'
@@ -658,7 +654,6 @@ def test_back_to_top(webview_base_url, selenium):
     assert share.is_displayed
     assert share.is_facebook_share_link_displayed
     assert share.is_twitter_share_link_displayed
-    assert share.is_google_share_link_displayed
     assert share.is_linkedin_share_link_displayed
 
     # The footer is offscreen, but still considered displayed
@@ -914,6 +909,7 @@ def test_books_containing_list_in_sorted_order(webview_base_url, selenium, page_
 
 
 @markers.webview
+@markers.xfail
 @markers.requires_complete_dataset
 @markers.test_case('C195055')
 @markers.nondestructive
