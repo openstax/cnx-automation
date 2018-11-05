@@ -74,7 +74,8 @@ def test_content_status_codes(webview_base_url, archive_base_url, is_archive,
 @markers.test_case('C194465')
 @markers.nondestructive
 @markers.parametrize('id', [
-    'AgQDEnLI@10.1:TrIRM88K@5',
+    pytest.param('AgQDEnLI@10.1:TrIRM88K@5',
+                 marks=markers.xfail(reason='Authors are incorrect')),
     'AgQDEnLI@10.1:XZe6d2Jr@9',
     'AgQDEnLI@10.1:QMRfI2p1@8',
     'eg-XcBxE@3.30:dh0GjBEd@2'])
@@ -871,6 +872,7 @@ def test_books_containing_have_authors(webview_base_url, selenium, page_id):
 
 
 @markers.webview
+@markers.xfail(reason='Page author and Book author do not match')
 @markers.requires_complete_dataset
 @markers.test_case('C195065')
 @markers.nondestructive
