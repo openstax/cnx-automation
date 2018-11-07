@@ -3,7 +3,7 @@
 pipeline {
   agent { label 'docker' }
   environment {
-    TESTING_CONTAINER_NAME = meta.containerName()
+    TESTING_CONTAINER_NAME = meta.getContainerName()
   }
   stages {
     stage('Build Dev Container') {
