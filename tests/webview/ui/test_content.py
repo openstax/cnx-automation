@@ -726,11 +726,9 @@ def test_ncy_is_not_displayed(webview_base_url, american_gov_uuid, selenium):
 @markers.parametrize(
     'page_uuid,is_baked_book_index',
     [
-        # FIXME slim dump doesn't contain baked content:
-        #       https://github.com/openstax/quality-assurance-meta/issues/81
-        # ('d50f6e32-0fda-46ef-a362-9bd36ca7c97d:'
-        #  '72a3ef21-e30b-5ba4-9ea6-eac9699a2f09', True),
-        ('b3c1e1d2-839c-42b0-a314-e119a8aafbdd', False),
+        ('d50f6e32-0fda-46ef-a362-9bd36ca7c97d:'
+         '72a3ef21-e30b-5ba4-9ea6-eac9699a2f09', True),
+        ('6a0568d8-23d7-439b-9a01-16e4e73886b3', False),
     ]
 )
 def test_id_links_and_back_button(page_uuid, is_baked_book_index, webview_base_url, selenium):
@@ -750,8 +748,8 @@ def test_id_links_and_back_button(page_uuid, is_baked_book_index, webview_base_u
     # THEN we end up at the linked page and the element with the same id as the link is displayed
     new_url = content_page.current_url
     assert '#' in new_url
-    assert not new_url.endswith('#')
     id = re.search('#(.+)$', new_url)[1]
+    assert id
     assert content_page.is_element_id_displayed(id)
 
     # WHEN we click the browser's back button
