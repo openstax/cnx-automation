@@ -748,7 +748,6 @@ def test_id_links_and_back_button(page_uuid, is_baked_book_index, webview_base_u
     # THEN we end up at the linked page and the element with the same id as the link is displayed
     new_url = content_page.current_url
     assert '#' in new_url
-    assert not new_url.endswith('#')
     id = re.search('#(.+)$', new_url)[1]
     assert id
     assert content_page.is_element_id_displayed(id)
