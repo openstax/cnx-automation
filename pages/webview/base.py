@@ -20,7 +20,7 @@ class Page(pypom.Page):
 
     @property
     def current_url(self):
-        return self.selenium.current_url
+        return self.driver.current_url
 
     def is_element_id_displayed(self, id):
         return self.is_element_displayed(By.ID, id)
