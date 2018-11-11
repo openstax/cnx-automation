@@ -74,7 +74,8 @@ def test_content_status_codes(webview_base_url, archive_base_url, is_archive,
 @markers.test_case('C194465')
 @markers.nondestructive
 @markers.parametrize('id', [
-    'AgQDEnLI@10.1:TrIRM88K@5',
+    pytest.param('AgQDEnLI@10.1:TrIRM88K@5',
+                 marks=markers.xfail(reason='https://github.com/Connexions/webview/issues/1990')),
     'AgQDEnLI@10.1:XZe6d2Jr@9',
     'AgQDEnLI@10.1:QMRfI2p1@8',
     'eg-XcBxE@3.30:dh0GjBEd@2'])
@@ -242,13 +243,12 @@ def test_share_on_top_right_corner(webview_base_url, selenium):
     assert share.is_displayed
     assert share.is_facebook_share_link_displayed
     assert share.is_twitter_share_link_displayed
-    assert share.is_google_share_link_displayed
     assert share.is_linkedin_share_link_displayed
     root = content.share.root
     # Top half
-    assert root.location['y'] + root.size['height'] < selenium.get_window_size()['height']/2
+    assert root.location['y'] + root.size['height'] < selenium.get_window_size()['height'] / 2
     # Right half
-    assert root.location['x'] > selenium.get_window_size()['width']/2
+    assert root.location['x'] > selenium.get_window_size()['width'] / 2
 
 
 @markers.webview
@@ -324,9 +324,6 @@ def test_share_links_displayed(webview_base_url, selenium):
     expected_twitter_url = 'https://twitter.com/share?url={url}&text={title}&via=cnxorg'.format(
         url=current_url, title=normalized_title)
     assert share.twitter_share_url == expected_twitter_url
-
-    expected_google_url = 'https://plus.google.com/share?url={url}'.format(url=current_url)
-    assert share.google_share_url == expected_google_url
 
     expected_linkedin_url = (
         'https://www.linkedin.com/shareArticle?mini=true&url={url}&title={title}&'
@@ -478,7 +475,6 @@ def test_nav_and_menus_display_after_scrolling(webview_base_url, selenium):
     assert not share.is_displayed
     assert not share.is_facebook_share_link_displayed
     assert not share.is_twitter_share_link_displayed
-    assert not share.is_google_share_link_displayed
     assert not share.is_linkedin_share_link_displayed
 
     # The footer is displayed at the bottom
@@ -533,7 +529,6 @@ def test_mobile_nav_and_menus_hide_after_scrolling(webview_base_url, selenium, w
     assert not share.is_displayed
     assert not share.is_facebook_share_link_displayed
     assert not share.is_twitter_share_link_displayed
-    assert not share.is_google_share_link_displayed
     assert not share.is_linkedin_share_link_displayed
 
     assert not content_header.is_pinned
@@ -563,7 +558,6 @@ def test_mobile_nav_and_menus_hide_after_scrolling(webview_base_url, selenium, w
     assert not share.is_displayed
     assert not share.is_facebook_share_link_displayed
     assert not share.is_twitter_share_link_displayed
-    assert not share.is_google_share_link_displayed
     assert not share.is_linkedin_share_link_displayed
 
     assert content_header.is_pinned
@@ -596,7 +590,6 @@ def test_mobile_nav_and_menus_hide_after_scrolling(webview_base_url, selenium, w
     assert not share.is_displayed
     assert not share.is_facebook_share_link_displayed
     assert not share.is_twitter_share_link_displayed
-    assert not share.is_google_share_link_displayed
     assert not share.is_linkedin_share_link_displayed
 
     assert content_header.is_pinned
@@ -658,7 +651,6 @@ def test_back_to_top(webview_base_url, selenium):
     assert share.is_displayed
     assert share.is_facebook_share_link_displayed
     assert share.is_twitter_share_link_displayed
-    assert share.is_google_share_link_displayed
     assert share.is_linkedin_share_link_displayed
 
     # The footer is offscreen, but still considered displayed
@@ -734,11 +726,9 @@ def test_ncy_is_not_displayed(webview_base_url, american_gov_uuid, selenium):
 @markers.parametrize(
     'page_uuid,is_baked_book_index',
     [
-        # FIXME slim dump doesn't contain baked content:
-        #       https://github.com/openstax/quality-assurance-meta/issues/81
-        # ('d50f6e32-0fda-46ef-a362-9bd36ca7c97d:'
-        #  '72a3ef21-e30b-5ba4-9ea6-eac9699a2f09', True),
-        ('b3c1e1d2-839c-42b0-a314-e119a8aafbdd', False),
+        ('d50f6e32-0fda-46ef-a362-9bd36ca7c97d:'
+         '72a3ef21-e30b-5ba4-9ea6-eac9699a2f09', True),
+        ('6a0568d8-23d7-439b-9a01-16e4e73886b3', False),
     ]
 )
 def test_id_links_and_back_button(page_uuid, is_baked_book_index, webview_base_url, selenium):
@@ -758,8 +748,8 @@ def test_id_links_and_back_button(page_uuid, is_baked_book_index, webview_base_u
     # THEN we end up at the linked page and the element with the same id as the link is displayed
     new_url = content_page.current_url
     assert '#' in new_url
-    assert not new_url.endswith('#')
     id = re.search('#(.+)$', new_url)[1]
+    assert id
     assert content_page.is_element_id_displayed(id)
 
     # WHEN we click the browser's back button
@@ -880,6 +870,7 @@ def test_books_containing_have_authors(webview_base_url, selenium, page_id):
 
 
 @markers.webview
+@markers.xfail(reason='https://github.com/Connexions/webview/issues/1990')
 @markers.requires_complete_dataset
 @markers.test_case('C195065')
 @markers.nondestructive
@@ -914,6 +905,7 @@ def test_books_containing_list_in_sorted_order(webview_base_url, selenium, page_
 
 
 @markers.webview
+@markers.xfail(reason='https://github.com/Connexions/webview/issues/2021')
 @markers.requires_complete_dataset
 @markers.test_case('C195055')
 @markers.nondestructive
@@ -963,7 +955,9 @@ def test_books_containing_list_is_on_left_of_page(webview_base_url, selenium, pa
 @markers.test_case('C195056')
 @markers.nondestructive
 @markers.parametrize('page_id', ['QlYg2VHd'])
-@markers.parametrize('width,height', [(1024, 768), (630, 480)])
+@markers.parametrize('width,height',
+                     [(1024, 768), pytest.param(630, 480, marks=markers.xfail(
+                         reason='https://github.com/Connexions/webview/issues/2021'))])
 def test_button_open_with_certain_window_size(webview_base_url, selenium, page_id, width, height):
     # GIVEN the webview base url, page_id, and the Selenium driver
 
