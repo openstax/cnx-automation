@@ -74,8 +74,7 @@ def test_content_status_codes(webview_base_url, archive_base_url, is_archive,
 @markers.test_case('C194465')
 @markers.nondestructive
 @markers.parametrize('id', [
-    pytest.param('AgQDEnLI@10.1:TrIRM88K@5',
-                 marks=markers.xfail(reason='https://github.com/Connexions/webview/issues/1990')),
+    'AgQDEnLI@10.1:TrIRM88K@5',
     'AgQDEnLI@10.1:XZe6d2Jr@9',
     'AgQDEnLI@10.1:QMRfI2p1@8',
     'eg-XcBxE@3.30:dh0GjBEd@2'])
@@ -905,7 +904,6 @@ def test_books_containing_list_in_sorted_order(webview_base_url, selenium, page_
 
 
 @markers.webview
-@markers.xfail(reason='https://github.com/Connexions/webview/issues/2021')
 @markers.requires_complete_dataset
 @markers.test_case('C195055')
 @markers.nondestructive
@@ -955,9 +953,7 @@ def test_books_containing_list_is_on_left_of_page(webview_base_url, selenium, pa
 @markers.test_case('C195056')
 @markers.nondestructive
 @markers.parametrize('page_id', ['QlYg2VHd'])
-@markers.parametrize('width,height',
-                     [(1024, 768), pytest.param(630, 480, marks=markers.xfail(
-                         reason='https://github.com/Connexions/webview/issues/2021'))])
+@markers.parametrize('width,height', [(1024, 768), (630, 480)])
 def test_button_open_with_certain_window_size(webview_base_url, selenium, page_id, width, height):
     # GIVEN the webview base url, page_id, and the Selenium driver
 

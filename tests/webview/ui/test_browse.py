@@ -36,7 +36,7 @@ def test_subject_categories_load(webview_base_url, selenium):
     browse_page = page.header.click_search()
 
     # Then The subject categories are loaded
-    assert len(browse_page.subject_list) > 0
+    assert len(browse_page.search_category_list) > 0
 
 
 @markers.webview
@@ -58,7 +58,7 @@ def test_subject_categories_have_page_and_book_counts(webview_base_url, selenium
     book_counts = set([])
 
     # Record the subject category count for pages and books
-    for subject in browse.subject_list:
+    for subject in browse.search_category_list:
         page_counts.add(subject.pages_count)
         book_counts.add(subject.books_count)
 
@@ -76,7 +76,7 @@ def test_click_subject_category(webview_base_url, selenium):
     browse = home.header.click_search()
 
     # WHEN a subject category is clicked
-    subject = browse.subject_list[3]
+    subject = browse.search_category_list[3]
     subject_name = subject.name
     search_results = subject.click()
 
