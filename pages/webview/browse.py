@@ -16,7 +16,7 @@ class Browse(Page):
     _advanced_search_link_locator = (By.CSS_SELECTOR, 'a.advanced-search')
     _main_content_locator = (By.ID, 'main-content')
     _browse_content_locator = (By.CSS_SELECTOR, 'div.browse-content')
-    _subject_list_locator = (By.CSS_SELECTOR, '.browse-content > ul > li')
+    _search_category_locator = (By.CLASS_NAME, 'search-category')
 
     @property
     def is_search_input_displayed(self):
@@ -37,7 +37,7 @@ class Browse(Page):
 
     @property
     def subject_list(self):
-        items = self.find_elements(*self._subject_list_locator)
+        items = self.find_elements(*self._search_category_locator)
         return [self.Subject(self, el) for el in items]
 
     @property
