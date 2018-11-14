@@ -8,8 +8,8 @@ from pages.webview.base import Page
 
 
 class Robots(Page):
-    URL_TEMPLATE = '/robots.txt'
-    _pre_locator = (By.TAG_NAME, 'pre')
+    URL_TEMPLATE = "/robots.txt"
+    _pre_locator = (By.TAG_NAME, "pre")
 
     @property
     def text(self):

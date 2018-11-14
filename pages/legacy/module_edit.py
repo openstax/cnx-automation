@@ -12,20 +12,21 @@ from regions.legacy.base import Region
 
 
 class ModuleEdit(PrivatePage):
-    URL_TEMPLATE = '/Members/{username}/{module_id}'
-    _url_regex = re.compile('/Members/([^/]+)/([^/]+)')
-    _title_regex = re.compile('^Module: (.*)$')
-    _title_header_locator = (By.CSS_SELECTOR, '#content div div h1')
+    URL_TEMPLATE = "/Members/{username}/{module_id}"
+    _url_regex = re.compile("/Members/([^/]+)/([^/]+)")
+    _title_regex = re.compile("^Module: (.*)$")
+    _title_header_locator = (By.CSS_SELECTOR, "#content div div h1")
     _publish_link_locator = (By.CSS_SELECTOR, 'a[href$="module_publish"]')
     _import_form_locator = (By.CSS_SELECTOR, 'form[action="module_import_form"]')
     _import_select_locator = (By.CSS_SELECTOR, 'select[name="format"]')
-    _content_textarea_locator = (By.ID, 'textarea')
+    _content_textarea_locator = (By.ID, "textarea")
     _blank_module_content_string = (
         '<ns0:content xmlns:ns0="http://cnx.rice.edu/cnxml">\n  '
-        '<ns0:para id="delete_me">\n     \n  </ns0:para>\n</ns0:content>\n\n')
-    _edit_method_locator = (By.ID, 'eipTopEditingMode')
+        '<ns0:para id="delete_me">\n     \n  </ns0:para>\n</ns0:content>\n\n'
+    )
+    _edit_method_locator = (By.ID, "eipTopEditingMode")
     _save_button_locator = (By.CSS_SELECTOR, '[type="submit"][name="save"]')
-    _portal_msg_locator = (By.CLASS_NAME, 'portalMessage')
+    _portal_msg_locator = (By.CLASS_NAME, "portalMessage")
 
     @property
     def username(self):
@@ -45,7 +46,7 @@ class ModuleEdit(PrivatePage):
 
     @property
     def is_portal_msg_present(self):
-        return self.is_element_present(By.CLASS_NAME, 'portalMessage')
+        return self.is_element_present(By.CLASS_NAME, "portalMessage")
 
     @property
     def portal_msg(self):
@@ -70,12 +71,13 @@ class ModuleEdit(PrivatePage):
 
     @property
     def content(self):
-        return ET.fromstring(self.content_textarea.get_attribute('value')).find(
-            '{http://cnx.rice.edu/cnxml}content')
+        return ET.fromstring(self.content_textarea.get_attribute("value")).find(
+            "{http://cnx.rice.edu/cnxml}content"
+        )
 
     @property
     def content_string(self):
-        return ET.tostring(self.content, encoding='unicode')
+        return ET.tostring(self.content, encoding="unicode")
 
     @property
     def is_blank(self):
@@ -84,6 +86,7 @@ class ModuleEdit(PrivatePage):
     def publish(self):
         self.publish_link.click()
         from pages.legacy.content_publish import ContentPublish
+
         content_publish = ContentPublish(self.driver, self.base_url, self.timeout)
         return content_publish.wait_for_page_to_load()
 
@@ -98,6 +101,7 @@ class ModuleEdit(PrivatePage):
     def click_import(self):
         self.import_form.submit()
         from pages.legacy.module_import import ModuleImport
+
         module_import = ModuleImport(self.driver, self.base_url, self.timeout)
         return module_import.wait_for_page_to_load()
 
@@ -106,8 +110,8 @@ class ModuleEdit(PrivatePage):
         return self.EditMethod(self, self.find_element(*self._edit_method_locator))
 
     class EditMethod(Region):
-        _edit_in_place_locator = (By.ID, 'eipEditInPlaceEditingMode')
-        _full_source_editing_locator = (By.ID, 'eipFullSourceEditingMode')
+        _edit_in_place_locator = (By.ID, "eipEditInPlaceEditingMode")
+        _full_source_editing_locator = (By.ID, "eipFullSourceEditingMode")
 
         def edit_in_place(self):
             self.find_element(*self._edit_in_place_locator).click()

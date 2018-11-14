@@ -8,10 +8,10 @@ from pages.legacy.base import Page
 
 
 class LoginForm(Page):
-    URL_TEMPLATE = '/login_form'
-    _login_form_locator = (By.ID, 'login_form')
-    _username_field_locator = (By.ID, '__ac_name')
-    _password_field_locator = (By.ID, '__ac_password')
+    URL_TEMPLATE = "/login_form"
+    _login_form_locator = (By.ID, "login_form")
+    _username_field_locator = (By.ID, "__ac_name")
+    _password_field_locator = (By.ID, "__ac_password")
 
     @property
     def login_form(self):
@@ -27,14 +27,17 @@ class LoginForm(Page):
 
     @property
     def can_login(self):
-        return (self.is_element_displayed(*self._login_form_locator) and
-                self.is_element_displayed(*self._username_field_locator) and
-                self.is_element_displayed(*self._password_field_locator))
+        return (
+            self.is_element_displayed(*self._login_form_locator)
+            and self.is_element_displayed(*self._username_field_locator)
+            and self.is_element_displayed(*self._password_field_locator)
+        )
 
     def login(self, username, password):
         self.username_field.send_keys(username)
         self.password_field.send_keys(password)
         self.login_form.submit()
         from pages.legacy.my_cnx import MyCnx
+
         my_cnx = MyCnx(self.driver, self.base_url, self.timeout)
         return my_cnx.wait_for_page_to_load()

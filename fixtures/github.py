@@ -6,10 +6,10 @@ import pytest
 from github3 import login, GitHub
 
 
-@pytest.fixture(scope='session')
+@pytest.fixture(scope="session")
 def github(pytestconfig):
     """Returns a client that can interface with the GitHub API"""
-    token = pytestconfig.getoption('--github-token')
+    token = pytestconfig.getoption("--github-token")
     if token:
         return login(token=token)
     else:

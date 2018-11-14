@@ -30,5 +30,6 @@ class Workspace(PrivatePage):
     def remove(self):
         self.remove_button.click()
         from pages.legacy.confirm_remove import ConfirmRemove
+
         confirm_remove = ConfirmRemove(self.driver, self.base_url, self.timeout)
         return confirm_remove.wait_for_page_to_load()

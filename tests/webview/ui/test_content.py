@@ -18,43 +18,84 @@ from pages.webview.content import Content
 
 
 @markers.webview
-@markers.test_case('C193738')
+@markers.test_case("C193738")
 @markers.nondestructive
-@markers.parametrize('is_archive,path,expected_response_status_code', [
-    # FIXME Requires varnish
-    # (False, '/content/col11762', 301),
-    (True, '/content/col11762', 301),
-    # FIXME Requires varnish
-    # (False, '/content/col11762/1.10', 301),
-    (True, '/content/col11762/1.10', 301),
-    (False, '/contents/02040312-72c8-441e-a685-20e9333f3e1d', 200),
-    (True, '/contents/02040312-72c8-441e-a685-20e9333f3e1d', 302),
-    (False, ('/contents/02040312-72c8-441e-a685-20e9333f3e1d'
-             ':40c45f23-6a75-414a-987a-cccd50bd04b8'), 200),
-    (True, ('/contents/02040312-72c8-441e-a685-20e9333f3e1d'
-            ':40c45f23-6a75-414a-987a-cccd50bd04b8'), 302),
-    (False, '/contents/02040312-72c8-441e-a685-20e9333f3e1d@10.1', 200),
-    (True, '/contents/02040312-72c8-441e-a685-20e9333f3e1d@10.1', 200),
-    (False, ('/contents/02040312-72c8-441e-a685-20e9333f3e1d@10.1'
-             ':40c45f23-6a75-414a-987a-cccd50bd04b8'), 200),
-    (True, ('/contents/02040312-72c8-441e-a685-20e9333f3e1d@10.1'
-            ':40c45f23-6a75-414a-987a-cccd50bd04b8'), 302),
-    (False, ('/contents/02040312-72c8-441e-a685-20e9333f3e1d@10.1'
-             ':40c45f23-6a75-414a-987a-cccd50bd04b8@8'), 200),
-    (True, ('/contents/02040312-72c8-441e-a685-20e9333f3e1d@10.1'
-            ':40c45f23-6a75-414a-987a-cccd50bd04b8@8'), 302),
-    (False, '/contents/AgQDEnLI', 200),
-    (True, '/contents/AgQDEnLI', 302),
-    (False, '/contents/AgQDEnLI:OkLwVQKH', 200),
-    (True, '/contents/AgQDEnLI:QMRfI2p1', 302),
-    (False, '/contents/AgQDEnLI@10.1', 200),
-    (True, '/contents/AgQDEnLI@10.1', 301),
-    (False, '/contents/AgQDEnLI@10.1:QMRfI2p1', 200),
-    (True, '/contents/AgQDEnLI@10.1:QMRfI2p1', 301),
-    (False, '/contents/AgQDEnLI@10.1:QMRfI2p1@8', 200),
-    (True, '/contents/AgQDEnLI@10.1:QMRfI2p1@8', 301)])
-def test_content_status_codes(webview_base_url, archive_base_url, is_archive,
-                              path, expected_response_status_code):
+@markers.parametrize(
+    "is_archive,path,expected_response_status_code",
+    [
+        # FIXME Requires varnish
+        # (False, '/content/col11762', 301),
+        (True, "/content/col11762", 301),
+        # FIXME Requires varnish
+        # (False, '/content/col11762/1.10', 301),
+        (True, "/content/col11762/1.10", 301),
+        (False, "/contents/02040312-72c8-441e-a685-20e9333f3e1d", 200),
+        (True, "/contents/02040312-72c8-441e-a685-20e9333f3e1d", 302),
+        (
+            False,
+            (
+                "/contents/02040312-72c8-441e-a685-20e9333f3e1d"
+                ":40c45f23-6a75-414a-987a-cccd50bd04b8"
+            ),
+            200,
+        ),
+        (
+            True,
+            (
+                "/contents/02040312-72c8-441e-a685-20e9333f3e1d"
+                ":40c45f23-6a75-414a-987a-cccd50bd04b8"
+            ),
+            302,
+        ),
+        (False, "/contents/02040312-72c8-441e-a685-20e9333f3e1d@10.1", 200),
+        (True, "/contents/02040312-72c8-441e-a685-20e9333f3e1d@10.1", 200),
+        (
+            False,
+            (
+                "/contents/02040312-72c8-441e-a685-20e9333f3e1d@10.1"
+                ":40c45f23-6a75-414a-987a-cccd50bd04b8"
+            ),
+            200,
+        ),
+        (
+            True,
+            (
+                "/contents/02040312-72c8-441e-a685-20e9333f3e1d@10.1"
+                ":40c45f23-6a75-414a-987a-cccd50bd04b8"
+            ),
+            302,
+        ),
+        (
+            False,
+            (
+                "/contents/02040312-72c8-441e-a685-20e9333f3e1d@10.1"
+                ":40c45f23-6a75-414a-987a-cccd50bd04b8@8"
+            ),
+            200,
+        ),
+        (
+            True,
+            (
+                "/contents/02040312-72c8-441e-a685-20e9333f3e1d@10.1"
+                ":40c45f23-6a75-414a-987a-cccd50bd04b8@8"
+            ),
+            302,
+        ),
+        (False, "/contents/AgQDEnLI", 200),
+        (True, "/contents/AgQDEnLI", 302),
+        (False, "/contents/AgQDEnLI:OkLwVQKH", 200),
+        (True, "/contents/AgQDEnLI:QMRfI2p1", 302),
+        (False, "/contents/AgQDEnLI@10.1", 200),
+        (True, "/contents/AgQDEnLI@10.1", 301),
+        (False, "/contents/AgQDEnLI@10.1:QMRfI2p1", 200),
+        (True, "/contents/AgQDEnLI@10.1:QMRfI2p1", 301),
+        (False, "/contents/AgQDEnLI@10.1:QMRfI2p1@8", 200),
+        (True, "/contents/AgQDEnLI@10.1:QMRfI2p1@8", 301),
+    ],
+)
+def test_content_status_codes(
+    webview_base_url, archive_base_url, is_archive, path, expected_response_status_code
+):
     # GIVEN some URL and the expected redirect code
     if is_archive:
         url = urljoin(archive_base_url, path)
@@ -71,7 +112,7 @@ def test_content_status_codes(webview_base_url, archive_base_url, is_archive,
 
 
 @markers.webview
-@markers.test_case('C194465')
+@markers.test_case("C194465")
 @markers.nondestructive
 @markers.parametrize('id', [
     'AgQDEnLI@10.1:TrIRM88K@5',
@@ -94,7 +135,7 @@ def test_canonical_link_is_correct(webview_base_url, selenium, id):
 
 
 @markers.webview
-@markers.test_case('C176231', 'C176232', 'C176233')
+@markers.test_case("C176231", "C176232", "C176233")
 @markers.nondestructive
 def test_navs_and_elements_are_displayed(webview_base_url, selenium):
     # GIVEN the home page
@@ -127,20 +168,26 @@ def test_navs_and_elements_are_displayed(webview_base_url, selenium):
     section_title_div_size = content.section_title_div_size
 
     # Section title inside main content section
-    assert section_title_div_location['x'] >= main_content_section.location['x']
-    assert section_title_div_location['y'] >= main_content_section.location['y']
-    assert (section_title_div_location['x'] + section_title_div_size['width'] <=
-            main_content_section.location['x'] + main_content_section.size['width'])
-    assert (section_title_div_location['y'] + section_title_div_size['height'] <=
-            main_content_section.location['y'] + main_content_section.size['height'])
+    assert section_title_div_location["x"] >= main_content_section.location["x"]
+    assert section_title_div_location["y"] >= main_content_section.location["y"]
+    assert (
+        section_title_div_location["x"] + section_title_div_size["width"]
+        <= main_content_section.location["x"] + main_content_section.size["width"]
+    )
+    assert (
+        section_title_div_location["y"] + section_title_div_size["height"]
+        <= main_content_section.location["y"] + main_content_section.size["height"]
+    )
 
     # Section title on top of main content section
-    assert (section_title_div_location['y'] - main_content_section.location['y'] <=
-            section_title_div_size['height'])
+    assert (
+        section_title_div_location["y"] - main_content_section.location["y"]
+        <= section_title_div_size["height"]
+    )
 
 
 @markers.webview
-@markers.test_case('C132542')
+@markers.test_case("C132542")
 @markers.nondestructive
 def test_author_contains_openstax(webview_base_url, selenium):
     # GIVEN the home page and a book
@@ -154,15 +201,15 @@ def test_author_contains_openstax(webview_base_url, selenium):
     content_header = content.content_header
     assert content_header.is_book_by_displayed
     assert content_header.are_authors_displayed
-    assert 'OpenStax' in content_header.authors
+    assert "OpenStax" in content_header.authors
 
 
 @markers.webview
-@markers.test_case('C189063')
+@markers.test_case("C189063")
 @markers.nondestructive
 # https://stackoverflow.com/a/33879151
-@markers.parametrize('language', ['en', 'pl'])
-@markers.parametrize('uuid', ['02040312-72c8-441e-a685-20e9333f3e1d'])
+@markers.parametrize("language", ["en", "pl"])
+@markers.parametrize("uuid", ["02040312-72c8-441e-a685-20e9333f3e1d"])
 def test_derived_from_content(webview_base_url, selenium, language, uuid):
     # GIVEN the selenium driver set to a specific language and a derived book's uuid
 
@@ -174,16 +221,16 @@ def test_derived_from_content(webview_base_url, selenium, language, uuid):
 
     assert content_header.is_derived_from_displayed
 
-    if language == 'en':
-        expected = 'Derived from Introduction to Sociology by OpenStax College'
+    if language == "en":
+        expected = "Derived from Introduction to Sociology by OpenStax College"
         assert content_header.derived_from_text == expected
-    elif language == 'pl':
-        expected = 'Utworzone z Introduction to Sociology autorstwa OpenStax College'
+    elif language == "pl":
+        expected = "Utworzone z Introduction to Sociology autorstwa OpenStax College"
         assert content_header.derived_from_text == expected
 
 
 @markers.webview
-@markers.test_case('C176242')
+@markers.test_case("C176242")
 @markers.nondestructive
 def test_toc_is_displayed(webview_base_url, selenium):
     # GIVEN a book's content page
@@ -202,7 +249,7 @@ def test_toc_is_displayed(webview_base_url, selenium):
 
 
 @markers.webview
-@markers.test_case('C176243', 'C176244')
+@markers.test_case("C176243", "C176244")
 @markers.nondestructive
 def test_toc_navigation(webview_base_url, selenium):
     # GIVEN a book's table of contents
@@ -227,7 +274,7 @@ def test_toc_navigation(webview_base_url, selenium):
 
 
 @markers.webview
-@markers.test_case('C176257')
+@markers.test_case("C176257")
 @markers.nondestructive
 def test_share_on_top_right_corner(webview_base_url, selenium):
     # GIVEN the home page
@@ -245,22 +292,41 @@ def test_share_on_top_right_corner(webview_base_url, selenium):
     assert share.is_linkedin_share_link_displayed
     root = content.share.root
     # Top half
-    assert root.location['y'] + root.size['height'] < selenium.get_window_size()['height'] / 2
+    assert root.location["y"] + root.size["height"] < selenium.get_window_size()["height"] / 2
     # Right half
-    assert root.location['x'] > selenium.get_window_size()['width'] / 2
+    assert root.location["x"] > selenium.get_window_size()["width"] / 2
 
 
 @markers.webview
-@markers.test_case('C132549', 'C175148')
+@markers.test_case("C132549", "C175148")
 @markers.nondestructive
-@markers.parametrize('uuid,query,has_results,result_index,has_os_figures,has_os_tables', [
-    # FIXME slim dump doesn't contain baked content:
-    #       https://github.com/openstax/quality-assurance-meta/issues/81
-    # ('d50f6e32-0fda-46ef-a362-9bd36ca7c97d', 'table', True, 1, True, True),
-    ('185cbf87-c72e-48f5-b51e-f14f21b5eabd', 'mitosis genetics gorilla', False, None, None, None),
-    ('185cbf87-c72e-48f5-b51e-f14f21b5eabd', 'mitosis genetics', True, 0, False, False)])
-def test_in_book_search(webview_base_url, selenium, uuid, query,
-                        has_results, result_index, has_os_figures, has_os_tables):
+@markers.parametrize(
+    "uuid,query,has_results,result_index,has_os_figures,has_os_tables",
+    [
+        # FIXME slim dump doesn't contain baked content:
+        #       https://github.com/openstax/quality-assurance-meta/issues/81
+        # ('d50f6e32-0fda-46ef-a362-9bd36ca7c97d', 'table', True, 1, True, True),
+        (
+            "185cbf87-c72e-48f5-b51e-f14f21b5eabd",
+            "mitosis genetics gorilla",
+            False,
+            None,
+            None,
+            None,
+        ),
+        ("185cbf87-c72e-48f5-b51e-f14f21b5eabd", "mitosis genetics", True, 0, False, False),
+    ],
+)
+def test_in_book_search(
+    webview_base_url,
+    selenium,
+    uuid,
+    query,
+    has_results,
+    result_index,
+    has_os_figures,
+    has_os_tables,
+):
     # GIVEN a book's content page and a query
     content = Content(selenium, webview_base_url, id=uuid).open()
 
@@ -302,7 +368,7 @@ def test_in_book_search(webview_base_url, selenium, uuid, query,
 
 
 @markers.webview
-@markers.test_case('C176258', 'C176259', 'C176260', 'C176261')
+@markers.test_case("C176258", "C176259", "C176260", "C176261")
 @markers.nondestructive
 def test_share_links_displayed(webview_base_url, selenium):
     # GIVEN the home page
@@ -314,27 +380,28 @@ def test_share_links_displayed(webview_base_url, selenium):
 
     # THEN social share links have the expected urls
     current_url = selenium.current_url
-    normalized_title = content.title.replace(' ', '%20')
+    normalized_title = content.title.replace(" ", "%20")
     share = content.share
 
-    expected_facebook_url = 'https://facebook.com/sharer/sharer.php?u={url}'.format(url=current_url)
+    expected_facebook_url = "https://facebook.com/sharer/sharer.php?u={url}".format(url=current_url)
     assert share.facebook_share_url == expected_facebook_url
 
-    expected_twitter_url = 'https://twitter.com/share?url={url}&text={title}&via=cnxorg'.format(
-        url=current_url, title=normalized_title)
+    expected_twitter_url = "https://twitter.com/share?url={url}&text={title}&via=cnxorg".format(
+        url=current_url, title=normalized_title
+    )
     assert share.twitter_share_url == expected_twitter_url
 
     expected_linkedin_url = (
-        'https://www.linkedin.com/shareArticle?mini=true&url={url}&title={title}&'
-        'summary=An%20OpenStax%20CNX%20book&source=OpenStax%20CNX'
+        "https://www.linkedin.com/shareArticle?mini=true&url={url}&title={title}&"
+        "summary=An%20OpenStax%20CNX%20book&source=OpenStax%20CNX"
     ).format(url=current_url, title=normalized_title)
     assert share.linkedin_share_url == expected_linkedin_url
 
 
 @markers.webview
-@markers.test_case('C193880')
+@markers.test_case("C193880")
 @markers.nondestructive
-@markers.parametrize('id', ['eg-XcBxE@3.30:dh0GjBEd@2'])
+@markers.parametrize("id", ["eg-XcBxE@3.30:dh0GjBEd@2"])
 def test_newer_version_leads_to_correct_page(webview_base_url, selenium, id):
     # GIVEN the content page
     content = Content(selenium, webview_base_url, id=id).open()
@@ -350,7 +417,7 @@ def test_newer_version_leads_to_correct_page(webview_base_url, selenium, id):
 
 
 @markers.webview
-@markers.test_case('C176234')
+@markers.test_case("C176234")
 @markers.nondestructive
 def test_get_this_book(webview_base_url, selenium):
     # GIVEN a book's content page
@@ -380,7 +447,7 @@ def test_get_this_book(webview_base_url, selenium):
 
 
 @markers.webview
-@markers.test_case('C167408')
+@markers.test_case("C167408")
 @markers.nondestructive
 def test_section_title_for_no_markup(webview_base_url, selenium):
     # GIVEN the home page and a book
@@ -392,14 +459,14 @@ def test_section_title_for_no_markup(webview_base_url, selenium):
 
     # THEN the section title does not contain HTML markup
     section_title = content.section_title
-    assert '<' not in section_title
-    assert '>' not in section_title
+    assert "<" not in section_title
+    assert ">" not in section_title
 
 
 @markers.webview
-@markers.test_case('C195074')
+@markers.test_case("C195074")
 @markers.nondestructive
-@markers.parametrize('id', ['u2KTPvIK@3.1:Zv6FJYpb@3'])
+@markers.parametrize("id", ["u2KTPvIK@3.1:Zv6FJYpb@3"])
 def test_page_with_unicode_characters_in_title_loads(webview_base_url, selenium, id):
     # GIVEN the webview base url, the Selenium driver and the id of a page whose title has unicode
     content = Content(selenium, webview_base_url, id=id)
@@ -418,7 +485,7 @@ def test_page_with_unicode_characters_in_title_loads(webview_base_url, selenium,
 
 
 @markers.webview
-@markers.test_case('C176236')
+@markers.test_case("C176236")
 @markers.nondestructive
 def test_content_and_figures_display_after_scrolling(webview_base_url, selenium):
     # GIVEN a book's content page with figures
@@ -438,7 +505,7 @@ def test_content_and_figures_display_after_scrolling(webview_base_url, selenium)
 
 
 @markers.webview
-@markers.test_case('C176235', 'C176237')
+@markers.test_case("C176235", "C176237")
 @markers.nondestructive
 def test_nav_and_menus_display_after_scrolling(webview_base_url, selenium):
     # GIVEN a book's content page
@@ -446,7 +513,7 @@ def test_nav_and_menus_display_after_scrolling(webview_base_url, selenium):
     book = home.featured_books.openstax_list[0]
     content = book.click_book_cover()
     content_header = content.content_header
-    original_content_header_y = content_header.root.location['y']
+    original_content_header_y = content_header.root.location["y"]
 
     # WHEN we scroll to the bottom
     content.footer.scroll_to()
@@ -488,21 +555,21 @@ def test_nav_and_menus_display_after_scrolling(webview_base_url, selenium):
     assert content_header.is_pinned
     assert not content_header.is_opened
     assert not content_header.is_closed
-    assert content_header.root.location['y'] > original_content_header_y
-    assert content_header.root.location['y'] < content_footer.root.location['y']
+    assert content_header.root.location["y"] > original_content_header_y
+    assert content_header.root.location["y"] < content_footer.root.location["y"]
 
 
 @markers.webview
-@markers.test_case('C195232')
+@markers.test_case("C195232")
 @markers.nondestructive
-@markers.parametrize('width,height', [(480, 640)])
+@markers.parametrize("width,height", [(480, 640)])
 def test_mobile_nav_and_menus_hide_after_scrolling(webview_base_url, selenium, width, height):
     # GIVEN a book's content page
     home = Home(selenium, webview_base_url).open()
     book = home.featured_books.openstax_list[0]
     content = book.click_book_cover()
     content_header = content.content_header
-    original_content_header_y = content_header.root.location['y']
+    original_content_header_y = content_header.root.location["y"]
 
     # WHEN we scroll to the bottom
     content.footer.scroll_to()
@@ -531,7 +598,7 @@ def test_mobile_nav_and_menus_hide_after_scrolling(webview_base_url, selenium, w
     assert not share.is_linkedin_share_link_displayed
 
     assert not content_header.is_pinned
-    assert content_header.root.location['y'] == original_content_header_y
+    assert content_header.root.location["y"] == original_content_header_y
 
     # WHEN we scroll up
     content.scroll_up()
@@ -562,7 +629,7 @@ def test_mobile_nav_and_menus_hide_after_scrolling(webview_base_url, selenium, w
     assert content_header.is_pinned
     assert content_header.is_opened
     assert not content_header.is_closed
-    previous_content_header_y = content_header.root.location['y']
+    previous_content_header_y = content_header.root.location["y"]
     assert previous_content_header_y > original_content_header_y
 
     # WHEN we scroll down again
@@ -594,11 +661,11 @@ def test_mobile_nav_and_menus_hide_after_scrolling(webview_base_url, selenium, w
     assert content_header.is_pinned
     assert not content_header.is_opened
     assert content_header.is_closed
-    assert content_header.root.location['y'] > previous_content_header_y
+    assert content_header.root.location["y"] > previous_content_header_y
 
 
 @markers.webview
-@markers.test_case('C162171')
+@markers.test_case("C162171")
 @markers.nondestructive
 def test_attribution(webview_base_url, selenium):
     # GIVEN a book's content page
@@ -611,12 +678,12 @@ def test_attribution(webview_base_url, selenium):
 
     # THEN the attribution is displayed and has the correct support email
     assert attribution.is_displayed
-    expected_sentence = 'For questions regarding this license, please contact support@openstax.org.'
+    expected_sentence = "For questions regarding this license, please contact support@openstax.org."
     assert expected_sentence in attribution.text
 
 
 @markers.webview
-@markers.test_case('C176241')
+@markers.test_case("C176241")
 @markers.nondestructive
 def test_back_to_top(webview_base_url, selenium):
     # GIVEN a book's scrolled content page
@@ -625,7 +692,7 @@ def test_back_to_top(webview_base_url, selenium):
     content = book.click_book_cover()
     footer = content.content_footer
     content_header = content.content_header
-    original_content_header_y = content_header.root.location['y']
+    original_content_header_y = content_header.root.location["y"]
 
     # WHEN we scroll to the bottom then click the back to top link
     content = footer.nav.click_back_to_top_link()
@@ -661,11 +728,11 @@ def test_back_to_top(webview_base_url, selenium):
 
     # The header is no longer pinned
     assert not content_header.is_pinned
-    assert content_header.root.location['y'] == original_content_header_y
+    assert content_header.root.location["y"] == original_content_header_y
 
 
 @markers.webview
-@markers.test_case('C176238', 'C176239', 'C176240', 'C176245')
+@markers.test_case("C176238", "C176239", "C176240", "C176245")
 @markers.nondestructive
 def test_navigation(webview_base_url, selenium):
     # GIVEN a book's content page
@@ -678,24 +745,24 @@ def test_navigation(webview_base_url, selenium):
     num_pages = toc.number_of_pages
 
     assert type(content) == Content
-    assert content.chapter_section == '1'
+    assert content.chapter_section == "1"
     # Preface is skipped by default
     assert header_nav.progress_bar_fraction_is(2 / num_pages)
 
     # WHEN we navigate next twice and then back twice using the header and footer controls
     content = content.header_nav.click_next_link()
     assert type(content) == Content
-    assert content.chapter_section == '1.1'
+    assert content.chapter_section == "1.1"
     assert header_nav.progress_bar_fraction_is(3 / num_pages)
 
     content = content.footer_nav.click_next_link()
     assert type(content) == Content
-    assert content.chapter_section == '1.2'
+    assert content.chapter_section == "1.2"
     assert header_nav.progress_bar_fraction_is(4 / num_pages)
 
     content = content.footer_nav.click_back_link()
     assert type(content) == Content
-    assert content.chapter_section == '1.1'
+    assert content.chapter_section == "1.1"
     assert header_nav.progress_bar_fraction_is(3 / num_pages)
 
     content = content.header_nav.click_back_link()
@@ -706,7 +773,7 @@ def test_navigation(webview_base_url, selenium):
 
 
 @markers.webview
-@markers.test_case('C195073')
+@markers.test_case("C195073")
 @markers.slow
 @markers.nondestructive
 def test_ncy_is_not_displayed(webview_base_url, american_gov_uuid, selenium):
@@ -720,21 +787,20 @@ def test_ncy_is_not_displayed(webview_base_url, american_gov_uuid, selenium):
 
 
 @markers.webview
-@markers.test_case('C132547', 'C132548', 'C162195')
+@markers.test_case("C132547", "C132548", "C162195")
 @markers.nondestructive
 @markers.parametrize(
-    'page_uuid,is_baked_book_index',
+    "page_uuid,is_baked_book_index",
     [
-        ('d50f6e32-0fda-46ef-a362-9bd36ca7c97d:'
-         '72a3ef21-e30b-5ba4-9ea6-eac9699a2f09', True),
-        ('6a0568d8-23d7-439b-9a01-16e4e73886b3', False),
-    ]
+        ("d50f6e32-0fda-46ef-a362-9bd36ca7c97d:" "72a3ef21-e30b-5ba4-9ea6-eac9699a2f09", True),
+        ("6a0568d8-23d7-439b-9a01-16e4e73886b3", False),
+    ],
 )
 def test_id_links_and_back_button(page_uuid, is_baked_book_index, webview_base_url, selenium):
     # GIVEN an index page in a baked book or a page with anchor links in an unbaked book
     content_page = Content(selenium, webview_base_url, id=page_uuid).open()
     content_url = content_page.current_url
-    assert '#' not in content_url
+    assert "#" not in content_url
 
     # WHEN we click on a term (baked index) or an anchor link
     content_region = content_page.content_region
@@ -746,8 +812,8 @@ def test_id_links_and_back_button(page_uuid, is_baked_book_index, webview_base_u
 
     # THEN we end up at the linked page and the element with the same id as the link is displayed
     new_url = content_page.current_url
-    assert '#' in new_url
-    id = re.search('#(.+)$', new_url)[1]
+    assert "#" in new_url
+    id = re.search("#(.+)$", new_url)[1]
     assert id
     assert content_page.is_element_id_displayed(id)
 
@@ -759,9 +825,9 @@ def test_id_links_and_back_button(page_uuid, is_baked_book_index, webview_base_u
 
 
 @markers.webview
-@markers.test_case('C181754')
+@markers.test_case("C181754")
 @markers.nondestructive
-@markers.parametrize('ch_review_id', ['eg-XcBxE@9.2:PNQSpSVj', 'eg-XcBxE:PNQSpSVj'])
+@markers.parametrize("ch_review_id", ["eg-XcBxE@9.2:PNQSpSVj", "eg-XcBxE:PNQSpSVj"])
 def test_chapter_review_version_matches_book_version(webview_base_url, selenium, ch_review_id):
     # GIVEN the webview base url, a chapter review id, and the Selenium driver
 
@@ -773,9 +839,9 @@ def test_chapter_review_version_matches_book_version(webview_base_url, selenium,
 
 
 @markers.webview
-@markers.test_case('C195064')
+@markers.test_case("C195064")
 @markers.nondestructive
-@markers.parametrize('ch_review_id', ['e5fbbjPE'])
+@markers.parametrize("ch_review_id", ["e5fbbjPE"])
 def test_books_containing_go_to_book_link(webview_base_url, selenium, ch_review_id):
     # GIVEN the webview base url, a chapter review id, and the Selenium driver
     content = ContentPage(selenium, webview_base_url, id=ch_review_id).open()
@@ -793,9 +859,9 @@ def test_books_containing_go_to_book_link(webview_base_url, selenium, ch_review_
 
 
 @markers.webview
-@markers.test_case('C195063')
+@markers.test_case("C195063")
 @markers.nondestructive
-@markers.parametrize('ch_review_id', ['SjdU64Og@3'])
+@markers.parametrize("ch_review_id", ["SjdU64Og@3"])
 def test_books_containing_have_revised_date(webview_base_url, selenium, ch_review_id):
     # GIVEN the webview base url, a chapter review id, and the Selenium driver
 
@@ -810,9 +876,9 @@ def test_books_containing_have_revised_date(webview_base_url, selenium, ch_revie
 
 @markers.webview
 @markers.requires_complete_dataset
-@markers.test_case('C195061')
+@markers.test_case("C195061")
 @markers.nondestructive
-@markers.parametrize('page_id', ['BWYBGK7C@2'])
+@markers.parametrize("page_id", ["BWYBGK7C@2"])
 def test_books_containing_title_not_limited(webview_base_url, selenium, page_id):
     # GIVEN the webview base url, page_id, and the Selenium driver
 
@@ -823,14 +889,14 @@ def test_books_containing_title_not_limited(webview_base_url, selenium, page_id)
 
     # THEN the title of the books are not truncated by ellipses
     for book in books:
-        assert '...' not in book.title
+        assert "..." not in book.title
 
 
 @markers.webview
 @markers.requires_complete_dataset
-@markers.test_case('C195057', 'C195058', 'C195059', 'C195072')
+@markers.test_case("C195057", "C195058", "C195059", "C195072")
 @markers.nondestructive
-@markers.parametrize('page_id', ['mjO9LQWq@1', 'bJs8AcSE@1', '4fGVMb7P@1'])
+@markers.parametrize("page_id", ["mjO9LQWq@1", "bJs8AcSE@1", "4fGVMb7P@1"])
 def test_books_containing_message_is_correct(webview_base_url, selenium, page_id):
     # GIVEN the webview base url, page_id, and the Selenium driver
 
@@ -844,17 +910,17 @@ def test_books_containing_message_is_correct(webview_base_url, selenium, page_id
 
     # THEN ensure the proper books containing overview message is displayed
     if book_count > 1:
-        assert overview == f'This page is in {book_count} books:'
+        assert overview == f"This page is in {book_count} books:"
     elif book_count > 0:
-        assert overview == f'This page is in this book:'
+        assert overview == f"This page is in this book:"
     else:
-        assert overview == 'This page is not in any books.'
+        assert overview == "This page is not in any books."
 
 
 @markers.webview
-@markers.test_case('C195062')
+@markers.test_case("C195062")
 @markers.nondestructive
-@markers.parametrize('page_id', ['SjdU64Og@3'])
+@markers.parametrize("page_id", ["SjdU64Og@3"])
 def test_books_containing_have_authors(webview_base_url, selenium, page_id):
     # GIVEN the webview base url, page_id, and the Selenium driver
 
@@ -870,9 +936,9 @@ def test_books_containing_have_authors(webview_base_url, selenium, page_id):
 
 @markers.webview
 @markers.requires_complete_dataset
-@markers.test_case('C195065')
+@markers.test_case("C195065")
 @markers.nondestructive
-@markers.parametrize('page_id', ['HOATLqlR@5'])
+@markers.parametrize("page_id", ["HOATLqlR@5"])
 def test_books_containing_list_in_sorted_order(webview_base_url, selenium, page_id):
     # GIVEN the webview base url, page_id, and the Selenium driver
 
@@ -898,15 +964,15 @@ def test_books_containing_list_in_sorted_order(webview_base_url, selenium, page_
     # AND for the rest of the books, the revision dates are sorted in decreasing order
     date_list = []
     for date in dates[i:]:
-        date_list.append(datetime.strptime(date[0], '%b %d, %Y'))
+        date_list.append(datetime.strptime(date[0], "%b %d, %Y"))
     assert date_list == sorted(date_list, reverse=True)
 
 
 @markers.webview
 @markers.requires_complete_dataset
-@markers.test_case('C195055')
+@markers.test_case("C195055")
 @markers.nondestructive
-@markers.parametrize('page_id', ['4fGVMb7P@1'])
+@markers.parametrize("page_id", ["4fGVMb7P@1"])
 def test_books_containing_button_toggles_and_labelled_books(webview_base_url, selenium, page_id):
     # GIVEN the webview base url, page_id, and the Selenium driver
 
@@ -932,27 +998,27 @@ def test_books_containing_button_toggles_and_labelled_books(webview_base_url, se
 
 @markers.webview
 @markers.requires_complete_dataset
-@markers.test_case('C195054')
+@markers.test_case("C195054")
 @markers.nondestructive
-@markers.parametrize('page_id', ['4fGVMb7P@1'])
+@markers.parametrize("page_id", ["4fGVMb7P@1"])
 def test_books_containing_list_is_on_left_of_page(webview_base_url, selenium, page_id):
     # GIVEN the webview base url, page_id, and the Selenium driver
 
     # WHEN we load the page of the chapter and we have the width of the window
     content = ContentPage(selenium, webview_base_url, id=page_id).open()
-    window_width = content.get_window_size('width')
+    window_width = content.get_window_size("width")
 
     # THEN check if the books list exists and on the left
     assert content.books_containing.book_list
-    assert content.location['x'] < window_width / 2
+    assert content.location["x"] < window_width / 2
 
 
 @markers.webview
 @markers.requires_complete_dataset
-@markers.test_case('C195056')
+@markers.test_case("C195056")
 @markers.nondestructive
-@markers.parametrize('page_id', ['QlYg2VHd'])
-@markers.parametrize('width,height', [(1024, 768), (630, 480)])
+@markers.parametrize("page_id", ["QlYg2VHd"])
+@markers.parametrize("width,height", [(1024, 768), (630, 480)])
 def test_button_open_with_certain_window_size(webview_base_url, selenium, page_id, width, height):
     # GIVEN the webview base url, page_id, and the Selenium driver
 
@@ -968,10 +1034,10 @@ def test_button_open_with_certain_window_size(webview_base_url, selenium, page_i
 
 
 @markers.webview
-@markers.test_case('C195060')
+@markers.test_case("C195060")
 @markers.nondestructive
-@markers.parametrize('id', ['4fGVMb7P@1'])
-@markers.parametrize('highlight_color', ['#78b04a'])
+@markers.parametrize("id", ["4fGVMb7P@1"])
+@markers.parametrize("highlight_color", ["#78b04a"])
 def test_book_title_link_and_highlight_on_view(webview_base_url, id, selenium, highlight_color):
     # GIVEN the webview base url, a chapter page id, the color and the Selenium driver
 

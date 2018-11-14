@@ -11,9 +11,9 @@ from regions.webview.base import Region
 
 
 class Sitemap(Page):
-    URL_TEMPLATE = '/sitemap-{author_username}.xml'
-    _urlset_locator = (By.TAG_NAME, 'urlset')
-    _urls_locator = (By.TAG_NAME, 'url')
+    URL_TEMPLATE = "/sitemap-{author_username}.xml"
+    _urlset_locator = (By.TAG_NAME, "urlset")
+    _urls_locator = (By.TAG_NAME, "url")
 
     @property
     def urlset(self):
@@ -21,12 +21,11 @@ class Sitemap(Page):
 
     @property
     def url_regions(self):
-        return [self.UrlRegion(self, url) for url
-                in self.urlset.find_elements(*self._urls_locator)]
+        return [self.UrlRegion(self, url) for url in self.urlset.find_elements(*self._urls_locator)]
 
     class UrlRegion(Region):
-        _loc_locator = (By.TAG_NAME, 'loc')
-        _url_regex = re.compile('/contents?/((?:[^:@/]+@[^:@/]+:)?[^:@/]+@[^:@/]+)')
+        _loc_locator = (By.TAG_NAME, "loc")
+        _url_regex = re.compile("/contents?/((?:[^:@/]+@[^:@/]+:)?[^:@/]+@[^:@/]+)")
 
         @property
         def loc(self):
@@ -34,7 +33,7 @@ class Sitemap(Page):
 
         @property
         def loc_url(self):
-            return self.loc.get_attribute('innerHTML')
+            return self.loc.get_attribute("innerHTML")
 
         # NOTE: we extract the id from the url and use that with Content().open() because
         #       we don't want the /slug in the url right away since we depend on its presence
@@ -45,5 +44,7 @@ class Sitemap(Page):
 
         def open(self):
             from pages.webview.content import Content
-            return Content(self.driver, self.page.base_url, self.page.timeout,
-                           id=self.content_id).open()
+
+            return Content(
+                self.driver, self.page.base_url, self.page.timeout, id=self.content_id
+            ).open()

@@ -8,12 +8,13 @@ from regions.webview.base import Region
 
 
 class ContentItem(Region):
-    _chapter_section_span_locator = (By.CSS_SELECTOR, 'span.chapter-number')
-    _title_span_locator = (By.CSS_SELECTOR, 'span.title')
+    _chapter_section_span_locator = (By.CSS_SELECTOR, "span.chapter-number")
+    _title_span_locator = (By.CSS_SELECTOR, "span.title")
 
     def __init__(self, page, parent_root, index):
         root = parent_root.find_element(
-            By.XPATH, self._root_locator_template.format(index=index + 1))
+            By.XPATH, self._root_locator_template.format(index=index + 1)
+        )
         self.parent_root = parent_root
         self.index = index
         super().__init__(page, root)

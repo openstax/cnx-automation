@@ -8,13 +8,12 @@ import tarfile
 
 import pytest
 
-__all__ = ['snapshot']
+__all__ = ["snapshot"]
 
-SNAPSHOT_BASE_DIR = os.path.join(os.path.realpath(os.path.dirname(__file__)), '../snapshots')
+SNAPSHOT_BASE_DIR = os.path.join(os.path.realpath(os.path.dirname(__file__)), "../snapshots")
 
 
 class Snapshot(object):
-
     def __init__(self, base_dir):
         self.base_dir = base_dir
 
@@ -28,24 +27,25 @@ class Snapshot(object):
         return snapshot_path
 
     def assert_dict_match(self, value, name):
-        snapshot_path = self.get_snapshot_path_and_ensure_dir_exists('json', name)
+        snapshot_path = self.get_snapshot_path_and_ensure_dir_exists("json", name)
 
-        with open(snapshot_path, 'a+') as snapshot_file:
+        with open(snapshot_path, "a+") as snapshot_file:
             snapshot_file.seek(0)
             snapshot = snapshot_file.read()
             if snapshot:
-                assert value == json.loads(snapshot), \
-                       ("Value did not match snapshot.\n\n"
-                        "Value:\n\n{value}\n\n"
-                        "Snapshot:\n\n{snapshot}".format(value=value, snapshot=snapshot))
+                assert value == json.loads(snapshot), (
+                    "Value did not match snapshot.\n\n"
+                    "Value:\n\n{value}\n\n"
+                    "Snapshot:\n\n{snapshot}".format(value=value, snapshot=snapshot)
+                )
             else:
                 json.dump(value, snapshot_file)
 
     def assert_file_or_dir_match(self, path, name):
-        snapshot_path = self.get_snapshot_path_and_ensure_dir_exists('tar_gz', name)
+        snapshot_path = self.get_snapshot_path_and_ensure_dir_exists("tar_gz", name)
 
         if os.path.isfile(snapshot_path):
-            with tarfile.open(snapshot_path, 'r|gz', encoding='utf-8') as snapshot_tar:
+            with tarfile.open(snapshot_path, "r|gz", encoding="utf-8") as snapshot_tar:
                 for snapshot_tarinfo in snapshot_tar:
                     name = snapshot_tarinfo.name
                     subpath = os.path.join(path, name)
@@ -55,18 +55,19 @@ class Snapshot(object):
                     else:
                         with snapshot_tar.extractfile(snapshot_tarinfo) as snapshot_file:
                             snapshot_value = snapshot_file.read()
-                        with open(subpath, 'rb') as file:
+                        with open(subpath, "rb") as file:
                             value = file.read()
-                        assert value == snapshot_value, (
-                            '{name} did not match the snapshot.'.format(name=name))
+                        assert value == snapshot_value, "{name} did not match the snapshot.".format(
+                            name=name
+                        )
         else:
-            with tarfile.open(snapshot_path, 'w|gz', encoding='utf-8') as snapshot_tar:
+            with tarfile.open(snapshot_path, "w|gz", encoding="utf-8") as snapshot_tar:
                 # arcname='.' makes tar not save the absolute path
                 # See comments in https://stackoverflow.com/a/2239679
-                snapshot_tar.add(path, arcname='.')
+                snapshot_tar.add(path, arcname=".")
 
 
-@pytest.fixture(scope='session')
+@pytest.fixture(scope="session")
 def snapshot(request):
     """Return an object that can save and compare snapshots"""
     return Snapshot(SNAPSHOT_BASE_DIR)

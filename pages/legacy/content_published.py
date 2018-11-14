@@ -8,7 +8,7 @@ from selenium.webdriver.common.by import By
 
 
 class ContentPublished(PrivatePage):
-    _tbody_locator = (By.CSS_SELECTOR, 'table.leftheadings tbody')
+    _tbody_locator = (By.CSS_SELECTOR, "table.leftheadings tbody")
     _title_locator = (By.XPATH, ("./tr/th[text()='Name:']/following-sibling::td/span"))
     _id_locator = (By.XPATH, ("./tr/th[text()='ID:']/following-sibling::td"))
 

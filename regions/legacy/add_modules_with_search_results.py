@@ -8,9 +8,11 @@ from regions.legacy.add_modules import AddModules
 
 
 class AddModulesWithSearchResults(AddModules):
-    _form_locator = (By.ID, 'collection_composer')
-    _add_workarea_checkbox_locator = (By.CSS_SELECTOR,
-                                      'input[type="checkbox"][name="selectButton"]')
+    _form_locator = (By.ID, "collection_composer")
+    _add_workarea_checkbox_locator = (
+        By.CSS_SELECTOR,
+        'input[type="checkbox"][name="selectButton"]',
+    )
 
     @property
     def form(self):
@@ -24,9 +26,10 @@ class AddModulesWithSearchResults(AddModules):
     # Necessary because without waiting for the new elements we were getting StaleElementErrors
     @property
     def loaded(self):
-        return ((self.is_element_displayed(*self._add_workarea_checkbox_locator) or
-                 'No results matched your query' in self.text) and
-                super().loaded)
+        return (
+            self.is_element_displayed(*self._add_workarea_checkbox_locator)
+            or "No results matched your query" in self.text
+        ) and super().loaded
 
     def add_workarea(self):
         self.add_workarea_checkbox.click()
@@ -38,5 +41,6 @@ class AddModulesWithSearchResults(AddModules):
         # Wait for the modal to close
         self.wait_for_region_to_unload()
         from regions.legacy.module import Module
+
         module = Module(self.page, self.collection.content_nodes[-1])
         return module.wait_for_region_to_load()

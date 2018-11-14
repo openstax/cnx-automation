@@ -32,6 +32,10 @@ venv:
 		source .venv/bin/activate && \
 		pip install -r requirements.txt
 
+precommit:
+	pre-commit install
+
+
 help:
 	@echo "The following targets are available"
 	@echo "clean			Remove build, test, and file artifacts"

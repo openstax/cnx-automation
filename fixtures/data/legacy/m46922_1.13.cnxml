@@ -60,8 +60,8 @@
 </metadata>
 
 <content>
-  
- 
+
+
 <para id="element-683">An important characteristic of any set of data is the variation in the data. In some data sets, the data values are concentrated closely near the mean; in other data sets, the data values are more widely spread out from the mean. The most common measure of variation, or spread, is the standard deviation. The <term>standard deviation</term> is a number that measures how far data values are from their mean.</para><section id="fs-idm94849104">
 <title>The standard deviation</title>
 <list id="eip-id1169998044652" list-type="bulleted">
@@ -72,7 +72,7 @@
 
 <section id="fs-idm34509216">
 <title>The standard deviation provides a measure of the overall variation in a data set</title>
-<para id="fs-idm111390400">The standard deviation is always positive or zero. The standard deviation is small when the data are all concentrated close to the mean, exhibiting little variation or spread. The standard deviation is larger when the data values are more spread out from the mean, exhibiting more variation.</para><para id="eip-419">Suppose that we are studying the amount of time customers wait in line at the checkout at supermarket <emphasis effect="italics">A</emphasis> and supermarket <emphasis effect="italics">B</emphasis>. the average wait time at both supermarkets is five minutes. At supermarket <emphasis effect="italics">A</emphasis>, the standard deviation for the wait time is two minutes; at supermarket <emphasis effect="italics">B</emphasis> the standard deviation for the wait time is four minutes.</para> 
+<para id="fs-idm111390400">The standard deviation is always positive or zero. The standard deviation is small when the data are all concentrated close to the mean, exhibiting little variation or spread. The standard deviation is larger when the data values are more spread out from the mean, exhibiting more variation.</para><para id="eip-419">Suppose that we are studying the amount of time customers wait in line at the checkout at supermarket <emphasis effect="italics">A</emphasis> and supermarket <emphasis effect="italics">B</emphasis>. the average wait time at both supermarkets is five minutes. At supermarket <emphasis effect="italics">A</emphasis>, the standard deviation for the wait time is two minutes; at supermarket <emphasis effect="italics">B</emphasis> the standard deviation for the wait time is four minutes.</para>
 <para id="fs-idm8407856">Because supermarket <emphasis effect="italics">B</emphasis> has a higher standard deviation, we know that there is more variation in the wait times at supermarket <emphasis effect="italics">B</emphasis>. Overall, wait times at supermarket <emphasis effect="italics">B</emphasis> are more spread out from the average; wait times at  supermarket <emphasis effect="italics">A</emphasis> are more concentrated near the average.</para></section>
 
 <section id="fs-idm58314928">
@@ -88,7 +88,7 @@
 
 <para id="eip-973"><emphasis>Binh waits for one minute.</emphasis></para>
 <list id="eip-id1164884926039">
-<item>One is four minutes less than the average of five; four minutes is equal to two standard deviations.</item> 
+<item>One is four minutes less than the average of five; four minutes is equal to two standard deviations.</item>
 <item>Binh's wait time of one minute is <emphasis>four minutes less than the average</emphasis> of five minutes.</item>
 <item>Binh's wait time of one minute is <emphasis>two standard deviations below the average</emphasis> of five minutes.</item>
 <item>A data value that is two standard deviations from the average is just on the borderline for what many statisticians would consider to be far from the average. Considering data to be far from the mean if it is more than two standard deviations away is more of an approximate "rule of thumb" than a rigid rule. In general, the shape of the distribution of the data affects how much of the data is further away than two standard deviations. (You will learn more about this in later chapters.)</item>
@@ -123,7 +123,7 @@ The symbol <m:math>
   <m:conjugate/>
   <m:ci>x</m:ci>
 </m:apply>
-</m:math> is the sample mean and the Greek symbol 
+</m:math> is the sample mean and the Greek symbol
 <m:math><m:mi>μ</m:mi></m:math> is the population mean.</para></section>
 
 <section id="fs-idm36185184">
@@ -133,14 +133,14 @@ The symbol <m:math>
   <m:mi>x</m:mi>
   <m:mo>¯</m:mo>
  </m:mover>
- 
+
 </m:math>.</para><para id="eip-45">The procedure to calculate the standard deviation depends on whether the numbers are the entire population or are data from a sample.  The calculations are similar, but not identical.  Therefore the symbol used to represent the standard deviation depends on whether it is calculated from a population or a sample. The lower case letter s represents the sample standard deviation and the Greek letter <emphasis effect="italics">σ</emphasis> (sigma, lower case) represents the population standard deviation. If the sample has the same characteristics as the population, then s should be a good estimate of <emphasis effect="italics">σ</emphasis>.</para>
 <para id="eip-689">To calculate the standard deviation, we need to calculate the variance first.  The <term>variance</term> is the <emphasis>average of the squares of the deviations</emphasis> (the <emphasis effect="italics">x</emphasis> – <m:math>
  <m:mover accent="true">
   <m:mi>x</m:mi>
   <m:mo>¯</m:mo>
  </m:mover>
- 
+
 </m:math> values for a sample, or the <emphasis effect="italics">x</emphasis> – <emphasis effect="italics">μ</emphasis> values for a population). The symbol <emphasis effect="italics">σ</emphasis><sup>2</sup> represents the population variance; the population standard deviation <emphasis effect="italics">σ</emphasis> is the square root of the population variance. The symbol <emphasis effect="italics">s</emphasis><sup>2</sup> represents the sample variance; the sample standard deviation <emphasis effect="italics">s</emphasis> is the square root of the sample variance. You can think of the standard deviation as a special average of the deviations.</para><para id="eip-790">If the numbers come from a census of the entire <emphasis>population</emphasis> and not a sample, when we calculate the average of the squared deviations to find the variance, we divide by <emphasis effect="italics">N</emphasis>, the number of items in the population. If the data are from a <emphasis>sample</emphasis> rather than a population, when we calculate the average of the squared deviations, we divide by <emphasis><emphasis effect="italics">n</emphasis> – 1</emphasis>, one less than the number of items in the sample.</para></section>
 
 <section id="fs-idm36483152">
@@ -161,16 +161,16 @@ The symbol <m:math>
        </m:mrow>
        <m:mn>2</m:mn>
       </m:msup>
-      
+
      </m:mrow>
      <m:mrow>
       <m:mi>n</m:mi><m:mo>−</m:mo><m:mn>1</m:mn>
      </m:mrow>
     </m:mfrac>
-    
+
    </m:mrow>
   </m:msqrt>
-  
+
  </m:mrow>
 </m:math> or <m:math>
  <m:mrow>
@@ -188,16 +188,16 @@ The symbol <m:math>
        </m:mrow>
        <m:mn>2</m:mn>
       </m:msup>
-      
+
      </m:mrow>
      <m:mrow>
       <m:mi>n</m:mi><m:mo>−</m:mo><m:mn>1</m:mn>
      </m:mrow>
     </m:mfrac>
-    
+
    </m:mrow>
   </m:msqrt>
-  
+
  </m:mrow>
 </m:math>
     </item>
@@ -220,14 +220,14 @@ The symbol <m:math>
        </m:mrow>
        <m:mn>2</m:mn>
       </m:msup>
-      
+
      </m:mrow>
      <m:mi>N</m:mi>
     </m:mfrac>
-    
+
    </m:mrow>
   </m:msqrt>
-  
+
  </m:mrow>
 </m:math> or <m:math>
  <m:mrow>
@@ -242,14 +242,14 @@ The symbol <m:math>
        </m:mrow>
        <m:mn>2</m:mn>
       </m:msup>
-      
+
      </m:mrow>
      <m:mi>N</m:mi>
     </m:mfrac>
-    
+
    </m:mrow>
   </m:msqrt>
-  
+
  </m:mrow>
 </m:math></item>
 <item>For the population standard deviation, the denominator is <emphasis effect="italics">N</emphasis>, the number of items in the population.</item>
@@ -267,10 +267,10 @@ The symbol <m:math>
     <m:msqrt>
      <m:mi>n</m:mi>
     </m:msqrt>
-    
+
    </m:mrow>
   </m:mfrac>
-  
+
  </m:mrow>
 </m:math> where <emphasis effect="italics">σ</emphasis> is the standard deviation of the population and n is the size of the sample.</para><note id="id7166567" class="finger"><label/><title>NOTE</title>
 <para id="eip-idp582096">
@@ -329,14 +329,14 @@ The symbol <m:math>
   <m:mi>x</m:mi>
   <m:mo>¯</m:mo>
  </m:mover>
- 
+
 </m:math>)<sup>2</sup></entry>
     <entry>(<emphasis effect="italics">f</emphasis>)(<emphasis effect="italics">x</emphasis> – <m:math>
  <m:mover accent="true">
   <m:mi>x</m:mi>
   <m:mo>¯</m:mo>
  </m:mover>
- 
+
 </m:math>)<sup>2</sup></entry>
   </row>
   <row>
@@ -428,7 +428,7 @@ The symbol <m:math>
           <m:mi>x</m:mi>
           <m:mo>¯</m:mo>
         </m:mover>
-        
+
       </m:math> + (#ofSTDEVs)(<emphasis effect="italics">s</emphasis>)</item>
       <item>For a population: <emphasis effect="italics">x</emphasis> = <emphasis effect="italics">μ</emphasis> + (#ofSTDEVs)(<emphasis effect="italics">σ</emphasis>)</item>
       <item>For this example, use <emphasis effect="italics">x</emphasis> = <m:math>
@@ -436,29 +436,29 @@ The symbol <m:math>
           <m:mi>x</m:mi>
           <m:mo>¯</m:mo>
         </m:mover>
-        
+
       </m:math> + (#ofSTDEVs)(<emphasis effect="italics">s</emphasis>) because the data is from a sample</item>
     </list></para>
-    
+
     <list id="eip-idm60068992" list-type="enumerated" number-style="lower-alpha"><item>Verify the mean and standard deviation on your calculator or computer.</item>
     <item>Find the value that is one standard deviation above the mean. Find (<m:math>
       <m:mover accent="true">
         <m:mi>x</m:mi>
         <m:mo>¯</m:mo>
       </m:mover>
-      
+
     </m:math> + 1s).</item>
       <item>Find the value that is two standard deviations below the mean. Find (<m:math>
       <m:mover accent="true">
         <m:mi>x</m:mi>
         <m:mo>¯</m:mo>
       </m:mover>
-      
+
     </m:math> – 2s).</item>
-    
+
       <item>Find the values that are 1.5 standard deviations <emphasis>from</emphasis> (below and above) the mean.</item>
     </list></problem>
-    
+
     <solution id="id1167261579717">
       <list id="eip-idm6421744" list-type="enumerated" number-style="lower-alpha"><item><note id="fs-idm22381712" class="statistics calculator finger"><label/>
         <list id="fs-idm96652896" list-type="bulleted">
@@ -473,7 +473,7 @@ The symbol <m:math>
               <m:mi>x</m:mi>
               <m:mo>¯</m:mo>
             </m:mover>
-            
+
           </m:math> = 10.525</item>
           <item>Use Sx because this is sample data (not a population): Sx=0.715891</item>
         </list>
@@ -483,32 +483,32 @@ The symbol <m:math>
             <m:mi>x</m:mi>
             <m:mo>¯</m:mo>
           </m:mover>
-          
+
         </m:math> + 1s) = 10.53 + (1)(0.72) = 11.25</item>
-    
+
      <item>(<m:math>
         <m:mover accent="true">
           <m:mi>x</m:mi>
           <m:mo>¯</m:mo>
         </m:mover>
-        
-     </m:math> – 2<emphasis effect="italics">s</emphasis>) = 10.53 – (2)(0.72) = 9.09</item> 
+
+     </m:math> – 2<emphasis effect="italics">s</emphasis>) = 10.53 – (2)(0.72) = 9.09</item>
       <item><list id="element-364" list-type="bulleted"><item>(<m:math>
         <m:mover accent="true">
           <m:mi>x</m:mi>
           <m:mo>¯</m:mo>
         </m:mover>
-        
+
       </m:math> – 1.5<emphasis effect="italics">s</emphasis>) = 10.53 – (1.5)(0.72) = 9.45</item>
         <item>(<m:math>
           <m:mover accent="true">
             <m:mi>x</m:mi>
             <m:mo>¯</m:mo>
           </m:mover>
-          
+
         </m:math> + 1.5<emphasis effect="italics">s</emphasis>) = 10.53 + (1.5)(0.72) = 11.61</item>
       </list>
-      </item> 
+      </item>
     </list></solution>
   </exercise></example><note id="fs-idp2767424" class="statistics try finger">
 <label/><title>Try It</title>
@@ -526,7 +526,7 @@ The symbol <m:math>
   <m:mi>x</m:mi>
   <m:mo>¯</m:mo>
  </m:mover>
- 
+
 </m:math> + 2<emphasis effect="italics">s</emphasis>) = 30.68 + (2)(6.09) = 42.86.</para></solution>
 </exercise></note>
 
@@ -789,23 +789,23 @@ The symbol <m:math>
        </m:mrow>
        <m:mn>2</m:mn>
       </m:msup>
-      
+
      </m:mrow>
      <m:mrow>
       <m:mi>n</m:mi><m:mo>−</m:mo><m:mn>1</m:mn>
      </m:mrow>
     </m:mfrac>
-    
+
    </m:mrow>
   </m:msqrt>
-  
+
  </m:mrow>
 </m:math> where <emphasis effect="italics">s<sub>x</sub></emphasis> = sample standard deviation, <m:math>
  <m:mover accent="true">
   <m:mi>x</m:mi>
   <m:mo>¯</m:mo>
  </m:mover>
- 
+
 </m:math> = sample mean, the calculations are tedious. It is usually best to use technology when performing the calculations.</para></example>
 
 <note id="fs-idm15915776" class="statistics try finger">
@@ -860,9 +860,9 @@ The symbol <m:math>
     <m:mtext>standard deviation</m:mtext>
    </m:mrow>
   </m:mfrac>
-  
+
  </m:mrow>
-</m:math></item> 
+</m:math></item>
 <item>Compare the results of this calculation.</item>
 </list><para id="eip-946">#ofSTDEVs is often called a "<emphasis effect="italics">z</emphasis>-score"; we can use the symbol <emphasis effect="italics">z</emphasis>. In symbols, the formulas become:</para>
 <table id="eip-329" summary="The table shows the z-score formula.">
@@ -883,11 +883,11 @@ The symbol <m:math>
      <m:mi>x</m:mi>
      <m:mo>¯</m:mo>
     </m:mover>
-    
+
    </m:mrow>
    <m:mi>s</m:mi>
   </m:mfrac>
-  
+
  </m:mrow>
 </m:math></entry>
   </row>
@@ -904,7 +904,7 @@ The symbol <m:math>
    </m:mrow>
    <m:mi>σ</m:mi>
   </m:mfrac>
-  
+
  </m:mrow>
 </m:math></entry>
   </row>
@@ -961,7 +961,7 @@ The symbol <m:math>
    </m:mrow>
    <m:mi>σ</m:mi>
   </m:mfrac>
-  
+
  </m:mrow>
 </m:math>
 </para><para id="element-378">For John, <m:math display="">
@@ -1012,7 +1012,7 @@ The symbol <m:math>
 <para id="fs-idm21971408">For Angie: <emphasis effect="italics">z</emphasis> = <m:math>
  <m:mrow><m:mfrac><m:mrow>
 <m:mtext>26</m:mtext><m:mtext>.2 – 27</m:mtext><m:mtext>.2</m:mtext>
-   </m:mrow><m:mrow><m:mtext>0</m:mtext><m:mtext>.8</m:mtext></m:mrow></m:mfrac>  
+   </m:mrow><m:mrow><m:mtext>0</m:mtext><m:mtext>.8</m:mtext></m:mrow></m:mfrac>
  </m:mrow></m:math> = –1.25</para><para id="fs-idm92282736">For Beth: <emphasis effect="italics">z</emphasis> = <m:math>
  <m:mrow>
   <m:mfrac>
@@ -1023,7 +1023,7 @@ The symbol <m:math>
     <m:mn>1.</m:mn><m:mtext>4</m:mtext>
    </m:mrow>
   </m:mfrac>
-  
+
  </m:mrow>
 </m:math> = –2</para></solution>
 </exercise></note><para id="eip-33">The following lists give a few facts that provide a little more insight into what the standard deviation tells us about the distribution of the data.</para>
@@ -1040,7 +1040,7 @@ The symbol <m:math>
 <item>More than 99% of the data is within three standard deviations of the mean.</item>
 <item>This is known as the Empirical Rule.</item>
 <item>It is important to note that this rule only applies when the shape of the distribution of the data is bell-shaped and symmetric. We will learn more about this when studying the "Normal" or "Gaussian" probability distribution in later chapters.</item>
-</list></section> 
+</list></section>
 
 <section id="fs-idp5887184" class="references">
 <title>References</title>
@@ -1072,16 +1072,16 @@ The symbol <m:math>
        </m:mrow>
        <m:mn>2</m:mn>
       </m:msup>
-      
+
      </m:mrow>
      <m:mrow>
       <m:mi>n</m:mi><m:mo>−</m:mo><m:mn>1</m:mn>
      </m:mrow>
     </m:mfrac>
-    
+
    </m:mrow>
   </m:msqrt>
-  
+
  </m:mrow>
 </m:math> or <emphasis effect="italics">s</emphasis> = <m:math>
  <m:mrow>
@@ -1103,16 +1103,16 @@ The symbol <m:math>
        </m:mrow>
        <m:mn>2</m:mn>
       </m:msup>
-      
+
      </m:mrow>
      <m:mrow>
       <m:mi>n</m:mi><m:mo>−</m:mo><m:mn>1</m:mn>
      </m:mrow>
     </m:mfrac>
-    
+
    </m:mrow>
   </m:msqrt>
-  
+
  </m:mrow>
 </m:math> is the formula for calculating the standard deviation of a sample. To calculate the standard deviation of a population, we would use the population mean, <emphasis effect="italics">μ</emphasis>, and the formula <emphasis effect="italics">σ</emphasis> = <m:math>
  <m:mrow>
@@ -1130,14 +1130,14 @@ The symbol <m:math>
        </m:mrow>
        <m:mn>2</m:mn>
       </m:msup>
-      
+
      </m:mrow>
      <m:mi>N</m:mi>
     </m:mfrac>
-    
+
    </m:mrow>
   </m:msqrt>
-  
+
  </m:mrow>
 </m:math> or <emphasis effect="italics">σ</emphasis> = <m:math>
  <m:mrow>
@@ -1155,14 +1155,14 @@ The symbol <m:math>
        </m:mrow>
        <m:mn>2</m:mn>
       </m:msup>
-      
+
      </m:mrow>
      <m:mi>N</m:mi>
     </m:mfrac>
-    
+
    </m:mrow>
   </m:msqrt>
-  
+
  </m:mrow>
 </m:math>.</item>
 </list>
@@ -1208,7 +1208,7 @@ The symbol <m:math>
 <exercise id="fs-idm9402560">
 <problem id="fs-idm41792944">
 <para id="fs-idm41792688">Two baseball players, Fredo and Karl, on different teams wanted to find out who had the higher batting average when compared to his team. Which baseball player had the higher batting average when compared to his team?</para>
-<table id="fs-idm133764640" summary=""> 
+<table id="fs-idm133764640" summary="">
 <tgroup cols="4">
 <thead><row><entry>Baseball Player</entry>	<entry>Batting Average</entry>	<entry>Team Batting Average</entry>	<entry>Team Standard Deviation</entry></row></thead>
 <tbody>
@@ -1229,7 +1229,7 @@ The symbol <m:math>
     <m:mn>0.012</m:mn>
    </m:mrow>
   </m:mfrac>
-  
+
  </m:mrow>
 </m:math>
  = –0.67</para><para id="fs-idm71183520">For Karl: <emphasis effect="italics">z</emphasis> = <m:math>
@@ -1242,7 +1242,7 @@ The symbol <m:math>
     <m:mn>0.015</m:mn>
    </m:mrow>
   </m:mfrac>
-  
+
  </m:mrow>
 </m:math>
  = –0.8</para>
@@ -1343,7 +1343,7 @@ The symbol <m:math>
       <solution id="id8123906">
         <para id="element-236">The median value is the middle value in the ordered list of data values. The median value of a set of 11 will be the 6th number in order. Six years will have totals at or below the median.</para></solution>
     </exercise>
-    
+
     <exercise id="exercisetwentyone">
       <problem id="id8123930">
         <para id="prob_21">75% of all years have an FTES:
@@ -1351,7 +1351,7 @@ The symbol <m:math>
             <item>at or above: _____</item>
           </list></para></problem>
     </exercise>
-    
+
     <exercise id="exercisetwentytwo">
       <problem id="id8181793">
         <para id="prob_22">The population standard deviation = _____</para></problem>
@@ -1359,13 +1359,13 @@ The symbol <m:math>
         <para id="element-23356">474 FTES</para>
       </solution>
     </exercise>
-    
+
     <exercise id="exercisetwentythree">
       <problem id="id8181834">
         <para id="prob_23">What percent of the FTES were from 528.5 to 1447.5? How do you know?</para>
       </problem>
     </exercise>
-    
+
     <exercise id="exercisetwentyfour">
       <problem id="id8181876">
         <para id="prob_24">What is the <emphasis effect="italics">IQR</emphasis>? What does the <emphasis effect="italics">IQR</emphasis> represent?</para></problem>
@@ -1373,7 +1373,7 @@ The symbol <m:math>
         <para id="element-2236">919</para>
       </solution>
     </exercise>
-    
+
     <exercise id="exercisetwentyfive">
       <problem id="id8181927">
         <para id="prob_25">How many standard deviations away from the mean is the median?</para>
@@ -1403,7 +1403,7 @@ The symbol <m:math>
         </table>
       </problem>
     </exercise>
-    
+
     <exercise id="eip-746">
       <problem id="eip-481">
         <para id="eip-363">Calculate the mean, median, standard deviation, the first quartile, the third quartile and the <emphasis effect="italics">IQR</emphasis>. Round to one decimal place.</para></problem>
@@ -1416,12 +1416,12 @@ The symbol <m:math>
           <item><emphasis effect="italics">IQR</emphasis> = 245</item>
         </list></solution>
     </exercise>
-    
+
     <exercise id="eip-279">
       <problem id="eip-876">
         <para xmlns:data="http://www.w3.org/TR/html5/dom.html#custom-data-attribute" id="eip-36">What additional information is needed to construct a box plot for the FTES for 2005-2006 through 2010-2011 and a box plot for the FTES for 1976-1977 through 2004-2005?</para></problem>
     </exercise>
-    
+
     <exercise id="eip-975">
       <problem id="eip-748">
         <para id="eip-507">Compare the  <emphasis effect="italics">IQR</emphasis> for the FTES for 1976–77 through 2004–2005 with the <emphasis effect="italics">IQR</emphasis> for the FTES for 2005-2006 through 2010–2011.  Why do you suppose the <emphasis effect="italics">IQR</emphasis>s are so different?</para></problem>
@@ -1550,7 +1550,7 @@ The symbol <m:math>
 </table>
 <para id="fs-idm46041824">What is the best estimate for the mean percentage of underweight children? What is the standard deviation? Which interval(s) could be considered unusual? Explain.</para></problem>
 </exercise>
-  
+
 
 
 </section>
@@ -1859,7 +1859,7 @@ The symbol <m:math>
 <entry>15</entry><entry/></row>
 <row><entry>5</entry><entry>10</entry><entry/></row>
 <row><entry>7</entry>
-<entry>5</entry><entry/></row> 
+<entry>5</entry><entry/></row>
 <row><entry>9</entry><entry>1</entry>
 <entry/></row>
 </tbody>
@@ -1890,13 +1890,13 @@ The symbol <m:math>
   <m:mi>x</m:mi>
   <m:mo>¯</m:mo>
  </m:mover>
- 
+
 </m:math> where <emphasis effect="italics">x</emphasis> is a value of the data and <m:math>
  <m:mover accent="true">
   <m:mi>x</m:mi>
   <m:mo>¯</m:mo>
  </m:mover>
- 
+
 </m:math> is the sample mean. The sample variance is equal to the sum of the squares of the deviations divided by the difference of the sample size and one.</meaning>
   </definition>
 
