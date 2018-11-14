@@ -8,7 +8,7 @@ from tests import markers
 
 
 @markers.webview
-@markers.test_case('C176254', 'C176255')
+@markers.test_case("C176254", "C176255")
 @markers.nondestructive
 def test_contact_has_correct_email_link(webview_base_url, selenium):
     # GIVEN the About Us page
@@ -21,11 +21,11 @@ def test_contact_has_correct_email_link(webview_base_url, selenium):
     # THEN the contact email is displayed
     contact_content = contact.contact_content
     assert contact_content.is_email_displayed
-    assert contact_content.email_url == 'mailto:support@openstax.org'
+    assert contact_content.email_url == "mailto:support@openstax.org"
 
 
 @markers.webview
-@markers.test_case('C176256')
+@markers.test_case("C176256")
 @markers.nondestructive
 def test_contact_has_questions_header(webview_base_url, selenium):
     # GIVEN the About Us page
@@ -36,4 +36,4 @@ def test_contact_has_questions_header(webview_base_url, selenium):
     contact = about_us.click_contact()
 
     # THEN the Questions? header is displayed
-    assert contact.contact_content.questions_header.text == 'Questions?'
+    assert contact.contact_content.questions_header.text == "Questions?"

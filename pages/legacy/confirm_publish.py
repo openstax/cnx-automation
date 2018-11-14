@@ -16,6 +16,7 @@ class ConfirmPublish(PrivatePage):
 
     def submit(self, max_attempts=3):
         from pages.legacy.content_published import ContentPublished
+
         content_published = ContentPublished(self.driver, self.base_url, self.timeout)
 
         # Sometimes publishing fails with a SiteError. In those cases, we retry it a few times.
@@ -30,5 +31,8 @@ class ConfirmPublish(PrivatePage):
                 self.wait_for_page_to_load()
 
         from pytest import fail
-        fail('Maximum number of attempts exceeded for SiteError'
-             ' ({attempts})'.format(attempts=max_attempts))
+
+        fail(
+            "Maximum number of attempts exceeded for SiteError"
+            " ({attempts})".format(attempts=max_attempts)
+        )

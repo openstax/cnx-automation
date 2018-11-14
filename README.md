@@ -2,6 +2,8 @@
 
 [![Build Status](https://travis-ci.org/openstax/cnx-automation.svg?branch=master)](https://travis-ci.org/openstax/cnx-automation)
 [![Build with ZenHub](https://raw.githubusercontent.com/ZenHubIO/support/master/zenhub-badge.png)](https://zenhub.com)
+<a href="https://github.com/ambv/black"><img alt="Code style: black" src="https://img.shields.io/badge/code%20style-black-000000.svg"></a>
+</p>
 
 ## Getting started
 
@@ -48,7 +50,7 @@ Execute the tests as described above.
 
 Switch over to the VNC window to see your tests running!
 
-## How prepare the project locally
+## How to prepare the project locally
 
 ### Install dependencies
 
@@ -59,6 +61,14 @@ Switch over to the VNC window to see your tests running!
 #### Activate the virtualenv
 
     $ source .venv/bin/activate
+
+#### Install git pre-commit hooks
+
+This utilizes [pre-commit](https://pre-commit.com/) to format code using [black](https://github.com/ambv/black)
+and lint your code using flake8. This is IDE agnostic and runs only on checked in code before a commit. 
+
+    $ make precommit
+
 
 ### Set username and password for legacy tests
 

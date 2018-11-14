@@ -7,7 +7,7 @@ import pytest
 from lxml import etree
 from lxml.etree import XMLSyntaxError
 
-__all__ = ['width', 'height', 'language', 'selenium', 'chrome_options']
+__all__ = ["width", "height", "language", "selenium", "chrome_options"]
 
 
 @pytest.fixture
@@ -22,7 +22,7 @@ def height(request):
 
 @pytest.fixture
 def language(request):
-    return 'en'
+    return "en"
 
 
 # https://docs.pytest.org/en/latest/example/simple.html#making-test-result-information-available-in-fixtures
@@ -31,13 +31,15 @@ def selenium(selenium, pytestconfig, width, height, request):
     selenium.set_window_size(width, height)
     yield selenium
     # request.node is an "item" because we use the default "function" scope
-    if pytestconfig.getoption('--print-page-source-on-failure') and \
-       hasattr(request.node, 'rep_setup') and \
-       request.node.rep_setup.passed and \
-       hasattr(request.node, 'rep_call') and \
-       request.node.rep_call.failed:
+    if (
+        pytestconfig.getoption("--print-page-source-on-failure")
+        and hasattr(request.node, "rep_setup")
+        and request.node.rep_setup.passed
+        and hasattr(request.node, "rep_call")
+        and request.node.rep_call.failed
+    ):
         # print page source on failure
-        print('\n------------------------------ Begin Page Source -------------------------------')
+        print("\n------------------------------ Begin Page Source -------------------------------")
         source = selenium.page_source
         try:
             html = etree.fromstring(source)
@@ -46,26 +48,26 @@ def selenium(selenium, pytestconfig, width, height, request):
             print(source)
         else:
             # Remove head tag and pretty print
-            head = html.find('{http://www.w3.org/1999/xhtml}head')
+            head = html.find("{http://www.w3.org/1999/xhtml}head")
             if head is not None:
                 html.remove(head)
-            print(etree.tostring(html, encoding='unicode', pretty_print=True))
-        print('------------------------------- End Page Source --------------------------------')
+            print(etree.tostring(html, encoding="unicode", pretty_print=True))
+        print("------------------------------- End Page Source --------------------------------")
 
 
 @pytest.fixture
 def chrome_options(chrome_options, pytestconfig, language):
-    if pytestconfig.getoption('--headless'):
+    if pytestconfig.getoption("--headless"):
         chrome_options.headless = True
 
     # Required to run in Travis containers
-    if pytestconfig.getoption('--no-sandbox'):
-        chrome_options.add_argument('--no-sandbox')
-    if pytestconfig.getoption('--disable-dev-shm-usage'):
-        chrome_options.add_argument('--disable-dev-shm-usage')
+    if pytestconfig.getoption("--no-sandbox"):
+        chrome_options.add_argument("--no-sandbox")
+    if pytestconfig.getoption("--disable-dev-shm-usage"):
+        chrome_options.add_argument("--disable-dev-shm-usage")
 
     # Set the browser language
-    chrome_options.add_argument('--lang={lang}'.format(lang=language))
-    chrome_options.add_experimental_option('prefs', {'intl.accept_languages': language})
+    chrome_options.add_argument("--lang={lang}".format(lang=language))
+    chrome_options.add_experimental_option("prefs", {"intl.accept_languages": language})
 
     return chrome_options

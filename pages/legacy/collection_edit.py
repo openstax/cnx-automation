@@ -10,15 +10,15 @@ from pages.legacy.base import PrivatePage
 
 
 class CollectionEdit(PrivatePage):
-    URL_TEMPLATE = '/Members/{username}/{collection_id}'
-    _url_regex = re.compile('/Members/([^/]+)/([^/]+)')
-    _title_regex = re.compile('^Collection: (.*)$')
-    _title_header_locator = (By.CSS_SELECTOR, '#content div div h1')
-    _root_collection_locator = (By.CSS_SELECTOR, 'ul.x-tree-root-ct li.x-tree-node')
+    URL_TEMPLATE = "/Members/{username}/{collection_id}"
+    _url_regex = re.compile("/Members/([^/]+)/([^/]+)")
+    _title_regex = re.compile("^Collection: (.*)$")
+    _title_header_locator = (By.CSS_SELECTOR, "#content div div h1")
+    _root_collection_locator = (By.CSS_SELECTOR, "ul.x-tree-root-ct li.x-tree-node")
     _publish_link_locator = (By.CSS_SELECTOR, 'a[href$="collection_publish"]')
-    _modal_locator = (By.CSS_SELECTOR, 'div.x-window')
-    _portal_msg_locator = (By.CLASS_NAME, 'portalMessage')
-    _roles_tab_locator = (By.ID, 'contentview-roles')
+    _modal_locator = (By.CSS_SELECTOR, "div.x-window")
+    _portal_msg_locator = (By.CLASS_NAME, "portalMessage")
+    _roles_tab_locator = (By.ID, "contentview-roles")
 
     @property
     def username(self):
@@ -47,6 +47,7 @@ class CollectionEdit(PrivatePage):
     @property
     def root_collection(self):
         from regions.legacy.collection import Collection
+
         collection = Collection(self, self.find_element(*self._root_collection_locator))
         return collection.wait_for_region_to_load()
 
@@ -57,11 +58,13 @@ class CollectionEdit(PrivatePage):
     def publish(self):
         self.publish_link.click()
         from pages.legacy.content_publish import ContentPublish
+
         content_publish = ContentPublish(self.driver, self.base_url, self.timeout)
         return content_publish.wait_for_page_to_load()
 
     def click_roles_tab(self):
         self.find_element(*self._roles_tab_locator).click()
         from pages.legacy.roles_edit import RolesEdit
+
         roles_edit = RolesEdit(self.driver, self.base_url, self.timeout)
         return roles_edit.wait_for_page_to_load()

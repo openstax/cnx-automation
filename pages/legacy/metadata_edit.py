@@ -11,7 +11,7 @@ from pages.legacy.base import PrivatePage
 class MetadataEdit(PrivatePage):
     _metadata_form_locator = (By.CSS_SELECTOR, 'form[action="content_title"]')
     _title_field_locator = (By.CSS_SELECTOR, 'input[type="text"][name="title"]')
-    _collection_subtype_select_locator = (By.ID, 'collectionType')
+    _collection_subtype_select_locator = (By.ID, "collectionType")
     _submit_button_locator = (By.CSS_SELECTOR, 'input[type="submit"][name="form.button.next"]')
 
     @property
@@ -42,9 +42,11 @@ class MetadataEdit(PrivatePage):
     def submit(self, max_attempts=3):
         if self.is_collection:
             from pages.legacy.collection_edit import CollectionEdit
+
             edit = CollectionEdit(self.driver, self.base_url, self.timeout)
         else:
             from pages.legacy.module_edit import ModuleEdit
+
             edit = ModuleEdit(self.driver, self.base_url, self.timeout)
 
         # Unlike the other forms, we actually have to click the submit button here
@@ -70,5 +72,8 @@ class MetadataEdit(PrivatePage):
                     self.driver.switch_to.alert.dismiss()
 
         from pytest import fail
-        fail('Maximum number of attempts exceeded for metadata form submission'
-             ' ({attempts})'.format(attempts=max_attempts))
+
+        fail(
+            "Maximum number of attempts exceeded for metadata form submission"
+            " ({attempts})".format(attempts=max_attempts)
+        )

@@ -10,25 +10,25 @@ from pages.webview.content_status import ContentStatus
 @markers.webview
 @markers.requires_varnish_routing
 @markers.requires_publishing
-@markers.test_case('C175149')
+@markers.test_case("C175149")
 @markers.nondestructive
 def test_content_status_styles(webview_base_url, selenium):
     # GIVEN the webview base url, the selenium driver, and the expected icons and colors
-    gray = 'rgba(128, 128, 128, 1)'
-    yellow = 'rgba(255, 165, 0, 1)'
-    red = 'rgba(255, 0, 0, 1)'
-    green = 'rgba(0, 128, 0, 1)'
+    gray = "rgba(128, 128, 128, 1)"
+    yellow = "rgba(255, 165, 0, 1)"
+    red = "rgba(255, 0, 0, 1)"
+    green = "rgba(0, 128, 0, 1)"
     expected_icons_dict = {
-        'queued': {'icon': 'fa-hourglass-1', 'color': gray},
-        'started': {'icon': 'fa-hourglass-2', 'color': yellow},
-        'retry': {'icon': 'fa-repeat', 'color': gray},
-        'failure': {'icon': 'fa-close', 'color': red},
-        'success': {'icon': 'fa-check-square', 'color': green},
-        'fallback': {'icon': 'fa-check-square', 'color': yellow}
+        "queued": {"icon": "fa-hourglass-1", "color": gray},
+        "started": {"icon": "fa-hourglass-2", "color": yellow},
+        "retry": {"icon": "fa-repeat", "color": gray},
+        "failure": {"icon": "fa-close", "color": red},
+        "success": {"icon": "fa-check-square", "color": green},
+        "fallback": {"icon": "fa-check-square", "color": yellow},
     }
-    expected_border_style = 'solid'
-    expected_border_width = '1px'
-    expected_border_color = 'rgb(0, 0, 0)'
+    expected_border_style = "solid"
+    expected_border_width = "1px"
+    expected_border_color = "rgb(0, 0, 0)"
 
     # WHEN we load the ContentStatus page
     content_status = ContentStatus(selenium, webview_base_url).open()
@@ -41,8 +41,8 @@ def test_content_status_styles(webview_base_url, selenium):
         assert status_filter.is_icon_displayed
 
         expected = expected_icons_dict[status_filter.status]
-        assert expected['icon'] in status_filter.icon_class
-        assert status_filter.icon_color == expected['color']
+        assert expected["icon"] in status_filter.icon_class
+        assert status_filter.icon_color == expected["color"]
 
     assert content_status.are_tds_displayed
     for td in content_status.tds:

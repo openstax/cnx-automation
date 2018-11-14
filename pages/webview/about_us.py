@@ -9,7 +9,6 @@ from regions.webview.base import Region
 
 
 class AboutUs(AboutPage):
-
     @property
     def about_content(self):
         return self.AboutContent(self)
@@ -22,8 +21,10 @@ class AboutUs(AboutPage):
     class AboutContent(Region):
         _root_locator = (By.CSS_SELECTOR, '#about .about-content div[data-l10n-id="about-content"]')
         _learn_more_team_link_locator = (By.CSS_SELECTOR, 'a[href="https://openstax.org/about"]')
-        _learn_more_foundations_link_locator = (By.CSS_SELECTOR,
-                                                'a[href="https://openstax.org/foundation"]')
+        _learn_more_foundations_link_locator = (
+            By.CSS_SELECTOR,
+            'a[href="https://openstax.org/foundation"]',
+        )
 
         @property
         def learn_more_team_link(self):

@@ -6,7 +6,7 @@ from pages.webview.base import Page
 
 
 class Donate(Page):
-    OPENSTAX_GIVE_URL = 'https://openstax.org/give'
+    OPENSTAX_GIVE_URL = "https://openstax.org/give"
 
     @property
     def is_openstax_org_give_page(self):

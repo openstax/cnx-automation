@@ -9,7 +9,7 @@ from regions.legacy.base import Region
 
 class AddSubcollections(Region):
 
-    _form_locator = (By.ID, 'collection-composer-collection-subcollection-form')
+    _form_locator = (By.ID, "collection-composer-collection-subcollection-form")
     _titles_field_locator = (By.CSS_SELECTOR, 'textarea[name="titles"]')
 
     def __init__(self, collection, root=None):
@@ -39,5 +39,6 @@ class AddSubcollections(Region):
         # Wait for the modal to close
         self.wait_for_region_to_unload()
         from regions.legacy.collection import Collection
+
         collection = Collection(self.page, self.collection.content_nodes[-1])
         return collection.wait_for_region_to_load()

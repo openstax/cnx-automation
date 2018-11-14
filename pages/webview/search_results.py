@@ -10,17 +10,23 @@ from regions.webview.base import Region
 
 
 class SearchResults(Page):
-    URL_TEMPLATE = '/search?q={q}'
-    _num_results_span_locator = (By.CSS_SELECTOR,
-                                 'span[data-l10n-id="search-results-number-results"]')
-    _filters_locator = (By.CSS_SELECTOR, '#search div.results ul.filters li')
-    _breadcrumbs_locator = (By.CSS_SELECTOR, '#search div.results div.breadcrumbs span.breadcrumb')
-    _pagination_locator = (By.CSS_SELECTOR, '#results div.pagination ul li')
+    URL_TEMPLATE = "/search?q={q}"
+    _num_results_span_locator = (
+        By.CSS_SELECTOR,
+        'span[data-l10n-id="search-results-number-results"]',
+    )
+    _filters_locator = (By.CSS_SELECTOR, "#search div.results ul.filters li")
+    _breadcrumbs_locator = (By.CSS_SELECTOR, "#search div.results div.breadcrumbs span.breadcrumb")
+    _pagination_locator = (By.CSS_SELECTOR, "#results div.pagination ul li")
     _too_long_results_p_locator = (
-        By.CSS_SELECTOR, '#results p[data-l10n-id="search-results-list-search-taking-time"]')
-    _no_results_p_locator = (By.CSS_SELECTOR,
-                             '#results p[data-l10n-id="search-results-list-no-results"]')
-    _results_locator = (By.CSS_SELECTOR, '#results table.table tbody tr')
+        By.CSS_SELECTOR,
+        '#results p[data-l10n-id="search-results-list-search-taking-time"]',
+    )
+    _no_results_p_locator = (
+        By.CSS_SELECTOR,
+        '#results p[data-l10n-id="search-results-list-no-results"]',
+    )
+    _results_locator = (By.CSS_SELECTOR, "#results table.table tbody tr")
 
     @property
     def loaded(self):
@@ -78,11 +84,14 @@ class SearchResults(Page):
                 self.driver.refresh()
 
         from pytest import fail
-        fail('Maximum number of attempts exceeded for search'
-             ' ({attempts})'.format(attempts=max_attempts))
+
+        fail(
+            "Maximum number of attempts exceeded for search"
+            " ({attempts})".format(attempts=max_attempts)
+        )
 
     class Filter(Region):
-        _link_locator = (By.TAG_NAME, 'a')
+        _link_locator = (By.TAG_NAME, "a")
 
         @property
         def link(self):
@@ -94,15 +103,21 @@ class SearchResults(Page):
             return search_results.wait_for_page_to_load()
 
     class Breadcrumb(Region):
-        _x_link_locator = (By.CSS_SELECTOR, 'a.remove')
-        _limit_span_locator = (By.CSS_SELECTOR, 'span.limit')
-        _subject_limit_span_locator = (By.CSS_SELECTOR,
-                                       'span.limit[data-l10n-id="search-results-filter-subject"]')
-        _text_limit_span_locator = (By.CSS_SELECTOR,
-                                    'span.limit[data-l10n-id="search-results-filter-text"]')
-        _pub_year_limit_span_locator = (By.CSS_SELECTOR,
-                                        'span.limit[data-l10n-id="search-results-filter-pubYear"]')
-        _value_span_locator = (By.CSS_SELECTOR, 'span.value')
+        _x_link_locator = (By.CSS_SELECTOR, "a.remove")
+        _limit_span_locator = (By.CSS_SELECTOR, "span.limit")
+        _subject_limit_span_locator = (
+            By.CSS_SELECTOR,
+            'span.limit[data-l10n-id="search-results-filter-subject"]',
+        )
+        _text_limit_span_locator = (
+            By.CSS_SELECTOR,
+            'span.limit[data-l10n-id="search-results-filter-text"]',
+        )
+        _pub_year_limit_span_locator = (
+            By.CSS_SELECTOR,
+            'span.limit[data-l10n-id="search-results-filter-pubYear"]',
+        )
+        _value_span_locator = (By.CSS_SELECTOR, "span.value")
 
         @property
         def is_subject(self):
@@ -140,7 +155,8 @@ class SearchResults(Page):
         @property
         def subject(self):
             import json
-            return json.loads(self.value_span.get_attribute('data-l10n-args'))['subject']
+
+            return json.loads(self.value_span.get_attribute("data-l10n-args"))["subject"]
 
         def click_x_link(self):
             self.x_link.click()
@@ -148,19 +164,19 @@ class SearchResults(Page):
             return search_results.wait_for_page_to_load()
 
     class Pagination(Region):
-        _link_locator = (By.TAG_NAME, 'a')
+        _link_locator = (By.TAG_NAME, "a")
 
         @property
         def root_class(self):
-            return self.root.get_attribute('class')
+            return self.root.get_attribute("class")
 
         @property
         def is_disabled(self):
-            return 'disabled' in self.root_class
+            return "disabled" in self.root_class
 
         @property
         def is_active(self):
-            return 'active' in self.root_class
+            return "active" in self.root_class
 
         @property
         def link(self):
@@ -172,10 +188,10 @@ class SearchResults(Page):
             return search_results.wait_for_page_to_load()
 
     class Result(Region):
-        _title_td_locator = (By.CSS_SELECTOR, 'td.title')
-        _link_locator = (By.TAG_NAME, 'a')
-        _content_span_locator = (By.TAG_NAME, 'span')
-        _bold_locator = (By.TAG_NAME, 'b')
+        _title_td_locator = (By.CSS_SELECTOR, "td.title")
+        _link_locator = (By.TAG_NAME, "a")
+        _content_span_locator = (By.TAG_NAME, "span")
+        _bold_locator = (By.TAG_NAME, "b")
 
         @property
         def title_td(self):
@@ -212,5 +228,6 @@ class SearchResults(Page):
         def click_title_link(self):
             self.title_link.click()
             from pages.webview.content import Content
+
             content = Content(self.driver, self.page.base_url, self.page.timeout)
             return content.wait_for_page_to_load()

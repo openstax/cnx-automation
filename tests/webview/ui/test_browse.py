@@ -9,7 +9,7 @@ from pages.webview.search_results import SearchResults
 
 
 @markers.webview
-@markers.test_case('C176268', 'C176269')
+@markers.test_case("C176268", "C176269")
 @markers.nondestructive
 def test_search_input_and_button_are_displayed(webview_base_url, selenium):
     # GIVEN the webview base url and Selenium driver
@@ -25,7 +25,7 @@ def test_search_input_and_button_are_displayed(webview_base_url, selenium):
 
 
 @markers.webview
-@markers.test_case('C176270')
+@markers.test_case("C176270")
 @markers.nondestructive
 def test_subject_categories_load(webview_base_url, selenium):
     # GIVEN the webview base url and Selenium driver
@@ -36,11 +36,11 @@ def test_subject_categories_load(webview_base_url, selenium):
     browse_page = page.header.click_search()
 
     # Then The subject categories are loaded
-    assert len(browse_page.subject_list) > 0
+    assert len(browse_page.search_category_list) > 0
 
 
 @markers.webview
-@markers.test_case('C176271')
+@markers.test_case("C176271")
 @markers.nondestructive
 def test_subject_categories_have_page_and_book_counts(webview_base_url, selenium):
     # GIVEN the home page
@@ -58,7 +58,7 @@ def test_subject_categories_have_page_and_book_counts(webview_base_url, selenium
     book_counts = set([])
 
     # Record the subject category count for pages and books
-    for subject in browse.subject_list:
+    for subject in browse.search_category_list:
         page_counts.add(subject.pages_count)
         book_counts.add(subject.books_count)
 
@@ -68,7 +68,7 @@ def test_subject_categories_have_page_and_book_counts(webview_base_url, selenium
 
 
 @markers.webview
-@markers.test_case('C176272')
+@markers.test_case("C176272")
 @markers.nondestructive
 def test_click_subject_category(webview_base_url, selenium):
     # GIVEN the browse page
@@ -76,7 +76,7 @@ def test_click_subject_category(webview_base_url, selenium):
     browse = home.header.click_search()
 
     # WHEN a subject category is clicked
-    subject = browse.subject_list[3]
+    subject = browse.search_category_list[3]
     subject_name = subject.name
     search_results = subject.click()
 
@@ -89,7 +89,7 @@ def test_click_subject_category(webview_base_url, selenium):
 
 
 @markers.webview
-@markers.test_case('C176230')
+@markers.test_case("C176230")
 @markers.nondestructive
 def test_logo_link_loads_home_page(webview_base_url, selenium):
     # GIVEN the browse page

@@ -21,13 +21,13 @@ def test_no_command():
     usage = Neb.no_command
 
     # THEN the usage/help message is displayed
-    assert 'Usage: neb ' in usage
-    assert 'Options:' in usage
-    assert '--help' in usage
-    assert '--version' in usage
-    assert 'Commands:' in usage
-    assert 'get' in usage
-    assert 'publish' in usage
+    assert "Usage: neb " in usage
+    assert "Options:" in usage
+    assert "--help" in usage
+    assert "--version" in usage
+    assert "Commands:" in usage
+    assert "get" in usage
+    assert "publish" in usage
 
 
 @markers.neb
@@ -39,17 +39,17 @@ def test_help():
     usage = Neb.help
 
     # THEN the usage/help message is displayed
-    assert 'Usage: neb ' in usage
-    assert 'Options:' in usage
-    assert '--help' in usage
-    assert '--version' in usage
-    assert 'Commands:' in usage
-    assert 'get' in usage
-    assert 'publish' in usage
+    assert "Usage: neb " in usage
+    assert "Options:" in usage
+    assert "--help" in usage
+    assert "--version" in usage
+    assert "Commands:" in usage
+    assert "get" in usage
+    assert "publish" in usage
 
 
 @markers.neb
-@markers.test_case('C195248')
+@markers.test_case("C195248")
 @markers.nondestructive
 def test_version():
     # GIVEN neb and its __version__
@@ -65,13 +65,16 @@ def test_version():
     version = parse_version(version_string)
 
     # Based on https://github.com/alexmojaki/outdated/blob/master/outdated/__init__.py
-    package_dict = requests.get('https://pypi.python.org/pypi/nebuchadnezzar/json').json()
-    latest_version_string = package_dict['info']['version']
+    package_dict = requests.get("https://pypi.python.org/pypi/nebuchadnezzar/json").json()
+    latest_version_string = package_dict["info"]["version"]
     latest_version = parse_version(latest_version_string)
 
     if version < latest_version:
-        message = ('Tests were run against an outdated version of nebuchadnezzar\n'
-                   ' Loaded version: {loaded_version}\n Latest Version: {latest_version}\n'
-                   ' Consider updating the package version in requirements.txt'.format(
-                       loaded_version=version_string, latest_version=latest_version_string))
+        message = (
+            "Tests were run against an outdated version of nebuchadnezzar\n"
+            " Loaded version: {loaded_version}\n Latest Version: {latest_version}\n"
+            " Consider updating the package version in requirements.txt".format(
+                loaded_version=version_string, latest_version=latest_version_string
+            )
+        )
         warn(message)

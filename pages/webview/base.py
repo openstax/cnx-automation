@@ -31,7 +31,7 @@ class Page(pypom.Page):
 
     @property
     def canonical_url(self):
-        return self.canonical_link.get_attribute('href')
+        return self.canonical_link.get_attribute("href")
 
     @property
     def header(self):
@@ -69,6 +69,7 @@ class Page(pypom.Page):
     def scroll_to(self, element=None):
         """Scrolls to the given element. Returns the element."""
         from selenium.webdriver.common.action_chains import ActionChains
+
         ActionChains(self.driver).move_to_element(element).perform()
         return element
 
@@ -89,7 +90,7 @@ class Page(pypom.Page):
         if not dimension:
             return get_size
         if dimension not in get_size:
-            raise IndexError('Unknown dimension: {}'.format(dimension))
+            raise IndexError("Unknown dimension: {}".format(dimension))
         return get_size[dimension]
 
     def set_window_size(self, width=0, height=0):
@@ -113,20 +114,25 @@ class Page(pypom.Page):
         self.driver.back()
 
     class Header(Region):
-        _root_locator = (By.CSS_SELECTOR, 'header#header div.page-header')
+        _root_locator = (By.CSS_SELECTOR, "header#header div.page-header")
         _support_link_locator = (By.CSS_SELECTOR, 'a[data-l10n-id="all-header-support"]')
-        _legacy_site_link_locator = (By.CSS_SELECTOR,
-                                     'a[data-l10n-id="all-cnx-author-legacy-site"]')
+        _legacy_site_link_locator = (
+            By.CSS_SELECTOR,
+            'a[data-l10n-id="all-cnx-author-legacy-site"]',
+        )
         # This is the CSS selector that currently applies the CNX logo background-image
-        _cnx_logo_locator = (By.CSS_SELECTOR,
-                             '#header .page-header .navbar .navbar-header .navbar-brand')
-        _cnx_logo_url_locator = (By.CSS_SELECTOR,
-                                 '#header .page-header .navbar .navbar-header a')
-        _nav_button_locator = (By.CSS_SELECTOR,
-                               '#header button.navbar-toggle[data-target="#page-nav"]')
-        _browse_link_locator = (By.CSS_SELECTOR, '#page-nav #nav-browse a')
-        _about_us_link_locator = (By.CSS_SELECTOR, '#page-nav #nav-about a')
-        _donate_link_locator = (By.CSS_SELECTOR, '#page-nav #nav-donate a')
+        _cnx_logo_locator = (
+            By.CSS_SELECTOR,
+            "#header .page-header .navbar .navbar-header .navbar-brand",
+        )
+        _cnx_logo_url_locator = (By.CSS_SELECTOR, "#header .page-header .navbar .navbar-header a")
+        _nav_button_locator = (
+            By.CSS_SELECTOR,
+            '#header button.navbar-toggle[data-target="#page-nav"]',
+        )
+        _browse_link_locator = (By.CSS_SELECTOR, "#page-nav #nav-browse a")
+        _about_us_link_locator = (By.CSS_SELECTOR, "#page-nav #nav-about a")
+        _donate_link_locator = (By.CSS_SELECTOR, "#page-nav #nav-donate a")
         _rice_logo_locator = (By.XPATH, ".//a[.//img[@src='/images/rice.png']]")
 
         @property
@@ -139,7 +145,7 @@ class Page(pypom.Page):
 
         @property
         def support_url(self):
-            return self.support_link.get_attribute('href')
+            return self.support_link.get_attribute("href")
 
         @property
         def legacy_site_link(self):
@@ -151,7 +157,7 @@ class Page(pypom.Page):
 
         @property
         def legacy_site_url(self):
-            return self.legacy_site_link.get_attribute('href')
+            return self.legacy_site_link.get_attribute("href")
 
         @property
         def cnx_logo(self):
@@ -163,8 +169,7 @@ class Page(pypom.Page):
 
         @property
         def cnx_logo_url(self):
-            return self.find_element(
-                *self._cnx_logo_url_locator).get_attribute('href')
+            return self.find_element(*self._cnx_logo_url_locator).get_attribute("href")
 
         @property
         def nav_button(self):
@@ -184,7 +189,7 @@ class Page(pypom.Page):
 
         @property
         def browse_url(self):
-            return self.browse_link.get_attribute('href')
+            return self.browse_link.get_attribute("href")
 
         @property
         def about_us_link(self):
@@ -196,7 +201,7 @@ class Page(pypom.Page):
 
         @property
         def about_us_url(self):
-            return self.about_us_link.get_attribute('href')
+            return self.about_us_link.get_attribute("href")
 
         @property
         def donate_link(self):
@@ -208,13 +213,15 @@ class Page(pypom.Page):
 
         @property
         def donate_url(self):
-            return self.donate_link.get_attribute('href')
+            return self.donate_link.get_attribute("href")
 
         @property
         def are_nav_links_displayed(self):
-            return (self.is_browse_link_displayed and
-                    self.is_about_us_link_displayed and
-                    self.is_donate_link_displayed)
+            return (
+                self.is_browse_link_displayed
+                and self.is_about_us_link_displayed
+                and self.is_donate_link_displayed
+            )
 
         @property
         def is_nav_displayed(self):
@@ -230,14 +237,16 @@ class Page(pypom.Page):
 
         @property
         def rice_logo_url(self):
-            return self.rice_logo.get_attribute('href')
+            return self.rice_logo.get_attribute("href")
 
         @property
         def is_displayed(self):
-            return (self.is_support_link_displayed and
-                    self.is_legacy_site_link_displayed and
-                    self.is_cnx_logo_displayed and
-                    self.is_nav_displayed)
+            return (
+                self.is_support_link_displayed
+                and self.is_legacy_site_link_displayed
+                and self.is_cnx_logo_displayed
+                and self.is_nav_displayed
+            )
 
         def wait_for_nav_links_to_display(self):
             self.wait.until(lambda _: self.are_nav_links_displayed)
@@ -246,6 +255,7 @@ class Page(pypom.Page):
         def click_cnx_logo(self):
             self.cnx_logo.click()
             from pages.webview.home import Home
+
             return Home(self.driver, self.page.base_url, self.page.timeout).wait_for_page_to_load()
 
         def click_nav_button(self):
@@ -255,44 +265,67 @@ class Page(pypom.Page):
         def click_search(self):
             self.find_element(*self._browse_link_locator).click()
             from pages.webview.browse import Browse
+
             browse = Browse(self.driver, self.page.base_url, self.page.timeout)
             return browse.wait_for_page_to_load()
 
         def click_about_us(self):
             self.find_element(*self._about_us_link_locator).click()
             from pages.webview.about_us import AboutUs
+
             about_us = AboutUs(self.driver, self.page.base_url, self.page.timeout)
             return about_us.wait_for_page_to_load()
 
         def click_donate(self):
             self.find_element(*self._donate_link_locator).click()
             from pages.webview.donate import Donate
+
             donate = Donate(self.driver, self.page.base_url, self.page.timeout)
             return donate.wait_for_page_to_load()
 
     class Footer(Region):
-        _root_locator = (By.CSS_SELECTOR, 'footer.footer div.page-footer')
+        _root_locator = (By.CSS_SELECTOR, "footer.footer div.page-footer")
         _licensing_link_locator = (By.CSS_SELECTOR, 'a[data-l10n-id="all-footer-licensing"]')
         _terms_of_use_link_locator = (By.CSS_SELECTOR, 'a[data-l10n-id="all-footer-terms-of-use"]')
-        _accessibility_statement_link_locator = (By.CSS_SELECTOR,
-                                                 'a[data-l10n-id="all-footer-accessibility"]')
+        _accessibility_statement_link_locator = (
+            By.CSS_SELECTOR,
+            'a[data-l10n-id="all-footer-accessibility"]',
+        )
         _contact_link_locator = (By.CSS_SELECTOR, 'a[data-l10n-id="all-footer-contact"]')
         _foundation_support_paragraph_locator = (
-            By.CSS_SELECTOR, 'div[data-l10n-id="all-footer-support"]')
+            By.CSS_SELECTOR,
+            'div[data-l10n-id="all-footer-support"]',
+        )
         _ap_paragraph_locator = (By.CSS_SELECTOR, 'div[data-l10n-id="all-footer-ap"]')
         _copyright_statement_paragraph_locator = (
-            By.XPATH, ".//div[.//span[@data-l10n-id='all-footer-creative-commons']]")
+            By.XPATH,
+            ".//div[.//span[@data-l10n-id='all-footer-creative-commons']]",
+        )
         _android_app_link_locator = (
-            By.CSS_SELECTOR, 'section.connect ul li a[data-l10n-id="all-footer-android-app"]')
+            By.CSS_SELECTOR,
+            'section.connect ul li a[data-l10n-id="all-footer-android-app"]',
+        )
         _facebook_link_locator = (
-            By.XPATH, (".//section[contains(@class, 'share')]"
-                       "//ul//li//a[.//span[contains(@class, 'facebook')]]"))
+            By.XPATH,
+            (
+                ".//section[contains(@class, 'share')]"
+                "//ul//li//a[.//span[contains(@class, 'facebook')]]"
+            ),
+        )
         _twitter_link_locator = (
-            By.XPATH, (".//section[contains(@class, 'share')]"
-                       "//ul//li//a[.//span[contains(@class, 'twitter')]]"))
+            By.XPATH,
+            (
+                ".//section[contains(@class, 'share')]"
+                "//ul//li//a[.//span[contains(@class, 'twitter')]]"
+            ),
+        )
         _email_link_locator = (
-            By.XPATH, (".//section[contains(@class, 'share')]"
-                       "//ul//li//a[.//span[contains(@class, 'mail')]]"))
+            By.XPATH,
+            (
+                ".//section[contains(@class, 'share')]"
+                "//ul//li//a[.//span[contains(@class, 'mail')]]"
+            ),
+        )
 
         @property
         def is_licensing_link_displayed(self):
@@ -304,7 +337,7 @@ class Page(pypom.Page):
 
         @property
         def licensing_url(self):
-            return self.licensing_link.get_attribute('href')
+            return self.licensing_link.get_attribute("href")
 
         @property
         def is_terms_of_use_link_displayed(self):
@@ -316,7 +349,7 @@ class Page(pypom.Page):
 
         @property
         def terms_of_use_url(self):
-            return self.terms_of_use_link.get_attribute('href')
+            return self.terms_of_use_link.get_attribute("href")
 
         @property
         def is_accessibility_statement_link_displayed(self):
@@ -328,7 +361,7 @@ class Page(pypom.Page):
 
         @property
         def accessibility_statement_url(self):
-            return self.accessibility_statement_link.get_attribute('href')
+            return self.accessibility_statement_link.get_attribute("href")
 
         @property
         def is_contact_link_displayed(self):
@@ -340,7 +373,7 @@ class Page(pypom.Page):
 
         @property
         def contact_url(self):
-            return self.contact_link.get_attribute('href')
+            return self.contact_link.get_attribute("href")
 
         @property
         def is_foundation_support_paragraph_displayed(self):
@@ -388,7 +421,7 @@ class Page(pypom.Page):
 
         @property
         def android_app_url(self):
-            return self.android_app_link.get_attribute('href')
+            return self.android_app_link.get_attribute("href")
 
         @property
         def is_facebook_link_displayed(self):
@@ -400,7 +433,7 @@ class Page(pypom.Page):
 
         @property
         def facebook_url(self):
-            return self.facebook_link.get_attribute('href')
+            return self.facebook_link.get_attribute("href")
 
         @property
         def is_twitter_link_displayed(self):
@@ -412,7 +445,7 @@ class Page(pypom.Page):
 
         @property
         def twitter_url(self):
-            return self.twitter_link.get_attribute('href')
+            return self.twitter_link.get_attribute("href")
 
         @property
         def is_email_link_displayed(self):
@@ -424,4 +457,4 @@ class Page(pypom.Page):
 
         @property
         def email_url(self):
-            return self.email_link.get_attribute('href')
+            return self.email_link.get_attribute("href")

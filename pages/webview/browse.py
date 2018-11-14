@@ -11,12 +11,12 @@ from pages.webview.search_results import SearchResults
 
 
 class Browse(Page):
-    URL_TEMPLATE = '/browse'
-    _search_input_locator = (By.ID, 'find-content-input')
-    _advanced_search_link_locator = (By.CSS_SELECTOR, 'a.advanced-search')
-    _main_content_locator = (By.ID, 'main-content')
-    _browse_content_locator = (By.CSS_SELECTOR, 'div.browse-content')
-    _subject_list_locator = (By.CSS_SELECTOR, '.browse-content > ul > li')
+    URL_TEMPLATE = "/browse"
+    _search_input_locator = (By.ID, "find-content-input")
+    _advanced_search_link_locator = (By.CSS_SELECTOR, "a.advanced-search")
+    _main_content_locator = (By.ID, "main-content")
+    _browse_content_locator = (By.CSS_SELECTOR, "div.browse-content")
+    _search_category_locator = (By.CLASS_NAME, "search-category")
 
     @property
     def is_search_input_displayed(self):
@@ -36,8 +36,8 @@ class Browse(Page):
         return main_content.is_displayed()
 
     @property
-    def subject_list(self):
-        items = self.find_elements(*self._subject_list_locator)
+    def search_category_list(self):
+        items = self.find_elements(*self._search_category_locator)
         return [self.Subject(self, el) for el in items]
 
     @property
@@ -48,24 +48,28 @@ class Browse(Page):
     def loaded(self):
         # The search page is fully loaded when the subject list is displayed
         # There's no need to check for the search field/button (which load before the list)
-        return (len(self.subject_list) > 0 and
-                self.subject_list[0].name and
-                self.is_main_content_displayed)
+        return (
+            len(self.search_category_list) > 0
+            and self.search_category_list[0].name
+            and self.is_main_content_displayed
+        )
 
     def search(self, query):
         self.search_input.send_keys(query)
         from selenium.webdriver.common.keys import Keys
+
         self.search_input.send_keys(Keys.ENTER)
         return SearchResults(self.driver, self.base_url, self.timeout).wait_for_page_to_load()
 
     def click_advanced_search_link(self):
         self.advanced_search_link.click()
         from pages.webview.advanced_search import AdvancedSearch
+
         advanced_search = AdvancedSearch(self.driver, self.base_url, self.timeout)
         return advanced_search.wait_for_page_to_load()
 
     class Subject(Region):
-        _name_locator = (By.CSS_SELECTOR, 'h2')
+        _name_locator = (By.CSS_SELECTOR, "h2")
         _pages_div_locator = (By.CSS_SELECTOR, 'div[data-l10n-id="search-pages"]')
         _books_div_locator = (By.CSS_SELECTOR, 'div[data-l10n-id="search-books"]')
 
@@ -83,7 +87,8 @@ class Browse(Page):
 
         def get_count(self, div):
             import json
-            return json.loads(div.get_attribute('data-l10n-args'))['count']
+
+            return json.loads(div.get_attribute("data-l10n-args"))["count"]
 
         @property
         def pages_count(self):

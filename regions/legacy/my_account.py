@@ -9,17 +9,19 @@ from regions.legacy.base import Region
 
 class MyAccount(Region):
     _login_form_locator = (By.CSS_SELECTOR, 'form[action$="login_form"]')
-    _username_field_locator = (By.ID, '__ac_name')
-    _password_field_locator = (By.ID, '__ac_password')
+    _username_field_locator = (By.ID, "__ac_name")
+    _password_field_locator = (By.ID, "__ac_password")
 
-    _username_span_locator = (By.ID, 'user-name')
+    _username_span_locator = (By.ID, "user-name")
     _logout_form_locator = (By.CSS_SELECTOR, 'form[action$="logout"]')
 
     @property
     def can_login(self):
-        return (self.is_element_displayed(*self._login_form_locator) and
-                self.is_element_displayed(*self._username_field_locator) and
-                self.is_element_displayed(*self._password_field_locator))
+        return (
+            self.is_element_displayed(*self._login_form_locator)
+            and self.is_element_displayed(*self._username_field_locator)
+            and self.is_element_displayed(*self._password_field_locator)
+        )
 
     @property
     def login_form(self):
@@ -58,11 +60,13 @@ class MyAccount(Region):
         self.password_field.send_keys(password)
         self.login_form.submit()
         from pages.legacy.my_cnx import MyCnx
+
         my_cnx = MyCnx(self.driver, self.page.base_url, self.page.timeout)
         return my_cnx.wait_for_page_to_load()
 
     def logout(self):
         self.logout_form.submit()
         from pages.legacy.login_form import LoginForm
+
         login_form = LoginForm(self.driver, self.page.base_url, self.page.timeout)
         return login_form.wait_for_page_to_load()

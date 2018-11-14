@@ -9,7 +9,6 @@ from regions.webview.base import Region
 
 
 class Contact(AboutPage):
-
     @property
     def contact_content(self):
         return self.ContactContent(self)
@@ -20,10 +19,12 @@ class Contact(AboutPage):
         return self.contact_content.loaded and super().loaded
 
     class ContactContent(Region):
-        _root_locator = (By.ID, 'about')
-        _email_link_locator = (By.CSS_SELECTOR, '.contact > p:nth-child(5) > a')
+        _root_locator = (By.ID, "about")
+        _email_link_locator = (By.CSS_SELECTOR, ".contact > p:nth-child(5) > a")
         _questions_header_locator = (
-            By.CSS_SELECTOR, '[data-l10n-id="about-contact-questions-header"]')
+            By.CSS_SELECTOR,
+            '[data-l10n-id="about-contact-questions-header"]',
+        )
 
         @property
         def is_email_displayed(self):
@@ -35,7 +36,7 @@ class Contact(AboutPage):
 
         @property
         def email_url(self):
-            return self.email_link.get_attribute('href')
+            return self.email_link.get_attribute("href")
 
         @property
         def questions_header(self):

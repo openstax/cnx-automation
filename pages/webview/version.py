@@ -9,8 +9,8 @@ from parsers.cnx_deploy.version import VersionParser
 
 
 class Version(Page):
-    URL_TEMPLATE = '/version.txt'
-    _pre_locator = (By.TAG_NAME, 'pre')
+    URL_TEMPLATE = "/version.txt"
+    _pre_locator = (By.TAG_NAME, "pre")
 
     @property
     def text(self):

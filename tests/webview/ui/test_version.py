@@ -14,7 +14,7 @@ from pages.webview.history import History
 
 @markers.webview
 @markers.requires_deployment
-@markers.test_case('C175150')
+@markers.test_case("C175150")
 @markers.nondestructive
 def test_version(webview_base_url, selenium, github, record_property):
     # GIVEN the webview base url, the Selenium driver, the GitHub API client and the current time
@@ -39,31 +39,35 @@ def test_version(webview_base_url, selenium, github, record_property):
     release_timedelta = now - current_version_parser.datetime
     release_days = release_timedelta.days
     if release_days >= 2:
-        warn('\n\nThe latest release in {history_url}'
-             ' ({release_date}) is {release_days} days old.'.format(
-                 history_url=history_url,
-                 release_date=release_date,
-                 release_days=release_days
-             ))
+        warn(
+            "\n\nThe latest release in {history_url}"
+            " ({release_date}) is {release_days} days old.".format(
+                history_url=history_url, release_date=release_date, release_days=release_days
+            )
+        )
 
-    tag_tests = [('webview', 'webview_tag'),
-                 ('cnx-archive', 'cnx_archive'),
-                 ('cnx-deploy', 'cnx_deploy')]
+    tag_tests = [
+        ("webview", "webview_tag"),
+        ("cnx-archive", "cnx_archive"),
+        ("cnx-deploy", "cnx_deploy"),
+    ]
     for (repository_name, tag_property) in tag_tests:
         current_tag_name = shorten_tag(getattr(current_version_parser, tag_property))
-        repository = github.repository('Connexions', repository_name)
+        repository = github.repository("Connexions", repository_name)
         repository_url = repository.git_url
         latest_tag = list(repository.tags(number=1))[0]
         latest_tag_name = latest_tag.name
         if current_tag_name != latest_tag_name and current_tag_name != latest_tag.commit.sha:
-            warn('\n\nThe {repository_name} tag for the latest release in {url} ({current_tag})'
-                 ' does not match the latest tag in {repository_url} ({latest_tag})'.format(
-                     repository_name=repository_name,
-                     url=history_url,
-                     current_tag=current_tag_name,
-                     repository_url=repository_url,
-                     latest_tag=latest_tag_name
-                 ))
+            warn(
+                "\n\nThe {repository_name} tag for the latest release in {url} ({current_tag})"
+                " does not match the latest tag in {repository_url} ({latest_tag})".format(
+                    repository_name=repository_name,
+                    url=history_url,
+                    current_tag=current_tag_name,
+                    repository_url=repository_url,
+                    latest_tag=latest_tag_name,
+                )
+            )
 
     for index in range(len(release_parsers) - 1):
         releases_ago = index + 1
@@ -72,19 +76,23 @@ def test_version(webview_base_url, selenium, github, record_property):
             break
         elif releases_ago == 1:
             previous_release_date = previous_release_parser.version_parser.date
-            warn('\n\nAll versions in the previous release ({previous_release_date}) match'
-                 ' the current release exactly. Release diff based on older release.\n'.format(
-                     previous_release_date=previous_release_date
-                 ))
+            warn(
+                "\n\nAll versions in the previous release ({previous_release_date}) match"
+                " the current release exactly. Release diff based on older release.\n".format(
+                    previous_release_date=previous_release_date
+                )
+            )
 
     if releases_ago == 1:
-        releases_ago_string = 'the previous release'
+        releases_ago_string = "the previous release"
     else:
-        releases_ago_string = '{releases_ago} releases ago'.format(releases_ago=releases_ago)
+        releases_ago_string = "{releases_ago} releases ago".format(releases_ago=releases_ago)
     record_property(
-        'terminal_summary_message',
-        '\nRelease diff from {releases_ago_string} to the current release:\n\n{diff}'.format(
+        "terminal_summary_message",
+        "\nRelease diff from {releases_ago_string} to the current release:\n\n{diff}".format(
             releases_ago_string=releases_ago_string,
-            diff=current_release_parser.diff(previous_release_parser)))
+            diff=current_release_parser.diff(previous_release_parser),
+        ),
+    )
 
     assert version_parser.dict == current_version_parser.dict

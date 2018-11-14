@@ -15,13 +15,15 @@ class LegacyContent(Page):
     Collection: https://archive.cnx.org/content/col11562
     Module: https://archive.cnx.org/content/m46922
     """
-    URL_TEMPLATE = '/content/{legacy_id}'
-    _uuid_and_version_regex = re.compile('^/contents/(.*)$')
+
+    URL_TEMPLATE = "/content/{legacy_id}"
+    _uuid_and_version_regex = re.compile("^/contents/(.*)$")
 
     @property
     def uuid_and_version(self):
         """Extracts and returns the collection or page uuid and version from the url."""
         from urllib.parse import urlsplit
+
         return self._uuid_and_version_regex.match(urlsplit(self.driver.current_url)[2]).group(1)
 
     def open(self):
@@ -32,5 +34,7 @@ class LegacyContent(Page):
         """
         super().open()
         from pages.archive.content import Content
-        return Content(self.driver, self.base_url, self.timeout,
-                       uuid_and_version=self.uuid_and_version).open()
+
+        return Content(
+            self.driver, self.base_url, self.timeout, uuid_and_version=self.uuid_and_version
+        ).open()

@@ -17,5 +17,6 @@ class CollectionConfirmPublish(PrivatePage):
     def submit(self):
         self.publish_form.submit()
         from pages.legacy.published_module import PublishedModule
+
         published_module = PublishedModule(self.driver, self.base_url, self.timeout)
         return published_module.wait_for_page_to_load()
