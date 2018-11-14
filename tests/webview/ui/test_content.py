@@ -114,18 +114,11 @@ def test_content_status_codes(
 @markers.webview
 @markers.test_case("C194465")
 @markers.nondestructive
-@markers.parametrize(
-    "id",
-    [
-        pytest.param(
-            "AgQDEnLI@10.1:TrIRM88K@5",
-            marks=markers.xfail(reason="https://github.com/Connexions/webview/issues/1990"),
-        ),
-        "AgQDEnLI@10.1:XZe6d2Jr@9",
-        "AgQDEnLI@10.1:QMRfI2p1@8",
-        "eg-XcBxE@3.30:dh0GjBEd@2",
-    ],
-)
+@markers.parametrize('id', [
+    'AgQDEnLI@10.1:TrIRM88K@5',
+    'AgQDEnLI@10.1:XZe6d2Jr@9',
+    'AgQDEnLI@10.1:QMRfI2p1@8',
+    'eg-XcBxE@3.30:dh0GjBEd@2'])
 def test_canonical_link_is_correct(webview_base_url, selenium, id):
     # GIVEN a book's content page
     content = Content(selenium, webview_base_url, id=id).open()
@@ -942,7 +935,6 @@ def test_books_containing_have_authors(webview_base_url, selenium, page_id):
 
 
 @markers.webview
-@markers.xfail(reason="https://github.com/Connexions/webview/issues/1990")
 @markers.requires_complete_dataset
 @markers.test_case("C195065")
 @markers.nondestructive

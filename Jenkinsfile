@@ -7,11 +7,13 @@ pipeline {
   }
   stages {
     stage('Build Dev Container') {
+      // all branches
       steps {
         sh "docker build -t openstax/cnx-automation:dev ."
       }
     }
     stage('Test Against staging.cnx.org') {
+      // all branches
       steps {
         sh "mkdir -p ${env.WORKSPACE}/xml-report"
         sh "docker run -d --name ${env.TESTING_CONTAINER_NAME} -v ${env.WORKSPACE}/xml-report:/xml-report --env-file .jenkins/testing.env.list openstax/cnx-automation:dev"
@@ -25,13 +27,6 @@ pipeline {
           sh "docker stop ${env.TESTING_CONTAINER_NAME} && docker rm -f ${env.TESTING_CONTAINER_NAME}"
           // Report test results
           junit "xml-report/report.xml"
-        }
-      }
-    }
-    stage('Publish Dev Container') {
-      steps {
-        withDockerRegistry([credentialsId: 'docker-registry', url: '']) {
-          sh "docker push openstax/cnx-automation:dev"
         }
       }
     }
