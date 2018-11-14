@@ -9,16 +9,21 @@ from regions.webview.base import Region
 
 
 class ContentStatus(Page):
-    URL_TEMPLATE = '/a/content-status/?number={number}&page={page}'
-    _status_filters_locator = (By.XPATH, (".//form[contains(@action, '/a/content-status')]//label"
-                                          "[.//i[contains(@class, 'state-icon')]]"))
-    _tds_locator = (By.CSS_SELECTOR, 'table td')
+    URL_TEMPLATE = "/a/content-status/?number={number}&page={page}"
+    _status_filters_locator = (
+        By.XPATH,
+        (
+            ".//form[contains(@action, '/a/content-status')]//label"
+            "[.//i[contains(@class, 'state-icon')]]"
+        ),
+    )
+    _tds_locator = (By.CSS_SELECTOR, "table td")
 
     def __init__(self, *args, **kwargs):
-        if 'number' not in kwargs:
-            kwargs['number'] = 10
-        if 'page' not in kwargs:
-            kwargs['page'] = 1
+        if "number" not in kwargs:
+            kwargs["number"] = 10
+        if "page" not in kwargs:
+            kwargs["page"] = 1
 
         super().__init__(*args, **kwargs)
 
@@ -42,7 +47,7 @@ class ContentStatus(Page):
 
     class StatusFilter(Region):
         _checkbox_locator = (By.CSS_SELECTOR, 'input[type="checkbox"][name="status_filter"]')
-        _icon_locator = (By.CSS_SELECTOR, 'i.fa.state-icon')
+        _icon_locator = (By.CSS_SELECTOR, "i.fa.state-icon")
 
         @property
         def is_checkbox_displayed(self):
@@ -54,7 +59,7 @@ class ContentStatus(Page):
 
         @property
         def status(self):
-            return self.checkbox.get_attribute('value').lower()
+            return self.checkbox.get_attribute("value").lower()
 
         @property
         def is_icon_displayed(self):
@@ -66,21 +71,21 @@ class ContentStatus(Page):
 
         @property
         def icon_class(self):
-            return self.icon.get_attribute('class')
+            return self.icon.get_attribute("class")
 
         @property
         def icon_color(self):
-            return self.icon.value_of_css_property('color')
+            return self.icon.value_of_css_property("color")
 
     class ContentStatusTd(Region):
         @property
         def border_style(self):
-            return self.root.value_of_css_property('border-style')
+            return self.root.value_of_css_property("border-style")
 
         @property
         def border_width(self):
-            return self.root.value_of_css_property('border-width')
+            return self.root.value_of_css_property("border-width")
 
         @property
         def border_color(self):
-            return self.root.value_of_css_property('border-color')
+            return self.root.value_of_css_property("border-color")

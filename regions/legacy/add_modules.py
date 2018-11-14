@@ -8,9 +8,9 @@ from regions.legacy.base import Region
 
 
 class AddModules(Region):
-    _search_form_locator = (By.ID, 'collection-composer-collection-module-form-search')
+    _search_form_locator = (By.ID, "collection-composer-collection-module-form-search")
     _words_field_locator = (By.CSS_SELECTOR, 'input[type="text"][name="words"]')
-    _spinner_locator = (By.ID, 'kss-spinner')
+    _spinner_locator = (By.ID, "kss-spinner")
 
     def __init__(self, collection, root=None):
         self.collection = collection
@@ -27,14 +27,16 @@ class AddModules(Region):
     # We need this check because this region is actually loaded via javascript
     @property
     def loaded(self):
-        return (self.is_element_displayed(*self._search_form_locator) and
-                not self.is_element_displayed(*self._spinner_locator))
+        return self.is_element_displayed(
+            *self._search_form_locator
+        ) and not self.is_element_displayed(*self._spinner_locator)
 
     # Overridden so it doesn't return true as soon as the spinner appears
     @property
     def unloaded(self):
-        return (not self.is_element_displayed(*self._search_form_locator) and
-                not self.is_element_displayed(*self._spinner_locator))
+        return not self.is_element_displayed(
+            *self._search_form_locator
+        ) and not self.is_element_displayed(*self._spinner_locator)
 
     def fill_in_search_words(self, words):
         self.words_field.send_keys(words)
@@ -43,5 +45,6 @@ class AddModules(Region):
     def submit_search(self):
         self.search_form.submit()
         from regions.legacy.add_modules_with_search_results import AddModulesWithSearchResults
+
         search_results = AddModulesWithSearchResults(self.collection, self.root)
         return search_results.wait_for_region_to_load()

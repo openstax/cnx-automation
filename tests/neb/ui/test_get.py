@@ -19,87 +19,87 @@ def test_get_help():
     # WHEN we run `neb get --help`
     with Neb.get(help=True) as help:
         # THEN the usage message is displayed
-        assert 'Usage: neb get ' in help
-        assert 'Options:' in help
-        assert '--help' in help
+        assert "Usage: neb get " in help
+        assert "Options:" in help
+        assert "--help" in help
 
 
 @markers.neb
-@markers.test_case('C195563')
+@markers.test_case("C195563")
 @markers.nondestructive
 def test_get_no_env():
     # GIVEN neb
 
     # WHEN we run `neb get`
-    stdout, stderr, returncode = Neb.run('get')
+    stdout, stderr, returncode = Neb.run("get")
 
     # THEN neb exits with an error and the usage message is displayed
     assert returncode > 0
-    assert 'Usage: neb get ' in stderr
+    assert "Usage: neb get " in stderr
     assert 'Error: Missing argument "ENV"' in stderr
 
 
 @markers.neb
-@markers.test_case('C195563')
+@markers.test_case("C195563")
 @markers.nondestructive
 def test_get_no_col_id(neb_env):
     # GIVEN neb and an environment
 
     # WHEN we run `neb get env`
-    stdout, stderr, returncode = Neb.run('get', neb_env)
+    stdout, stderr, returncode = Neb.run("get", neb_env)
 
     # THEN neb exits with an error and the usage message is displayed
     assert returncode > 0
-    assert 'Usage: neb get ' in stderr
+    assert "Usage: neb get " in stderr
     assert 'Error: Missing argument "COL_ID"' in stderr
 
 
 @markers.neb
-@markers.test_case('C195563')
+@markers.test_case("C195563")
 @markers.nondestructive
-@markers.parametrize('col_id', ['col11562'])
+@markers.parametrize("col_id", ["col11562"])
 def test_get_no_col_version(neb_env, col_id):
     # GIVEN neb, an environment, and a collection id
 
     # WHEN we run `neb get env col_id`
-    stdout, stderr, returncode = Neb.run('get', neb_env, col_id)
+    stdout, stderr, returncode = Neb.run("get", neb_env, col_id)
 
     # THEN neb exits with an error and the usage message is displayed
     assert returncode > 0
-    assert 'Usage: neb get ' in stderr
+    assert "Usage: neb get " in stderr
     assert 'Error: Missing argument "COL_VERSION"' in stderr
 
 
 @markers.neb
-@markers.test_case('C195237')
+@markers.test_case("C195237")
 @markers.nondestructive
-@markers.parametrize('col_id,col_minimum_version', [('col11562', '1.19')])
+@markers.parametrize("col_id,col_minimum_version", [("col11562", "1.19")])
 def test_get_col_latest(neb_env, col_id, col_minimum_version):
     # GIVEN neb, an environment name, a collection id, and a collection minimum version
 
     # WHEN we run `neb get --verbose env col_id latest`
-    with Neb.get(verbose=True, env=neb_env, col_id=col_id, col_version='latest') as zip_dir:
+    with Neb.get(verbose=True, env=neb_env, col_id=col_id, col_version="latest") as zip_dir:
         # THEN the complete zip is downloaded and has a collection.xml
         # with the minimum version or higher
-        path = join(zip_dir, 'collection.xml')
+        path = join(zip_dir, "collection.xml")
         with open(path) as file:
             colxml = file.read()
 
     collection = ET.fromstring(colxml)
-    metadata = collection.find('{http://cnx.rice.edu/collxml}metadata')
-    version_string = metadata.find('{http://cnx.rice.edu/mdml}version').text
+    metadata = collection.find("{http://cnx.rice.edu/collxml}metadata")
+    version_string = metadata.find("{http://cnx.rice.edu/mdml}version").text
     version = parse_version(version_string)
     minimum_version = parse_version(col_minimum_version)
     assert version >= minimum_version
 
 
 @markers.neb
-@markers.test_case('C195559')
+@markers.test_case("C195559")
 @markers.nondestructive
-@markers.parametrize('col_id,col_version', [('col11562', '1.19')])
+@markers.parametrize("col_id,col_version", [("col11562", "1.19")])
 def test_get_col_version(neb_env, col_id, col_version, snapshot):
     # GIVEN neb, an environment name, a collection id, a collection version, and the snapshot tool
-    snapshot_name = join('neb', col_id, '{col_version}.tar.gz'.format(col_version=col_version))
+    snapshot_name = join("neb", col_id, "{col_version}.tar.gz".format(col_version=col_version))
 
     # WHEN we run `neb get --verbose env col_id col_version`
     with Neb.get(verbose=True, env=neb_env, col_id=col_id, col_version=col_version) as zip_dir:

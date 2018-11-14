@@ -17,27 +17,34 @@ from regions.webview.content_item import ContentItem
 
 
 class Content(Page):
-    URL_TEMPLATE = '/contents/{id}'
+    URL_TEMPLATE = "/contents/{id}"
     # The page is loaded when the last uuid/short id in the url has an @ version, followed by a /
     # This regex requires that version and additionally captures an optional book version
     _url_regex = re.compile(
-        '/contents/(?:[^:@/]+@(?P<book_version>[^:@/]+):)?[^:@/]+@(?P<page_version>[^:@/]+)/')
+        "/contents/(?:[^:@/]+@(?P<book_version>[^:@/]+):)?[^:@/]+@(?P<page_version>[^:@/]+)/"
+    )
     _newer_version_link_locator = (
-        By.CSS_SELECTOR, '#content div.latest span[data-l10n-id="media-latest-content"] a'
+        By.CSS_SELECTOR,
+        '#content div.latest span[data-l10n-id="media-latest-content"] a',
     )
-    _main_content_section_locator = (By.ID, 'main-content')
+    _main_content_section_locator = (By.ID, "main-content")
     _table_of_contents_div_locator = (By.CSS_SELECTOR, ".table-of-contents")
-    _section_title_div_locator = (By.CSS_SELECTOR, '#main-content div.media-header div.title')
-    _chapter_section_span_locator = (By.CSS_SELECTOR, 'span.title-chapter,span.os-number')
+    _section_title_div_locator = (By.CSS_SELECTOR, "#main-content div.media-header div.title")
+    _chapter_section_span_locator = (By.CSS_SELECTOR, "span.title-chapter,span.os-number")
     _get_this_book_button_locator = (
-        By.CSS_SELECTOR, ('#main-content div.media-header div.info div.downloads'
-                          ' button[type="submit"][data-l10n-id="textbook-view-btn-get-this-book"]')
+        By.CSS_SELECTOR,
+        (
+            "#main-content div.media-header div.info div.downloads"
+            ' button[type="submit"][data-l10n-id="textbook-view-btn-get-this-book"]'
+        ),
     )
-    _ncy_locator = (By.CLASS_NAME, 'not-converted-yet')
-    _go_to_book_link_locator = (By.CSS_SELECTOR, 'li:nth-child(3) > div > a')
-    _left_nav_book_title_locator = (By.CSS_SELECTOR, 'div.booksContaining > ul > li:nth-child(1) '
-                                                     '> div > a > b')
-    _sub_regex = re.compile(r'[^A-Za-z0-9 ]+')
+    _ncy_locator = (By.CLASS_NAME, "not-converted-yet")
+    _go_to_book_link_locator = (By.CSS_SELECTOR, "li:nth-child(3) > div > a")
+    _left_nav_book_title_locator = (
+        By.CSS_SELECTOR,
+        "div.booksContaining > ul > li:nth-child(1) " "> div > a > b",
+    )
+    _sub_regex = re.compile(r"[^A-Za-z0-9 ]+")
 
     @property
     def loaded(self):
@@ -45,11 +52,11 @@ class Content(Page):
 
     @property
     def book_version(self):
-        return parse_version(self._url_regex.search(self.driver.current_url)['book_version'])
+        return parse_version(self._url_regex.search(self.driver.current_url)["book_version"])
 
     @property
     def page_version(self):
-        return parse_version(self._url_regex.search(self.driver.current_url)['page_version'])
+        return parse_version(self._url_regex.search(self.driver.current_url)["page_version"])
 
     @property
     def content_header(self):
@@ -66,7 +73,7 @@ class Content(Page):
     @property
     def clean_title(self):
         """Returns a version of the title without special characters"""
-        return re.sub(self._sub_regex, '', self.content_header.title)
+        return re.sub(self._sub_regex, "", self.content_header.title)
 
     @property
     def share(self):
@@ -128,7 +135,7 @@ class Content(Page):
     @property
     @retry_stale_element_reference_exception
     def section_title(self):
-        return self.section_title_div.text.replace(self.chapter_section, '').lstrip()
+        return self.section_title_div.text.replace(self.chapter_section, "").lstrip()
 
     @property
     @retry_stale_element_reference_exception
@@ -183,25 +190,29 @@ class Content(Page):
         return self.GetThisBook(self).wait_for_region_to_load()
 
     class ContentHeader(Region):
-        _root_locator = (By.CSS_SELECTOR, '#content div.pinnable')
-        _title_locator = (By.CSS_SELECTOR, 'div.title .large-header')
-        _book_by_span_locator = (By.CSS_SELECTOR,
-                                 'div.info span[data-l10n-id="textbook-view-book-by"]')
-        _authors_span_locator = (By.CSS_SELECTOR, 'div.info span.collection-authors')
-        _derived_from_span_locator = (By.CSS_SELECTOR,
-                                      'span[data-l10n-id="textbook-view-derived-from"]')
+        _root_locator = (By.CSS_SELECTOR, "#content div.pinnable")
+        _title_locator = (By.CSS_SELECTOR, "div.title .large-header")
+        _book_by_span_locator = (
+            By.CSS_SELECTOR,
+            'div.info span[data-l10n-id="textbook-view-book-by"]',
+        )
+        _authors_span_locator = (By.CSS_SELECTOR, "div.info span.collection-authors")
+        _derived_from_span_locator = (
+            By.CSS_SELECTOR,
+            'span[data-l10n-id="textbook-view-derived-from"]',
+        )
 
         @property
         def is_pinned(self):
-            return 'pinned' in self.root.get_attribute('class')
+            return "pinned" in self.root.get_attribute("class")
 
         @property
         def is_opened(self):
-            return 'opened' in self.root.get_attribute('class')
+            return "opened" in self.root.get_attribute("class")
 
         @property
         def is_closed(self):
-            return 'closed' in self.root.get_attribute('class')
+            return "closed" in self.root.get_attribute("class")
 
         # The title and author divs can be reloaded at seemingly random times so we must
         # retry StaleElementReferenceExceptions using retry_stale_element_reference_exception
@@ -260,10 +271,10 @@ class Content(Page):
             return self.share.is_displayed
 
         class Share(Region):
-            _root_locator = (By.CSS_SELECTOR, '#content div.pinnable div.share')
-            _facebook_share_link_locator = (By.CSS_SELECTOR, 'ul li a.facebook')
-            _twitter_share_link_locator = (By.CSS_SELECTOR, 'ul li a.twitter')
-            _linkedin_share_link_locator = (By.CSS_SELECTOR, 'ul li a.linkedin')
+            _root_locator = (By.CSS_SELECTOR, "#content div.pinnable div.share")
+            _facebook_share_link_locator = (By.CSS_SELECTOR, "ul li a.facebook")
+            _twitter_share_link_locator = (By.CSS_SELECTOR, "ul li a.twitter")
+            _linkedin_share_link_locator = (By.CSS_SELECTOR, "ul li a.linkedin")
 
             @property
             def is_facebook_share_link_displayed(self):
@@ -275,7 +286,7 @@ class Content(Page):
 
             @property
             def facebook_share_url(self):
-                return self.facebook_share_link.get_attribute('href')
+                return self.facebook_share_link.get_attribute("href")
 
             @property
             def is_twitter_share_link_displayed(self):
@@ -287,7 +298,7 @@ class Content(Page):
 
             @property
             def twitter_share_url(self):
-                return self.twitter_share_link.get_attribute('href')
+                return self.twitter_share_link.get_attribute("href")
 
             @property
             def is_linkedin_share_link_displayed(self):
@@ -299,16 +310,16 @@ class Content(Page):
 
             @property
             def linkedin_share_url(self):
-                return self.linkedin_share_link.get_attribute('href')
+                return self.linkedin_share_link.get_attribute("href")
 
         class HeaderNav(Region):
-            _root_locator = (By.CSS_SELECTOR, 'div.media-nav')
+            _root_locator = (By.CSS_SELECTOR, "div.media-nav")
             _contents_button_locator = (By.CSS_SELECTOR, 'button.toggle.btn[role="button"]')
-            _searchbar_locator = (By.CSS_SELECTOR, 'div.searchbar')
-            _back_link_locator = (By.CSS_SELECTOR, 'div.media-navbar a.nav.back')
-            _progress_bar_locator = (By.CSS_SELECTOR, 'div.media-navbar div.progress')
-            _secondary_progress_bar_locator = (By.CSS_SELECTOR, 'div.secondary.progress-bar')
-            _next_link_locator = (By.CSS_SELECTOR, 'div.media-navbar a.nav.next')
+            _searchbar_locator = (By.CSS_SELECTOR, "div.searchbar")
+            _back_link_locator = (By.CSS_SELECTOR, "div.media-navbar a.nav.back")
+            _progress_bar_locator = (By.CSS_SELECTOR, "div.media-navbar div.progress")
+            _secondary_progress_bar_locator = (By.CSS_SELECTOR, "div.secondary.progress-bar")
+            _next_link_locator = (By.CSS_SELECTOR, "div.media-navbar a.nav.next")
 
             @property
             def is_contents_button_displayed(self):
@@ -351,22 +362,24 @@ class Content(Page):
                 return self.progress_bar.find_element(*self._secondary_progress_bar_locator)
 
             def width_as_float(self, element):
-                return float(element.value_of_css_property('width').replace('px', ''))
+                return float(element.value_of_css_property("width").replace("px", ""))
 
             @property
             def progress_bar_fraction(self):
-                return (self.width_as_float(self.secondary_progress_bar) /
-                        self.width_as_float(self.progress_bar))
+                return self.width_as_float(self.secondary_progress_bar) / self.width_as_float(
+                    self.progress_bar
+                )
 
             @property
             def next_link(self):
                 return self.find_element(*self._next_link_locator)
 
             def click_contents_button(self):
-                if 'open' in self.contents_button.get_attribute('class'):
+                if "open" in self.contents_button.get_attribute("class"):
                     self.contents_button.click()
                     return self.wait.until(
-                        expected.invisibility_of_element_located(self.page.table_of_contents_div))
+                        expected.invisibility_of_element_located(self.page.table_of_contents_div)
+                    )
                 else:
                     self.contents_button.click()
                     return self.page.table_of_contents.wait_for_region_to_display()
@@ -375,13 +388,12 @@ class Content(Page):
                 searchbar = self.searchbar
                 from selenium.webdriver.common.action_chains import ActionChains
                 from selenium.webdriver.common.keys import Keys
+
                 # For some reason self.searchbar.send_keys() fails with `cannot focus element`
                 # https://stackoverflow.com/a/39205317
-                ActionChains(self.driver).move_to_element(searchbar) \
-                    .click(searchbar) \
-                    .send_keys(query) \
-                    .send_keys(Keys.ENTER) \
-                    .perform()
+                ActionChains(self.driver).move_to_element(searchbar).click(searchbar).send_keys(
+                    query
+                ).send_keys(Keys.ENTER).perform()
                 return self.page.in_book_search_results.wait_for_region_to_display()
 
             def click_back_link(self):
@@ -398,11 +410,13 @@ class Content(Page):
                 return self.page.wait_for_url_to_change(current_url)
 
     class TableOfContents(Region):
-        _root_locator = (By.CLASS_NAME, 'table-of-contents')
+        _root_locator = (By.CLASS_NAME, "table-of-contents")
         _chapter_div_locator = (By.CSS_SELECTOR, 'ul li div[data-expandable="true"]')
-        _page_link_locator = (By.CSS_SELECTOR, 'ul li a')
-        _active_page_locator = (By.CSS_SELECTOR, '.table-of-contents>.toc ul '
-                                                 'li>div>.name-wrapper .active')
+        _page_link_locator = (By.CSS_SELECTOR, "ul li a")
+        _active_page_locator = (
+            By.CSS_SELECTOR,
+            ".table-of-contents>.toc ul " "li>div>.name-wrapper .active",
+        )
 
         @property
         def number_of_chapters(self):
@@ -414,20 +428,23 @@ class Content(Page):
 
         @property
         def chapters(self):
-            return [self.ContentChapter(self.page, self.root, index) for index
-                    in range(len(self.find_elements(*self._chapter_div_locator)))]
+            return [
+                self.ContentChapter(self.page, self.root, index)
+                for index in range(len(self.find_elements(*self._chapter_div_locator)))
+            ]
 
         @property
         def active_page_color(self):
             active_page = self.find_element(*self._active_page_locator)
-            rgba = active_page.value_of_css_property('color')
+            rgba = active_page.value_of_css_property("color")
             hex = Color.from_string(rgba).hex
             return hex
 
         class ContentChapter(ContentItem):
-            _root_locator_template = ("(.//ul//li[descendant::div"
-                                      "[@data-expandable='true']])[{index}]")
-            _page_link_locator = (By.CSS_SELECTOR, 'ul li a')
+            _root_locator_template = (
+                "(.//ul//li[descendant::div" "[@data-expandable='true']])[{index}]"
+            )
+            _page_link_locator = (By.CSS_SELECTOR, "ul li a")
 
             @property
             def has_pages(self):
@@ -435,8 +452,10 @@ class Content(Page):
 
             @property
             def pages(self):
-                return [self.ContentPage(self.page, self.root, index) for index
-                        in range(len(self.find_elements(*self._page_link_locator)))]
+                return [
+                    self.ContentPage(self.page, self.root, index)
+                    for index in range(len(self.find_elements(*self._page_link_locator)))
+                ]
 
             def click(self):
                 self.root.click()
@@ -459,11 +478,15 @@ class Content(Page):
                     return hex
 
     class InBookSearchResults(Region):
-        _root_locator = (By.CSS_SELECTOR, '#content div.sidebar div.table-of-contents')
-        _result_count_div_locator = (By.CSS_SELECTOR, 'div.result-count')
-        _results_locator = (By.XPATH,
-                            (".//div[contains(@class, 'toc')]"
-                             "//ul//li[./div/span[contains(@class, 'name-wrapper')]//a]"))
+        _root_locator = (By.CSS_SELECTOR, "#content div.sidebar div.table-of-contents")
+        _result_count_div_locator = (By.CSS_SELECTOR, "div.result-count")
+        _results_locator = (
+            By.XPATH,
+            (
+                ".//div[contains(@class, 'toc')]"
+                "//ul//li[./div/span[contains(@class, 'name-wrapper')]//a]"
+            ),
+        )
 
         @property
         def result_count_div(self):
@@ -472,7 +495,8 @@ class Content(Page):
         @property
         def result_count(self):
             import json
-            return json.loads(self.result_count_div.get_attribute('data-l10n-args'))['hits']
+
+            return json.loads(self.result_count_div.get_attribute("data-l10n-args"))["hits"]
 
         @property
         def results(self):
@@ -480,12 +504,11 @@ class Content(Page):
             return [self.InBookResult(self.page, element) for element in elements]
 
         class InBookResult(Region):
-            _link_locator = (By.CSS_SELECTOR, 'span.name-wrapper a')
-            _chapter_section_span_locator = (By.CSS_SELECTOR,
-                                             'span.chapter-number,span.os-number')
-            _title_span_locator = (By.CSS_SELECTOR, 'span.title')
-            _content_q_locator = (By.CSS_SELECTOR, 'div.snippet q')
-            _bold_locator = (By.CSS_SELECTOR, 'span.q-match')
+            _link_locator = (By.CSS_SELECTOR, "span.name-wrapper a")
+            _chapter_section_span_locator = (By.CSS_SELECTOR, "span.chapter-number,span.os-number")
+            _title_span_locator = (By.CSS_SELECTOR, "span.title")
+            _content_q_locator = (By.CSS_SELECTOR, "div.snippet q")
+            _bold_locator = (By.CSS_SELECTOR, "span.q-match")
 
             @property
             def is_link_present(self):
@@ -509,7 +532,7 @@ class Content(Page):
 
             @property
             def title(self):
-                return self.title_span.text.replace(self.chapter_section, '').lstrip()
+                return self.title_span.text.replace(self.chapter_section, "").lstrip()
 
             @property
             def content_q(self):
@@ -528,8 +551,7 @@ class Content(Page):
 
             def count_bold_occurrences(self, word):
                 lowercase_word = word.lower()
-                return len([bold for bold in self.bolds
-                            if lowercase_word in bold.text.lower()])
+                return len([bold for bold in self.bolds if lowercase_word in bold.text.lower()])
 
             def click_link(self):
                 current_url = self.driver.current_url
@@ -540,15 +562,23 @@ class Content(Page):
     # so any tests that use it must be ready to retry StaleElementReferenceExceptions
     # using retry_stale_element_reference_exception
     class GetThisBook(Region):
-        _root_locator = (By.CSS_SELECTOR, 'div.popover div.popover-content div.book-popover')
+        _root_locator = (By.CSS_SELECTOR, "div.popover div.popover-content div.book-popover")
         _pdf_link_locator = (
-            By.XPATH, ".//div[contains(@class, 'download-book')]//ul//li//a[text()='PDF']")
+            By.XPATH,
+            ".//div[contains(@class, 'download-book')]//ul//li//a[text()='PDF']",
+        )
         _epub_link_locator = (
-            By.XPATH, ".//div[contains(@class, 'download-book')]//ul//li//a[text()='EPUB']")
+            By.XPATH,
+            ".//div[contains(@class, 'download-book')]//ul//li//a[text()='EPUB']",
+        )
         _offline_zip_link_locator = (
-            By.XPATH, ".//div[contains(@class, 'download-book')]//ul//li//a[text()='Offline ZIP']")
+            By.XPATH,
+            ".//div[contains(@class, 'download-book')]//ul//li//a[text()='Offline ZIP']",
+        )
         _order_printed_book_link_locator = (
-            By.CSS_SELECTOR, 'a.order[data-l10n-id="textbook-view-book-order-book"]')
+            By.CSS_SELECTOR,
+            'a.order[data-l10n-id="textbook-view-book-order-book"]',
+        )
 
         @property
         @retry_stale_element_reference_exception
@@ -608,12 +638,12 @@ class Content(Page):
             return self.is_element_present(*self._order_printed_book_link_locator)
 
     class ContentRegion(Region):
-        _root_locator = (By.ID, 'content')
-        _figures_locator = (By.TAG_NAME, 'figure')
-        _os_figure_divs_locator = (By.CSS_SELECTOR, 'div.os-figure')
-        _os_table_divs_locator = (By.CSS_SELECTOR, 'div.os-table')
+        _root_locator = (By.ID, "content")
+        _figures_locator = (By.TAG_NAME, "figure")
+        _os_figure_divs_locator = (By.CSS_SELECTOR, "div.os-figure")
+        _os_table_divs_locator = (By.CSS_SELECTOR, "div.os-table")
         _anchor_links_locator = (By.CSS_SELECTOR, 'a[href*="#"]')
-        _index_terms_locator = (By.CSS_SELECTOR, 'div.os-index-item a.os-term-section-link')
+        _index_terms_locator = (By.CSS_SELECTOR, "div.os-index-item a.os-term-section-link")
 
         @property
         def is_blank(self):
@@ -637,13 +667,17 @@ class Content(Page):
 
         @property
         def os_figures(self):
-            return [self.OsFigure(self, figure_div)
-                    for figure_div in self.find_elements(*self._os_figure_divs_locator)]
+            return [
+                self.OsFigure(self, figure_div)
+                for figure_div in self.find_elements(*self._os_figure_divs_locator)
+            ]
 
         @property
         def os_tables(self):
-            return [self.OsTable(self, table_div)
-                    for table_div in self.find_elements(*self._os_table_divs_locator)]
+            return [
+                self.OsTable(self, table_div)
+                for table_div in self.find_elements(*self._os_table_divs_locator)
+            ]
 
         @property
         def anchor_links(self):
@@ -655,8 +689,8 @@ class Content(Page):
 
         def _is_link_element_internal(self, current_url, element):
             is_internal = False
-            url = element.get_attribute('href')
-            if url.startswith(current_url) or url.startswith('#'):
+            url = element.get_attribute("href")
+            if url.startswith(current_url) or url.startswith("#"):
                 is_internal = True
             return is_internal
 
@@ -677,7 +711,7 @@ class Content(Page):
             return self.page.wait_for_url_to_change(current_url)
 
         class ContentWithCaption(Region):
-            _caption_div_locator = (By.CSS_SELECTOR, 'div.os-caption-container')
+            _caption_div_locator = (By.CSS_SELECTOR, "div.os-caption-container")
 
             @property
             def caption_div(self):
@@ -688,8 +722,8 @@ class Content(Page):
                 return self.Caption(self.page, self.caption_div)
 
             class Caption(Region):
-                _label_span_locator = (By.CSS_SELECTOR, 'span.os-title-label')
-                _number_span_locator = (By.CSS_SELECTOR, 'span.os-number')
+                _label_span_locator = (By.CSS_SELECTOR, "span.os-title-label")
+                _number_span_locator = (By.CSS_SELECTOR, "span.os-number")
 
                 @property
                 def is_labeled(self):
@@ -717,28 +751,28 @@ class Content(Page):
 
                 @property
                 def caption(self):
-                    return self.text.replace(self.label, '').replace(self.number, '').lstrip()
+                    return self.text.replace(self.label, "").replace(self.number, "").lstrip()
 
         class OsFigure(ContentWithCaption):
-            _figure_locator = (By.TAG_NAME, 'figure')
+            _figure_locator = (By.TAG_NAME, "figure")
 
             @property
             def figure(self):
                 return self.find_element(*self._figure_locator)
 
         class OsTable(ContentWithCaption):
-            _table_locator = (By.TAG_NAME, 'table')
+            _table_locator = (By.TAG_NAME, "table")
 
             @property
             def table(self):
                 return self.find_element(*self._table_locator)
 
     class ContentFooter(Region):
-        _root_locator = (By.CSS_SELECTOR, '#main-content div.media-footer')
-        _downloads_tab_locator = (By.ID, 'downloads-tab')
-        _history_tab_locator = (By.ID, 'history-tab')
-        _attribution_tab_locator = (By.ID, 'attribution-tab')
-        _metadata_tab_locator = (By.ID, 'metadata-tab')
+        _root_locator = (By.CSS_SELECTOR, "#main-content div.media-footer")
+        _downloads_tab_locator = (By.ID, "downloads-tab")
+        _history_tab_locator = (By.ID, "history-tab")
+        _attribution_tab_locator = (By.ID, "attribution-tab")
+        _metadata_tab_locator = (By.ID, "metadata-tab")
 
         @property
         def is_downloads_tab_displayed(self):
@@ -793,9 +827,11 @@ class Content(Page):
             return self.attribution.wait_for_region_to_display()
 
         class Downloads(Region):
-            _root_locator = (By.CSS_SELECTOR,
-                             '#main-content div.media-footer div.downloads.tab-content')
-            _progress_bar_locator = (By.CSS_SELECTOR, 'div.progress.active')
+            _root_locator = (
+                By.CSS_SELECTOR,
+                "#main-content div.media-footer div.downloads.tab-content",
+            )
+            _progress_bar_locator = (By.CSS_SELECTOR, "div.progress.active")
             _not_available_td_selector_template = (
                 'table.table tr td[data-l10n-id="textbook-view-file-description"]'
                 '[data-l10n-args=\'{{"format":"{format}"}}\']'
@@ -816,34 +852,36 @@ class Content(Page):
 
             @property
             def is_pdf_available(self):
-                selector = self._not_available_td_selector_template.format(format='PDF')
+                selector = self._not_available_td_selector_template.format(format="PDF")
                 return not self.is_element_present(By.CSS_SELECTOR, selector)
 
             @property
             def is_epub_available(self):
-                selector = self._not_available_td_selector_template.format(format='EPUB')
+                selector = self._not_available_td_selector_template.format(format="EPUB")
                 return not self.is_element_present(By.CSS_SELECTOR, selector)
 
             @property
             def is_offline_zip_available(self):
-                selector = self._not_available_td_selector_template.format(format='Offline ZIP')
+                selector = self._not_available_td_selector_template.format(format="Offline ZIP")
                 return not self.is_element_present(By.CSS_SELECTOR, selector)
 
             @property
             def is_any_available(self):
-                return (self.is_pdf_available or
-                        self.is_epub_available or
-                        self.is_offline_zip_available)
+                return (
+                    self.is_pdf_available or self.is_epub_available or self.is_offline_zip_available
+                )
 
         class Attribution(Region):
-            _root_locator = (By.CSS_SELECTOR,
-                             '#main-content div.media-footer div.attribution.tab-content')
+            _root_locator = (
+                By.CSS_SELECTOR,
+                "#main-content div.media-footer div.attribution.tab-content",
+            )
 
         class FooterNav(Region):
-            _root_locator = (By.CSS_SELECTOR, '#main-content div.footer-nav')
-            _back_link_locator = (By.CSS_SELECTOR, 'a.nav.back')
-            _back_to_top_link_locator = (By.CSS_SELECTOR, 'div.back-to-top a')
-            _next_link_locator = (By.CSS_SELECTOR, 'a.nav.next')
+            _root_locator = (By.CSS_SELECTOR, "#main-content div.footer-nav")
+            _back_link_locator = (By.CSS_SELECTOR, "a.nav.back")
+            _back_to_top_link_locator = (By.CSS_SELECTOR, "div.back-to-top a")
+            _next_link_locator = (By.CSS_SELECTOR, "a.nav.next")
 
             @property
             def back_link(self):

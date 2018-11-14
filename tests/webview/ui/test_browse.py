@@ -9,7 +9,7 @@ from pages.webview.search_results import SearchResults
 
 
 @markers.webview
-@markers.test_case('C176268', 'C176269')
+@markers.test_case("C176268", "C176269")
 @markers.nondestructive
 def test_search_input_and_button_are_displayed(webview_base_url, selenium):
     # GIVEN the webview base url and Selenium driver
@@ -25,7 +25,7 @@ def test_search_input_and_button_are_displayed(webview_base_url, selenium):
 
 
 @markers.webview
-@markers.test_case('C176270')
+@markers.test_case("C176270")
 @markers.nondestructive
 def test_subject_categories_load(webview_base_url, selenium):
     # GIVEN the webview base url and Selenium driver
@@ -40,7 +40,7 @@ def test_subject_categories_load(webview_base_url, selenium):
 
 
 @markers.webview
-@markers.test_case('C176271')
+@markers.test_case("C176271")
 @markers.nondestructive
 def test_subject_categories_have_page_and_book_counts(webview_base_url, selenium):
     # GIVEN the home page
@@ -68,7 +68,7 @@ def test_subject_categories_have_page_and_book_counts(webview_base_url, selenium
 
 
 @markers.webview
-@markers.test_case('C176272')
+@markers.test_case("C176272")
 @markers.nondestructive
 def test_click_subject_category(webview_base_url, selenium):
     # GIVEN the browse page
@@ -89,7 +89,7 @@ def test_click_subject_category(webview_base_url, selenium):
 
 
 @markers.webview
-@markers.test_case('C176230')
+@markers.test_case("C176230")
 @markers.nondestructive
 def test_logo_link_loads_home_page(webview_base_url, selenium):
     # GIVEN the browse page

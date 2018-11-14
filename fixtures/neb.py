@@ -4,13 +4,13 @@
 
 import pytest
 
-__all__ = ['neb_env']
+__all__ = ["neb_env"]
 
 
-@pytest.fixture(scope='session')
+@pytest.fixture(scope="session")
 def neb_env(request):
     """Returns the Neb environment name"""
     config = request.config
-    neb_env = config.getoption('neb_env') or config.getini('neb_env')
+    neb_env = config.getoption("neb_env") or config.getini("neb_env")
     if neb_env is not None:
         return neb_env

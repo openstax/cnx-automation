@@ -6,9 +6,9 @@ from pages.legacy.confirm_remove import ConfirmRemove
 
 
 class CollectionsConfirmRemove(ConfirmRemove):
-
     def confirm(self):
         self.remove_button.click()
         from pages.legacy.workspace_collection import WorkspaceCollection
+
         collections = WorkspaceCollection(self.driver, self.base_url, self.timeout)
         return collections.wait_for_page_to_load()

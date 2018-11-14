@@ -11,26 +11,28 @@ from os.path import join
 
 # Property class methods: https://stackoverflow.com/a/5189765
 class MetaNeb(type):
-    _version_regex = re.compile(r'^Nebuchadnezzar (.*)$')
+    _version_regex = re.compile(r"^Nebuchadnezzar (.*)$")
 
     def run(cls, *args, **kwargs):
         """Runs Neb and returns a tuple containing stdout, stderr and the returncode"""
-        if 'stdout' not in kwargs:
-            kwargs['stdout'] = subprocess.PIPE
-        if 'stderr' not in kwargs:
-            kwargs['stderr'] = subprocess.PIPE
-        if 'universal_newlines' not in kwargs:
-            kwargs['universal_newlines'] = True
+        if "stdout" not in kwargs:
+            kwargs["stdout"] = subprocess.PIPE
+        if "stderr" not in kwargs:
+            kwargs["stderr"] = subprocess.PIPE
+        if "universal_newlines" not in kwargs:
+            kwargs["universal_newlines"] = True
 
-        completed_process = subprocess.run(['neb', *args], **kwargs)
-        return (completed_process.stdout.strip(),
-                completed_process.stderr.strip(),
-                completed_process.returncode)
+        completed_process = subprocess.run(["neb", *args], **kwargs)
+        return (
+            completed_process.stdout.strip(),
+            completed_process.stderr.strip(),
+            completed_process.returncode,
+        )
 
     def invoke(cls, *args, **kwargs):
         """Runs Neb and returns stdout; By default throws subprocess.CalledProcessError on error"""
-        if 'check' not in kwargs:
-            kwargs['check'] = True
+        if "check" not in kwargs:
+            kwargs["check"] = True
 
         return cls.run(*args, **kwargs)[0]
 
@@ -40,30 +42,34 @@ class MetaNeb(type):
 
     @property
     def help(cls):
-        return cls.invoke('--help')
+        return cls.invoke("--help")
 
     @property
     def version(cls):
-        return cls._version_regex.match(cls.invoke('--version'))[1]
+        return cls._version_regex.match(cls.invoke("--version"))[1]
 
     @contextmanager
-    def get(cls, *, help=False, verbose=False, env=None, col_id=None, col_version=None, prompt='y'):
+    def get(cls, *, help=False, verbose=False, env=None, col_id=None, col_version=None, prompt="y"):
         if help:
-            yield cls.invoke('get', '--help')
+            yield cls.invoke("get", "--help")
         elif env is None or col_id is None or col_version is None:
-            raise(TypeError("get() missing either 1 required keyword-only argument: 'help' or 3"
-                            " required keyword-only arguments: 'env', 'col_id', and 'col_version'"))
+            raise (
+                TypeError(
+                    "get() missing either 1 required keyword-only argument: 'help' or 3"
+                    " required keyword-only arguments: 'env', 'col_id', and 'col_version'"
+                )
+            )
         else:
             with TemporaryDirectory() as temp_dir:
                 # We cannot use temp_dir directly
                 # because neb refuses to use a dir that already exists
-                neb_dir = join(temp_dir, 'neb')
+                neb_dir = join(temp_dir, "neb")
 
-                options = ['--output-dir', neb_dir]
+                options = ["--output-dir", neb_dir]
                 if verbose:
-                    options.append('--verbose')
+                    options.append("--verbose")
 
-                cls.invoke('get', *options, env, col_id, col_version, input=prompt)
+                cls.invoke("get", *options, env, col_id, col_version, input=prompt)
 
                 yield neb_dir
 

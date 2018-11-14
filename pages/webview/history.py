@@ -9,9 +9,9 @@ from parsers.cnx_deploy.release import ReleaseParser
 
 
 class History(Page):
-    URL_TEMPLATE = '/history.txt'
-    _pre_locator = (By.TAG_NAME, 'pre')
-    _releases_separator = '==============================='
+    URL_TEMPLATE = "/history.txt"
+    _pre_locator = (By.TAG_NAME, "pre")
+    _releases_separator = "==============================="
 
     @property
     def text(self):

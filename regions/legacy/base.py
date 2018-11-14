@@ -8,7 +8,6 @@ from selenium.common.exceptions import StaleElementReferenceException
 
 
 class Region(pypom.Region):
-
     @property
     def text(self):
         return self.root.text

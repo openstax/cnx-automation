@@ -26,5 +26,6 @@ class ModuleImport(PrivatePage):
     def submit(self):
         self.import_form.submit()
         from pages.legacy.module_edit import ModuleEdit
+
         module_edit = ModuleEdit(self.driver, self.base_url, self.timeout)
         return module_edit.wait_for_page_to_load()

@@ -21,15 +21,18 @@ class AboutPage(Page):
 
     @property
     def loaded(self):
-        return (self.is_element_displayed(*self._about_us_link_locator) and
-                self.is_element_displayed(*self._contact_link_locator))
+        return self.is_element_displayed(
+            *self._about_us_link_locator
+        ) and self.is_element_displayed(*self._contact_link_locator)
 
     def click_about_us(self):
         self.about_us_link.click()
         from pages.webview.about_us import AboutUs
+
         return AboutUs(self.driver, self.base_url, self.timeout).wait_for_page_to_load()
 
     def click_contact(self):
         self.contact_link.click()
         from pages.webview.contact import Contact
+
         return Contact(self.driver, self.base_url, self.timeout).wait_for_page_to_load()

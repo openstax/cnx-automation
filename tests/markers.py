@@ -10,7 +10,7 @@ parametrize = mark.parametrize
 test_case = pytestrail.case
 xfail = mark.xfail
 
-slow = mark.skipif(not config.getoption('runslow'), reason='need --runslow option to run')
+slow = mark.skipif(not config.getoption("runslow"), reason="need --runslow option to run")
 
 webview = mark.webview
 legacy = mark.legacy

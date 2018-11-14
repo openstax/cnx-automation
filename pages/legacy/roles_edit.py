@@ -10,9 +10,9 @@ from regions.webview.base import Region
 
 class RolesEdit(PrivatePage):
     _role_form_locator = (By.CSS_SELECTOR, 'form[name="people"]')
-    _form_title_locator = (By.CSS_SELECTOR, 'h4')
+    _form_title_locator = (By.CSS_SELECTOR, "h4")
     _submit_button_locator = (By.CSS_SELECTOR, 'input[type="submit"][name="form.button.update"]')
-    _author_locator = (By.CSS_SELECTOR, 'tr.even, tr.odd')
+    _author_locator = (By.CSS_SELECTOR, "tr.even, tr.odd")
 
     @property
     def role_form(self):
@@ -31,9 +31,9 @@ class RolesEdit(PrivatePage):
         return [self.AuthorEdit(self, el) for el in self.find_elements(*self._author_locator)]
 
     class AuthorEdit(Region):
-        _name_locator = (By.CSS_SELECTOR, 'td > strong')
-        _id_locator = (By.CSS_SELECTOR, 'td:nth-child(3) > a')
-        _order_control_locator = (By.CSS_SELECTOR, 'td:nth-child(1)')
+        _name_locator = (By.CSS_SELECTOR, "td > strong")
+        _id_locator = (By.CSS_SELECTOR, "td:nth-child(3) > a")
+        _order_control_locator = (By.CSS_SELECTOR, "td:nth-child(1)")
 
         @property
         def name(self):
