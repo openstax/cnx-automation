@@ -15,8 +15,15 @@ class Page(pypom.Page):
     _canonical_link_locator = (By.CSS_SELECTOR, 'head link[rel="canonical"]')
 
     # Default to a 60 second timeout for CNX webview
-    def __init__(self, driver, base_url=None, timeout=60, **url_kwargs):
+    def __init__(self, driver, base_url=None, timeout=90, **url_kwargs):
         super().__init__(driver, base_url, timeout, **url_kwargs)
+
+    @property
+    def current_url(self):
+        return self.driver.current_url
+
+    def is_element_id_displayed(self, id):
+        return self.is_element_displayed(By.ID, id)
 
     @property
     def canonical_link(self):
@@ -101,16 +108,20 @@ class Page(pypom.Page):
         """Refresh the current page"""
         self.driver.refresh()
 
+    def back(self):
+        """Go to the previous page"""
+        self.driver.back()
+
     class Header(Region):
         _root_locator = (By.CSS_SELECTOR, 'header#header div.page-header')
         _support_link_locator = (By.CSS_SELECTOR, 'a[data-l10n-id="all-header-support"]')
         _legacy_site_link_locator = (By.CSS_SELECTOR,
                                      'a[data-l10n-id="all-cnx-author-legacy-site"]')
         # This is the CSS selector that currently applies the CNX logo background-image
-        _cnx_logo_locator = (
-            By.CSS_SELECTOR,
-            '.page-header > .navbar > .container-fluid > .navbar-header > .navbar-brand'
-        )
+        _cnx_logo_locator = (By.CSS_SELECTOR,
+                             '#header .page-header .navbar .navbar-header .navbar-brand')
+        _cnx_logo_url_locator = (By.CSS_SELECTOR,
+                                 '#header .page-header .navbar .navbar-header a')
         _nav_button_locator = (By.CSS_SELECTOR,
                                '#header button.navbar-toggle[data-target="#page-nav"]')
         _browse_link_locator = (By.CSS_SELECTOR, '#page-nav #nav-browse a')
@@ -152,7 +163,8 @@ class Page(pypom.Page):
 
         @property
         def cnx_logo_url(self):
-            return self.cnx_logo.get_attribute('href')
+            return self.find_element(
+                *self._cnx_logo_url_locator).get_attribute('href')
 
         @property
         def nav_button(self):

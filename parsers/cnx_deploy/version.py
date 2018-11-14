@@ -9,7 +9,7 @@ from parsers.cnx_deploy.base import Parser
 
 
 class VersionParser(Parser):
-    _webview_regex = re.compile('^([0-9a-f]+) \(([^)]+)\)$', re.IGNORECASE)
+    _webview_regex = re.compile(r'^([0-9a-f]+) \(([^)]+)\)$', re.IGNORECASE)
 
     @property
     @lru_cache(maxsize=None)

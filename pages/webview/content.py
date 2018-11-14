@@ -6,6 +6,8 @@ from pkg_resources import parse_version
 import re
 
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as expected
+from selenium.webdriver.support.color import Color
 
 from tests.utils import retry_stale_element_reference_exception
 
@@ -24,6 +26,7 @@ class Content(Page):
         By.CSS_SELECTOR, '#content div.latest span[data-l10n-id="media-latest-content"] a'
     )
     _main_content_section_locator = (By.ID, 'main-content')
+    _table_of_contents_div_locator = (By.CSS_SELECTOR, ".table-of-contents")
     _section_title_div_locator = (By.CSS_SELECTOR, '#main-content div.media-header div.title')
     _chapter_section_span_locator = (By.CSS_SELECTOR, 'span.title-chapter,span.os-number')
     _get_this_book_button_locator = (
@@ -31,6 +34,10 @@ class Content(Page):
                           ' button[type="submit"][data-l10n-id="textbook-view-btn-get-this-book"]')
     )
     _ncy_locator = (By.CLASS_NAME, 'not-converted-yet')
+    _go_to_book_link_locator = (By.CSS_SELECTOR, 'li:nth-child(3) > div > a')
+    _left_nav_book_title_locator = (By.CSS_SELECTOR, 'div.booksContaining > ul > li:nth-child(1) '
+                                                     '> div > a > b')
+    _sub_regex = re.compile(r'[^A-Za-z0-9 ]+')
 
     @property
     def loaded(self):
@@ -57,6 +64,11 @@ class Content(Page):
         return self.content_header.title
 
     @property
+    def clean_title(self):
+        """Returns a version of the title without special characters"""
+        return re.sub(self._sub_regex, '', self.content_header.title)
+
+    @property
     def share(self):
         return self.content_header.share
 
@@ -67,6 +79,18 @@ class Content(Page):
     @property
     def main_content_section(self):
         return self.find_element(*self._main_content_section_locator)
+
+    @property
+    def table_of_contents_div(self):
+        return self.find_element(*self._table_of_contents_div_locator)
+
+    @property
+    def table_of_contents(self):
+        return self.TableOfContents(self)
+
+    @property
+    def in_book_search_results(self):
+        return self.InBookSearchResults(self)
 
     # The media-header div can be reloaded at seemingly random times
     # Any method that accesses an element inside this header
@@ -80,6 +104,16 @@ class Content(Page):
     @retry_stale_element_reference_exception
     def section_title_div(self):
         return self.find_element(*self._section_title_div_locator)
+
+    @property
+    @retry_stale_element_reference_exception
+    def section_title_div_location(self):
+        return self.section_title_div.location
+
+    @property
+    @retry_stale_element_reference_exception
+    def section_title_div_size(self):
+        return self.section_title_div.size
 
     @property
     @retry_stale_element_reference_exception
@@ -113,6 +147,14 @@ class Content(Page):
     @property
     def is_ncy_displayed(self):
         return self.is_element_displayed(*self._ncy_locator)
+
+    @property
+    def is_go_to_book_link_present(self):
+        return self.is_element_present(*self._go_to_book_link_locator)
+
+    @property
+    def get_left_nav_book_title(self):
+        return self.find_element(*self._left_nav_book_title_locator)
 
     @property
     def content_region(self):
@@ -221,7 +263,6 @@ class Content(Page):
             _root_locator = (By.CSS_SELECTOR, '#content div.pinnable div.share')
             _facebook_share_link_locator = (By.CSS_SELECTOR, 'ul li a.facebook')
             _twitter_share_link_locator = (By.CSS_SELECTOR, 'ul li a.twitter')
-            _google_share_link_locator = (By.CSS_SELECTOR, 'ul li a.google')
             _linkedin_share_link_locator = (By.CSS_SELECTOR, 'ul li a.linkedin')
 
             @property
@@ -247,18 +288,6 @@ class Content(Page):
             @property
             def twitter_share_url(self):
                 return self.twitter_share_link.get_attribute('href')
-
-            @property
-            def is_google_share_link_displayed(self):
-                return self.is_element_displayed(*self._google_share_link_locator)
-
-            @property
-            def google_share_link(self):
-                return self.find_element(*self._google_share_link_locator)
-
-            @property
-            def google_share_url(self):
-                return self.google_share_link.get_attribute('href')
 
             @property
             def is_linkedin_share_link_displayed(self):
@@ -333,17 +362,14 @@ class Content(Page):
             def next_link(self):
                 return self.find_element(*self._next_link_locator)
 
-            @property
-            def table_of_contents(self):
-                return self.TableOfContents(self.page)
-
-            @property
-            def in_book_search_results(self):
-                return self.InBookSearchResults(self.page)
-
             def click_contents_button(self):
-                self.contents_button.click()
-                return self.table_of_contents.wait_for_region_to_display()
+                if 'open' in self.contents_button.get_attribute('class'):
+                    self.contents_button.click()
+                    return self.wait.until(
+                        expected.invisibility_of_element_located(self.page.table_of_contents_div))
+                else:
+                    self.contents_button.click()
+                    return self.page.table_of_contents.wait_for_region_to_display()
 
             def search(self, query):
                 searchbar = self.searchbar
@@ -356,7 +382,7 @@ class Content(Page):
                     .send_keys(query) \
                     .send_keys(Keys.ENTER) \
                     .perform()
-                return self.in_book_search_results.wait_for_region_to_display()
+                return self.page.in_book_search_results.wait_for_region_to_display()
 
             def click_back_link(self):
                 current_url = self.driver.current_url
@@ -371,129 +397,144 @@ class Content(Page):
                 self.next_link.click()
                 return self.page.wait_for_url_to_change(current_url)
 
-            class TableOfContents(Region):
-                _root_locator = (By.CSS_SELECTOR,
-                                 '#content div.sidebar div.table-of-contents div.toc')
-                _chapter_div_locator = (By.CSS_SELECTOR, 'ul li div[data-expandable="true"]')
-                _page_link_locator = (By.CSS_SELECTOR, 'ul li a')
+    class TableOfContents(Region):
+        _root_locator = (By.CLASS_NAME, 'table-of-contents')
+        _chapter_div_locator = (By.CSS_SELECTOR, 'ul li div[data-expandable="true"]')
+        _page_link_locator = (By.CSS_SELECTOR, 'ul li a')
+        _active_page_locator = (By.CSS_SELECTOR, '.table-of-contents>.toc ul '
+                                                 'li>div>.name-wrapper .active')
 
-                @property
-                def number_of_chapters(self):
-                    return len(self.find_elements(*self._chapter_div_locator))
+        @property
+        def number_of_chapters(self):
+            return len(self.find_elements(*self._chapter_div_locator))
 
-                @property
-                def number_of_pages(self):
-                    return len(self.find_elements(*self._page_link_locator))
+        @property
+        def number_of_pages(self):
+            return len(self.find_elements(*self._page_link_locator))
 
-                @property
-                def chapters(self):
-                    return [self.ContentChapter(self.page, self.root, index) for index
-                            in range(len(self.find_elements(*self._chapter_div_locator)))]
+        @property
+        def chapters(self):
+            return [self.ContentChapter(self.page, self.root, index) for index
+                    in range(len(self.find_elements(*self._chapter_div_locator)))]
 
-                class ContentChapter(ContentItem):
-                    _root_locator_template = ("(.//ul//li[descendant::div"
-                                              "[@data-expandable='true']])[{index}]")
-                    _page_link_locator = (By.CSS_SELECTOR, 'ul li a')
+        @property
+        def active_page_color(self):
+            active_page = self.find_element(*self._active_page_locator)
+            rgba = active_page.value_of_css_property('color')
+            hex = Color.from_string(rgba).hex
+            return hex
 
-                    @property
-                    def has_pages(self):
-                        return self.is_element_displayed(*self._page_link_locator)
+        class ContentChapter(ContentItem):
+            _root_locator_template = ("(.//ul//li[descendant::div"
+                                      "[@data-expandable='true']])[{index}]")
+            _page_link_locator = (By.CSS_SELECTOR, 'ul li a')
 
-                    @property
-                    def pages(self):
-                        return [self.ContentPage(self.page, self.root, index) for index
-                                in range(len(self.find_elements(*self._page_link_locator)))]
+            @property
+            def has_pages(self):
+                return self.is_element_displayed(*self._page_link_locator)
 
-                    def click(self):
-                        self.root.click()
-                        chapter = self.__class__(self.page, self.parent_root, self.index)
-                        return chapter.wait_for_region_to_display()
+            @property
+            def pages(self):
+                return [self.ContentPage(self.page, self.root, index) for index
+                        in range(len(self.find_elements(*self._page_link_locator)))]
 
-                    class ContentPage(ContentItem):
-                        _root_locator_template = "(.//ul[@data-expanded='true']//li//a)[{index}]"
+            def click(self):
+                self.root.click()
+                chapter = self.__class__(self.page, self.parent_root, self.index)
+                return chapter.wait_for_region_to_display()
 
-                        def click(self):
-                            current_url = self.driver.current_url
-                            self.root.click()
-                            return self.page.wait_for_url_to_change(current_url)
+            class ContentPage(ContentItem):
+                _root_locator_template = "(.//ul[@data-expanded='true']//li//a)[{index}]"
+                _title_locator = (By.CSS_SELECTOR, "span.title")
 
-            class InBookSearchResults(Region):
-                _root_locator = (By.CSS_SELECTOR, '#content div.sidebar div.table-of-contents')
-                _result_count_div_locator = (By.CSS_SELECTOR, 'div.result-count')
-                _results_locator = (By.XPATH,
-                                    (".//div[contains(@class, 'toc')]"
-                                     "//ul//li[./div/span[contains(@class, 'name-wrapper')]//a]"))
+                def click(self):
+                    current_url = self.driver.current_url
+                    self.root.click()
+                    return self.page.wait_for_url_to_change(current_url)
 
-                @property
-                def result_count_div(self):
-                    return self.find_element(*self._result_count_div_locator)
+                def color(self):
+                    title = self.find_element(*self._title_locator)
+                    rgba = title.value_of_css_property("color")
+                    hex = Color.from_string(rgba).hex
+                    return hex
 
-                @property
-                def result_count(self):
-                    import json
-                    return json.loads(self.result_count_div.get_attribute('data-l10n-args'))['hits']
+    class InBookSearchResults(Region):
+        _root_locator = (By.CSS_SELECTOR, '#content div.sidebar div.table-of-contents')
+        _result_count_div_locator = (By.CSS_SELECTOR, 'div.result-count')
+        _results_locator = (By.XPATH,
+                            (".//div[contains(@class, 'toc')]"
+                             "//ul//li[./div/span[contains(@class, 'name-wrapper')]//a]"))
 
-                @property
-                def results(self):
-                    elements = self.find_elements(*self._results_locator)
-                    return [self.InBookResult(self.page, element) for element in elements]
+        @property
+        def result_count_div(self):
+            return self.find_element(*self._result_count_div_locator)
 
-                class InBookResult(Region):
-                    _link_locator = (By.CSS_SELECTOR, 'span.name-wrapper a')
-                    _chapter_section_span_locator = (By.CSS_SELECTOR,
-                                                     'span.chapter-number,span.os-number')
-                    _title_span_locator = (By.CSS_SELECTOR, 'span.title')
-                    _content_q_locator = (By.CSS_SELECTOR, 'div.snippet q')
-                    _bold_locator = (By.CSS_SELECTOR, 'span.q-match')
+        @property
+        def result_count(self):
+            import json
+            return json.loads(self.result_count_div.get_attribute('data-l10n-args'))['hits']
 
-                    @property
-                    def is_link_present(self):
-                        return self.is_element_present(*self._link_locator)
+        @property
+        def results(self):
+            elements = self.find_elements(*self._results_locator)
+            return [self.InBookResult(self.page, element) for element in elements]
 
-                    @property
-                    def link(self):
-                        return self.find_element(*self._link_locator)
+        class InBookResult(Region):
+            _link_locator = (By.CSS_SELECTOR, 'span.name-wrapper a')
+            _chapter_section_span_locator = (By.CSS_SELECTOR,
+                                             'span.chapter-number,span.os-number')
+            _title_span_locator = (By.CSS_SELECTOR, 'span.title')
+            _content_q_locator = (By.CSS_SELECTOR, 'div.snippet q')
+            _bold_locator = (By.CSS_SELECTOR, 'span.q-match')
 
-                    @property
-                    def chapter_section_span(self):
-                        return self.link.find_element(*self._chapter_section_span_locator)
+            @property
+            def is_link_present(self):
+                return self.is_element_present(*self._link_locator)
 
-                    @property
-                    def chapter_section(self):
-                        return self.chapter_section_span.text
+            @property
+            def link(self):
+                return self.find_element(*self._link_locator)
 
-                    @property
-                    def title_span(self):
-                        return self.link.find_element(*self._title_span_locator)
+            @property
+            def chapter_section_span(self):
+                return self.link.find_element(*self._chapter_section_span_locator)
 
-                    @property
-                    def title(self):
-                        return self.title_span.text.replace(self.chapter_section, '').lstrip()
+            @property
+            def chapter_section(self):
+                return self.chapter_section_span.text
 
-                    @property
-                    def content_q(self):
-                        return self.link.find_element(*self._content_q_locator)
+            @property
+            def title_span(self):
+                return self.link.find_element(*self._title_span_locator)
 
-                    @property
-                    def content(self):
-                        return self.content_q.text
+            @property
+            def title(self):
+                return self.title_span.text.replace(self.chapter_section, '').lstrip()
 
-                    @property
-                    def bolds(self):
-                        return self.content_q.find_elements(*self._bold_locator)
+            @property
+            def content_q(self):
+                return self.link.find_element(*self._content_q_locator)
 
-                    def count_occurrences(self, word):
-                        return self.content.lower().count(word.lower())
+            @property
+            def content(self):
+                return self.content_q.text
 
-                    def count_bold_occurrences(self, word):
-                        lowercase_word = word.lower()
-                        return len([bold for bold in self.bolds
-                                    if lowercase_word in bold.text.lower()])
+            @property
+            def bolds(self):
+                return self.content_q.find_elements(*self._bold_locator)
 
-                    def click_link(self):
-                        current_url = self.driver.current_url
-                        self.link.click()
-                        return self.page.wait_for_url_to_change(current_url)
+            def count_occurrences(self, word):
+                return self.content.lower().count(word.lower())
+
+            def count_bold_occurrences(self, word):
+                lowercase_word = word.lower()
+                return len([bold for bold in self.bolds
+                            if lowercase_word in bold.text.lower()])
+
+            def click_link(self):
+                current_url = self.driver.current_url
+                self.link.click()
+                return self.page.wait_for_url_to_change(current_url)
 
     # This entire region can be overwritten (and the modal automatically closed) at any time,
     # so any tests that use it must be ready to retry StaleElementReferenceExceptions
@@ -612,9 +653,20 @@ class Content(Page):
         def index_terms(self):
             return self.find_elements(*self._index_terms_locator)
 
-        def click_anchor_link(self, index=0):
+        def _is_link_element_internal(self, current_url, element):
+            is_internal = False
+            url = element.get_attribute('href')
+            if url.startswith(current_url) or url.startswith('#'):
+                is_internal = True
+            return is_internal
+
+        def click_anchor_link(self, index=0, internal_only=False):
             current_url = self.driver.current_url
-            anchor_link = self.anchor_links[index]
+            anchor_link = [
+                link
+                for link in self.anchor_links
+                if internal_only and self._is_link_element_internal(current_url, link)
+            ][index]
             self.offscreen_click(anchor_link)
             return self.page.wait_for_url_to_change(current_url)
 

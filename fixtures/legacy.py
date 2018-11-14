@@ -9,7 +9,8 @@ from tests.utils import skip_if_destructive_and_sensitive
 
 LEGACY_DATA_DIR = os.path.join(os.path.realpath(os.path.dirname(__file__)), 'data', 'legacy')
 
-__all__ = ['legacy_base_url', 'legacy_username', 'legacy_password', 'm46922_1_13_cnxml_filepath']
+__all__ = ['legacy_base_url', 'legacy_username', 'legacy_password',
+           'm46922_1_13_cnxml_filepath', 'sample_mathml3_cnxml_filepath']
 
 
 @pytest.fixture
@@ -44,3 +45,9 @@ def legacy_password(request):
 def m46922_1_13_cnxml_filepath(request):
     """Returns the path to the source CNXML file for module m46922@1.13 (for upload)"""
     return os.path.join(LEGACY_DATA_DIR, 'm46922_1.13.cnxml')
+
+
+@pytest.fixture(scope='session')
+def sample_mathml3_cnxml_filepath(request):
+    """Returns the path to the source CNXML file for sample mathml3 (for upload)"""
+    return os.path.join(LEGACY_DATA_DIR, 'sample_mathml3.cnxml')

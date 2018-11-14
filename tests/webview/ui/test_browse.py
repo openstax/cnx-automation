@@ -36,7 +36,7 @@ def test_subject_categories_load(webview_base_url, selenium):
     browse_page = page.header.click_search()
 
     # Then The subject categories are loaded
-    assert len(browse_page.subject_list) > 0
+    assert len(browse_page.search_category_list) > 0
 
 
 @markers.webview
@@ -46,13 +46,25 @@ def test_subject_categories_have_page_and_book_counts(webview_base_url, selenium
     # GIVEN the home page
     home = Home(selenium, webview_base_url).open()
 
-    # When the browse link in the navbar is clicked
+    # WHEN the browse link in the navbar is clicked
     browse = home.header.click_search()
 
-    # Then the subject categories have page and book counts
-    for subject in browse.subject_list:
-        assert subject.pages_count > 0
-        assert subject.books_count > 0
+    # Look for counts in any catagory. When working with a test dataset
+    # not all subjects will have content. Therefore, we test that
+    # at least one of the subjects has a count. This effectively tests
+    # the communication between the browser and the web api as well as the
+    # browser's ability to render the results.
+    page_counts = set([])
+    book_counts = set([])
+
+    # Record the subject category count for pages and books
+    for subject in browse.search_category_list:
+        page_counts.add(subject.pages_count)
+        book_counts.add(subject.books_count)
+
+    # THEN verify one or more subject categories have a count
+    assert True in [c > 0 for c in page_counts]
+    assert True in [c > 0 for c in book_counts]
 
 
 @markers.webview
@@ -64,7 +76,7 @@ def test_click_subject_category(webview_base_url, selenium):
     browse = home.header.click_search()
 
     # WHEN a subject category is clicked
-    subject = browse.subject_list[0]
+    subject = browse.search_category_list[3]
     subject_name = subject.name
     search_results = subject.click()
 

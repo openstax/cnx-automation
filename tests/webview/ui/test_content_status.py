@@ -8,6 +8,8 @@ from pages.webview.content_status import ContentStatus
 
 
 @markers.webview
+@markers.requires_varnish_routing
+@markers.requires_publishing
 @markers.test_case('C175149')
 @markers.nondestructive
 def test_content_status_styles(webview_base_url, selenium):
@@ -21,7 +23,8 @@ def test_content_status_styles(webview_base_url, selenium):
         'started': {'icon': 'fa-hourglass-2', 'color': yellow},
         'retry': {'icon': 'fa-repeat', 'color': gray},
         'failure': {'icon': 'fa-close', 'color': red},
-        'success': {'icon': 'fa-check-square', 'color': green}
+        'success': {'icon': 'fa-check-square', 'color': green},
+        'fallback': {'icon': 'fa-check-square', 'color': yellow}
     }
     expected_border_style = 'solid'
     expected_border_width = '1px'

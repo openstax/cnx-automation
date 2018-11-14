@@ -1,6 +1,8 @@
 # This Source Code Form is subject to the terms of the Mozilla Public
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
+import random
+import re
 
 from selenium.webdriver.common.by import By
 
@@ -40,6 +42,10 @@ class Home(Page):
             items = self.find_elements(*self._cnx_books_locator)
             return [Home.Book(self.page, el) for el in items]
 
+        def get_random_openstax_book(self):
+            books = self.openstax_list
+            return random.choice(books)
+
     class Book(Region):
         _show_more_locator = (By.CSS_SELECTOR, 'div.show-more-less a.more')
         _show_less_locator = (By.CSS_SELECTOR, 'div.show-more-less a.less')
@@ -48,6 +54,7 @@ class Home(Page):
         _book_cover_link_locator = (By.CSS_SELECTOR, '.book > a')
         _book_cover_img_locator = (By.CSS_SELECTOR, '.book > a > img')
         _title_link_locator = (By.CSS_SELECTOR, 'h3 > a')
+        _sub_regex = re.compile('[^A-Za-z0-9 ]+')
 
         @property
         def is_show_more_displayed(self):
@@ -82,6 +89,11 @@ class Home(Page):
         @property
         def title(self):
             return self.find_element(*self._book_name_locator).text
+
+        @property
+        def clean_title(self):
+            """Returns a version of the title without special characters"""
+            return re.sub(self._sub_regex, '', self.title)
 
         @property
         def intro(self):

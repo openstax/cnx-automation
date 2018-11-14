@@ -9,7 +9,7 @@ from parsers.cnx_deploy.base import Parser
 
 class RequirementsParser(Parser):
     _git_requirement_regex = compile(
-        '^(?:-e )?git\+(?P<repository>[^@]+)(?:@(?P<version>[^#]+))?#egg=(?P<name>.+)$')
+        r'^(?:-e )?git\+(?P<repository>[^@]+)(?:@(?P<version>[^#]+))?#egg=(?P<name>.+)$')
 
     def is_blank(self, line):
         """Returns whether or not the line is blank."""

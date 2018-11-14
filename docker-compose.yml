@@ -1,5 +1,4 @@
-version: "3"
-
+version: '3'
 services:
   selenium-chrome:
     environment:
@@ -14,7 +13,7 @@ services:
       - LEGACY_PASSWORD
       - NEB_ENV
       - WEBVIEW_BASE_URL
-    image: openstax/standalone-chrome-debug:latest
+    build: .
     volumes:
       - .:/code
     expose:

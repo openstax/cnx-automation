@@ -11,7 +11,7 @@ from os.path import join
 
 # Property class methods: https://stackoverflow.com/a/5189765
 class MetaNeb(type):
-    _version_regex = re.compile('^Nebuchadnezzar (.*)$')
+    _version_regex = re.compile(r'^Nebuchadnezzar (.*)$')
 
     def run(cls, *args, **kwargs):
         """Runs Neb and returns a tuple containing stdout, stderr and the returncode"""

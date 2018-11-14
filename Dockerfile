@@ -1,31 +1,20 @@
-# Inspired by: https://hub.docker.com/r/b4handjr/selenium-firefox/~/dockerfile/
-FROM selenium/standalone-chrome-debug
+FROM openstax/selenium-chrome-debug:latest
 
 USER root
 
-# Install higher level packages
-RUN apt-get update -qqy \
-  && apt-get -qqy install \
-    curl \
-    software-properties-common \
-    python-software-properties \
-  && add-apt-repository ppa:jonathonf/python-3.6
+# Install wait-for and dependencies
+RUN set -x \
+  && apt-get update \
+  && apt-get install curl netcat --no-install-recommends -qqy \
+  && rm -rf /var/lib/apt/lists/* \
+  && curl https://raw.githubusercontent.com/eficode/wait-for/828386460d138e418c31a1ebf87d9a40f5cedc32/wait-for -o /usr/local/bin/wait-for \
+  && chmod a+x /usr/local/bin/wait-for
 
-# Install python3.6
-RUN apt-get update -qqy \
-  && apt-get -qqy install \
-    python3.6 \
-    python3-pip \
-    python3.6-dev \
-    build-essential \
-  && pip3 install --upgrade pip
+COPY --chown=seluser:seluser . /code
+
+WORKDIR /code
 
 # Install Tox
 RUN pip3 install tox
 
-WORKDIR /code
-
 USER seluser
-
-EXPOSE 5900
-EXPOSE 4444

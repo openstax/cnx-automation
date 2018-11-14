@@ -255,7 +255,7 @@ def test_advanced_search(webview_base_url, selenium):
         'Author': 'OpenStax',
         'Title': 'Concepts of Biology',
         'Subject': 'Science and Technology',
-        'Keyword': ['Boreal', 'Aardvark'],
+        'Keyword': ['archaea', 'bacteria'],
         'Type': 'book',
         'Language': 'en',
         'Publication Date': '2018'

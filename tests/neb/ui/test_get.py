@@ -36,7 +36,7 @@ def test_get_no_env():
     # THEN neb exits with an error and the usage message is displayed
     assert returncode > 0
     assert 'Usage: neb get ' in stderr
-    assert 'Error: Missing argument "env"' in stderr
+    assert 'Error: Missing argument "ENV"' in stderr
 
 
 @markers.neb
@@ -51,7 +51,7 @@ def test_get_no_col_id(neb_env):
     # THEN neb exits with an error and the usage message is displayed
     assert returncode > 0
     assert 'Usage: neb get ' in stderr
-    assert 'Error: Missing argument "col_id"' in stderr
+    assert 'Error: Missing argument "COL_ID"' in stderr
 
 
 @markers.neb
@@ -67,7 +67,7 @@ def test_get_no_col_version(neb_env, col_id):
     # THEN neb exits with an error and the usage message is displayed
     assert returncode > 0
     assert 'Usage: neb get ' in stderr
-    assert 'Error: Missing argument "col_version"' in stderr
+    assert 'Error: Missing argument "COL_VERSION"' in stderr
 
 
 @markers.neb

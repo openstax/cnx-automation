@@ -16,7 +16,7 @@ class Browse(Page):
     _advanced_search_link_locator = (By.CSS_SELECTOR, 'a.advanced-search')
     _main_content_locator = (By.ID, 'main-content')
     _browse_content_locator = (By.CSS_SELECTOR, 'div.browse-content')
-    _subject_list_locator = (By.CSS_SELECTOR, '.browse-content > ul > li')
+    _search_category_locator = (By.CLASS_NAME, 'search-category')
 
     @property
     def is_search_input_displayed(self):
@@ -36,8 +36,8 @@ class Browse(Page):
         return main_content.is_displayed()
 
     @property
-    def subject_list(self):
-        items = self.find_elements(*self._subject_list_locator)
+    def search_category_list(self):
+        items = self.find_elements(*self._search_category_locator)
         return [self.Subject(self, el) for el in items]
 
     @property
@@ -48,8 +48,8 @@ class Browse(Page):
     def loaded(self):
         # The search page is fully loaded when the subject list is displayed
         # There's no need to check for the search field/button (which load before the list)
-        return (len(self.subject_list) > 0 and
-                self.subject_list[0].name and
+        return (len(self.search_category_list) > 0 and
+                self.search_category_list[0].name and
                 self.is_main_content_displayed)
 
     def search(self, query):

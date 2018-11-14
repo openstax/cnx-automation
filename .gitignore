@@ -115,3 +115,7 @@ assets/
 
 # TestRail config
 testrail.cfg
+
+# Make build files
+.state
+*.sql.gz

@@ -1,7 +1,10 @@
-.PHONY: clean clean-test clean-pyc clean-build help
+STATEDIR = $(PWD)/.state
+
+.PHONY: clean clean-test clean-pyc clean-build venv help
 .DEFAULT_GOAL := help
 
-clean: clean-build clean-pyc clean-test
+
+clean: clean-build clean-pyc clean-state clean-test
 
 clean-build: ## remove build artifacts
 	rm -fr build/
@@ -15,6 +18,9 @@ clean-pyc: ## remove Python file artifacts
 	find . -name '*.pyo' -exec rm -f {} +
 	find . -name '*~' -exec rm -f {} +
 	find . -name '__pycache__' -exec rm -fr {} +
+
+clean-state: ## remove the build state
+	rm -rf $(STATEDIR)
 
 clean-test: ## remove test and coverage artifacts
 	rm -fr .tox/
@@ -31,4 +37,6 @@ help:
 	@echo "clean			Remove build, test, and file artifacts"
 	@echo "clean-build 		Remove build artifacts"
 	@echo "clean-pyc		Remove file artifacts"
+	@echo "clean-state		Remove make's build state"
 	@echo "clean-test		Remove test artifacts"
+	@echo "venv			Set up a virtualenv for this project"

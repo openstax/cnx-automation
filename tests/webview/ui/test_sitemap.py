@@ -8,6 +8,7 @@ from pages.webview.sitemap_index import SitemapIndex
 
 
 @markers.webview
+@markers.requires_varnish_routing
 @markers.test_case('C205363')
 @markers.parametrize('author_username,author_name', [('Beatrice_Riviere', 'Beatrice Riviere'),
                                                      ('richb', 'Richard Baraniuk')])

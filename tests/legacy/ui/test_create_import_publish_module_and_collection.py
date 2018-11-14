@@ -170,3 +170,107 @@ class TestCreateImportPublishModuleAndCollection(object):
                                         legacy_id=content_published.id).open()
         assert archive_content.title == 'CNX Automation Test Collection'
         snapshot.assert_dict_match(archive_content.stable_dict, 'legacy/col_with_m46922_1.13.json')
+
+    @markers.legacy
+    @markers.test_case('C195231')
+    @markers.slow
+    def test_new_collection_without_summary(self, legacy_base_url, legacy_username,
+                                            legacy_password, selenium):
+        # GIVEN a logged in user on their dashboard
+        login_page = LoginForm(selenium, legacy_base_url).open()
+        my_cnx = login_page.login(legacy_username, legacy_password)
+
+        # WHEN the user clicks to create a new collection,
+        # agrees to the license and fills in the Title
+        cc_license = my_cnx.create_collection()
+        metadata_edit = cc_license.agree().submit()
+        collection_edit = metadata_edit.fill_in_title('CNX Automation Test Collection').submit()
+
+        # THEN changes are saved
+        assert collection_edit.portal_msg == 'Changes saved.'
+
+    @markers.legacy
+    @markers.test_case('C195231')
+    @markers.slow
+    def test_mathmal3_valid_in_legacy(self, legacy_base_url, legacy_username,
+                                      legacy_password, sample_mathml3_cnxml_filepath, selenium):
+        # GIVEN a logged in user on their dashboard, and the sample mathml3
+        with open(sample_mathml3_cnxml_filepath) as file:
+            sample = file.read()
+        login_page = LoginForm(selenium, legacy_base_url).open()
+        my_cnx = login_page.login(legacy_username, legacy_password)
+
+        # WHEN the user clicks to create a new module,
+        # agrees to the license and fills in the Title
+        cc_license = my_cnx.create_module()
+        metadata_edit = cc_license.agree().submit()
+        module_edit = metadata_edit.fill_in_title('CNX Automation Test MathMl3').submit()
+
+        # AND click full source editing to edit
+        module_edit.edit_method.full_source_editing()
+        module_edit.edit_content_text(sample)
+
+        # THEN save and msg shows 'Saved'
+        module_edit.save()
+        assert module_edit.portal_msg == 'Saved.'
+
+    @markers.legacy
+    @markers.test_case('C175153')
+    @markers.slow
+    def test_empty_collection_publish_not_allowed(self, legacy_base_url, legacy_username,
+                                                  legacy_password, selenium):
+        # GIVEN a logged in user on their dashboard
+        login_page = LoginForm(selenium, legacy_base_url).open()
+        my_cnx = login_page.login(legacy_username, legacy_password)
+
+        # WHEN the user clicks to create a new collection,
+        # agrees to the license and fills in the Title
+        cc_license = my_cnx.create_collection()
+        metadata_edit = cc_license.agree().submit()
+        collection_edit = metadata_edit.fill_in_title('CNX Automation Test Collection').submit()
+
+        # THEN click publish and publish is blocked (block msg, no submit button)
+        content_published = collection_edit.publish()
+        assert content_published.is_block_msg_displayed
+        assert content_published.block_msg.text == 'PUBLISH BLOCKED: ' \
+                                                   'This collection has no content. ' \
+                                                   'You will not be able to ' \
+                                                   'publish until you add some.'
+
+    @markers.legacy
+    @markers.test_case('C195230')
+    @markers.slow
+    @markers.parametrize('collection_id', ['col10699'])
+    def test_reorder_author(self, legacy_base_url, legacy_username,
+                            legacy_password, collection_id, selenium):
+        # GIVEN a logged in user on their dashboard with a collection created in the previous test
+        login_page = LoginForm(selenium, legacy_base_url).open()
+        my_cnx = login_page.login(legacy_username, legacy_password)
+        collections = my_cnx.click_workspace_collection()
+
+        if collections.has_content is None:
+            pytest.skip('This test requires a CNX collection and '
+                        'a CNX module from previous tests that failed')
+
+        # WHEN choose the collection for test and click on Roles tab
+        cols = collections.collection_list
+
+        test_col = -1
+        for col_idx in range(len(cols)):
+            if cols[col_idx].collection_id == collection_id:
+                test_col = col_idx
+
+        if test_col == -1:
+            pytest.skip('This test requires a specific CNX collection '
+                        'and test failed to find')
+
+        workspace_collection_edit = cols[test_col].click_collection_link()
+        roles_edit = workspace_collection_edit.click_roles_tab()
+
+        # THEN choose the first author and move it down, the first author changes
+        author = roles_edit.author_list[0]
+        old_author = author.name
+
+        author.order_control.click_move_item_down()
+
+        assert roles_edit.author_list[0].name != old_author
