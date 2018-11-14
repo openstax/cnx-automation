@@ -905,7 +905,6 @@ def test_books_containing_list_in_sorted_order(webview_base_url, selenium, page_
 
 
 @markers.webview
-@markers.xfail(reason='https://github.com/Connexions/webview/issues/2021')
 @markers.requires_complete_dataset
 @markers.test_case('C195055')
 @markers.nondestructive
@@ -955,9 +954,7 @@ def test_books_containing_list_is_on_left_of_page(webview_base_url, selenium, pa
 @markers.test_case('C195056')
 @markers.nondestructive
 @markers.parametrize('page_id', ['QlYg2VHd'])
-@markers.parametrize('width,height',
-                     [(1024, 768), pytest.param(630, 480, marks=markers.xfail(
-                         reason='https://github.com/Connexions/webview/issues/2021'))])
+@markers.parametrize('width,height', [(1024, 768), (630, 480)])
 def test_button_open_with_certain_window_size(webview_base_url, selenium, page_id, width, height):
     # GIVEN the webview base url, page_id, and the Selenium driver
 
