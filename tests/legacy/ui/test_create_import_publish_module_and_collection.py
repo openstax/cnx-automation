@@ -3,6 +3,7 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 import pytest
+from selenium.common.exceptions import NoSuchElementException
 
 from tests import markers
 
@@ -98,7 +99,10 @@ class TestCreateImportPublishModuleAndCollection(object):
         ).open()
         content_publish = module_edit.publish()
         confirm_publish = content_publish.submit()
-        content_published = confirm_publish.submit()
+        try:
+            content_published = confirm_publish.submit()
+        except NoSuchElementException:
+            pytest.fail("Publish button not found. Ensure your user has publish permissions")
 
         # THEN the user is brought to the published module page and the content is in CNX archive
         assert type(content_published) is ContentPublished
