@@ -178,4 +178,4 @@ def __init__(self, remote_server_addr, keep_alive=False, resolve_ip=True):
     }
 
 
-RemoteConnection.__init__ = __init__
+# RemoteConnection.__init__ = __init__
