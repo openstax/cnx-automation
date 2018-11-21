@@ -121,19 +121,25 @@ The tox examples above essentially pass the options after the `--` to the pytest
 To run a specific test, pass in a value for `-k`:
 
 ```bash
-$ pytest -k=test_my_feature tests/
+$ pytest -k test_my_feature
 ```
 
 To run a specific project, pass in `webview`, `legacy`, or `neb` for `-m`:
 
 ```bash
-$ pytest -m=webview tests/
+$ pytest -m webview
 ```
 
 To run a more complicated example that runs a specific project and a specific test module in headless mode:
 
 ```bash
-$ pytest -m=webview -k=test_home --headless tests/
+$ pytest -m webview -k test_home --headless
+```
+
+To run tests in parallel you can combine the above and use `-n` option to specify the number of workers.
+
+```bash
+$ pytest -n 4 -m webview
 ```
 
 ### Additional Pytest Options
