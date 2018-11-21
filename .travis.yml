@@ -15,9 +15,9 @@ env:
     - NEB_ENV=qa
     - WEBVIEW_BASE_URL=https://staging.cnx.org
   matrix:
-    - MARK=webview
-    - MARK=legacy RUNSLOW=true
-    - MARK=neb
+    - MARK=webview WORKERS=4
+    - MARK=legacy RUNSLOW=true WORKERS=1
+    - MARK=neb WORKERS=1
 
 addons:
   apt:
@@ -28,4 +28,4 @@ before_script:
   - ln -s /usr/lib/chromium-browser/chromedriver ~/bin/chromedriver
 
 script:
-  - tox -- -m $MARK -n 4 -vv
+  - tox -- -m $MARK -n $WORKERS -vv
