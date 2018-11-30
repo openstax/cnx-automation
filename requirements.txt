@@ -4,7 +4,7 @@ aspy.yaml==1.1.1
 atomicwrites==1.2.1
 attrs==18.2.0
 cached-property==1.5.1
-certifi==2018.10.15
+certifi==2018.11.29
 cffi==1.11.5
 cfgv==1.1.0
 chardet==3.0.4
