@@ -12,6 +12,20 @@ pipeline {
         sh "docker build -t openstax/cnx-automation:dev ."
       }
     }
+    stage('Publish Latest Release') {
+      /**
+       * We do this before running the tests, because even if some of the tests fail
+       * we'd like the updates to be used by the cnx codebase.
+       * The chances are good that it will function if it was accepted during a pull request.
+       */
+      when { branch 'master' }
+      steps {
+        withDockerRegistry([credentialsId: 'docker-registry', url: '']) {
+          sh "docker tag openstax/cnx-automation:dev openstax/cnx-automation:latest"
+          sh "docker push openstax/cnx-automation:latest"
+        }
+      }
+    }
     stage('Test Against staging.cnx.org') {
       // all branches
       steps {
@@ -27,15 +41,6 @@ pipeline {
           sh "docker stop ${env.TESTING_CONTAINER_NAME} && docker rm -f ${env.TESTING_CONTAINER_NAME}"
           // Report test results
           junit "xml-report/report.xml"
-        }
-      }
-    }
-    stage('Publish Latest Release') {
-      when { branch 'master' }
-      steps {
-        withDockerRegistry([credentialsId: 'docker-registry', url: '']) {
-          sh "docker tag openstax/cnx-automation:dev openstax/cnx-automation:latest"
-          sh "docker push openstax/cnx-automation:latest"
         }
       }
     }
