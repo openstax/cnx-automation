@@ -531,8 +531,12 @@ class Content(Page):
                 return self.link.find_element(*self._title_span_locator)
 
             @property
+            def title_with_section(self):
+                return "{0} {1}".format(self.chapter_section, self.title)
+
+            @property
             def title(self):
-                return self.title_span.text.replace(self.chapter_section, "").lstrip()
+                return self.title_span.text
 
             @property
             def content_q(self):

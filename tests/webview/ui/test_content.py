@@ -354,7 +354,7 @@ def test_in_book_search(
             assert result.count_occurrences(word) == result.count_bold_occurrences(word)
 
     result = results[result_index]
-    title = result.title
+    title = result.title_with_section
     content = result.click_link()
     assert content.section_title == title
 
