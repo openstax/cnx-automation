@@ -30,7 +30,7 @@ class Content(Page):
     _main_content_section_locator = (By.ID, "main-content")
     _table_of_contents_div_locator = (By.CSS_SELECTOR, ".table-of-contents")
     _section_title_div_locator = (By.CSS_SELECTOR, "#main-content div.media-header div.title")
-    _chapter_section_span_locator = (By.CSS_SELECTOR, "span.title-chapter,span.os-number")
+    _chapter_section_span_locator = (By.CSS_SELECTOR, "span.os-number")
     _get_this_book_button_locator = (
         By.CSS_SELECTOR,
         (
