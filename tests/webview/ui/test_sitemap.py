@@ -11,11 +11,13 @@ from pages.webview.sitemap_index import SitemapIndex
 @markers.requires_varnish_routing
 @markers.test_case("C205363")
 @markers.parametrize(
-    "author_username,author_name",
-    [("Beatrice_Riviere", "Beatrice Riviere"), ("richb", "Richard Baraniuk")],
+    "author_username,author_name,books_containing",
+    [("Beatrice_Riviere", "Beatrice Riviere", True), ("richb", "Richard Baraniuk", False)],
 )
 @markers.nondestructive
-def test_sitemap_is_segmented_by_author(webview_base_url, selenium, author_username, author_name):
+def test_sitemap_is_segmented_by_author(
+    webview_base_url, selenium, author_username, author_name, books_containing
+):
     # GIVEN the webview base url, the Selenium driver,
     #       the sitemap index, and an author's username and name
     sitemap_index = SitemapIndex(selenium, webview_base_url).open()
@@ -28,5 +30,5 @@ def test_sitemap_is_segmented_by_author(webview_base_url, selenium, author_usern
     # To make this test not take forever (and because we were having trouble
     # getting some of the modules to even load), we only test one of the modules
     url_region = sitemap.url_regions[0]
-    content = url_region.open()
+    content = url_region.open(books_containing=books_containing)
     assert author_name in content.content_header.authors

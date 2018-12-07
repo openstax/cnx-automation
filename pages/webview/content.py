@@ -48,7 +48,11 @@ class Content(Page):
 
     @property
     def loaded(self):
-        return self._url_regex.search(self.driver.current_url) and self.main_content_section.text
+        return (
+            self._url_regex.search(self.driver.current_url)
+            and self.main_content_section.text
+            and self.section_title_div
+        )
 
     @property
     def book_version(self):
