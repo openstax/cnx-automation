@@ -41,7 +41,7 @@ python-dateutil==2.7.5
 python-dotenv==0.9.1
 python-magic==0.4.15
 PyYAML==3.13
-requests==2.20.1
+requests==2.21.0
 selenium==3.141.0
 simplejson==3.16.0
 six==1.11.0
