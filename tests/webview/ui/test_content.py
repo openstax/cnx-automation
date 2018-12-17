@@ -226,10 +226,10 @@ def test_derived_from_content(webview_base_url, selenium, language, uuid):
     assert content_header.is_derived_from_displayed
 
     if language == "en":
-        expected = "Derived from Introduction to Sociology by OpenStax College"
+        expected = "Derived from Introduction to Sociology by OpenStax"
         assert content_header.derived_from_text == expected
     elif language == "pl":
-        expected = "Utworzone z Introduction to Sociology autorstwa OpenStax College"
+        expected = "Utworzone z Introduction to Sociology autorstwa OpenStax"
         assert content_header.derived_from_text == expected
 
 
@@ -372,6 +372,7 @@ def test_in_book_search(
 
 
 @markers.webview
+@markers.xfail(reason="LinkedIn link may or may not be correct")
 @markers.test_case("C176258", "C176259", "C176260", "C176261")
 @markers.nondestructive
 def test_share_links_displayed(webview_base_url, selenium):
@@ -434,20 +435,23 @@ def test_get_this_book(webview_base_url, selenium):
     if button_displayed:
         get_this_book = content.click_get_this_book_button()
         pdf_displayed = get_this_book.is_pdf_link_displayed
-        epub_displayed = get_this_book.is_epub_link_displayed
         offline_zip_displayed = get_this_book.is_offline_zip_link_displayed
 
-    # THEN links to download the pdf, epub and offline zip versions are displayed
+    # THEN links to download the pdf or offline zip versions are displayed
     # Look at the footer to see which downloads should have been available
     downloads = content.content_footer.click_downloads_tab()
 
     if not button_displayed:
         assert not downloads.is_any_available
         pytest.skip('No files available to download: "Get This Book!" button not present.')
+    else:
+        assert pdf_displayed or offline_zip_displayed
 
-    assert pdf_displayed == downloads.is_pdf_available
-    assert epub_displayed == downloads.is_epub_available
-    assert offline_zip_displayed == downloads.is_offline_zip_available
+    if pdf_displayed:
+        assert downloads.is_pdf_available
+
+    if offline_zip_displayed:
+        assert downloads.is_offline_zip_available
 
 
 @markers.webview
@@ -797,7 +801,7 @@ def test_ncy_is_not_displayed(webview_base_url, american_gov_uuid, selenium):
     "page_uuid,is_baked_book_index",
     [
         ("d50f6e32-0fda-46ef-a362-9bd36ca7c97d:" "72a3ef21-e30b-5ba4-9ea6-eac9699a2f09", True),
-        ("6a0568d8-23d7-439b-9a01-16e4e73886b3", False),
+        ("13ac107a-f15f-49d2-97e8-60ab2e3b519c:" "f7978ad8-ed27-4fe4-8a19-26a031ba97ad", False),
     ],
 )
 def test_id_links_and_back_button(page_uuid, is_baked_book_index, webview_base_url, selenium):
@@ -947,7 +951,7 @@ def test_books_containing_list_in_sorted_order(webview_base_url, selenium, page_
     # GIVEN the webview base url, page_id, and the Selenium driver
 
     # WHEN we visit that page of the chapter and we have a list of books containing page
-    content = Content(selenium, webview_base_url, id=page_id).open()
+    content = ContentPage(selenium, webview_base_url, id=page_id).open()
 
     # AND store the main author
     main_author = content.content_header.authors
