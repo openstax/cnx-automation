@@ -50,7 +50,7 @@ class Content(Page):
     def loaded(self):
         return (
             self._url_regex.search(self.driver.current_url)
-            and self.main_content_section.text
+            and self.main_content_section
             and self.section_title_div
         )
 

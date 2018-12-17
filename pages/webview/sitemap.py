@@ -42,14 +42,9 @@ class Sitemap(Page):
         def content_id(self):
             return self._url_regex.search(self.loc_url)[1]
 
-        def open(self, books_containing=False):
+        def open(self):
+            from pages.webview.content import Content
 
-            # The sitemap region tests two kinds of pages. We select the proper page and return it
-            if not books_containing:
-                from pages.webview.content import Content as page_class
-            else:
-                from pages.webview.content_page import ContentPage as page_class
-
-            return page_class(
+            return Content(
                 self.driver, self.page.base_url, self.page.timeout, id=self.content_id
             ).open()
