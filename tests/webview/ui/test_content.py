@@ -114,11 +114,15 @@ def test_content_status_codes(
 @markers.webview
 @markers.test_case("C194465")
 @markers.nondestructive
-@markers.parametrize('id', [
-    'AgQDEnLI@10.1:TrIRM88K@5',
-    'AgQDEnLI@10.1:XZe6d2Jr@9',
-    'AgQDEnLI@10.1:QMRfI2p1@8',
-    'eg-XcBxE@3.30:dh0GjBEd@2'])
+@markers.parametrize(
+    "id",
+    [
+        "AgQDEnLI@10.1:TrIRM88K@5",
+        "AgQDEnLI@10.1:XZe6d2Jr@9",
+        "AgQDEnLI@10.1:QMRfI2p1@8",
+        "eg-XcBxE@3.30:dh0GjBEd@2",
+    ],
+)
 def test_canonical_link_is_correct(webview_base_url, selenium, id):
     # GIVEN a book's content page
     content = Content(selenium, webview_base_url, id=id).open()
@@ -390,12 +394,6 @@ def test_share_links_displayed(webview_base_url, selenium):
         url=current_url, title=normalized_title
     )
     assert share.twitter_share_url == expected_twitter_url
-
-    expected_linkedin_url = (
-        "https://www.linkedin.com/shareArticle?mini=true&url={url}&title={title}&"
-        "summary=An%20OpenStax%20CNX%20book&source=OpenStax%20CNX"
-    ).format(url=current_url, title=normalized_title)
-    assert share.linkedin_share_url == expected_linkedin_url
 
 
 @markers.webview
