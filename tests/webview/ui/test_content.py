@@ -427,7 +427,6 @@ def test_get_this_book(webview_base_url, selenium):
     if button_displayed:
         get_this_book = content.click_get_this_book_button()
         pdf_displayed = get_this_book.is_pdf_link_displayed
-        epub_displayed = get_this_book.is_epub_link_displayed
         offline_zip_displayed = get_this_book.is_offline_zip_link_displayed
 
     # THEN links to download the pdf, epub and offline zip versions are displayed
@@ -437,10 +436,15 @@ def test_get_this_book(webview_base_url, selenium):
     if not button_displayed:
         assert not downloads.is_any_available
         pytest.skip('No files available to download: "Get This Book!" button not present.')
+    else:
+        assert pdf_displayed or offline_zip_displayed
 
-    assert pdf_displayed == downloads.is_pdf_available
-    assert epub_displayed == downloads.is_epub_available
-    assert offline_zip_displayed == downloads.is_offline_zip_available
+    # Check the footer
+    if pdf_displayed:
+        assert downloads.is_pdf_available
+
+    if offline_zip_displayed:
+        assert downloads.is_offline_zip_available
 
 
 @markers.webview

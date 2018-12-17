@@ -554,10 +554,6 @@ class Content(Page):
             By.XPATH,
             ".//div[contains(@class, 'download-book')]//ul//li//a[text()='PDF']",
         )
-        _epub_link_locator = (
-            By.XPATH,
-            ".//div[contains(@class, 'download-book')]//ul//li//a[text()='EPUB']",
-        )
         _offline_zip_link_locator = (
             By.XPATH,
             ".//div[contains(@class, 'download-book')]//ul//li//a[text()='Offline ZIP']",
@@ -611,10 +607,6 @@ class Content(Page):
         @property
         def is_pdf_link_displayed(self):
             return self.is_element_present(*self._pdf_link_locator)
-
-        @property
-        def is_epub_link_displayed(self):
-            return self.is_element_present(*self._epub_link_locator)
 
         @property
         def is_offline_zip_link_displayed(self):
