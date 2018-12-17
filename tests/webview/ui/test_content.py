@@ -395,12 +395,6 @@ def test_share_links_displayed(webview_base_url, selenium):
     )
     assert share.twitter_share_url == expected_twitter_url
 
-    expected_linkedin_url = (
-        "https://www.linkedin.com/shareArticle?mini=true&url={url}&title={title}&"
-        "summary=An%20OpenStax%20CNX%20book&source=OpenStax%20CNX"
-    ).format(url=current_url, title=normalized_title)
-    assert share.linkedin_share_url == expected_linkedin_url
-
 
 @markers.webview
 @markers.test_case("C193880")
