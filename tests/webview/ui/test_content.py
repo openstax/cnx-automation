@@ -114,11 +114,15 @@ def test_content_status_codes(
 @markers.webview
 @markers.test_case("C194465")
 @markers.nondestructive
-@markers.parametrize('id', [
-    'AgQDEnLI@10.1:TrIRM88K@5',
-    'AgQDEnLI@10.1:XZe6d2Jr@9',
-    'AgQDEnLI@10.1:QMRfI2p1@8',
-    'eg-XcBxE@3.30:dh0GjBEd@2'])
+@markers.parametrize(
+    "id",
+    [
+        "AgQDEnLI@10.1:TrIRM88K@5",
+        "AgQDEnLI@10.1:XZe6d2Jr@9",
+        "AgQDEnLI@10.1:QMRfI2p1@8",
+        "eg-XcBxE@3.30:dh0GjBEd@2",
+    ],
+)
 def test_canonical_link_is_correct(webview_base_url, selenium, id):
     # GIVEN a book's content page
     content = Content(selenium, webview_base_url, id=id).open()
@@ -222,10 +226,10 @@ def test_derived_from_content(webview_base_url, selenium, language, uuid):
     assert content_header.is_derived_from_displayed
 
     if language == "en":
-        expected = "Derived from Introduction to Sociology by OpenStax College"
+        expected = "Derived from Introduction to Sociology by OpenStax"
         assert content_header.derived_from_text == expected
     elif language == "pl":
-        expected = "Utworzone z Introduction to Sociology autorstwa OpenStax College"
+        expected = "Utworzone z Introduction to Sociology autorstwa OpenStax"
         assert content_header.derived_from_text == expected
 
 
