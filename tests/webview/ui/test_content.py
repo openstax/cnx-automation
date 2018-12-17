@@ -542,7 +542,6 @@ def test_nav_and_menus_display_after_scrolling(webview_base_url, selenium):
     assert not share.is_displayed
     assert not share.is_facebook_share_link_displayed
     assert not share.is_twitter_share_link_displayed
-    assert not share.is_linkedin_share_link_displayed
 
     # The footer is displayed at the bottom
     assert content_footer.is_displayed
@@ -596,7 +595,6 @@ def test_mobile_nav_and_menus_hide_after_scrolling(webview_base_url, selenium, w
     assert not share.is_displayed
     assert not share.is_facebook_share_link_displayed
     assert not share.is_twitter_share_link_displayed
-    assert not share.is_linkedin_share_link_displayed
 
     assert not content_header.is_pinned
     assert content_header.root.location["y"] == original_content_header_y
@@ -718,7 +716,6 @@ def test_back_to_top(webview_base_url, selenium):
     assert share.is_displayed
     assert share.is_facebook_share_link_displayed
     assert share.is_twitter_share_link_displayed
-    assert share.is_linkedin_share_link_displayed
 
     # The footer is offscreen, but still considered displayed
     assert footer.is_displayed
