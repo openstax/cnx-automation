@@ -293,7 +293,6 @@ def test_share_on_top_right_corner(webview_base_url, selenium):
     assert share.is_displayed
     assert share.is_facebook_share_link_displayed
     assert share.is_twitter_share_link_displayed
-    assert share.is_linkedin_share_link_displayed
     root = content.share.root
     # Top half
     assert root.location["y"] + root.size["height"] < selenium.get_window_size()["height"] / 2
