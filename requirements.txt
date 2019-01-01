@@ -17,7 +17,7 @@ filelock==3.0.10
 github3.py==1.2.0
 identify==1.1.7
 idna==2.7
-importlib-metadata==0.6
+importlib-metadata==0.8
 jwcrypto==0.6.0
 lxml==4.2.5
 more-itertools==4.3.0
