@@ -623,7 +623,6 @@ def test_mobile_nav_and_menus_hide_after_scrolling(webview_base_url, selenium, w
     assert not share.is_displayed
     assert not share.is_facebook_share_link_displayed
     assert not share.is_twitter_share_link_displayed
-    assert not share.is_linkedin_share_link_displayed
 
     assert content_header.is_pinned
     assert content_header.is_opened
@@ -743,7 +742,8 @@ def test_navigation(webview_base_url, selenium):
     num_pages = toc.number_of_pages
 
     assert type(content) == Content
-    assert content.chapter_section == "1"
+    # Introduction should be the first section loaded
+    assert content.section_title == "Introduction"
     # Preface is skipped by default
     assert header_nav.progress_bar_fraction_is(2 / num_pages)
 

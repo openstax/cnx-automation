@@ -135,7 +135,7 @@ class Content(Page):
     @property
     @retry_stale_element_reference_exception
     def section_title(self):
-        return self.section_title_div.text.replace(self.chapter_section, "").lstrip()
+        return self.section_title_div.text
 
     @property
     @retry_stale_element_reference_exception
@@ -846,9 +846,7 @@ class Content(Page):
 
             @property
             def is_any_available(self):
-                return (
-                    self.is_pdf_available or self.is_epub_available or self.is_offline_zip_available
-                )
+                return self.is_pdf_available or self.is_offline_zip_available
 
         class Attribution(Region):
             _root_locator = (
