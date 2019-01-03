@@ -623,7 +623,6 @@ def test_mobile_nav_and_menus_hide_after_scrolling(webview_base_url, selenium, w
     assert not share.is_displayed
     assert not share.is_facebook_share_link_displayed
     assert not share.is_twitter_share_link_displayed
-    assert not share.is_linkedin_share_link_displayed
 
     assert content_header.is_pinned
     assert content_header.is_opened
