@@ -743,7 +743,8 @@ def test_navigation(webview_base_url, selenium):
     num_pages = toc.number_of_pages
 
     assert type(content) == Content
-    assert content.chapter_section == "1"
+    # Introduction should be the first section loaded
+    assert content.section_title == "Introduction"
     # Preface is skipped by default
     assert header_nav.progress_bar_fraction_is(2 / num_pages)
 
