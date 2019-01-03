@@ -519,7 +519,11 @@ class Content(Page):
 
             @property
             def title(self):
-                return self.title_span.text.replace(self.chapter_section, "").lstrip()
+                return self.title_span.text
+
+            @property
+            def title_with_chapter_section(self):
+                return "{0} {1}".format(self.chapter_section, self.title)
 
             @property
             def content_q(self):
