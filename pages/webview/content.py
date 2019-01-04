@@ -139,6 +139,11 @@ class Content(Page):
 
     @property
     @retry_stale_element_reference_exception
+    def section_title_without_chapter_section(self):
+        return self.section_title_div.text.replace(self.chapter_section, "").lstrip()
+
+    @property
+    @retry_stale_element_reference_exception
     def is_get_this_book_button_displayed(self):
         # Wait for the downloads load bar to disappear
         self.content_footer.downloads.wait_for_region_to_load()
