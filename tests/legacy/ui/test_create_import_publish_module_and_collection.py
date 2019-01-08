@@ -73,6 +73,7 @@ class TestCreateImportPublishModuleAndCollection(object):
         assert module_edit.title == "CNX Automation Test Module"
         assert not module_edit.is_blank
 
+    @markers.xfail(reason="https://github.com/openstax/cnx/issues/220")
     @markers.legacy
     @markers.slow
     def test_publish_module(
