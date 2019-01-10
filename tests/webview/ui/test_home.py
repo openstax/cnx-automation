@@ -194,7 +194,7 @@ def test_title_link_loads_correct_page(webview_base_url, selenium):
     content = book.click_title_link()
     content_title = content.clean_title
 
-    title_ratio = similar(book_title, content_title)
+    title_ratio = similar(book_title.lower(), content_title.lower())
 
     # THEN compare the title from the home page and the content page for exact-ness.
     assert book_title == content_title or title_ratio >= sim_ratio
