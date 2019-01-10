@@ -69,6 +69,13 @@ and lint your code using flake8. This is IDE agnostic and runs only on checked i
 
     $ make precommit
 
+### Using dotenv for Environmental Variables
+
+Dotenv is used by the framework to load environmental variables from a `.env` file if it exists in the root of the project directory.
+
+This is useful for loading environment variables that use usernames. To use a .env file copy the example and fill out the values.
+
+    $ cp .env.example .env
 
 ### Set username and password for legacy tests
 
@@ -182,8 +189,6 @@ Use the `markers.text_case` decorator with case number to upload the results to 
 @markers.test_case('C10000', 'C10001')
 def test_foo_uploads_bar:
 ```
-
-
 
 ## Framework Design
 
