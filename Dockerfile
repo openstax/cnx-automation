@@ -15,6 +15,6 @@ COPY --chown=seluser:seluser . /code
 WORKDIR /code
 
 # Install Tox
-RUN pip3 install tox
+RUN pip3 install -r requirments.txt
 
 USER seluser
