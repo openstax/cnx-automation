@@ -1,6 +1,6 @@
 apipkg==1.5
 asn1crypto==0.24.0
-aspy.yaml==1.1.1
+aspy.yaml==1.1.2
 atomicwrites==1.2.1
 attrs==18.2.0
 cached-property==1.5.1
