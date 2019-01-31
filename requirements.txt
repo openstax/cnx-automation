@@ -28,7 +28,7 @@ pre-commit==1.13.0
 py==1.7.0
 pycparser==2.19
 PyPOM==2.2.0
-pytest==4.1.0
+pytest==4.2.0
 pytest-base-url==1.4.1
 pytest-forked==0.2
 pytest-html==1.19.0
