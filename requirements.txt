@@ -49,7 +49,7 @@ toml==0.10.0
 tox==3.6.1
 uritemplate==3.0.0
 urllib3==1.24.1
-virtualenv==16.2.0
+virtualenv==16.4.0
 zipp==0.3.3
 zope.component==4.5
 zope.deferredimport==4.3
