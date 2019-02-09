@@ -135,7 +135,9 @@ def test_canonical_link_is_correct(webview_base_url, selenium, id):
     # THEN we end up in the same page
     # NOTE: we check the section title instead of the url because the canonical link seems to
     #       take us to the latest version of the content, no matter which version we started on
-    assert content.section_title == section_title
+    # NOTE: Newer versions of the book may not have the section number. For this we check in the
+    #       section_title string instead of an equality.
+    assert content.section_title in section_title
 
 
 @markers.webview
