@@ -791,7 +791,7 @@ def test_ncy_is_not_displayed(webview_base_url, american_gov_uuid, selenium):
 @markers.parametrize(
     "page_uuid,is_baked_book_index",
     [
-        ("d50f6e32-0fda-46ef-a362-9bd36ca7c97d:" "72a3ef21-e30b-5ba4-9ea6-eac9699a2f09", True),
+        ("d50f6e32-0fda-46ef-a362-9bd36ca7c97d:a6f70a45-6c2b-5be8-9b67-294e3d917330", True),
         ("6a0568d8-23d7-439b-9a01-16e4e73886b3", False),
     ],
 )
