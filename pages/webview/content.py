@@ -135,6 +135,8 @@ class Content(Page):
     @property
     @retry_stale_element_reference_exception
     def section_title(self):
+        # We split on newline due to section title having a new line when it is
+        # a derived copy. In this case, we return the first part of the title.
         return self.section_title_div.text.split("\n")[0]
 
     @property
