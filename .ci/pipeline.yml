@@ -1,0 +1,25 @@
+resources:
+  - name: source-code
+    type: git
+    source:
+      uri: https://github.com/openstax/cnx-automation.git
+      branch: master
+
+  - name: cnx-auto-image
+    type: docker-image
+    source:
+      repository: openstax/cnx-automation
+      username: ((docker-hub-username))
+      password: ((docker-hub-password))
+
+jobs:
+  - name: build-and-publish-image
+    public: true
+    plan:
+      - get: source-code
+        trigger: true
+      - put: cnx-auto-image
+        params:
+          build: source-code
+          tag_file: source-code/.git/short_ref
+          tag_as_latest: true
