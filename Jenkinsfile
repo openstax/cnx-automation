@@ -8,9 +8,10 @@ pipeline {
   stages {
     stage('Test Against staging.cnx.org') {
       // all branches
+      when { branch 'master' }
       steps {
         sh "mkdir -p ${env.WORKSPACE}/xml-report"
-        sh "docker run -d --name ${env.TESTING_CONTAINER_NAME} -v ${env.WORKSPACE}/xml-report:/xml-report --env-file .jenkins/testing.env.list openstax/cnx-automation:dev"
+        sh "docker run -d --name ${env.TESTING_CONTAINER_NAME} -v ${env.WORKSPACE}/xml-report:/xml-report --env-file .jenkins/testing.env.list openstax/cnx-automation:latest"
         sh "docker exec ${env.TESTING_CONTAINER_NAME} pytest --new-first --failed-first -m 'webview or neb' --junitxml=report.xml"
       }
       post {
