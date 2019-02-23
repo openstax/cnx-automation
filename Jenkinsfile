@@ -6,32 +6,13 @@ pipeline {
     TESTING_CONTAINER_NAME = meta.getContainerName()
   }
   stages {
-    stage('Build Dev Container') {
-      // all branches
-      steps {
-        sh "docker build -t openstax/cnx-automation:dev ."
-      }
-    }
-    stage('Publish Latest Release') {
-      /**
-       * We do this before running the tests, because even if some of the tests fail
-       * we'd like the updates to be used by the cnx codebase.
-       * The chances are good that it will function if it was accepted during a pull request.
-       */
-      when { branch 'master' }
-      steps {
-        withDockerRegistry([credentialsId: 'docker-registry', url: '']) {
-          sh "docker tag openstax/cnx-automation:dev openstax/cnx-automation:latest"
-          sh "docker push openstax/cnx-automation:latest"
-        }
-      }
-    }
     stage('Test Against staging.cnx.org') {
       // all branches
+      when { branch 'master' }
       steps {
         sh "mkdir -p ${env.WORKSPACE}/xml-report"
-        sh "docker run -d --name ${env.TESTING_CONTAINER_NAME} -v ${env.WORKSPACE}/xml-report:/xml-report --env-file .jenkins/testing.env.list openstax/cnx-automation:dev"
-        sh "docker exec ${env.TESTING_CONTAINER_NAME} tox -- --new-first --failed-first -m 'webview or neb' --junitxml=report.xml"
+        sh "docker run -d --name ${env.TESTING_CONTAINER_NAME} -v ${env.WORKSPACE}/xml-report:/xml-report --env-file .jenkins/testing.env.list openstax/cnx-automation:latest"
+        sh "docker exec ${env.TESTING_CONTAINER_NAME} pytest --new-first --failed-first -m 'webview or neb' --junitxml=report.xml"
       }
       post {
         always {
