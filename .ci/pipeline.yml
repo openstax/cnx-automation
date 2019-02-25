@@ -1,4 +1,14 @@
+resource_types:
+  - name: slack-notification
+    type: docker-image
+    source:
+      repository: cfcommunity/slack-notification-resource
+
 resources:
+  - name: notify
+    type: slack-notification
+    source:
+      url: ((slack-webhook-qa-stream))
   - name: source-code
     type: git
     source:
@@ -23,3 +33,12 @@ jobs:
           build: source-code
           tag_file: source-code/.git/short_ref
           tag_as_latest: true
+    on_success:
+      put: notify
+      params:
+        text: ":white_check_mark: cnx-automation docker image successfully uploaded to dockerhub."
+    on_failure:
+      put: notify
+      params:
+        text: ":warning: There was a problem building/uploading cnx-automation docker image to dockerhub."
+
