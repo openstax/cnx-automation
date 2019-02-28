@@ -14,6 +14,7 @@ env:
     - LEGACY_BASE_URL=https://legacy-staging.cnx.org
     - NEB_ENV=staging
     - WEBVIEW_BASE_URL=https://staging.cnx.org
+    - URL_ADDR_VERSION=https://staging.cnx.org/version.txt
   matrix:
     - MARK=webview WORKERS=4
     - MARK=legacy RUNSLOW=true WORKERS=1
