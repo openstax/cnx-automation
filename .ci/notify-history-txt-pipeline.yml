@@ -1,0 +1,74 @@
+---
+resource_types:
+
+  - name: history-txt
+    type: docker-image
+    source:
+      repository: m1yag1/concourse-history-txt-resource
+      tag: latest
+
+  - name: slack-notification
+    type: docker-image
+    source:
+      repository: cfcommunity/slack-notification-resource
+
+resources:
+
+  - name: history-dev
+    type: history-txt
+    source:
+      instance: dev
+
+  - name: history-qa
+    type: history-txt
+    source:
+      instance: qa
+
+  - name: history-staging
+    type: history-txt
+    source:
+      instance: staging
+
+  - name: history-prod
+    type: history-txt
+    source:
+      instance: prod
+
+  - name: notify
+    type: slack-notification
+    source:
+      url: ((slack-webhook-qa-stream))
+
+jobs:
+
+  - name: notify-history-dev
+    plan:
+      - get: history-dev
+        trigger: true
+      - put: notify
+        params:
+          text: ":male-detective: An updated https://dev.cnx.org/history.txt has been discovered. You may want to run tests or something like that."
+
+  - name: notify-history-qa
+    plan:
+      - get: history-qa
+        trigger: true
+      - put: notify
+        params:
+          text: ":male-detective: An updated https://qa.cnx.org/history.txt has been discovered. You may want to run tests or something like that."
+
+  - name: notify-history-staging
+    plan:
+      - get: history-staging
+        trigger: true
+      - put: notify
+        params:
+          text: ":male-detective: An updated https://staging.cnx.org/history.txt has been discovered. You may want to run tests or something like that."
+
+  - name: notify-history-prod
+    plan:
+      - get: history-prod
+        trigger: true
+      - put: notify
+        params:
+          text: ":male-detective: An updated https://cnx.org/history.txt has been discovered. You may want to run tests or something like that."
