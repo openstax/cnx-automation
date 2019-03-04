@@ -29,12 +29,18 @@ clean-test: ## remove test and coverage artifacts
 
 venv:
 	python3 -m venv .venv && \
-		source .venv/bin/activate && \
+		. .venv/bin/activate && \
 		pip install -r requirements.txt
+
 
 precommit:
 	pre-commit install
 
+test-webview: venv
+	@. .venv/bin/activate && pytest -m webview \
+		--webview_base_url $(WEBVIEW_BASE_URL) \
+		--legacy_base_url $(LEGACY_BASE_URL)
+		--archive_base_url $(ARCHIVE_BASE_URL)
 
 help:
 	@echo "The following targets are available"
