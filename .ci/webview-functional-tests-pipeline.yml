@@ -1,8 +1,6 @@
 ---
 resource_types:
 
-
-
   - name: history-txt
     type: docker-image
     source:
@@ -63,6 +61,7 @@ jobs:
               repository: python
           inputs:
             - name: history-dev
+              path: ./history
             - name: cnx-automation
           run:
             path: cnx-automation/.ci/scripts/run_tests.py
