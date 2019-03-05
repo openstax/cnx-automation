@@ -3,10 +3,10 @@ import json
 import os
 import subprocess
 
+print(os.getcwd())
+
 with open("history/urls.json", "r") as infile:
     urls = json.load(infile)
-
-print(urls)
 
 os.environ["PYTHONUNBUFFERED"] = "1"
 os.environ["WEBVIEW_BASE_URL"] = urls["webview_url"]
