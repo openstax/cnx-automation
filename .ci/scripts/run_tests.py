@@ -4,7 +4,7 @@ import os
 import subprocess
 
 with open("history/urls.json", "r") as infile:
-    urls = json.loads(infile)
+    urls = json.load(infile)
 
 print(urls)
 
