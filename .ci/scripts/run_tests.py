@@ -22,14 +22,14 @@ def run(cmd):
 with open("./history/urls.json", "r") as infile:
     urls = json.load(infile)
 
-# Change to cnx-automation resource directory
-os.chdir("./cnx-automation")
+# Change to cnx-automation directory
+os.chdir("./code")
 
 os.environ["PYTHONUNBUFFERED"] = "1"
 os.environ["WEBVIEW_BASE_URL"] = urls["webview_url"]
 os.environ["LEGACY_BASE_URL"] = urls["legacy_url"]
 os.environ["ARCHIVE_BASE_URL"] = urls["archive_url"]
 
-code, output = run("make test-webview")
+code, output = run("pytest -m webview")
 
 exit(code)
