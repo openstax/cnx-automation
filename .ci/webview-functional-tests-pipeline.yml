@@ -18,12 +18,12 @@ resources:
     type: history-txt
     source:
       instance: dev
-#
-#  - name: cnx-automation
-#    type: git
-#    source:
-#      uri: https://github.com/openstax/cnx-automation.git
-#      branch: add-functional-test-pipeline
+
+  - name: cnx-automation
+    type: git
+    source:
+      uri: https://github.com/openstax/cnx-automation.git
+      branch: add-functional-test-pipeline
 
 #  - name: history-qa
 #    type: history-txt
@@ -51,16 +51,18 @@ jobs:
     plan:
       - get: history-dev
         trigger: true
+      - get: cnx-automation
       - task: run-functional-tests
         config:
           platform: linux
           image_resource:
             type: docker-image
             source:
-              repository: openstax/cnx-automation
+              repository: openstax/selenium-chrome-debug
           inputs:
             - name: history-dev
               path: ./history
+            - name: cnx-automation
           run:
             path: cnx-automation/.ci/scripts/run_tests.py
 
