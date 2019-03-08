@@ -53,7 +53,7 @@ def test_version(webview_base_url, selenium, github, record_property):
     ]
     for (repository_name, tag_property) in tag_tests:
         current_tag_name = shorten_tag(getattr(current_version_parser, tag_property))
-        repository = github.repository("Connexions", repository_name)
+        repository = github.repository("Openstax", repository_name)
         repository_url = repository.git_url
         latest_tag = list(repository.tags(number=1))[0]
         latest_tag_name = latest_tag.name

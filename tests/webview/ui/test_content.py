@@ -266,7 +266,7 @@ def test_toc_navigation(webview_base_url, selenium):
     toc = content.table_of_contents
 
     # WHEN a chapter is expanded and we navigate to one of its pages
-    chapter = toc.chapters[1]
+    chapter = toc.chapters[0]
     chapter = chapter.click()
     page = chapter.pages[1]
     chapter_section = page.chapter_section
