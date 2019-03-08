@@ -10,9 +10,9 @@ load_dotenv(verbose = True)
 
 applitools_key = os.environ['APPLITOOLS_API_KEY']
 url_addr = os.environ['URL_HOME_PAGE']
-App_Name = 'CNX HOME PAGE BOOK-ICONS'
+App_Name = 'CNX HOME PAGE BOOK ICONS'
 
-class Books_Home_Page_Layout:
+class BooksHomePageLayout:
 
     # Verifies visual presence of book icons on cnx home page using applitools' eyes function
     # To see results, log in to eyes.applitools.com/app/test-results
@@ -30,7 +30,6 @@ class Books_Home_Page_Layout:
     cnx_ver = cnx_deploy_version.cnx_versions
     cnx_web_web = cnx_deploy_version.cnx_w_web
 
-
     try:
 
         # Open a Chrome browser
@@ -47,8 +46,6 @@ class Books_Home_Page_Layout:
     # Visual checkpoint - screenshot #1
         eyes.check_window('{}'.format(cnx_ver))
 
-        sleep(1)
-
 # finds element by xpath, scrolls it into view and clicks "Show more" links
         element = driver.find_element_by_xpath("//*[@id='featured-books']/div/div[1]/div/div[1]/a/img")
         driver.execute_script("return arguments[0].scrollIntoView(true);", element)
@@ -59,35 +56,27 @@ class Books_Home_Page_Layout:
         sleep(1)
         element2.click()
 
-        sleep(1)
-
         element2 = driver.find_element_by_xpath("//*[@id='featured-books']/div/div[1]/div/div[2]/div/a[1]")
         sleep(1)
         element2.click()
-
-        sleep(1)
 
         element2 = driver.find_element_by_xpath("//*[@id='featured-books']/div/div[1]/div/div[3]/div/a[1]")
         sleep(1)
         element2.click()
 
-        sleep(1)
-
         element2 = driver.find_element_by_xpath("//*[@id='featured-books']/div/div[1]/div/div[4]/div/a[1]")
         sleep(1)
         element2.click()
-
-        sleep(1)
 
         element2 = driver.find_element_by_xpath("//*[@id='featured-books']/div/div[1]/div/div[5]/div/a[1]")
         sleep(1)
         element2.click()
 
-        sleep(1)
-
         element2 = driver.find_element_by_xpath("//*[@id='featured-books']/div/div[1]/div/div[6]/div/a[1]")
         sleep(1)
         element2.click()
+
+        sleep(1)
 
     # Visual checkpoint - screenshot #2
         eyes.check_window('-> {}'.format(url_addr))
@@ -102,19 +91,13 @@ class Books_Home_Page_Layout:
         sleep(1)
         element2.click()
 
-        sleep(1)
-
         element2 = driver.find_element_by_xpath("//*[@id='featured-books']/div/div[1]/div/div[8]/div/a[1]")
         sleep(1)
         element2.click()
 
-        sleep(1)
-
         element2 = driver.find_element_by_xpath("//*[@id='featured-books']/div/div[1]/div/div[9]/div/a[1]")
         sleep(1)
         element2.click()
-
-        sleep(1)
 
         element2 = driver.find_element_by_xpath("//*[@id='featured-books']/div/div[1]/div/div[10]/div/a[1]")
         sleep(1)
@@ -135,23 +118,19 @@ class Books_Home_Page_Layout:
         sleep(1)
         element2.click()
 
-        sleep(1)
-
         element2 = driver.find_element_by_xpath("//*[@id='featured-books']/div/div[1]/div/div[12]/div/a[1]")
         sleep(1)
         element2.click()
-
-        sleep(1)
 
         element2 = driver.find_element_by_xpath("//*[@id='featured-books']/div/div[1]/div/div[13]/div/a[1]")
         sleep(1)
         element2.click()
 
-        sleep(1)
-
         element2 = driver.find_element_by_xpath("//*[@id='featured-books']/div/div[1]/div/div[14]/div/a[1]")
         sleep(1)
         element2.click()
+
+        sleep(1)
 
     # Visual checkpoint - screenshot #4
         eyes.check_window('page')
@@ -166,23 +145,19 @@ class Books_Home_Page_Layout:
         sleep(1)
         element2.click()
 
-        sleep(1)
-
         element2 = driver.find_element_by_xpath("//*[@id='featured-books']/div/div[1]/div/div[16]/div/a[1]")
         sleep(1)
         element2.click()
-
-        sleep(1)
 
         element2 = driver.find_element_by_xpath("//*[@id='featured-books']/div/div[1]/div/div[17]/div/a[1]")
         sleep(1)
         element2.click()
 
-        sleep(1)
-
         element2 = driver.find_element_by_xpath("//*[@id='featured-books']/div/div[1]/div/div[18]/div/a[1]")
         sleep(1)
         element2.click()
+
+        sleep(1)
 
     # Visual checkpoint - screenshot #5
         eyes.check_window('{}'.format(cnx_ver))
@@ -197,23 +172,19 @@ class Books_Home_Page_Layout:
         sleep(1)
         element2.click()
 
-        sleep(1)
-
         element2 = driver.find_element_by_xpath("//*[@id='featured-books']/div/div[1]/div/div[20]/div/a[1]")
         sleep(1)
         element2.click()
-
-        sleep(1)
 
         element2 = driver.find_element_by_xpath("//*[@id='featured-books']/div/div[1]/div/div[21]/div/a[1]")
         sleep(1)
         element2.click()
 
-        sleep(1)
-
         element2 = driver.find_element_by_xpath("//*[@id='featured-books']/div/div[1]/div/div[22]/div/a[1]")
         sleep(1)
         element2.click()
+
+        sleep(1)
 
     # Visual checkpoint - screenshot #6
         eyes.check_window('-> {}'.format(url_addr))
@@ -228,23 +199,19 @@ class Books_Home_Page_Layout:
         sleep(1)
         element2.click()
 
-        sleep(1)
-
         element2 = driver.find_element_by_xpath("//*[@id='featured-books']/div/div[1]/div/div[24]/div/a[1]")
         sleep(1)
         element2.click()
-
-        sleep(1)
 
         element2 = driver.find_element_by_xpath("//*[@id='featured-books']/div/div[1]/div/div[25]/div/a[1]")
         sleep(1)
         element2.click()
 
-        sleep(1)
-
         element2 = driver.find_element_by_xpath("//*[@id='featured-books']/div/div[1]/div/div[26]/div/a[1]")
         sleep(1)
         element2.click()
+
+        sleep(1)
 
     # Visual checkpoint - screenshot #7
         eyes.check_window('- webview: {}'.format(cnx_web_web))
@@ -259,23 +226,19 @@ class Books_Home_Page_Layout:
         sleep(1)
         element2.click()
 
-        sleep(1)
-
         element2 = driver.find_element_by_xpath("//*[@id='featured-books']/div/div[1]/div/div[28]/div/a[1]")
         sleep(1)
         element2.click()
-
-        sleep(1)
 
         element2 = driver.find_element_by_xpath("//*[@id='featured-books']/div/div[1]/div/div[29]/div/a[1]")
         sleep(1)
         element2.click()
 
-        sleep(1)
-
         element2 = driver.find_element_by_xpath("//*[@id='featured-books']/div/div[1]/div/div[30]/div/a[1]")
         sleep(1)
         element2.click()
+
+        sleep(1)
 
     # Visual checkpoint - screenshot #8
         eyes.check_window('page')
@@ -290,23 +253,19 @@ class Books_Home_Page_Layout:
         sleep(1)
         element2.click()
 
-        sleep(1)
-
         element2 = driver.find_element_by_xpath("//*[@id='featured-books']/div/div[1]/div/div[32]/div/a[1]")
         sleep(1)
         element2.click()
-
-        sleep(1)
 
         element2 = driver.find_element_by_xpath("//*[@id='featured-books']/div/div[1]/div/div[33]/div/a[1]")
         sleep(1)
         element2.click()
 
-        sleep(1)
-
         element2 = driver.find_element_by_xpath("//*[@id='featured-books']/div/div[1]/div/div[34]/div/a[1]")
         sleep(1)
         element2.click()
+
+        sleep(1)
 
     # Visual checkpoint - screenshot #9
         eyes.check_window('page')
@@ -321,23 +280,19 @@ class Books_Home_Page_Layout:
         sleep(1)
         element2.click()
 
-        sleep(1)
-
         element2 = driver.find_element_by_xpath("//*[@id='featured-books']/div/div[1]/div/div[36]/div/a[1]")
         sleep(1)
         element2.click()
-
-        sleep(1)
 
         element2 = driver.find_element_by_xpath("//*[@id='featured-books']/div/div[1]/div/div[37]/div/a[1]")
         sleep(1)
         element2.click()
 
-        sleep(1)
-
         element2 = driver.find_element_by_xpath("//*[@id='featured-books']/div/div[1]/div/div[38]/div/a[1]")
         sleep(1)
         element2.click()
+
+        sleep(1)
 
     # Visual checkpoint - screenshot #10
         eyes.check_window('page')
@@ -352,23 +307,19 @@ class Books_Home_Page_Layout:
         sleep(1)
         element2.click()
 
-        sleep(1)
-
         element2 = driver.find_element_by_xpath("//*[@id='featured-books']/div/div[1]/div/div[40]/div/a[1]")
         sleep(1)
         element2.click()
-
-        sleep(1)
 
         element2 = driver.find_element_by_xpath("//*[@id='featured-books']/div/div[1]/div/div[41]/div/a[1]")
         sleep(1)
         element2.click()
 
-        sleep(1)
-
         element2 = driver.find_element_by_xpath("//*[@id='featured-books']/div/div[1]/div/div[42]/div/a[1]")
         sleep(1)
         element2.click()
+
+        sleep(1)
 
     # Visual checkpoint - screenshot #11
         eyes.check_window('page')
@@ -383,8 +334,6 @@ class Books_Home_Page_Layout:
         sleep(1)
         element2.click()
 
-        sleep(1)
-
         element2 = driver.find_element_by_xpath("//*[@id='featured-books']/div/div[1]/div/div[44]/div/a[1]")
         sleep(1)
         element2.click()
@@ -392,6 +341,21 @@ class Books_Home_Page_Layout:
         sleep(1)
 
     # Visual checkpoint - screenshot #12
+        eyes.check_window('page')
+
+# finds element by xpath, scrolls it into view and clicks "Show more" links
+        element = driver.find_element_by_xpath("//*[@id='featured-books']/div/div[1]/div/div[45]/a/img")
+        driver.execute_script("return arguments[0].scrollIntoView(true);", element)
+
+        sleep(1)
+
+        element2 = driver.find_element_by_xpath("//*[@id='featured-books']/div/div[1]/div/div[45]/div/a[1]")
+        sleep(1)
+        element2.click()
+
+        sleep(1)
+
+        # Visual checkpoint - screenshot #13
         eyes.check_window('page')
 
 # finds element by xpath, scrolls it into view and clicks "Show more" links
@@ -404,16 +368,13 @@ class Books_Home_Page_Layout:
         sleep(1)
         element2.click()
 
-        sleep(1)
-
         element2 = driver.find_element_by_xpath("//*[@id='featured-books']/div/div[2]/div/div[2]/div/a[1]")
         sleep(1)
         element2.click()
 
         sleep(1)
 
-    # Visual checkpoint - screenshot #13
-        eyes.check_window('page')
+    # Visual checkpoint - screenshot #14
 
 # finds element by xpath, scrolls it into view and clicks "Show more" links
         element = driver.find_element_by_xpath("//*[@id='featured-books']/div/div[2]/div/div[3]/a/img")
@@ -425,15 +386,13 @@ class Books_Home_Page_Layout:
         sleep(1)
         element2.click()
 
-        sleep(1)
-
         element2 = driver.find_element_by_xpath("//*[@id='featured-books']/div/div[2]/div/div[4]/div/a[1]")
         sleep(1)
         element2.click()
 
         sleep(1)
 
-    # Visual checkpoint - screenshot #14
+    # Visual checkpoint - screenshot #15
         eyes.check_window('page')
 
 # finds element by xpath, scrolls it into view and clicks "Show more" links
@@ -446,13 +405,13 @@ class Books_Home_Page_Layout:
         sleep(1)
         element2.click()
 
-        sleep(1)
-
         element2 = driver.find_element_by_xpath("//*[@id='featured-books']/div/div[2]/div/div[10]/div/a[1]")
         sleep(1)
         element2.click()
 
-    # Visual checkpoint - screenshot #15
+        sleep(1)
+
+    # Visual checkpoint - screenshot #16
         eyes.check_window('page')
 
 # finds element by xpath, clicks "Show more" links and scrolls to the bottom of page
@@ -463,7 +422,7 @@ class Books_Home_Page_Layout:
 
         sleep(1)
 
-        # Visual checkpoint - screenshot #16
+        # Visual checkpoint - screenshot #17
         eyes.check_window('page')
 
         # End the test.
