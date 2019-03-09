@@ -319,7 +319,7 @@ def test_share_on_top_right_corner(webview_base_url, selenium):
             None,
             None,
         ),
-        ("185cbf87-c72e-48f5-b51e-f14f21b5eabd", "mitosis genetics", True, 0, False, False),
+        ("185cbf87-c72e-48f5-b51e-f14f21b5eabd", "mitosis genetics", True, 0, True, False),
     ],
 )
 def test_in_book_search(
@@ -355,7 +355,7 @@ def test_in_book_search(
             assert result.count_occurrences(word) == result.count_bold_occurrences(word)
 
     result = results[result_index]
-    title = result.title_with_chapter_section
+    title = result.title
     content = result.click_link()
     assert content.section_title == title
 
