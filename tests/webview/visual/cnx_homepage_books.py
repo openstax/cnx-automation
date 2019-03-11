@@ -12,7 +12,7 @@ applitools_key = os.environ['APPLITOOLS_API_KEY']
 url_addr = os.environ['URL_HOME_PAGE']
 App_Name = 'CNX HOME PAGE BOOK ICONS'
 
-class BooksHomePageLayout:
+class CnxHomePageBooksLayout:
 
     # Verifies visual presence of book icons on cnx home page using applitools' eyes function
     # To see results, log in to eyes.applitools.com/app/test-results
