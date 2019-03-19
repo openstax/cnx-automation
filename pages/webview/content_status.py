@@ -27,6 +27,9 @@ class ContentStatus(Page):
 
         super().__init__(*args, **kwargs)
 
+    def __repr__(self):
+        return f"ContentStatus: {self.current_url}"
+
     @property
     def are_status_filters_displayed(self):
         return self.is_element_displayed(*self._status_filters_locator)
