@@ -1,0 +1,141 @@
+---
+resource_types:
+
+  - name: history-txt
+    type: docker-image
+    source:
+      repository: openstax/concourse-history-txt-resource
+      tag: latest
+
+  - name: slack-notification
+    type: docker-image
+    source:
+      repository: cfcommunity/slack-notification-resource
+
+resources:
+
+  - name: history-qa
+    type: history-txt
+    source:
+      instance: qa
+
+  - name: history-staging
+    type: history-txt
+    source:
+      instance: staging
+
+  - name: history-prod
+    type: history-txt
+    source:
+      instance: prod
+
+  - name: notify
+    type: slack-notification
+    source:
+      url: ((slack-webhook-qa-stream))
+
+jobs:
+
+  - name: test-qa
+    plan:
+      - get: history-qa
+        trigger: true
+      - put: notify
+        params:
+          text: ":male-detective: An updated https://qa.cnx.org/history.txt has been discovered. Browser tests will start in a moment ..."
+      - task: run-functional-tests
+        config:
+          platform: linux
+          image_resource:
+            type: docker-image
+            source:
+              repository: openstax/cnx-automation
+          run:
+            path: bash
+            args:
+              - -exc
+              - |
+                cd /code
+                pytest -m webview -n 4 --headless --disable-dev-shm-usage
+          params:
+            WEBVIEW_BASE_URL: "https://qa.cnx.org"
+            LEGACY_BASE_URL: "https://legacy-qa.cnx.org"
+            ARCHIVE_BASE_URL: "https://archive-qa.cnx.org"
+    on_success:
+      put: notify
+      params:
+        text: ":white_check_mark: All Chrome browser tests have passed on https://qa.cnx.org."
+    on_failure:
+      put: notify
+      params:
+        text: ":warning: There was a problem running Chrome browser tests on https://qa.cnx.org. This message will have more info one day. :joy:"
+
+
+  - name: test-staging
+    plan:
+      - get: history-staging
+        trigger: true
+      - put: notify
+        params:
+          text: ":male-detective: An updated https://staging.cnx.org/history.txt has been discovered. Browser tests will start in a moment ..."
+      - task: run-functional-tests
+        config:
+          platform: linux
+          image_resource:
+            type: docker-image
+            source:
+              repository: openstax/cnx-automation
+          run:
+            path: bash
+            args:
+              - -exc
+              - |
+                cd /code
+                pytest -m webview -n 4 --headless --disable-dev-shm-usage
+          params:
+            WEBVIEW_BASE_URL: "https://staging.cnx.org"
+            LEGACY_BASE_URL: "https://legacy-staging.cnx.org"
+            ARCHIVE_BASE_URL: "https://archive-staging.cnx.org"
+    on_success:
+      put: notify
+      params:
+        text: ":white_check_mark: All Chrome browser tests have passed on https://staging.cnx.org."
+    on_failure:
+      put: notify
+      params:
+        text: ":warning: There was a problem running Chrome browser tests on https://staging.cnx.org. This message will have more info one day :joy:."
+
+  - name: test-prod
+    plan:
+      - get: history-prod
+        trigger: true
+      - put: notify
+        params:
+          text: ":male-detective: An updated https://cnx.org/history.txt has been discovered. Browser tests will start in a moment ..."
+      - task: run-functional-tests
+        config:
+          platform: linux
+          image_resource:
+            type: docker-image
+            source:
+              repository: openstax/cnx-automation
+          run:
+            path: bash
+            args:
+              - -exc
+              - |
+                cd /code
+                pytest -m webview -n 4 --headless --disable-dev-shm-usage
+          params:
+            WEBVIEW_BASE_URL: "https://cnx.org"
+            LEGACY_BASE_URL: "https://legacy.cnx.org"
+            ARCHIVE_BASE_URL: "https://archive.cnx.org"
+    on_success:
+      put: notify
+      params:
+        text: ":white_check_mark: All Chrome browser tests have passed on https://cnx.org."
+    on_failure:
+      put: notify
+      params:
+        text: ":warning: There was a problem running Chrome browser tests on https://cnx.org. This message will have more info one day :joy:."
+
