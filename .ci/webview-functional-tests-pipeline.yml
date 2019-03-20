@@ -56,7 +56,7 @@ jobs:
               - -exc
               - |
                 cd /code
-                pytest -m webview -n 4 --headless
+                pytest -m webview -n 4 --headless --disable-dev-shm-usage
           params:
             WEBVIEW_BASE_URL: "https://qa.cnx.org"
             LEGACY_BASE_URL: "https://legacy-qa.cnx.org"
@@ -91,7 +91,7 @@ jobs:
               - -exc
               - |
                 cd /code
-                pytest -m webview -n 4 --headless
+                pytest -m webview -n 4 --headless --disable-dev-shm-usage
           params:
             WEBVIEW_BASE_URL: "https://staging.cnx.org"
             LEGACY_BASE_URL: "https://legacy-staging.cnx.org"
@@ -125,7 +125,7 @@ jobs:
               - -exc
               - |
                 cd /code
-                pytest -m webview -n 4 --headless
+                pytest -m webview -n 4 --headless --disable-dev-shm-usage
           params:
             WEBVIEW_BASE_URL: "https://cnx.org"
             LEGACY_BASE_URL: "https://legacy.cnx.org"
