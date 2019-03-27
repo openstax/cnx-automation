@@ -164,6 +164,12 @@ def test_foo_uploads_bar:
 
 ## Framework Design
 
+### Pytest Selenium Training
+
+You can find more in depth documentation in our [Pytest Selenium Training][selenium-training].
+
+### Brief Architectural Description
+
 This testing framework heavily relies on the [PyPOM][pypom]. The [PyPOM][pypom]
 library is the Python implementation of the [PageObject][pageobject] design pattern.
 
@@ -211,3 +217,4 @@ pattern.
 [pageobject]: https://martinfowler.com/bliki/PageObject.html
 [pytest]: https://docs.pytest.org/en/latest/
 [mozilla]: https://github.com/mozilla/addons-server
+[selenium-training]: https://qualitas-server.herokuapp.com/wiki/Introduction_to_Pytest_and_Selenium
