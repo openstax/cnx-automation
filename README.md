@@ -27,9 +27,9 @@ Follow the instructions to install [Docker Compose](https://docs.docker.com/comp
 
 ### Execute the tests
 
-    $ docker-compose exec selenium-chrome tox 
+    $ docker-compose exec selenium-chrome pytest
 
-> Note: The [Run the tests using tox](#run-the-tests-using-tox) section covers how to pass arguments to tox in order to target specific tests
+> Note: The [Run the tests using pytest](#run-the-tests-using-pytest) section covers how to pass arguments to pytest in order to target specific tests
 
 ### View the browser
 
@@ -46,7 +46,7 @@ Use a VNC application to connect to `0.0.0.0:32778`. The port number `32778` may
 
 Execute the tests as described above.
 
-    $ docker-compose exec selenium-chrome tox
+    $ docker-compose exec selenium-chrome pytest
 
 Switch over to the VNC window to see your tests running!
 
@@ -83,70 +83,42 @@ If you intend to run the legacy tests, you will need to set the LEGACY_USERNAME
 and LEGACY_PASSWORD environment variables. You can either export them from your
 shell profile or simply add them to a `.env` file in the root dir of this repo.
 
-### Run the tests using tox
-
-Tests are run using the command line using the `tox` command. By default this
-will run all of the environments configured, including checking your tests against
-recommended style conventions using [flake8][flake8].
+### Run the tests using pytest
 
 To run against a different base URL, pass in a value for `--webview_base_url`, `--legacy_base_url`, `--archive_base_url`:
 
+**Staging**
 ```bash
-$ tox -- --webview_base_url=https://staging.cnx.org
+$ pytest --webview_base_url https://staging.cnx.org --legacy_base_url https://legacy-staging.cnx.org --archive_base_url https://archive-staging.cnx.org
 ```
 
-To run Chrome in headless mode, pass in `--headless` or set the HEADLESS environment variable:
-
+**Production**
 ```bash
-$ tox -- --headless
+$ pytest --webview_base_url https://cnx.org --legacy_base_url https://legacy.cnx.org --archive_base_url https://archive.cnx.org
 ```
 
-To run against a different browser, pass in a value for `--driver`:
+To run a specific test or test module pass in a value for `-k`:
 
 ```bash
-$ tox -- --driver=Chrome
-```
-
-To run a specific test, pass in a value for `-k`:
-
-```bash
-$ tox -- -k=test_my_feature
+$ pytest -k test_about --webview_base_url https://staging.cnx.org --leagcy_base_url https://legacy-staging.cnx.org --archive_base_url https://archive-staging.cnx.org
 ```
 
 To run a specific project, pass in `webview`, `legacy`, or `neb` for `-m`:
 
 ```bash
-$ tox -- -m=webview
-```
-
-### Run the tests using Pytest
-
-There are occasions when running tox may not be the most ideal; Especially when you need more control over the framework. When this is the case pytest can be executed directly.
-
-The tox examples above essentially pass the options after the `--` to the pytest command.
-
-To run a specific test, pass in a value for `-k`:
-
-```bash
-$ pytest -k test_my_feature
-```
-
-To run a specific project, pass in `webview`, `legacy`, or `neb` for `-m`:
-
-```bash
-$ pytest -m webview
+$ pytest -m webview 
 ```
 
 To run a more complicated example that runs a specific project and a specific test module in headless mode:
 
 ```bash
-$ pytest -m webview -k test_home --headless
+$ pytest -m webview -k test_home --headless --webview_base_url https://staging.cnx.org --leagcy_base_url https://legacy-staging.cnx.org --archive_base_url https://archive-staging.cnx.org
 ```
 
 To run tests in parallel you can combine the above and use `-n` option to specify the number of workers.
 
 ```bash
-$ pytest -n 4 -m webview
+$ pytest -n 4 -m webview --webview_base_url https://staging.cnx.org --leagcy_base_url https://legacy-staging.cnx.org --archive_base_url https://archive-staging.cnx.org
 ```
 
 ### Additional Pytest Options
