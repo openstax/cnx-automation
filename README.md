@@ -100,7 +100,7 @@ $ pytest --webview_base_url https://cnx.org --legacy_base_url https://legacy.cnx
 To run a specific test or test module pass in a value for `-k`:
 
 ```bash
-$ pytest -k test_about --webview_base_url https://staging.cnx.org --leagcy_base_url https://legacy-staging.cnx.org --archive_base_url https://archive-staging.cnx.org
+$ pytest -k test_about 
 ```
 
 To run a specific project, pass in `webview`, `legacy`, or `neb` for `-m`:
@@ -112,13 +112,13 @@ $ pytest -m webview
 To run a more complicated example that runs a specific project and a specific test module in headless mode:
 
 ```bash
-$ pytest -m webview -k test_home --headless --webview_base_url https://staging.cnx.org --leagcy_base_url https://legacy-staging.cnx.org --archive_base_url https://archive-staging.cnx.org
+$ pytest -m webview -k test_home --headless 
 ```
 
 To run tests in parallel you can combine the above and use `-n` option to specify the number of workers.
 
 ```bash
-$ pytest -n 4 -m webview --webview_base_url https://staging.cnx.org --leagcy_base_url https://legacy-staging.cnx.org --archive_base_url https://archive-staging.cnx.org
+$ pytest -n 4 -m webview 
 ```
 
 ### Additional Pytest Options
