@@ -85,7 +85,9 @@ shell profile or simply add them to a `.env` file in the root dir of this repo.
 
 ### Run the tests using pytest
 
-To run against a different base URL, pass in a value for `--webview_base_url`, `--legacy_base_url`, `--archive_base_url`:
+When only using the `pytest` command the default environment will set to QA. 
+
+To run against a different environment pass in a value for `--webview_base_url`, `--legacy_base_url`, `--archive_base_url`:
 
 **Staging**
 ```bash
