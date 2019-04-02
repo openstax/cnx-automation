@@ -255,6 +255,7 @@ def test_toc_is_displayed(webview_base_url, selenium):
 
 
 @markers.webview
+@markers.smoke
 @markers.test_case("C176243", "C176244")
 @markers.nondestructive
 def test_toc_navigation(webview_base_url, selenium):
@@ -280,6 +281,7 @@ def test_toc_navigation(webview_base_url, selenium):
 
 
 @markers.webview
+@markers.smoke
 @markers.test_case("C176257")
 @markers.nondestructive
 def test_share_on_top_right_corner(webview_base_url, selenium):
@@ -303,6 +305,7 @@ def test_share_on_top_right_corner(webview_base_url, selenium):
 
 
 @markers.webview
+@markers.smoke
 @markers.test_case("C132549", "C175148")
 @markers.nondestructive
 @markers.parametrize(
@@ -373,6 +376,7 @@ def test_in_book_search(
 
 
 @markers.webview
+@markers.smoke
 @markers.test_case("C176258", "C176259", "C176260", "C176261")
 @markers.nondestructive
 def test_share_links_displayed(webview_base_url, selenium):
@@ -416,6 +420,7 @@ def test_newer_version_leads_to_correct_page(webview_base_url, selenium, id):
 
 
 @markers.webview
+@markers.smoke
 @markers.test_case("C176234")
 @markers.nondestructive
 def test_get_this_book(webview_base_url, selenium):
@@ -467,6 +472,7 @@ def test_section_title_for_no_markup(webview_base_url, selenium):
 
 
 @markers.webview
+@markers.smoke
 @markers.test_case("C195074")
 @markers.nondestructive
 @markers.parametrize("id", ["u2KTPvIK@3.1:Zv6FJYpb@3"])
@@ -488,6 +494,7 @@ def test_page_with_unicode_characters_in_title_loads(webview_base_url, selenium,
 
 
 @markers.webview
+@markers.smoke
 @markers.test_case("C176236")
 @markers.nondestructive
 def test_content_and_figures_display_after_scrolling(webview_base_url, selenium):
@@ -508,6 +515,7 @@ def test_content_and_figures_display_after_scrolling(webview_base_url, selenium)
 
 
 @markers.webview
+@markers.smoke
 @markers.test_case("C176235", "C176237")
 @markers.nondestructive
 def test_nav_and_menus_display_after_scrolling(webview_base_url, selenium):
@@ -562,6 +570,7 @@ def test_nav_and_menus_display_after_scrolling(webview_base_url, selenium):
 
 
 @markers.webview
+@markers.smoke
 @markers.test_case("C195232")
 @markers.nondestructive
 @markers.parametrize("width,height", [(480, 640)])
@@ -664,6 +673,7 @@ def test_mobile_nav_and_menus_hide_after_scrolling(webview_base_url, selenium, w
 
 
 @markers.webview
+@markers.smoke
 @markers.test_case("C162171")
 @markers.nondestructive
 def test_attribution(webview_base_url, selenium):
@@ -682,6 +692,7 @@ def test_attribution(webview_base_url, selenium):
 
 
 @markers.webview
+@markers.smoke
 @markers.test_case("C176241")
 @markers.nondestructive
 def test_back_to_top(webview_base_url, selenium):
@@ -730,6 +741,7 @@ def test_back_to_top(webview_base_url, selenium):
 
 
 @markers.webview
+@markers.smoke
 @markers.test_case("C176238", "C176239", "C176240", "C176245")
 @markers.nondestructive
 def test_navigation(webview_base_url, selenium):
@@ -847,6 +859,7 @@ def test_chapter_review_version_matches_book_version(webview_base_url, selenium,
 
 
 @markers.webview
+@markers.smoke
 @markers.test_case("C195064")
 @markers.nondestructive
 @markers.parametrize("ch_review_id", ["e5fbbjPE"])
@@ -977,6 +990,7 @@ def test_books_containing_list_in_sorted_order(webview_base_url, selenium, page_
 
 
 @markers.webview
+@markers.smoke
 @markers.requires_complete_dataset
 @markers.test_case("C195055")
 @markers.nondestructive
@@ -1022,6 +1036,7 @@ def test_books_containing_list_is_on_left_of_page(webview_base_url, selenium, pa
 
 
 @markers.webview
+@markers.smoke
 @markers.requires_complete_dataset
 @markers.test_case("C195056")
 @markers.nondestructive
