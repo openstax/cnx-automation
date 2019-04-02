@@ -25,6 +25,7 @@ def test_search_input_and_button_are_displayed(webview_base_url, selenium):
 
 
 @markers.webview
+@markers.smoke
 @markers.test_case("C176270")
 @markers.nondestructive
 def test_subject_categories_load(webview_base_url, selenium):
@@ -68,6 +69,7 @@ def test_subject_categories_have_page_and_book_counts(webview_base_url, selenium
 
 
 @markers.webview
+@markers.smoke
 @markers.test_case("C176272")
 @markers.nondestructive
 def test_click_subject_category(webview_base_url, selenium):

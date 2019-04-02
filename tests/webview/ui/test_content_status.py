@@ -8,6 +8,7 @@ from pages.webview.content_status import ContentStatus
 
 
 @markers.webview
+@markers.smoke
 @markers.requires_varnish_routing
 @markers.requires_publishing
 @markers.test_case("C175149")

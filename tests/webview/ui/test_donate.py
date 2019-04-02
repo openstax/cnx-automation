@@ -8,6 +8,7 @@ from pages.webview.home import Home
 
 
 @markers.webview
+@markers.smoke
 @markers.test_case("C176262")
 @markers.nondestructive
 def test_donate_redirects_to_openstax_org(webview_base_url, selenium):
