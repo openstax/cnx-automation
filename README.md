@@ -123,6 +123,14 @@ To run tests in parallel you can combine the above and use `-n` option to specif
 $ pytest -n 4 -m webview
 ```
 
+#### Run Smoke Tests
+
+To run smoke tests you can add the `smoke` marker to the particular project that is being tested:
+
+```bash
+$ pytest -m "webview and smoke"
+```
+
 ### Additional Pytest Options
 
 The pytest plugin that we use for running tests has a number of advanced
