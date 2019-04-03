@@ -311,18 +311,16 @@ def test_share_on_top_right_corner(webview_base_url, selenium):
 @markers.parametrize(
     "uuid,query,has_results,result_index,has_os_figures,has_os_tables",
     [
-        # FIXME slim dump doesn't contain baked content:
-        #       https://github.com/openstax/quality-assurance-meta/issues/81
-        # ('d50f6e32-0fda-46ef-a362-9bd36ca7c97d', 'table', True, 1, True, True),
         (
-            "185cbf87-c72e-48f5-b51e-f14f21b5eabd",
+            "8d50a0af-948b-4204-a71d-4826cba765b8",
             "mitosis genetics gorilla",
             False,
             None,
             None,
             None,
         ),
-        ("185cbf87-c72e-48f5-b51e-f14f21b5eabd", "mitosis genetics", True, 0, True, False),
+        ("8d50a0af-948b-4204-a71d-4826cba765b8", "mitosis genetics", True, 0, True, False),
+        ("d50f6e32-0fda-46ef-a362-9bd36ca7c97d", "table", True, 1, True, True),
     ],
 )
 def test_in_book_search(
