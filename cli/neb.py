@@ -44,12 +44,12 @@ class MetaNeb(type):
     @property
     def help(cls, **kwargs):
         """Runs `neb --help` and returns the output"""
-        return cls.invoke('--help', **kwargs)
+        return cls.invoke("--help", **kwargs)
 
     @property
     def version(cls, **kwargs):
         """Runs `neb --version` and returns the version number"""
-        return cls._version_regex.match(cls.invoke('--version', **kwargs))[1]
+        return cls._version_regex.match(cls.invoke("--version", **kwargs))[1]
 
     @contextmanager
     def get(cls, *, help=False, verbose=False, env=None, col_id=None, col_version=None, **kwargs):
@@ -60,7 +60,7 @@ class MetaNeb(type):
             # Do something in temp_dir
         """
         if help:
-            yield cls.invoke('get', '--help', **kwargs)
+            yield cls.invoke("get", "--help", **kwargs)
         elif env and col_id and col_version:
             with TemporaryDirectory() as temp_dir:
                 # We cannot use temp_dir directly
@@ -71,16 +71,28 @@ class MetaNeb(type):
                 if verbose:
                     options.append("--verbose")
 
-                cls.invoke('get', *options, env, col_id, col_version, input=prompt, **kwargs)
+                cls.invoke("get", *options, env, col_id, col_version, **kwargs)
 
                 yield neb_dir
         else:
-            raise(TypeError("get() missing either 1 required keyword-only argument: 'help' or 3"
-                            " required keyword-only arguments: 'env', 'col_id', and 'col_version'"))
+            raise (
+                TypeError(
+                    "get() missing either 1 required keyword-only argument: 'help' or 3"
+                    " required keyword-only arguments: 'env', 'col_id', and 'col_version'"
+                )
+            )
 
     @contextmanager
-    def publish(cls, *, help=False, verbose=False, env=None,
-                content_dir=None, publication_message=None, **kwargs):
+    def publish(
+        cls,
+        *,
+        help=False,
+        verbose=False,
+        env=None,
+        content_dir=None,
+        publication_message=None,
+        **kwargs,
+    ):
         """Yields the content_dir (or a temp dir), then runs `neb publish` on the given dir.
 
         Usage (with existing dir):
@@ -94,25 +106,29 @@ class MetaNeb(type):
             # Add content to publish to temp_dir
         """
         if help:
-            yield cls.invoke('publish', '--help', **kwargs)
+            yield cls.invoke("publish", "--help", **kwargs)
         elif env and publication_message:
             options = []
             if verbose:
-                options.append('--verbose')
+                options.append("--verbose")
 
             if content_dir:
                 yield content_dir
 
-                cls.invoke('publish', *options, env, content_dir, publication_message, **kwargs)
+                cls.invoke("publish", *options, env, content_dir, publication_message, **kwargs)
             else:
                 with TemporaryDirectory() as temp_dir:
                     yield temp_dir
 
-                    cls.invoke('publish', *options, env, temp_dir, publication_message, **kwargs)
+                    cls.invoke("publish", *options, env, temp_dir, publication_message, **kwargs)
         else:
-            raise(TypeError("publish() missing either 1 required keyword-only argument: 'help'"
-                            " or 2 required keyword-only arguments: 'env',"
-                            " and 'publication_message'"))
+            raise (
+                TypeError(
+                    "publish() missing either 1 required keyword-only argument: 'help'"
+                    " or 2 required keyword-only arguments: 'env',"
+                    " and 'publication_message'"
+                )
+            )
 
 
 class Neb(metaclass=MetaNeb):
