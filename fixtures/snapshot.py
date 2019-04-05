@@ -27,6 +27,15 @@ class Snapshot(object):
 
         return dir
 
+    def get_snapshot_path_and_ensure_dir_exists(self, category, name):
+        snapshot_path = os.path.join(self.base_dir, category, name)
+
+        snapshot_dir = os.path.dirname(snapshot_path)
+        if not os.path.isdir(snapshot_dir):
+            os.makedirs(snapshot_dir, 0o755)
+
+        return snapshot_path
+
     def assert_dict_match(self, value, name):
         snapshot_path = self.get_snapshot_path_and_ensure_dir_exists("json", name)
 
@@ -68,10 +77,10 @@ class Snapshot(object):
                 snapshot_tar.add(path, arcname=".")
 
     def extract(self, name, path):
-        snapshot_path = self.get_snapshot_path('tar_gz', name)
+        snapshot_path = self.get_snapshot_path("tar_gz", name)
         self.ensure_dir_exists(path)
 
-        with tarfile.open(snapshot_path, 'r|gz') as snapshot_tar:
+        with tarfile.open(snapshot_path, "r|gz") as snapshot_tar:
             snapshot_tar.extractall(path=path)
 
 
