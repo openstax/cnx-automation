@@ -4,7 +4,9 @@
 
 import os
 import pytest
+import requests
 
+from parsers.cnx_deploy.version import VersionParser
 from tests.utils import gen_from_file, skip_if_destructive_and_sensitive
 
 DATA_DIR = os.path.join(os.path.realpath(os.path.dirname(__file__)), "data", "webview")
