@@ -8,6 +8,7 @@ from pages.webview.sitemap_index import SitemapIndex
 
 
 @markers.webview
+@markers.smoke
 @markers.requires_varnish_routing
 @markers.test_case("C205363")
 @markers.parametrize(
