@@ -5,13 +5,10 @@
 import subprocess
 import random
 from tempfile import TemporaryDirectory
-from lxml import etree
-from pathlib import Path
-from contextlib import contextmanager
-from litezip import main as litezip
+from litezip.main import COLLECTION_NSMAP
 
 from tests import markers
-from tests.utils import get_neb_snapshot_name
+from tests.utils import get_neb_snapshot_name, edit_collXML
 
 from cli.neb import Neb
 
@@ -126,13 +123,11 @@ def test_successful_publish(
     # GIVEN the latest version of a collection available
     with Neb.get(verbose=True, env="staging", col_id=col_id, col_version="latest") as coll_dir:
         # WHEN we make an edit
-        # import pdb; pdb.set_trace()
         with edit_collXML(coll_dir) as collection:
-            elem = collection.xpath("//md:title", namespaces=litezip.COLLECTION_NSMAP)[0]
+            elem = collection.xpath("//md:title", namespaces=COLLECTION_NSMAP)[0]
             elem.text = "a different collection title {}".format(random.randint(0, 99999))
 
         # THEN we are able to successfully publish it
-        # import pdb; pdb.set_trace()
         stdout, stderr, returncode = Neb.run(
             "publish",
             "staging",
@@ -145,15 +140,3 @@ def test_successful_publish(
             legacy_password,
         )
         assert "Great work!!! =D" in stderr
-
-
-@contextmanager
-def edit_collXML(container):
-    container = Path(container) / litezip.COLLECTION_FILENAME
-    with container.open("rb") as collection:
-        xml = etree.parse(collection)
-
-    yield xml
-
-    with container.open("wb") as collection:
-        collection.write(etree.tounicode(xml).encode("utf8"))

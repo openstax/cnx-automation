@@ -4,6 +4,7 @@
 from difflib import SequenceMatcher
 from functools import wraps
 from os.path import join
+from contextlib import contextmanager
 
 from selenium.common.exceptions import StaleElementReferenceException
 
@@ -85,5 +86,23 @@ def shorten_tag(tag):
 
 
 def get_neb_snapshot_name(col_id, col_version):
-    return join('neb', col_id, '{col_version}.tar.gz'.format(col_version=col_version))
+    return join("neb", col_id, "{col_version}.tar.gz".format(col_version=col_version))
 
+
+@contextmanager
+def edit_collXML(container):
+    """Open a collection's `collection.xml` file located in container dir,
+    yields for editing, then writes on exit .
+    """
+    from litezip.main import COLLECTION_FILENAME
+    from lxml import etree
+
+    fpath = join(container, COLLECTION_FILENAME)
+
+    with open(fpath, "rb") as collection:
+        xml = etree.parse(collection)
+
+    yield xml
+
+    with open(fpath, "wb") as collection:
+        collection.write(etree.tounicode(xml).encode("utf8"))
