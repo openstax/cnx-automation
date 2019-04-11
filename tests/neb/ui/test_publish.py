@@ -113,6 +113,7 @@ def test_publish_invalid_cnxml(
 
 @markers.neb
 @markers.nondestructive
+@markers.slow
 @markers.parametrize(
     "col_id, col_version, publication_message",
     [("col11562", "latest", "Publication message from cnx-automation")],
