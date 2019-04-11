@@ -3,7 +3,12 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 import subprocess
+import random
 from tempfile import TemporaryDirectory
+from lxml import etree
+from pathlib import Path
+from contextlib import contextmanager
+from litezip import main as litezip
 
 from tests import markers
 from tests.utils import get_neb_snapshot_name
@@ -107,3 +112,48 @@ def test_publish_invalid_cnxml(
 
     for validation_error in expected_validation_errors:
         assert validation_error in stderr
+
+
+@markers.neb
+@markers.nondestructive
+@markers.parametrize(
+    "col_id, col_version, publication_message",
+    [("col11562", "latest", "Publication message from cnx-automation")],
+)
+def test_successful_publish(
+    col_id, col_version, publication_message, legacy_username, legacy_password
+):
+    # GIVEN the latest version of a collection available
+    with Neb.get(verbose=True, env="staging", col_id=col_id, col_version="latest") as coll_dir:
+        # WHEN we make an edit
+        # import pdb; pdb.set_trace()
+        with edit_collXML(coll_dir) as collection:
+            elem = collection.xpath("//md:title", namespaces=litezip.COLLECTION_NSMAP)[0]
+            elem.text = "a different collection title {}".format(random.randint(0, 99999))
+
+        # THEN we are able to successfully publish it
+        # import pdb; pdb.set_trace()
+        stdout, stderr, returncode = Neb.run(
+            "publish",
+            "staging",
+            coll_dir,
+            "--message",
+            publication_message,
+            "--username",
+            legacy_username,
+            "--password",
+            legacy_password,
+        )
+        assert "Great work!!! =D" in stderr
+
+
+@contextmanager
+def edit_collXML(container):
+    container = Path(container) / litezip.COLLECTION_FILENAME
+    with container.open("rb") as collection:
+        xml = etree.parse(collection)
+
+    yield xml
+
+    with container.open("wb") as collection:
+        collection.write(etree.tounicode(xml).encode("utf8"))
