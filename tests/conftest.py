@@ -7,6 +7,7 @@ import pytest
 
 from dotenv import load_dotenv
 
+
 # Patch remote_connection to workaround Connection Reset by Peer bug in the Selenium driver
 # https://github.com/SeleniumHQ/selenium/issues/5296
 from patches import connection_reset_by_peer  # noqa
@@ -20,6 +21,8 @@ pytest_plugins = (
     "fixtures.webview",
     "fixtures.legacy",
     "fixtures.neb",
+    "fixtures.applitools",
+    "fixtures.webversions",
 )
 
 # Load environment variables from .env file
@@ -57,6 +60,11 @@ def pytest_addoption(parser):
         "--github-token",
         default=os.getenv("GITHUB_TOKEN", None),
         help="OAuth token used to login to GitHub.",
+    )
+    parser.addoption(
+        "--applitools-key",
+        default=os.getenv("APPLITOOLS_API_KEY", None),
+        help="OAuth key used to login to Applitools.",
     )
     parser.addoption(
         "--runslow",

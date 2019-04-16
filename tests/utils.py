@@ -6,14 +6,6 @@ from functools import wraps
 
 from selenium.common.exceptions import StaleElementReferenceException
 
-from dotenv import load_dotenv
-import os
-import urllib.request
-from ast import literal_eval
-load_dotenv(verbose = True)
-url_addr_version = os.environ['URL_ADDR_VERSION']
-
-
 def gen_from_file(filepath):
     """Creates a generator from an input file
 
@@ -89,18 +81,3 @@ def shorten_tag(tag):
     """Returns the short version of a git tag when given the long (or short) version."""
     return tag.split("-")[0]
 
-# adding cnx-deploy and webview version numbers to applitools screenshot results
-class cnx_deploy_version():
-
-    version_page = urllib.request.urlopen(url_addr_version)
-    web_content = version_page.read()
-
-    # convert bytes into strings
-    web_ver_dec = web_content.decode('UTF-8')
-    # convert strings into dictionary
-    cnx_version_dict = literal_eval(web_ver_dec)
-    # extracting cnx deploy version number
-    cnx_versions = "- cnx-deploy: " + cnx_version_dict['cnx-deploy']
-    # extracting webview version number
-    w_webview, w_versions = cnx_version_dict['webview'].split()
-    cnx_w_web = w_versions
