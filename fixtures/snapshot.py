@@ -17,6 +17,16 @@ class Snapshot(object):
     def __init__(self, base_dir):
         self.base_dir = base_dir
 
+    def get_snapshot_path(self, category, name):
+        return os.path.join(self.base_dir, category, name)
+
+    def ensure_dir_exists(self, path):
+        dir = os.path.dirname(path)
+        if not os.path.isdir(dir):
+            os.makedirs(dir, 0o755)
+
+        return dir
+
     def get_snapshot_path_and_ensure_dir_exists(self, category, name):
         snapshot_path = os.path.join(self.base_dir, category, name)
 
@@ -65,6 +75,13 @@ class Snapshot(object):
                 # arcname='.' makes tar not save the absolute path
                 # See comments in https://stackoverflow.com/a/2239679
                 snapshot_tar.add(path, arcname=".")
+
+    def extract(self, name, path):
+        snapshot_path = self.get_snapshot_path("tar_gz", name)
+        self.ensure_dir_exists(path)
+
+        with tarfile.open(snapshot_path, "r|gz") as snapshot_tar:
+            snapshot_tar.extractall(path=path)
 
 
 @pytest.fixture(scope="session")
