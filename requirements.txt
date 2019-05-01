@@ -48,7 +48,7 @@ six==1.12.0
 toml==0.10.0
 uritemplate==3.0.0
 urllib3==1.25.2
-virtualenv==16.4.3
+virtualenv==16.5.0
 zipp==0.3.3
 zope.component==4.5
 zope.deferredimport==4.3
