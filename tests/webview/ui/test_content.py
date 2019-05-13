@@ -15,6 +15,7 @@ from tests import markers
 
 from pages.webview.home import Home
 from pages.webview.content import Content
+from tests.utils import similar
 
 
 @markers.webview
@@ -743,7 +744,8 @@ def test_back_to_top(webview_base_url, selenium):
 @markers.test_case("C176238", "C176239", "C176240", "C176245")
 @markers.nondestructive
 def test_navigation(webview_base_url, selenium):
-    # GIVEN a book's content page
+    # GIVEN a book's content page and a sim_ratio
+    sim_ratio = 0.4
     home = Home(selenium, webview_base_url).open()
     book = home.featured_books.openstax_list[0]
     content = book.click_book_cover()
@@ -754,7 +756,10 @@ def test_navigation(webview_base_url, selenium):
 
     assert type(content) == Content
     # Introduction should be the first section loaded
-    assert content.section_title == "Introduction"
+    assert (
+        content.section_title == "Introduction"
+        or similar(content.section_title, "Introduction") > sim_ratio
+    )
     # Preface is skipped by default
     assert header_nav.progress_bar_fraction_is(2 / num_pages)
 
