@@ -23,7 +23,6 @@ pytest_plugins = (
     "fixtures.neb",
     "fixtures.applitools",
     "fixtures.webversions",
-    "fixtures.showmore",
 )
 
 # Load environment variables from .env file
