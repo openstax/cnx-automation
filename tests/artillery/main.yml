@@ -2,7 +2,7 @@ config:
   target: 'https://qa.cnx.org'
   order: sequence
   payload:
-    path: "rex_urls.csv"
+    path: "cnx_urls.csv"
     fields:
       - source_URL
     # skipHeader: true # CSV includes header, skip it
