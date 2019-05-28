@@ -20,6 +20,7 @@ pytest_plugins = (
     "fixtures.webview",
     "fixtures.legacy",
     "fixtures.neb",
+    "fixtures.rex",
 )
 
 # Load environment variables from .env file
@@ -86,6 +87,13 @@ def pytest_addoption(parser):
         metavar="url",
         default=os.getenv("WEBVIEW_BASE_URL", None),
         help="base url for CNX webview.",
+    )
+    parser.addini("rex_base_url", help="base url for REX.")
+    parser.addoption(
+        "--rex_base_url",
+        metavar="url",
+        default=os.getenv("REX_BASE_URL", None),
+        help="base url for REX.",
     )
     parser.addoption(
         "--legacy_username", default=os.getenv("LEGACY_USERNAME"), help="username for CNX legacy."
