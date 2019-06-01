@@ -6,7 +6,7 @@ attrs==19.1.0
 cached-property==1.5.1
 certifi==2019.3.9
 cffi==1.12.3
-cfgv==1.6.0
+cfgv==2.0.0
 chardet==3.0.4
 Click==7.0
 cnx-litezip==1.6.0
