@@ -13,6 +13,7 @@ env:
     - ARCHIVE_BASE_URL=https://archive-staging.cnx.org
     - LEGACY_BASE_URL=https://legacy-staging.cnx.org
     - NEB_ENV=staging
+    - WEBVIEW_BASE_URL=https://staging.cnx.org
     - REX_BASE_URL=https://rex-web.herokuapp.com
   matrix:
     - MARK=webview WORKERS=4
