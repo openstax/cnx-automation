@@ -5,7 +5,9 @@
 <a href="https://github.com/ambv/black"><img alt="Code style: black" src="https://img.shields.io/badge/code%20style-black-000000.svg"></a>
 </p>
 
-## Getting started
+# Getting started
+
+There are two ways to run the tests, using Docker or with a local virtual environment. Not all tests require Selenium, but for the ones that do you will need `chromedriver` locally installed (in MacOS with homebrew run `brew cask install chromedriver`).
 
 ### Clone the repository
 
@@ -65,7 +67,7 @@ Switch over to the VNC window to see your tests running!
 #### Install git pre-commit hooks
 
 This utilizes [pre-commit](https://pre-commit.com/) to format code using [black](https://github.com/ambv/black)
-and lint your code using flake8. This is IDE agnostic and runs only on checked in code before a commit. 
+and lint your code using flake8. This is IDE agnostic and runs only on checked in code before a commit.
 
     $ make precommit
 
@@ -83,9 +85,11 @@ If you intend to run the legacy tests, you will need to set the LEGACY_USERNAME
 and LEGACY_PASSWORD environment variables. You can either export them from your
 shell profile or simply add them to a `.env` file in the root dir of this repo.
 
-### Run the tests using pytest
+## How to run the tests using pytest and a virtual environment
 
-When only using the `pytest` command the default environment will set to QA. 
+After (preparing the project locally)[#how-to-prepare-the-project-locally], in a clean virtual environment (run `make clean` if necessary or run the risk of getting nondescriptive errors), proceed to the following instructions.
+
+When only using the `pytest` command the default environment will be set to QA.
 
 To run against a different environment pass in a value for `--webview_base_url`, `--legacy_base_url`, `--archive_base_url`:
 
