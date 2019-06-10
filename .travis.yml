@@ -22,6 +22,7 @@ env:
     - MARK=rex WORKERS=1
 
 addons:
+  chrome: stable
   apt:
     packages:
       - chromium-chromedriver

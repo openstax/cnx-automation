@@ -175,7 +175,7 @@ def test_search_click_result(webview_base_url, selenium, query):
 @markers.webview
 @markers.test_case("C176278")
 @markers.nondestructive
-@markers.parametrize("query", ["Boreal Aardvark"])
+@markers.parametrize("query", ["Archaea"])
 def test_search_pagination(webview_base_url, selenium, query):
     # GIVEN the browse page and a query
     home = Home(selenium, webview_base_url).open()
@@ -213,7 +213,7 @@ def test_search_pagination(webview_base_url, selenium, query):
 @markers.smoke
 @markers.test_case("C176278")
 @markers.nondestructive
-@markers.parametrize("query", ["Boreal Aardvark"])
+@markers.parametrize("query", ["Archaea"])
 def test_search_click_pagination(webview_base_url, selenium, query):
     # GIVEN the search results page
     home = Home(selenium, webview_base_url).open()

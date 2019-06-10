@@ -8,6 +8,7 @@ from pages.webview.home import Home
 
 @markers.rex
 @markers.nondestructive
+@markers.xfail
 def test_redirect_for_rex_books(webview_base_url, rex_base_url):
     # end-to-end integration test for redirecting REX-available books from webview to REX.
     # see: https://github.com/openstax/cnx/issues/344
@@ -58,6 +59,7 @@ def test_redirecting_to_rex_from_within_webview(webview_base_url, rex_base_url, 
 
 @markers.rex
 @markers.nondestructive
+@markers.xfail
 def test_minimal_view_for_android_apps(webview_base_url, rex_base_url):
     """All requests for REX books that come from the Android App
     should continue to pass through to the cnx site (these requests

@@ -5,7 +5,7 @@
 <a href="https://github.com/ambv/black"><img alt="Code style: black" src="https://img.shields.io/badge/code%20style-black-000000.svg"></a>
 </p>
 
-## Getting started
+# Getting started
 
 ### Clone the repository
 
@@ -65,7 +65,7 @@ Switch over to the VNC window to see your tests running!
 #### Install git pre-commit hooks
 
 This utilizes [pre-commit](https://pre-commit.com/) to format code using [black](https://github.com/ambv/black)
-and lint your code using flake8. This is IDE agnostic and runs only on checked in code before a commit. 
+and lint your code using flake8. This is IDE agnostic and runs only on checked in code before a commit.
 
     $ make precommit
 
@@ -85,7 +85,7 @@ shell profile or simply add them to a `.env` file in the root dir of this repo.
 
 ### Run the tests using pytest
 
-When only using the `pytest` command the default environment will set to QA. 
+When only using the `pytest` command the default environment will set to QA.
 
 To run against a different environment pass in a value for `--webview_base_url`, `--legacy_base_url`, `--archive_base_url`:
 
