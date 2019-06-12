@@ -34,25 +34,25 @@ def pytest_addoption(parser):
         "--disable-dev-shm-usage",
         action="store_true",
         default=os.getenv("DISABLE_DEV_SHM_USAGE", False),
-        help="disable chrome's usage of /dev/shm.",
+        help="disable chrome's usage of /dev/shm. (used by Travis)",
     )
     group.addoption(
         "--headless",
         action="store_true",
         default=os.getenv("HEADLESS", False),
-        help="enable headless mode for chrome.",
+        help="enable headless mode for chrome. So chrome does not interrupt you.",
     )
     group.addoption(
         "--no-sandbox",
         action="store_true",
         default=os.getenv("NO_SANDBOX", False),
-        help="disable chrome's sandbox.",
+        help="disable chrome's sandbox. (used by Travis)",
     )
     group.addoption(
         "--print-page-source-on-failure",
         action="store_true",
         default=os.getenv("PRINT_PAGE_SOURCE_ON_FAILURE", False),
-        help="print page source to stdout when a test fails.",
+        help="print page source to stdout when a test fails. (used by Travis)",
     )
     parser.addoption(
         "--github-token",
@@ -63,7 +63,7 @@ def pytest_addoption(parser):
         "--runslow",
         action="store_true",
         default=os.getenv("RUNSLOW", False),
-        help="run slow tests.",
+        help="run slow tests (legacy).",
     )
     # Adapted from:
     # https://github.com/pytest-dev/pytest-base-url/blob/master/pytest_base_url/plugin.py#L51
