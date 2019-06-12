@@ -54,6 +54,10 @@ Switch over to the VNC window to see your tests running!
 
 ### Install dependencies
 
+#### Install Selenium
+
+    $ brew cask install selenium      # macOS
+
 #### Create a virtualenv
 
     $ make venv
