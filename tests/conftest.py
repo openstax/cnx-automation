@@ -63,7 +63,7 @@ def pytest_addoption(parser):
         "--runslow",
         action="store_true",
         default=os.getenv("RUNSLOW", False),
-        help="run slow tests (legacy).",
+        help="run slow tests (necessary for legacy tests).",
     )
     # Adapted from:
     # https://github.com/pytest-dev/pytest-base-url/blob/master/pytest_base_url/plugin.py#L51
