@@ -54,9 +54,9 @@ Switch over to the VNC window to see your tests running!
 
 ### Install dependencies
 
-#### Install Selenium
+#### Install Selenium Chrome WebDriver
 
-    $ brew cask install selenium      # macOS
+    $ brew cask install chromedriver    # macOS
 
 #### Create a virtualenv
 
