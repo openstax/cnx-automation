@@ -5,9 +5,9 @@ from tests import markers
 from pages.webview.home import Home
 from selenium.common.exceptions import StaleElementReferenceException
 from selenium.common.exceptions import ElementNotVisibleException
+from selenium.common.exceptions import ElementNotInteractableException, TimeoutException
 
-
-ApplName = 'Webview_Pages - 4444'
+ApplName = 'Webview_Pages - 8888'
 
 # Visual page content verification using applitools' eyes function
 # To see results, log in to eyes.applitools.com/app/test-results
@@ -31,7 +31,10 @@ def test_page_objects(applitools, webview_base_url, selenium, width, height):
         # Start the test and set the browser's viewport size to 1400x820.
         applitools.open(driver=selenium, app_name=ApplName, test_name='Book:Pages', viewport_size={'width': width, 'height': height})
 
-        for i in range(0, 40, 3):
+        home = Home(selenium, webview_base_url).open()
+        obooks = home.featured_books.openstax_list
+
+        for i in range(0, len(obooks)-2, 3):
 
             home = Home(selenium, webview_base_url).open()
             book = home.featured_books.openstax_list[i]
@@ -47,13 +50,10 @@ def test_page_objects(applitools, webview_base_url, selenium, width, height):
                     page = cchapter.pages[k]
                     content = page.click()
 
-                except ElementNotVisibleException:
+                except (ElementNotVisibleException, StaleElementReferenceException, ElementNotInteractableException, TimeoutException) as errors:
 
-                    print(" -->> 'Element Not Visible Exception' occurred. Moved on to next collection <<-- ")
-
-                except (StaleElementReferenceException):
-
-                    print(" -->> 'Stale Element Reference Exception' occurred. Moved on to next collection <<-- ")
+                    print(" ---> ERROR MESSAGES:")
+                    print(errors)
 
                 else:
 

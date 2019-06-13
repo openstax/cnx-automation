@@ -2,6 +2,8 @@ from tests import markers
 from pages.webview.home import Home
 from applitools.eyes import MatchLevel
 
+# FINAL VERSION: June 5, 2019
+
 APP_NAME = 'Webview_Homepage'
 
 # Verifies all the openstax featured books on the cnx homepage

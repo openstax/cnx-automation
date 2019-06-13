@@ -10,7 +10,7 @@ load_dotenv(verbose = True)
 
 applitools_key = os.environ['APPLITOOLS_API_KEY']
 url_addr = os.environ['URL_HOME_PAGE']
-App_Name = 'CNX HOMEPAGE BOOKS'
+App_Name = 'CNX HOMEPAGE BOOKS-1'
 
 class CnxHomePageBooksLayout():
 

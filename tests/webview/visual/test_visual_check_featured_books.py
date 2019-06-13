@@ -1,7 +1,9 @@
 from tests import markers
 from pages.webview.home import Home
 
-APP_NAME = '- CNX HOMEPAGE BOOKS VISUAL VERIFICATION -'
+# FINAL VERSION: June 5, 2019
+
+APP_NAME = '- CNX/OPENSTAX FEATURED BOOKS CHECK -'
 
 # Verifies all the openstax featured books on the cnx homepage
 # by visually comparing them to a set of baseline images
