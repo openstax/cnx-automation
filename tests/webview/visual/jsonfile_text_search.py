@@ -84,10 +84,8 @@ def json_values(index_values, matchedi, splitdat, word):
 
 def main():
     url = input('Webapge address: ')
-    # url = "https://archive-staging.cnx.org/contents/0889907c-f0ef-496a-bcb8-2a5bb121717f@8.19.json"
     print(" ")
     word = input('Search this string: ')
-    # word = '"slug":'
     print('')
 
     splitdats = convert_json_to_list(url)
