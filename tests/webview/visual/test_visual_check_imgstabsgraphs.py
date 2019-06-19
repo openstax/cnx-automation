@@ -7,7 +7,9 @@ from selenium.common.exceptions import StaleElementReferenceException
 from selenium.common.exceptions import ElementNotVisibleException
 from selenium.common.exceptions import ElementNotInteractableException, TimeoutException
 
-ApplName = 'Webview_Pages - 8888'
+ApplName = 'Webview_Page Contents'
+
+# FINAL VERSION: June 19, 2019
 
 # Visual page content verification using applitools' eyes function
 # To see results, log in to eyes.applitools.com/app/test-results
