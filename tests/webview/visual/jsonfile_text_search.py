@@ -6,7 +6,7 @@ Takes a json file and converts it to a list, finds indexes of searched items,
 their values and prints them out  
 """
 
-# FINAL VERSION: June 11, 2019
+# FINAL VERSION: June 19, 2019
 
 def user_input(prompt=None):
     return input(prompt)
@@ -56,15 +56,14 @@ def json_indexs(matchedi, splitdat, word):
         mplus.append(matchedi[j] + 1)
 
         index_values2 = splitdat[mplus[j]]
-
         index_values.append(splitdat[mplus[j]])
 
         print(index_values2)
 
     return index_values
 
-
-def json_values(index_values, matchedi, splitdat, word):
+# index_values
+def json_values(matchedi, splitdat, word):
     count = splitdat.count(word)
 
     if matchedi > [] or count > 0:
@@ -77,27 +76,31 @@ def json_values(index_values, matchedi, splitdat, word):
         exit()
 
     else:
-        print('')
+        print(' ')
         print(f'!!! String >>{word}<< was not found in the list !!!')
-        print('')
+        print(' ')
+        exit()
 
 
 def main():
     url = input('Webapge address: ')
-    print(" ")
+    print(' ')
     word = input('Search this string: ')
-    print('')
+    print(' ')
 
     splitdats = convert_json_to_list(url)
     indexed_slugs = json_splits(splitdats, word)
     values_of_indexes = json_indexs(indexed_slugs, splitdats, word)
-    counting = json_values(values_of_indexes, indexed_slugs, splitdats, word)
+    counting = json_values(indexed_slugs, splitdats, word)
 
-    # Prints the complete list created out of the json file
+    # values_of_indexes,
+
+    # (optional) Prints the complete list created out of the json file
     # print("COMPLETE LIST: ", splitdats)
-    # Prints the indexes of the searched items in the list
+    # (optional) Prints the indexes of the searched items in the list
     # print("ITEM INDEXES: ", indexed_slugs)
-    print("VALUES OF INDEXES: \n", values_of_indexes)
+    # (optional)
+    # print("VALUES OF INDEXES: \n", values_of_indexes)
 
     return
 
