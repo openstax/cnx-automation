@@ -17,7 +17,7 @@ ApplName = 'Page Content Check'
 @markers.webview
 @markers.nondestructive
 @markers.parametrize("width, height", [(1400, 820)])
-def test_page_objects(applitools, webview_base_url, selenium, width, height):
+def visual_page_object_verification(applitools, webview_base_url, selenium, width, height):
 
     # Level of matching the baseline and current screenshots
     # Valid match levels are:
