@@ -11,8 +11,10 @@ ApplName = 'Page Content Check'
 
 # FINAL VERSION: June 20, 2019
 
-# Visual page content verification using applitools' eyes function
-# To see results, log in to eyes.applitools.com/app/test-results
+"""
+Visually checks pages contents (text, tabs, graphs and images) using applitools' eyes function.
+Results are in eyes.applitools.com/app/test-results
+"""
 
 @markers.webview
 @markers.nondestructive
