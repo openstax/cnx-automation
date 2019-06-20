@@ -9,7 +9,7 @@ from selenium.common.exceptions import ElementNotInteractableException, TimeoutE
 
 ApplName = 'Page Content Check'
 
-# FINAL VERSION: June 19, 2019
+# FINAL VERSION: June 20, 2019
 
 # Visual page content verification using applitools' eyes function
 # To see results, log in to eyes.applitools.com/app/test-results
