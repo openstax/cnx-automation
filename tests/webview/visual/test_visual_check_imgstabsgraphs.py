@@ -64,7 +64,7 @@ def test_page_objects(applitools, webview_base_url, selenium, width, height):
 
                     sleep(1)
 
-                    # Visual checkpoint - screenshot of the page
+                    # Visual checkpoint and screenshot of the page
                     applitools.check_window('-> {}'.format(webview_base_url))
 
         applitools.close()
