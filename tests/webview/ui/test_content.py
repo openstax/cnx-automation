@@ -15,6 +15,7 @@ from tests import markers
 
 from pages.webview.home import Home
 from pages.webview.content import Content
+from tests.utils import similar
 
 
 @markers.webview
@@ -255,6 +256,7 @@ def test_toc_is_displayed(webview_base_url, selenium):
 
 
 @markers.webview
+@markers.smoke
 @markers.test_case("C176243", "C176244")
 @markers.nondestructive
 def test_toc_navigation(webview_base_url, selenium):
@@ -266,7 +268,7 @@ def test_toc_navigation(webview_base_url, selenium):
     toc = content.table_of_contents
 
     # WHEN a chapter is expanded and we navigate to one of its pages
-    chapter = toc.chapters[1]
+    chapter = toc.chapters[0]
     chapter = chapter.click()
     page = chapter.pages[1]
     chapter_section = page.chapter_section
@@ -280,6 +282,7 @@ def test_toc_navigation(webview_base_url, selenium):
 
 
 @markers.webview
+@markers.smoke
 @markers.test_case("C176257")
 @markers.nondestructive
 def test_share_on_top_right_corner(webview_base_url, selenium):
@@ -303,23 +306,22 @@ def test_share_on_top_right_corner(webview_base_url, selenium):
 
 
 @markers.webview
+@markers.smoke
 @markers.test_case("C132549", "C175148")
 @markers.nondestructive
 @markers.parametrize(
     "uuid,query,has_results,result_index,has_os_figures,has_os_tables",
     [
-        # FIXME slim dump doesn't contain baked content:
-        #       https://github.com/openstax/quality-assurance-meta/issues/81
-        # ('d50f6e32-0fda-46ef-a362-9bd36ca7c97d', 'table', True, 1, True, True),
         (
-            "185cbf87-c72e-48f5-b51e-f14f21b5eabd",
+            "8d50a0af-948b-4204-a71d-4826cba765b8",
             "mitosis genetics gorilla",
             False,
             None,
             None,
             None,
         ),
-        ("185cbf87-c72e-48f5-b51e-f14f21b5eabd", "mitosis genetics", True, 0, False, False),
+        ("8d50a0af-948b-4204-a71d-4826cba765b8", "mitosis genetics", True, 0, True, False),
+        ("d50f6e32-0fda-46ef-a362-9bd36ca7c97d", "table", True, 1, True, True),
     ],
 )
 def test_in_book_search(
@@ -355,7 +357,7 @@ def test_in_book_search(
             assert result.count_occurrences(word) == result.count_bold_occurrences(word)
 
     result = results[result_index]
-    title = result.title_with_chapter_section
+    title = result.title
     content = result.click_link()
     assert content.section_title == title
 
@@ -373,6 +375,7 @@ def test_in_book_search(
 
 
 @markers.webview
+@markers.smoke
 @markers.test_case("C176258", "C176259", "C176260", "C176261")
 @markers.nondestructive
 def test_share_links_displayed(webview_base_url, selenium):
@@ -416,6 +419,7 @@ def test_newer_version_leads_to_correct_page(webview_base_url, selenium, id):
 
 
 @markers.webview
+@markers.smoke
 @markers.test_case("C176234")
 @markers.nondestructive
 def test_get_this_book(webview_base_url, selenium):
@@ -467,6 +471,7 @@ def test_section_title_for_no_markup(webview_base_url, selenium):
 
 
 @markers.webview
+@markers.smoke
 @markers.test_case("C195074")
 @markers.nondestructive
 @markers.parametrize("id", ["u2KTPvIK@3.1:Zv6FJYpb@3"])
@@ -488,6 +493,7 @@ def test_page_with_unicode_characters_in_title_loads(webview_base_url, selenium,
 
 
 @markers.webview
+@markers.smoke
 @markers.test_case("C176236")
 @markers.nondestructive
 def test_content_and_figures_display_after_scrolling(webview_base_url, selenium):
@@ -508,6 +514,7 @@ def test_content_and_figures_display_after_scrolling(webview_base_url, selenium)
 
 
 @markers.webview
+@markers.smoke
 @markers.test_case("C176235", "C176237")
 @markers.nondestructive
 def test_nav_and_menus_display_after_scrolling(webview_base_url, selenium):
@@ -562,6 +569,7 @@ def test_nav_and_menus_display_after_scrolling(webview_base_url, selenium):
 
 
 @markers.webview
+@markers.smoke
 @markers.test_case("C195232")
 @markers.nondestructive
 @markers.parametrize("width,height", [(480, 640)])
@@ -664,6 +672,7 @@ def test_mobile_nav_and_menus_hide_after_scrolling(webview_base_url, selenium, w
 
 
 @markers.webview
+@markers.smoke
 @markers.test_case("C162171")
 @markers.nondestructive
 def test_attribution(webview_base_url, selenium):
@@ -682,6 +691,7 @@ def test_attribution(webview_base_url, selenium):
 
 
 @markers.webview
+@markers.smoke
 @markers.test_case("C176241")
 @markers.nondestructive
 def test_back_to_top(webview_base_url, selenium):
@@ -730,10 +740,12 @@ def test_back_to_top(webview_base_url, selenium):
 
 
 @markers.webview
+@markers.smoke
 @markers.test_case("C176238", "C176239", "C176240", "C176245")
 @markers.nondestructive
 def test_navigation(webview_base_url, selenium):
-    # GIVEN a book's content page
+    # GIVEN a book's content page and a sim_ratio
+    sim_ratio = 0.4
     home = Home(selenium, webview_base_url).open()
     book = home.featured_books.openstax_list[0]
     content = book.click_book_cover()
@@ -744,7 +756,10 @@ def test_navigation(webview_base_url, selenium):
 
     assert type(content) == Content
     # Introduction should be the first section loaded
-    assert content.section_title == "Introduction"
+    assert (
+        content.section_title == "Introduction"
+        or similar(content.section_title, "Introduction") > sim_ratio
+    )
     # Preface is skipped by default
     assert header_nav.progress_bar_fraction_is(2 / num_pages)
 
@@ -826,7 +841,16 @@ def test_id_links_and_back_button(page_uuid, is_baked_book_index, webview_base_u
 @markers.webview
 @markers.test_case("C181754")
 @markers.nondestructive
-@markers.parametrize("ch_review_id", ["eg-XcBxE@9.2:PNQSpSVj", "eg-XcBxE:PNQSpSVj"])
+@markers.parametrize(
+    "ch_review_id",
+    [
+        "eg-XcBxE@9.2:PNQSpSVj",
+        pytest.param(
+            "eg-XcBxE:PNQSpSVj",
+            marks=markers.xfail(reason="https://github.com/openstax/cnx-automation/issues/549"),
+        ),
+    ],
+)
 def test_chapter_review_version_matches_book_version(webview_base_url, selenium, ch_review_id):
     # GIVEN the webview base url, a chapter review id, and the Selenium driver
 
@@ -838,6 +862,7 @@ def test_chapter_review_version_matches_book_version(webview_base_url, selenium,
 
 
 @markers.webview
+@markers.smoke
 @markers.test_case("C195064")
 @markers.nondestructive
 @markers.parametrize("ch_review_id", ["e5fbbjPE"])
@@ -968,6 +993,7 @@ def test_books_containing_list_in_sorted_order(webview_base_url, selenium, page_
 
 
 @markers.webview
+@markers.smoke
 @markers.requires_complete_dataset
 @markers.test_case("C195055")
 @markers.nondestructive
@@ -1013,6 +1039,7 @@ def test_books_containing_list_is_on_left_of_page(webview_base_url, selenium, pa
 
 
 @markers.webview
+@markers.smoke
 @markers.requires_complete_dataset
 @markers.test_case("C195056")
 @markers.nondestructive

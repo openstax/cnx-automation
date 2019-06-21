@@ -16,6 +16,7 @@ _number_of_tested_books = 2
 
 @markers.webview
 @markers.legacy
+@markers.smoke
 @markers.test_case("C167405")
 @markers.nondestructive
 @markers.parametrize("width,height", [(1024, 768), (640, 480), (480, 640)])

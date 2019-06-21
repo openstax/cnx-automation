@@ -13,6 +13,7 @@ from pages.webview.content import Content
 
 
 @markers.webview
+@markers.smoke
 @markers.test_case("C176281")
 @markers.nondestructive
 def test_search_no_results(webview_base_url, selenium):
@@ -34,6 +35,7 @@ def test_search_no_results(webview_base_url, selenium):
 # The query needs to contain a rare word, otherwise we may timeout when searching
 # Postgres removes stop words automatically, so don't include those either
 @markers.webview
+@markers.smoke
 @markers.test_case("C176273")
 @markers.nondestructive
 @markers.parametrize("query", ["Boreal Aardvark", "mitosis genetics gorilla"])
@@ -148,6 +150,7 @@ def test_search_bold(webview_base_url, selenium, query):
 # The query needs to contain few, rare words, otherwise we may timeout when searching
 # Postgres removes stop words automatically, so don't include those either
 @markers.webview
+@markers.smoke
 @markers.test_case("C176277")
 @markers.nondestructive
 @markers.parametrize("query", ["Boreal Aardvark"])
@@ -172,7 +175,7 @@ def test_search_click_result(webview_base_url, selenium, query):
 @markers.webview
 @markers.test_case("C176278")
 @markers.nondestructive
-@markers.parametrize("query", ["Boreal Aardvark"])
+@markers.parametrize("query", ["Archaea"])
 def test_search_pagination(webview_base_url, selenium, query):
     # GIVEN the browse page and a query
     home = Home(selenium, webview_base_url).open()
@@ -207,9 +210,10 @@ def test_search_pagination(webview_base_url, selenium, query):
 # The query needs to contain few, rare words, otherwise we may timeout when searching
 # Postgres removes stop words automatically, so don't include those either
 @markers.webview
+@markers.smoke
 @markers.test_case("C176278")
 @markers.nondestructive
-@markers.parametrize("query", ["Boreal Aardvark"])
+@markers.parametrize("query", ["Archaea"])
 def test_search_click_pagination(webview_base_url, selenium, query):
     # GIVEN the search results page
     home = Home(selenium, webview_base_url).open()
@@ -244,6 +248,7 @@ def test_search_click_pagination(webview_base_url, selenium, query):
 
 
 @markers.webview
+@markers.smoke
 @markers.test_case("C176279")
 @markers.nondestructive
 def test_advanced_search(webview_base_url, selenium):
@@ -297,6 +302,7 @@ def test_advanced_search(webview_base_url, selenium):
 # The query needs to contain a rare word, otherwise we may timeout when searching
 # Postgres removes stop words automatically, so don't include those either
 @markers.webview
+@markers.smoke
 @markers.test_case("C175151")
 @markers.nondestructive
 @markers.parametrize(

@@ -5,7 +5,7 @@
 <a href="https://github.com/ambv/black"><img alt="Code style: black" src="https://img.shields.io/badge/code%20style-black-000000.svg"></a>
 </p>
 
-## Getting started
+# Getting started
 
 ### Clone the repository
 
@@ -27,9 +27,9 @@ Follow the instructions to install [Docker Compose](https://docs.docker.com/comp
 
 ### Execute the tests
 
-    $ docker-compose exec selenium-chrome tox 
+    $ docker-compose exec selenium-chrome pytest
 
-> Note: The [Run the tests using tox](#run-the-tests-using-tox) section covers how to pass arguments to tox in order to target specific tests
+> Note: The [Run the tests using pytest](#run-the-tests-using-pytest) section covers how to pass arguments to pytest in order to target specific tests
 
 ### View the browser
 
@@ -46,13 +46,17 @@ Use a VNC application to connect to `0.0.0.0:32778`. The port number `32778` may
 
 Execute the tests as described above.
 
-    $ docker-compose exec selenium-chrome tox
+    $ docker-compose exec selenium-chrome pytest
 
 Switch over to the VNC window to see your tests running!
 
 ## How to prepare the project locally
 
 ### Install dependencies
+
+#### Install Selenium Chrome WebDriver
+
+    $ brew cask install chromedriver    # macOS
 
 #### Create a virtualenv
 
@@ -65,7 +69,7 @@ Switch over to the VNC window to see your tests running!
 #### Install git pre-commit hooks
 
 This utilizes [pre-commit](https://pre-commit.com/) to format code using [black](https://github.com/ambv/black)
-and lint your code using flake8. This is IDE agnostic and runs only on checked in code before a commit. 
+and lint your code using flake8. This is IDE agnostic and runs only on checked in code before a commit.
 
     $ make precommit
 
@@ -83,52 +87,26 @@ If you intend to run the legacy tests, you will need to set the LEGACY_USERNAME
 and LEGACY_PASSWORD environment variables. You can either export them from your
 shell profile or simply add them to a `.env` file in the root dir of this repo.
 
-### Run the tests using tox
+### Run the tests using pytest
 
-Tests are run using the command line using the `tox` command. By default this
-will run all of the environments configured, including checking your tests against
-recommended style conventions using [flake8][flake8].
+When only using the `pytest` command the default environment will set to QA.
 
-To run against a different base URL, pass in a value for `--webview_base_url`, `--legacy_base_url`, `--archive_base_url`:
+To run against a different environment pass in a value for `--webview_base_url`, `--legacy_base_url`, `--archive_base_url`:
 
+**Staging**
 ```bash
-$ tox -- --webview_base_url=https://staging.cnx.org
+$ pytest --webview_base_url https://staging.cnx.org --legacy_base_url https://legacy-staging.cnx.org --archive_base_url https://archive-staging.cnx.org
 ```
 
-To run Chrome in headless mode, pass in `--headless` or set the HEADLESS environment variable:
-
+**Production**
 ```bash
-$ tox -- --headless
+$ pytest --webview_base_url https://cnx.org --legacy_base_url https://legacy.cnx.org --archive_base_url https://archive.cnx.org
 ```
 
-To run against a different browser, pass in a value for `--driver`:
+To run a specific test or test module pass in a value for `-k`:
 
 ```bash
-$ tox -- --driver=Chrome
-```
-
-To run a specific test, pass in a value for `-k`:
-
-```bash
-$ tox -- -k=test_my_feature
-```
-
-To run a specific project, pass in `webview`, `legacy`, or `neb` for `-m`:
-
-```bash
-$ tox -- -m=webview
-```
-
-### Run the tests using Pytest
-
-There are occasions when running tox may not be the most ideal; Especially when you need more control over the framework. When this is the case pytest can be executed directly.
-
-The tox examples above essentially pass the options after the `--` to the pytest command.
-
-To run a specific test, pass in a value for `-k`:
-
-```bash
-$ pytest -k test_my_feature
+$ pytest -k test_about
 ```
 
 To run a specific project, pass in `webview`, `legacy`, or `neb` for `-m`:
@@ -147,6 +125,14 @@ To run tests in parallel you can combine the above and use `-n` option to specif
 
 ```bash
 $ pytest -n 4 -m webview
+```
+
+#### Run Smoke Tests
+
+To run smoke tests you can add the `smoke` marker to the particular project that is being tested:
+
+```bash
+$ pytest -m "webview and smoke"
 ```
 
 ### Additional Pytest Options
@@ -191,6 +177,12 @@ def test_foo_uploads_bar:
 ```
 
 ## Framework Design
+
+### Pytest Selenium Training
+
+You can find more in depth documentation in our [Pytest Selenium Training][selenium-training].
+
+### Brief Architectural Description
 
 This testing framework heavily relies on the [PyPOM][pypom]. The [PyPOM][pypom]
 library is the Python implementation of the [PageObject][pageobject] design pattern.
@@ -239,3 +231,4 @@ pattern.
 [pageobject]: https://martinfowler.com/bliki/PageObject.html
 [pytest]: https://docs.pytest.org/en/latest/
 [mozilla]: https://github.com/mozilla/addons-server
+[selenium-training]: https://qualitas-server.herokuapp.com/wiki/Introduction_to_Pytest_and_Selenium
