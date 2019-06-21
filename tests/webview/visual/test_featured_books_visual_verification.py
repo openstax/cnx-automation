@@ -16,7 +16,7 @@ Visually checks and compares featured openstax books on cnx homepage
 @markers.webview
 @markers.nondestructive
 @markers.parametrize("width, height", [(1400, 820)])
-def featured_books_visual_verification(applitools, webview_base_url, selenium, width, height):
+def test_home_objects(applitools, webview_base_url, selenium, width, height):
 
     # Level of matching the baseline and current screenshots
     # Valid match levels are:
@@ -34,7 +34,7 @@ def featured_books_visual_verification(applitools, webview_base_url, selenium, w
         # Start the test and set the browser's viewport size to 1400x820
         applitools.open(driver=selenium, app_name=APP_NAME, test_name='Test homepage books', viewport_size={'width': width, 'height': height})
 
-        # list of all openstax featured cnx books (without Community-Created Content)
+        # list of all openstax featured books (without Community-Created Content)
         openstax_books = home.featured_books.openstax_list
 
         for i in range(len(openstax_books)):
@@ -52,3 +52,4 @@ def featured_books_visual_verification(applitools, webview_base_url, selenium, w
         # If the test was aborted before applitools.close was called, ends the test as aborted
         applitools.abort_if_not_closed()
 
+        assert applitools.api_key
