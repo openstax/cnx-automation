@@ -31,4 +31,4 @@ before_script:
   - ln -s /usr/lib/chromium-browser/chromedriver ~/bin/chromedriver
 
 script:
-  - pytest -m $MARK -n $WORKERS -vv
+  - pytest -m "$MARK" -n $WORKERS -vv
