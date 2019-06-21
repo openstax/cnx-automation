@@ -4,9 +4,8 @@
 
 import os
 import pytest
-import requests
 
-from parsers.cnx_deploy.version import VersionParser
+import tldextract
 from tests.utils import gen_from_file, skip_if_destructive_and_sensitive
 
 DATA_DIR = os.path.join(os.path.realpath(os.path.dirname(__file__)), "data", "webview")
@@ -31,3 +30,12 @@ def webview_base_url(request):
     if base_url is not None:
         skip_if_destructive_and_sensitive(request, base_url)
         return base_url
+
+
+@pytest.fixture
+def webview_instance(webview_base_url):
+    url = tldextract.extract(webview_base_url)
+    if url.subdomain:
+        return url.subdomain
+    else:
+        return "prod"
