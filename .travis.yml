@@ -15,9 +15,8 @@ env:
     - NEB_ENV=staging
     - WEBVIEW_BASE_URL=https://staging.cnx.org
     - REX_BASE_URL=https://rex-web.herokuapp.com
-    - URL_ADDR_VERSION=https://staging.cnx.org/version.txt
   matrix:
-    - MARK=webview WORKERS=4
+    - MARK="webview and not visual" WORKERS=4
     - MARK=legacy RUNSLOW=true WORKERS=1
     - MARK=neb WORKERS=1
     - MARK=rex WORKERS=1
