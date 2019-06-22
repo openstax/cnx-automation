@@ -11,7 +11,6 @@ from pages.webview.home import Home
 @markers.webview
 @markers.visual
 @markers.nondestructive
-@markers.parametrize("width, height", [(1400, 820)])
 def test_home_page_full_strict(
     applitools, webview_base_url, webview_instance, selenium, width, height
 ):
@@ -45,11 +44,9 @@ def test_home_page_full_strict(
 @markers.webview
 @markers.visual
 @markers.nondestructive
-@markers.parametrize("width, height", [(1400, 820)])
 def test_home_openstax_books_show_more_strict(
     applitools, webview_base_url, selenium, webview_instance, width, height
 ):
-
     if webview_instance == "qa":
         pytest.skip(f"Skipping test on {webview_instance}")
 
