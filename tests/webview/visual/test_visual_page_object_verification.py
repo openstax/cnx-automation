@@ -5,7 +5,7 @@ from tests import markers
 from pages.webview.home import Home
 from selenium.common.exceptions import StaleElementReferenceException
 from selenium.common.exceptions import ElementNotVisibleException
-from selenium.common.exceptions import ElementNotInteractableException, TimeoutException
+from selenium.common.exceptions import ElementNotInteractableException
 
 ApplName = 'Page Content Check'
 
@@ -33,7 +33,7 @@ def visual_page_object_verification(applitools, webview_base_url, selenium, widt
     try:
 
         # Start the test and set the browser's viewport size to 1400x820.
-        applitools.open(driver=selenium, app_name=ApplName, test_name='Book:Pages', viewport_size={'width': width, 'height': height})
+        applitools.open(driver=selenium, app_name=ApplName, test_name='Random visual page content check', viewport_size={'width': width, 'height': height})
 
         home = Home(selenium, webview_base_url).open()
         obooks = home.featured_books.openstax_list
@@ -53,8 +53,9 @@ def visual_page_object_verification(applitools, webview_base_url, selenium, widt
                     cchapter = lchapter.click()
                     page = cchapter.pages[k]
                     content = page.click()
+                    content_title = content.clean_title
 
-                except (ElementNotVisibleException, StaleElementReferenceException, ElementNotInteractableException, TimeoutException) as errors:
+                except (ElementNotVisibleException, StaleElementReferenceException, ElementNotInteractableException) as errors:
 
                     print(" ---> ERROR MESSAGES:")
                     print(errors)
@@ -67,7 +68,7 @@ def visual_page_object_verification(applitools, webview_base_url, selenium, widt
                     sleep(1)
 
                     # Visual checkpoint and screenshot of the page
-                    applitools.check_window('-> {}'.format(webview_base_url))
+                    applitools.check_window('-> {}'.format(content_title + webview_base_url))
 
         applitools.close()
 
