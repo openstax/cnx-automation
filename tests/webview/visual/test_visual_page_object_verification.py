@@ -19,7 +19,7 @@ Results are in eyes.applitools.com/app/test-results
 @markers.webview
 @markers.nondestructive
 @markers.parametrize("width, height", [(1400, 820)])
-def visual_page_object_verification(applitools, webview_base_url, selenium, width, height):
+def test_visual_page_object_verification(applitools, webview_base_url, selenium, width, height):
 
     # Level of matching the baseline and current screenshots
     # Valid match levels are:
@@ -68,7 +68,7 @@ def visual_page_object_verification(applitools, webview_base_url, selenium, widt
                     sleep(1)
 
                     # Visual checkpoint and screenshot of the page
-                    applitools.check_window('-> {}'.format(content_title + webview_base_url))
+                    applitools.check_window('-> {} : {}'.format(content_title, webview_base_url))
 
         applitools.close()
 
