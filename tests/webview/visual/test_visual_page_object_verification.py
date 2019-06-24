@@ -18,7 +18,6 @@ Results are in eyes.applitools.com/app/test-results
 
 @markers.webview
 @markers.nondestructive
-@markers.parametrize("width, height", [(1400, 820)])
 def test_visual_page_object_verification(applitools, webview_base_url, selenium, width, height):
 
     # Level of matching the baseline and current screenshots
@@ -32,7 +31,7 @@ def test_visual_page_object_verification(applitools, webview_base_url, selenium,
 
     try:
 
-        # Start the test and set the browser's viewport size to 1400x820.
+        # Start the test and set the browser's viewport's size
         applitools.open(driver=selenium, app_name=ApplName, test_name='Random visual page content check', viewport_size={'width': width, 'height': height})
 
         home = Home(selenium, webview_base_url).open()
@@ -68,7 +67,7 @@ def test_visual_page_object_verification(applitools, webview_base_url, selenium,
                     sleep(1)
 
                     # Visual checkpoint and screenshot of the page
-                    applitools.check_window('-> {} : {}'.format(content_title, webview_base_url))
+                    applitools.check_window('-> {} on {}'.format(content_title, webview_base_url))
 
         applitools.close()
 
