@@ -18,6 +18,7 @@ Results are in eyes.applitools.com/app/test-results
 
 @markers.webview
 @markers.nondestructive
+@markers.visual
 def test_visual_page_object_verification(applitools, webview_base_url, selenium, width, height):
 
     # Level of matching the baseline and current screenshots
@@ -56,7 +57,7 @@ def test_visual_page_object_verification(applitools, webview_base_url, selenium,
 
                 except (ElementNotVisibleException, StaleElementReferenceException, ElementNotInteractableException) as errors:
 
-                    print(" ---> ERROR MESSAGES:")
+                    print("E R R O R  M E S S A G E S : \n")
                     print(errors)
 
                 else:
