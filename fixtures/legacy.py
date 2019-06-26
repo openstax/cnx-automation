@@ -14,6 +14,7 @@ __all__ = [
     "legacy_username",
     "legacy_password",
     "m46922_1_13_cnxml_filepath",
+    "not_self_closing_cnxml_filepath",
     "sample_mathml3_cnxml_filepath",
 ]
 
@@ -50,6 +51,12 @@ def legacy_password(request):
 def m46922_1_13_cnxml_filepath(request):
     """Returns the path to the source CNXML file for module m46922@1.13 (for upload)"""
     return os.path.join(LEGACY_DATA_DIR, "m46922_1.13.cnxml")
+
+
+@pytest.fixture(scope="session")
+def not_self_closing_cnxml_filepath(request):
+    """Returns the path to the source CNXML file for module not_self_closing tags (for upload)"""
+    return os.path.join(LEGACY_DATA_DIR, "not_self_closing.cnxml")
 
 
 @pytest.fixture(scope="session")
