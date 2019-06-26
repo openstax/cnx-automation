@@ -21,6 +21,14 @@ Follow the instructions to install [Docker](https://docs.docker.com/install/).
 
 Follow the instructions to install [Docker Compose](https://docs.docker.com/compose/install/).
 
+### Docker first run
+
+If you have a fresh cloned repository ignore this step.
+
+If you have run this repo without docker before please run to delete e.g. prebuilt `.pyc` files:
+
+    $ make clean
+
 ### Run Docker Compose
 
     $ docker-compose up -d selenium-chrome
