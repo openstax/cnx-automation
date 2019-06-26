@@ -15,6 +15,10 @@
 <span/>
 <span id="test1e"/>
 <span id="test1f">content4</span>
+<span>test<emphasis effect="italics"/>hallo</span>
+<span>test<emphasis/>hallo</span>
+<span>test<sub/>hallo</span>
+<span>test<sup/>hallo</span>
 </div>
 </content>
 </document>
