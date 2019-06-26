@@ -7,7 +7,7 @@ from selenium.common.exceptions import StaleElementReferenceException
 from selenium.common.exceptions import ElementNotVisibleException
 from selenium.common.exceptions import ElementNotInteractableException
 
-ApplName = 'Page Content Check'
+ApplName = 'Random visual page content check'
 
 # FINAL VERSION: June 20, 2019
 
@@ -38,7 +38,8 @@ def test_visual_page_object_verification(applitools, webview_base_url, selenium,
         home = Home(selenium, webview_base_url).open()
         obooks = home.featured_books.openstax_list
 
-        for i in range(0, len(obooks)-2, 3):
+        # defines how many books will be checked
+        for i in range(0, len(obooks), 2):
 
             home = Home(selenium, webview_base_url).open()
             book = home.featured_books.openstax_list[i]
@@ -47,18 +48,21 @@ def test_visual_page_object_verification(applitools, webview_base_url, selenium,
             toc = ccontent.table_of_contents
 
             # navigates to chapters and pages
-            for k in range(1, 3):
+            for k in range(1, 10):
+
                 try:
+                    # clicks on a number of chapters defined by k in range
                     lchapter = toc.chapters[k]
                     cchapter = lchapter.click()
                     page = cchapter.pages[k]
                     content = page.click()
                     content_title = content.clean_title
 
-                except (ElementNotVisibleException, StaleElementReferenceException, ElementNotInteractableException) as errors:
+                except (IndexError, ElementNotVisibleException, StaleElementReferenceException, ElementNotInteractableException) as errors:
 
                     print("E R R O R  M E S S A G E S : \n")
                     print(errors)
+                    print(' -> moving on to next page')
 
                 else:
 
@@ -67,7 +71,7 @@ def test_visual_page_object_verification(applitools, webview_base_url, selenium,
 
                     sleep(1)
 
-                    # Visual checkpoint and screenshot of the page
+                    # takes screenshot of the scrolled page and stores it in applitools
                     applitools.check_window('-> {} on {}'.format(content_title, webview_base_url))
 
         applitools.close()
