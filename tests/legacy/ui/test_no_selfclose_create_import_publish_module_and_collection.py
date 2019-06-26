@@ -32,11 +32,11 @@ class TestNoSelfCloseCreateImportPublishModuleAndCollection(object):
         # WHEN the user clicks to create a new module, agrees to the license and fills in the Title
         cc_license = my_cnx.create_module()
         metadata_edit = cc_license.agree().submit()
-        module_edit = metadata_edit.fill_in_title("CNX Automation Test Module").submit()
+        module_edit = metadata_edit.fill_in_title("CNX Automation Test Self Close").submit()
 
         # THEN the user is brought to the module editor
         assert type(module_edit) is ModuleEdit
-        assert module_edit.title == "CNX Automation Test Module"
+        assert module_edit.title == "CNX Automation Test Self Close"
         assert module_edit.is_blank
 
         # Other tests will be skipped unless this test succeeds and set this class variable
@@ -70,7 +70,7 @@ class TestNoSelfCloseCreateImportPublishModuleAndCollection(object):
 
         # THEN the user is back to the module editor and the module gets the imported content
         assert type(module_edit) is ModuleEdit
-        assert module_edit.title == "CNX Automation Test Module"
+        assert module_edit.title == "CNX Automation Test Self Close"
         assert not module_edit.is_blank
 
     @markers.legacy
@@ -106,12 +106,12 @@ class TestNoSelfCloseCreateImportPublishModuleAndCollection(object):
 
         # THEN the user is brought to the published module page and the content is in CNX archive
         assert type(content_published) is ContentPublished
-        assert content_published.title == "CNX Automation Test Module"
+        assert content_published.title == "CNX Automation Test Self Close"
         module_id = content_published.id
         archive_content = LegacyContent(
             selenium, archive_base_url, legacy_id=content_published.id
         ).open()
-        assert archive_content.title == "CNX Automation Test Module"
+        assert archive_content.title == "CNX Automation Test Self Close"
         snapshot.assert_dict_match(archive_content.stable_dict, "legacy/not_self_closing.json")
 
         # Other tests will be skipped unless this test succeeds and set this class variable
