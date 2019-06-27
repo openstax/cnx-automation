@@ -9,15 +9,13 @@ from tests import markers
 
 from pages.legacy.login_form import LoginForm
 from pages.legacy.module_edit import ModuleEdit
-from pages.legacy.collection_edit import CollectionEdit
 from pages.legacy.content_published import ContentPublished
 from pages.archive.legacy_content import LegacyContent
 
-from regions.legacy.collection import Collection
 from regions.legacy.module import Module
 
 
-class TestNoSelfCloseCreateImportPublishModuleAndCollection(object):
+class TestNoSelfCloseCreateImportPublishModule(object):
     _module_temp_id = None
     _module_id = None
     _collection_temp_id = None
