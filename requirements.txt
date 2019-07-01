@@ -43,7 +43,7 @@ pytest-testrail==2.3.3
 pytest-variables==1.7.1
 pytest-xdist==1.29.0
 python-dateutil==2.8.0
-python-dotenv==0.10.2
+python-dotenv==0.10.3
 python-magic==0.4.15
 PyYAML==5.1
 requests==2.22.0
