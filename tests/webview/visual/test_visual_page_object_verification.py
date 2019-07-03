@@ -33,13 +33,13 @@ def test_visual_page_object_verification(applitools, webview_base_url, selenium,
     try:
 
         # Start the test and set the browser's viewport's size
-        applitools.open(driver=selenium, app_name=ApplName, test_name='Page content checks', viewport_size={'width': width, 'height': height})
+        applitools.open(driver=selenium, app_name=ApplName, test_name='Pages content checking', viewport_size={'width': width, 'height': height})
 
         home = Home(selenium, webview_base_url).open()
         obooks = home.featured_books.openstax_list
 
-        # defines how many books will be selected
-        for i in range(0, len(obooks), 4):
+        # 'i' defines how many books will be checked
+        for i in range(0, len(obooks), 3):
 
             home = Home(selenium, webview_base_url).open()
             book = home.featured_books.openstax_list[i]
@@ -47,11 +47,11 @@ def test_visual_page_object_verification(applitools, webview_base_url, selenium,
             ccontent.header_nav.click_contents_button()
             toc = ccontent.table_of_contents
 
-            # navigates to chapters and their sub-chapters
+            # 'k' defines how many sub-chapters will be checked within a book
             for k in range(1, 5):
 
                 try:
-                    # clicks on 'k-1' number of chapters in a book
+                    # clicks on 'k-1' number of sub-chapters in a book
                     lchapter = toc.chapters[k]
                     cchapter = lchapter.click()
                     page = cchapter.pages[1]
@@ -70,7 +70,7 @@ def test_visual_page_object_verification(applitools, webview_base_url, selenium,
 
                     sleep(1)
 
-                    # takes screenshot of the scrolled chapter and stores it in applitools
+                    # takes screenshot of the scrolled sub-chapter and stores it in applitools
                     applitools.check_window('-> {}'.format(webview_base_url))
 
         applitools.close()
