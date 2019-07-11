@@ -7,7 +7,6 @@ import pytest
 
 from dotenv import load_dotenv
 
-
 # Patch remote_connection to workaround Connection Reset by Peer bug in the Selenium driver
 # https://github.com/SeleniumHQ/selenium/issues/5296
 from patches import connection_reset_by_peer  # noqa
@@ -25,9 +24,34 @@ pytest_plugins = (
     "fixtures.applitools",
 )
 
+
+def get_custom_markers():
+    """Function used to register custom markers.
+
+    """
+    return (
+        "slow: mark tests that are slow",
+        "smoke: mark tests used for smoke testing",
+        "webview: mark tests that target cnx.org",
+        "legacy: mark tests that are for legacy",
+        "neb: mark tests that use the neb cli",
+        "rex: mark tests that are REX specific",
+        "visual: mark tests that use applitools and screenshots",
+        "requires_publishing: mark tests that require publishing being deployed",
+        "requires_varnish_routing: mark tests that require varnish routing",
+        "requires_complete_dataset: mark tests that require the complete dataset",
+        "requires_deployment: mark tests that require deployment",
+    )
+
+
 # Load environment variables from .env file
 DOTENV_PATH = os.path.join(os.path.realpath(os.path.dirname(__file__)), "../.env")
 load_dotenv(dotenv_path=DOTENV_PATH)
+
+
+def pytest_configure(config):
+    for marker in get_custom_markers():
+        config.addinivalue_line("markers", marker)
 
 
 def pytest_addoption(parser):
