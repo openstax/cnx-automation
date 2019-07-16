@@ -1,7 +1,7 @@
 # This Source Code Form is subject to the terms of the Mozilla Public
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
-
+import re
 from functools import lru_cache
 
 from pages.archive.base import Page
@@ -49,6 +49,9 @@ class Content(Page):
     ]
     # Whitelisted fields inside the "tree" field
     _stable_tree_fields = ["contents", "title"]
+    _created_date_regex = re.compile(r'<meta name="created-time".*?\/>')
+    _revised_date_regex = re.compile(r'<meta name="revised-time".*?\/>')
+    _cnxml_html_version_regex = re.compile('data-cnxml-to-html-ver=".+?"')
 
     @property
     def json_pre(self):
@@ -122,25 +125,16 @@ class Content(Page):
         Returns the archive content xml as a string with fields that change
         from test to test (creation and revision dates) removed.
         """
-        import xml.etree.ElementTree as ET
-
-        html = ET.fromstring(self.content)
-
-        head = html.find("{http://www.w3.org/1999/xhtml}head")
-
         # Remove creation time
-        created_time = head.find('./{http://www.w3.org/1999/xhtml}meta[@name="created-time"]')
-        head.remove(created_time)
+        content = re.sub(self._created_date_regex, "", self.content)
 
         # Remove revision time
-        revised_time = head.find('./{http://www.w3.org/1999/xhtml}meta[@name="revised-time"]')
-        head.remove(revised_time)
+        content = re.sub(self._revised_date_regex, "", content)
 
         # Remove data-cnxml-to-html-ver from the body tag
-        body = html.find("{http://www.w3.org/1999/xhtml}body")
-        body.attrib.pop("data-cnxml-to-html-ver")
+        content = re.sub(self._cnxml_html_version_regex, "", content)
 
-        return ET.tostring(html, encoding="unicode")
+        return content
 
     @property
     def stable_dict(self):
