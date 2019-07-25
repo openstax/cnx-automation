@@ -14,6 +14,7 @@ from cli.neb import Neb
 
 
 @markers.neb
+@markers.test_case("C541975")
 @markers.nondestructive
 def test_publish_help():
     # GIVEN neb
@@ -27,6 +28,7 @@ def test_publish_help():
 
 
 @markers.neb
+@markers.test_case("C195247")
 @markers.nondestructive
 def test_publish_no_env():
     # GIVEN neb
@@ -41,6 +43,7 @@ def test_publish_no_env():
 
 
 @markers.neb
+@markers.test_case("C195247")
 @markers.nondestructive
 def test_publish_no_col_id(neb_env):
     # GIVEN neb and an environment
@@ -55,6 +58,7 @@ def test_publish_no_col_id(neb_env):
 
 
 @markers.neb
+@markers.test_case("C195247")
 @markers.nondestructive
 def test_publish_no_commit_message(neb_env):
     # GIVEN neb, an environment, and a content dir
@@ -69,6 +73,7 @@ def test_publish_no_commit_message(neb_env):
 
 
 @markers.neb
+@markers.test_case("C195243")
 @markers.nondestructive
 @markers.slow
 @markers.parametrize(
