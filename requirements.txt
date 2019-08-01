@@ -13,7 +13,7 @@ Click==7.0
 cnx-litezip==1.6.0
 cnxml==3.0.1
 cryptography==2.7
-execnet==1.6.0
+execnet==1.6.1
 filelock==3.0.12
 eyes-common==4.0.5
 eyes-core==4.0.5
