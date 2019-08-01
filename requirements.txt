@@ -33,7 +33,7 @@ Pillow==6.1.0
 py==1.8.0
 pycparser==2.19
 PyPOM==2.2.0
-pytest==5.0.0
+pytest==5.0.1
 pytest-base-url==1.4.1
 pytest-forked==1.0.2
 pytest-html==1.21.1
