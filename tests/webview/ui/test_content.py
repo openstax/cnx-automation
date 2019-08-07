@@ -142,7 +142,7 @@ def test_canonical_link_is_correct(webview_base_url, selenium, id):
 
 
 @markers.webview
-@markers.test_case("C176231", "C176232", "C176233")
+@markers.test_case("C176232", "C176233")
 @markers.nondestructive
 def test_navs_and_elements_are_displayed(webview_base_url, selenium):
     # GIVEN the home page
@@ -375,8 +375,9 @@ def test_in_book_search(
 
 
 @markers.webview
+@markers.otto
 @markers.smoke
-@markers.test_case("C176258", "C176259", "C176260", "C176261")
+@markers.test_case("C176258", "C176259", "C176261")
 @markers.nondestructive
 def test_share_links_displayed(webview_base_url, selenium):
     # GIVEN the home page
@@ -398,6 +399,11 @@ def test_share_links_displayed(webview_base_url, selenium):
         url=current_url, title=normalized_title
     )
     assert share.twitter_share_url == expected_twitter_url
+
+    expected_linkedin_url = "https://www.linkedin.com/shareArticle?mini=true&url={url}&title={title}&summary=An%20OpenStax%20CNX%20book&source=OpenStax%20CNX".format(
+        url=current_url, title=normalized_title
+    )
+    assert share.linkedin_share_url == expected_linkedin_url
 
 
 @markers.webview
@@ -451,23 +457,6 @@ def test_get_this_book(webview_base_url, selenium):
 
     if offline_zip_displayed:
         assert downloads.is_offline_zip_available
-
-
-@markers.webview
-@markers.test_case("C167408")
-@markers.nondestructive
-def test_section_title_for_no_markup(webview_base_url, selenium):
-    # GIVEN the home page and a book
-    home = Home(selenium, webview_base_url).open()
-    book = home.featured_books.openstax_list[0]
-
-    # WHEN the book's cover is clicked
-    content = book.click_book_cover()
-
-    # THEN the section title does not contain HTML markup
-    section_title = content.section_title
-    assert "<" not in section_title
-    assert ">" not in section_title
 
 
 @markers.webview
@@ -801,7 +790,7 @@ def test_ncy_is_not_displayed(webview_base_url, american_gov_uuid, selenium):
 
 
 @markers.webview
-@markers.test_case("C132547", "C132548", "C162195")
+@markers.test_case("C132547", "C132548")
 @markers.nondestructive
 @markers.parametrize(
     "page_uuid,is_baked_book_index",
