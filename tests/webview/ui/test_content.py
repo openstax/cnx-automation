@@ -141,7 +141,6 @@ def test_canonical_link_is_correct(webview_base_url, selenium, id):
     assert content.section_title in section_title
 
 
-# !!! "C176231" - non-existent test case. Removed it from the @markers.test_case(...)
 @markers.webview
 @markers.test_case("C176232", "C176233")
 @markers.nondestructive
@@ -373,9 +372,6 @@ def test_in_book_search(
     for table in content_region.os_tables:
         assert table.caption.is_labeled
         assert table.caption.is_numbered
-
-
-# !!! "C176260" - outdated (no google+ in cnx). Removed it from the @markers.test_case(...)
 
 
 @markers.webview
@@ -793,8 +789,6 @@ def test_ncy_is_not_displayed(webview_base_url, american_gov_uuid, selenium):
     assert page.is_ncy_displayed is False
 
 
-# !!! "C162195" - very old bug, not present in trello anymore. Removed it from @markers.test_case(...)
-# Also, it is verified in test case C132548
 @markers.webview
 @markers.test_case("C132547", "C132548")
 @markers.nondestructive

@@ -8,9 +8,6 @@ from pages.webview.home import Home
 from pages.webview.search_results import SearchResults
 
 
-# !!! "C176268" - removed this test case from this function's @markers.test_case(...)
-# and added to the one below - "def test_subject_categories_load(webview_base_url, selenium):"
-
 @markers.webview
 @markers.test_case("C176269")
 @markers.nondestructive
@@ -26,9 +23,6 @@ def test_search_input_and_button_are_displayed(webview_base_url, selenium):
     assert browse_page.is_search_input_displayed
     assert browse_page.is_advanced_search_link_displayed
 
-
-# !!! "C176270" - this is a non-existent test case. Instead, C176268 test case verifies this.
-# Replacing "C176270" with C176268
 
 @markers.webview
 @markers.smoke
