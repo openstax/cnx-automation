@@ -377,6 +377,7 @@ def test_in_book_search(
 
 # !!! "C176260" - outdated (no google+ in cnx). Removed it from the @markers.test_case(...)
 
+
 @markers.webview
 @markers.otto
 @markers.smoke
@@ -403,7 +404,9 @@ def test_share_links_displayed(webview_base_url, selenium):
     )
     assert share.twitter_share_url == expected_twitter_url
 
-    expected_linkedin_url = "https://www.linkedin.com/shareArticle?mini=true&url={url}&title={title}&summary=An%20OpenStax%20CNX%20book&source=OpenStax%20CNX".format(url=current_url, title=normalized_title)
+    expected_linkedin_url = "https://www.linkedin.com/shareArticle?mini=true&url={url}&title={title}&summary=An%20OpenStax%20CNX%20book&source=OpenStax%20CNX".format(
+        url=current_url, title=normalized_title
+    )
     assert share.linkedin_share_url == expected_linkedin_url
 
 
@@ -458,23 +461,6 @@ def test_get_this_book(webview_base_url, selenium):
 
     if offline_zip_displayed:
         assert downloads.is_offline_zip_available
-
-# !!! old bug verification from March 2017. Test case was selected to be deleted. We should remove the whole function
-# @markers.webview
-# @markers.test_case("C167408")
-# @markers.nondestructive
-# def test_section_title_for_no_markup(webview_base_url, selenium):
-#     # GIVEN the home page and a book
-#     home = Home(selenium, webview_base_url).open()
-#     book = home.featured_books.openstax_list[0]
-
-#     # WHEN the book's cover is clicked
-#     content = book.click_book_cover()
-
-#     # THEN the section title does not contain HTML markup
-#     section_title = content.section_title
-#     assert "<" not in section_title
-#     assert ">" not in section_title
 
 
 @markers.webview
