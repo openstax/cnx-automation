@@ -23,12 +23,9 @@ env:
 
 addons:
   chrome: stable
-  apt:
-    packages:
-      - chromium-chromedriver
 
 before_script:
-  - ln -s /usr/lib/chromium-browser/chromedriver ~/bin/chromedriver
+  - pip install -r requirements.txt
 
 script:
   - pytest -m "$MARK" -n $WORKERS -vv

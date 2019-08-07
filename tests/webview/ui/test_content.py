@@ -375,7 +375,6 @@ def test_in_book_search(
 
 
 @markers.webview
-@markers.otto
 @markers.smoke
 @markers.test_case("C176258", "C176259", "C176261")
 @markers.nondestructive
