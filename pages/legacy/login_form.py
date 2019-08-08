@@ -12,6 +12,7 @@ class LoginForm(Page):
     _login_form_locator = (By.ID, "login_form")
     _username_field_locator = (By.ID, "__ac_name")
     _password_field_locator = (By.ID, "__ac_password")
+    _submit_button_locator = (By.CSS_SELECTOR, "#login_form > div.formControls > input")
 
     @property
     def login_form(self):
@@ -33,10 +34,14 @@ class LoginForm(Page):
             and self.is_element_displayed(*self._password_field_locator)
         )
 
+    @property
+    def submit_button(self):
+        return self.find_element(*self._submit_button_locator)
+
     def login(self, username, password):
         self.username_field.send_keys(username)
         self.password_field.send_keys(password)
-        self.login_form.submit()
+        self.submit_button.click()
         from pages.legacy.my_cnx import MyCnx
 
         my_cnx = MyCnx(self.driver, self.base_url, self.timeout)
