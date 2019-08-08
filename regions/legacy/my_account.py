@@ -11,9 +11,13 @@ class MyAccount(Region):
     _login_form_locator = (By.CSS_SELECTOR, 'form[action$="login_form"]')
     _username_field_locator = (By.ID, "__ac_name")
     _password_field_locator = (By.ID, "__ac_password")
-
+    _login_submit_button_locator = (
+        By.CSS_SELECTOR,
+        'form[action$="login_form"] > table > tbody > tr:nth-child(3) > td:nth-child(2) > input',
+    )
     _username_span_locator = (By.ID, "user-name")
     _logout_form_locator = (By.CSS_SELECTOR, 'form[action$="logout"]')
+    _logout_button_locator = (By.CSS_SELECTOR, 'form[action$="logout"] > input')
 
     @property
     def can_login(self):
@@ -34,6 +38,14 @@ class MyAccount(Region):
     @property
     def password_field(self):
         return self.find_element(*self._password_field_locator)
+
+    @property
+    def login_submit_button(self):
+        return self.find_element(*self._login_submit_button_locator)
+
+    @property
+    def logout_button(self):
+        return self.find_element(*self._logout_button_locator)
 
     @property
     def has_username(self):
@@ -58,14 +70,14 @@ class MyAccount(Region):
     def login(self, username, password):
         self.username_field.send_keys(username)
         self.password_field.send_keys(password)
-        self.login_form.submit()
+        self.login_submit_button.click()
         from pages.legacy.my_cnx import MyCnx
 
         my_cnx = MyCnx(self.driver, self.page.base_url, self.page.timeout)
         return my_cnx.wait_for_page_to_load()
 
     def logout(self):
-        self.logout_form.submit()
+        self.logout_button.click()
         from pages.legacy.login_form import LoginForm
 
         login_form = LoginForm(self.driver, self.page.base_url, self.page.timeout)
