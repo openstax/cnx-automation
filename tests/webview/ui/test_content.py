@@ -386,7 +386,7 @@ def test_share_links_displayed(webview_base_url, selenium):
     book = home.featured_books.openstax_list[0]
     content = book.click_book_cover()
 
-    # THEN social share links have the expected urls
+    # THEN all social share links have the expected urls
     current_url = selenium.current_url
     normalized_title = content.title.replace(" ", "%20")
     share = content.share

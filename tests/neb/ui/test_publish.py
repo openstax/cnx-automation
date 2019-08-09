@@ -129,7 +129,7 @@ def test_successful_publish(
 ):
     # GIVEN the latest version of a collection available
     with Neb.get(verbose=True, env="staging", col_id=col_id, col_version="latest") as coll_dir:
-        # WHEN we make an edit
+        # WHEN we edit the collection
         with edit_collXML(coll_dir) as collection:
             elem = collection.xpath("//md:title", namespaces=COLLECTION_NSMAP)[0]
             elem.text = "a different collection title {}".format(random.randint(0, 99999))
