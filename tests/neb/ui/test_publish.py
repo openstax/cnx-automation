@@ -117,6 +117,7 @@ def test_publish_invalid_cnxml(
 
 
 @markers.neb
+@markers.test_case("C195560")
 @markers.nondestructive
 @markers.slow
 @markers.parametrize(
