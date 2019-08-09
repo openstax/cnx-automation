@@ -73,6 +73,7 @@ def test_publish_no_commit_message(neb_env):
 
 
 @markers.neb
+@markers.otto
 @markers.test_case("C195243")
 @markers.nondestructive
 @markers.slow
@@ -117,6 +118,7 @@ def test_publish_invalid_cnxml(
 
 
 @markers.neb
+@markers.test_case("C195560")
 @markers.nondestructive
 @markers.slow
 @markers.parametrize(
