@@ -41,7 +41,7 @@ def test_archive_is_still_reachable(legacy_base_url, rex_base_url):
         assert rex_base_url not in hist.headers["location"]
 
 
-@markers.rex
+# @markers.rex
 @markers.nondestructive
 def test_redirecting_to_rex_from_within_webview(webview_base_url, rex_base_url, selenium):
     """Webview needs to redirect to REX when one of the featured books is a REX book.
@@ -53,35 +53,19 @@ def test_redirecting_to_rex_from_within_webview(webview_base_url, rex_base_url, 
     # WHEN we click on a featured book
     book = home.featured_books.openstax_list
 
-    for i in range(len(book)):
-        element = selenium.find_element_by_link_text(book[i].title)
-        element.click()
-        sleep(4)
+    element = selenium.find_element_by_link_text(book.title)
+    element.click()
+    sleep(4)
 
-        # THEN we redirect to REX
-        curr_url = selenium.current_url
+    # THEN we redirect to REX
+    curr_url = selenium.current_url
 
-        # and compare webpages
-        if rex_base_url in curr_url:
-            true = True
-            print(" ")
-            print("BOOK TITLE  : ", selenium.title)
-            print("CURRENT URL : ", curr_url)
-            print("REDIRECTED: ", true)
-        else:
-            false = False
-            print(" ")
-            print("BOOK TITLE  : ", selenium.title)
-            print("CURRENT URL : ", curr_url)
-            print("REDIRECTED: ", false)
+    print(" ")
+    print("CURRENT URL : ", curr_url)
+    print("EXPECTED URL: ", rex_base_url)
 
-        with open("rex_output.txt", "a") as text_file:
-            print("BOOK TITLE  : {}".format(selenium.title), file=text_file)
-        with open("rex_output.txt", "a") as text_file:
-            print("CURRENT URL : {}".format(curr_url), file=text_file)
-
-        home = Home(selenium, webview_base_url).open()
-        book = home.featured_books.openstax_list
+    # and compare webpages
+    assert rex_base_url in curr_url
 
 
 # @markers.rex
