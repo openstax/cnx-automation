@@ -68,17 +68,18 @@ def test_redirecting_to_rex_from_within_webview(webview_base_url, rex_base_url, 
             print("BOOK TITLE  : ", selenium.title)
             print("CURRENT URL : ", curr_url)
             print("REDIRECTED: ", true)
+
+            with open("rex_output.txt", "a") as text_file:
+                print("BOOK TITLE  : {}".format(selenium.title), file=text_file)
+            with open("rex_output.txt", "a") as text_file:
+                print("CURRENT URL : {}".format(curr_url), file=text_file)
+
         else:
             false = False
             print(" ")
             print("BOOK TITLE  : ", selenium.title)
             print("CURRENT URL : ", curr_url)
             print("REDIRECTED: ", false)
-
-        with open("rex_output.txt", "a") as text_file:
-            print("BOOK TITLE  : {}".format(selenium.title), file=text_file)
-        with open("rex_output.txt", "a") as text_file:
-            print("CURRENT URL : {}".format(curr_url), file=text_file)
 
         home = Home(selenium, webview_base_url).open()
         book = home.featured_books.openstax_list
