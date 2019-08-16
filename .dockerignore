@@ -5,6 +5,7 @@ report.html
 .pytest_cache/
 .env
 .python_version
+.DS_Store
 
  Byte-compiled / optimized / DLL files
 __pycache__/
