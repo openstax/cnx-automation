@@ -1,4 +1,5 @@
 import requests
+from rex_redirects import get_rex_release_json_url, generate_cnx_uris
 
 from xml.etree import ElementTree
 
@@ -108,3 +109,27 @@ def test_cnx_sitemap_exclusion(rex_base_url, archive_base_url):
     sitemap_tree = ElementTree.fromstring(sitemap.content)
     for collection_url in sitemap_tree.iter(f"{{{namespace}}}loc"):
         assert first_book_uuid not in collection_url.text
+
+
+@markers.rex
+@markers.nondestructive
+def test_all_rex_redirects(rex_base_url, archive_base_url, webview_base_url):
+    """Use cnx-rex-redirects to generate all cnx urls that should redirect to
+    rex and test all of them.
+    """
+    rex_host = rex_base_url.split('://')[-1]
+    archive_host = archive_base_url.split('://')[-1]
+
+    # GIVEN the list of books on rex
+    release_json_url = get_rex_release_json_url(rex_host)
+    release_data = requests.get(release_json_url).json()
+    for book in release_data['books']:
+        for uri in generate_cnx_uris(archive_host, book):
+            # WHEN we go to any page of a rex book on cnx
+            cnx_page_slug = uri.split('/')[-1]
+            cnx_url = f'{webview_base_url}{uri}'
+            response = requests.get(cnx_url)
+
+            # THEN we are redirected to rex
+            assert response.url.startswith(rex_base_url)
+            assert response.url.endswith(cnx_page_slug)
