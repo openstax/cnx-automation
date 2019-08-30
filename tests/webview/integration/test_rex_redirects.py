@@ -1,3 +1,4 @@
+import backoff
 import requests
 from rex_redirects import get_rex_release_json_url, generate_cnx_uris
 
@@ -5,6 +6,11 @@ from xml.etree import ElementTree
 
 from tests import markers
 from pages.webview.home import Home
+
+
+@backoff.on_exception(backoff.expo, requests.exceptions.ConnectionError)
+def get_url(url):
+    return requests.get(url)
 
 
 @markers.rex
@@ -113,23 +119,17 @@ def test_cnx_sitemap_exclusion(rex_base_url, archive_base_url):
 
 @markers.rex
 @markers.nondestructive
-def test_all_rex_redirects(rex_base_url, archive_base_url, webview_base_url):
+def test_chemistry_2e_urls_redirect_to_rex(webview_base_url, rex_base_url, chemistry_2e_uri):
     """Use cnx-rex-redirects to generate all cnx urls that should redirect to
     rex and test all of them.
     """
-    rex_host = rex_base_url.split("://")[-1]
-    archive_host = archive_base_url.split("://")[-1]
+    # GIVEN a chemistry_2e_uri and a webview_base_url
 
-    # GIVEN the list of books on rex
-    release_json_url = get_rex_release_json_url(rex_host)
-    release_data = requests.get(release_json_url).json()
-    for book in release_data["books"]:
-        for uri in generate_cnx_uris(archive_host, book):
-            # WHEN we go to any page of a rex book on cnx
-            cnx_page_slug = uri.split("/")[-1]
-            cnx_url = f"{webview_base_url}{uri}"
-            response = requests.get(cnx_url)
+    # WHEN we go to a page based on the webview_base_url and uri
+    cnx_page_slug = chemistry_2e_uri.split("/")[-1]
+    cnx_url = f"{webview_base_url}{chemistry_2e_uri}"
+    response = get_url(cnx_url)
 
-            # THEN we are redirected to rex
-            assert response.url.startswith(rex_base_url)
-            assert response.url.endswith(cnx_page_slug)
+    # THEN we are redirected to rex
+    assert response.url.startswith(rex_base_url)
+    assert response.url.endswith(cnx_page_slug)
