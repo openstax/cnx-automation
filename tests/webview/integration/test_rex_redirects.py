@@ -1,6 +1,5 @@
 import backoff
 import requests
-from rex_redirects import get_rex_release_json_url, generate_cnx_uris
 
 from xml.etree import ElementTree
 
