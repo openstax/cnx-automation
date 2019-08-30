@@ -120,9 +120,6 @@ def test_cnx_sitemap_exclusion(rex_base_url, archive_base_url):
 @markers.runslow
 @markers.nondestructive
 def test_chemistry_2e_uris_redirect_to_rex(webview_base_url, rex_base_url, chemistry_2e_uri):
-    """Use cnx-rex-redirects to generate all cnx urls that should redirect to
-    rex and test all of them.
-    """
     # GIVEN a chemistry_2e_uri and a webview_base_url
 
     # WHEN we go to a page based on the webview_base_url and uri
