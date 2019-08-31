@@ -313,14 +313,14 @@ def test_share_on_top_right_corner(webview_base_url, selenium):
     "uuid,query,has_results,result_index,has_os_figures,has_os_tables",
     [
         (
-            "8d50a0af-948b-4204-a71d-4826cba765b8",
+            "caa57dab-41c7-455e-bd6f-f443cda5519c",
             "mitosis genetics gorilla",
             False,
             None,
             None,
             None,
         ),
-        ("8d50a0af-948b-4204-a71d-4826cba765b8", "mitosis genetics", True, 0, True, False),
+        ("e42bd376-624b-4c0f-972f-e0c57998e765", "mitosis genetics", True, 0, True, False),
         ("d50f6e32-0fda-46ef-a362-9bd36ca7c97d", "table", True, 1, True, True),
     ],
 )
