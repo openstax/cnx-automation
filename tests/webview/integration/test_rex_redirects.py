@@ -117,7 +117,7 @@ def test_cnx_sitemap_exclusion(rex_base_url, archive_base_url):
 
 
 @markers.rex
-@markers.runslow
+@markers.slow
 @markers.nondestructive
 def test_chemistry_2e_uris_redirect_to_rex(webview_base_url, rex_base_url, chemistry_2e_uri):
     # GIVEN a webview_base_url, rex_base_url and a chemistry_2e_uri

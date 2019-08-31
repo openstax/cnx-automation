@@ -152,7 +152,7 @@ def test_show_more_and_less_expands_or_contracts_book_intro(webview_base_url, se
 @markers.webview
 @markers.test_case("C176228")
 @markers.nondestructive
-def test_book_cover_loads_correct_page(webview_base_url, selenium):
+def test_book_cover_loads_correct_page(webview_base_url, selenium, rex_released_books):
     # GIVEN the webview base url, the Selenium driver, and a similarity ratio
     sim_ratio = 0.4
 
@@ -161,9 +161,12 @@ def test_book_cover_loads_correct_page(webview_base_url, selenium):
     # AND we click the book cover link and load a content page
     # AND we have the title from the content page
     # AND we have a similarity ratio of the title
-
     home = Home(selenium, webview_base_url).open()
-    book = home.featured_books.get_random_openstax_book()
+
+    while True:
+        book = home.featured_books.get_random_openstax_book()
+        if book.cnx_id not in rex_released_books:
+            break
 
     book_title = book.clean_title
     content = book.click_book_cover()
