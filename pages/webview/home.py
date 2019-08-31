@@ -77,6 +77,10 @@ class Home(Page):
             return self.find_element(*self._book_cover_img_locator)
 
         @property
+        def cnx_id(self):
+            return self.book_cover_link.get_attribute("href").split("/")[-1]
+
+        @property
         @retry_stale_element_reference_exception
         def is_book_cover_clickable(self):
             """Returns a boolean if the book cover is clickable
