@@ -69,6 +69,6 @@ def chrome_options(chrome_options, pytestconfig, language):
     # Set the browser language
     chrome_options.add_argument("--lang={lang}".format(lang=language))
     chrome_options.add_experimental_option("prefs", {"intl.accept_languages": language})
-    chrome_options.add_experimental_option("w3c", True)
+    chrome_options.add_experimental_option("w3c", False)
 
     return chrome_options
