@@ -37,7 +37,7 @@ idna==2.8
 importlib-metadata==0.19
 jinja2==2.10.1
 jwcrypto==0.6.0
-lxml==4.3.4
+lxml==4.4.1
 markupsafe==1.1.1
 more-itertools==7.2.0
 nebuchadnezzar==9.1.0
