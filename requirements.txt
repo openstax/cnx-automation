@@ -27,7 +27,7 @@ cnxml==3.0.1
 cryptography==2.7
 docker==4.0.2
 execnet==1.7.1
-eyes-common==4.0.7
+eyes-common==4.0.8
 eyes-core==4.0.7
 eyes-selenium==4.0.7
 filelock==3.0.12
