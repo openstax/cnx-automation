@@ -67,7 +67,7 @@ python-slugify==3.0.3     # via cnx-common
 pyyaml==5.1.2
 requests-file==1.4.3
 requests==2.22.0
-rhaptos.cnxmlutils==1.7.1
+rhaptos.cnxmlutils==1.7.3
 selenium==3.141.0
 simplejson==3.16.0
 six==1.12.0
