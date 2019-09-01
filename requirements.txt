@@ -63,7 +63,7 @@ python-dateutil==2.8.0
 python-dotenv==0.10.3
 python-magic==0.4.15
 python-memcached==1.59
-python-slugify==3.0.2     # via cnx-common
+python-slugify==3.0.3     # via cnx-common
 pyyaml==5.1.2
 requests-file==1.4.3
 requests==2.20.1
