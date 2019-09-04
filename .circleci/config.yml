@@ -33,7 +33,7 @@ jobs:
           name: run tests for webview
           command: |
             . .venv/bin/activate
-            pytest -m "webview and not visual" --headless --circleci-parallelize --junitxml=/tmp/test-reports/junit.xml
+            pytest -n 2 -m "webview and not visual" --headless --circleci-parallelize --junitxml=/tmp/test-reports/junit.xml
       - store_artifacts:
           path: /tmp/test-reports/junit.xml
           destination: test-reports
