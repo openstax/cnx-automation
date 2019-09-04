@@ -28,6 +28,7 @@ jobs:
           name: run tests for webview
           command: |
             . .venv/bin/activate
-            circleci tests glob **/tests/webview/*.py |
-            circleci tests split --split-by=timings |
-            xargs pytest -m "webview and not visual" --headless -n 4
+            echo $(circleci tests glob "./tests/webview/**/*.py")
+            circleci tests glob ./tests/webview/**/*.py |
+            circleci tests split |
+            xargs python -m pytest -m "webview and not visual" --headless
