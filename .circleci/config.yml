@@ -58,9 +58,37 @@ jobs:
           command: |
             . .venv/bin/activate
             pytest -m "neb" --junitxml=/tmp/test-reports/junit.xml
+  test-legacy:
+    docker:
+      - image: openstax/selenium-chrome-debug:3.141.59
+        environment:
+          WEBVIEW_BASE_URL: https://staging.cnx.org
+          LEGACY_BASE_URL: https://legacy-staging.cnx.org
+          ARCHIVE_BASE_URL: https://archive-staging.cnx.org
+    steps:
+      - checkout
+      - run:
+          name: Install Python deps in a venv
+          command: make venv
+      - run:
+          name: run tests for neb
+          command: |
+            . .venv/bin/activate
+            pytest -m "legacy" --runslow --headless --junitxml=/tmp/test-reports/junit.xml
+
 workflows:
   version: 2
-  test:
+  test-webview-and-neb:
     jobs:
       - test-webview
       - test-neb
+  test-legacy-nightly:
+    triggers:
+      - schedule:
+          cron: "0 0 * * *"
+          filters:
+            branches:
+              only:
+                - master
+    jobs:
+      - test-legacy
