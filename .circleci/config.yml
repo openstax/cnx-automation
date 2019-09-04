@@ -71,10 +71,19 @@ jobs:
           name: Install Python deps in a venv
           command: make venv
       - run:
-          name: run tests for neb
+          name: run tests for legacy
           command: |
             . .venv/bin/activate
-            pytest -m "legacy" --runslow --headless --junitxml=/tmp/test-reports/junit.xml
+            pytest -m legacy -k TestCreateImportPublishModuleAndCollection --runslow --headless --junitxml=/tmp/test-reports/junit.xml
+      - store_artifacts:
+          path: /tmp/test-reports/junit.xml
+          destination: test-reports
+      - store_artifacts:
+          path: report.html
+          destination: test-reports
+      - store_test_results:
+          path: /tmp/test-reports
+          test-legacy:
 
 workflows:
   version: 2
