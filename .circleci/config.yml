@@ -42,6 +42,7 @@ jobs:
           destination: test-reports
       - store_test_results:
           path: /tmp/test-reports
+          test:
 workflows:
   version: 2
   test:
