@@ -12,12 +12,12 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-            key: deps1-{{ .Branch }}-{{ checksum "webview/requirements.txt" }}
+            key: deps1-{{ .Branch }}-{{ checksum "requirements.txt" }}
       - run:
           name: Install Python deps in a venv
           command: make venv
       - save_cache:
-          key: deps1-{{ .Branch }}-{{ checksum "webview/requirements.txt" }}
+          key: deps1-{{ .Branch }}-{{ checksum "requirements.txt" }}
           paths:
             - ".venv"
       - run:
