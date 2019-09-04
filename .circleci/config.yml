@@ -1,6 +1,6 @@
 version: 2
 jobs:
-  build:
+  test:
     docker:
       - image: openstax/selenium-chrome-debug:3.141.59
         environment:
@@ -25,10 +25,19 @@ jobs:
           command: /opt/bin/entry_point.sh
           background: true
       - run:
+          name: install pytest-circleci-parallelized
+          command: |
+            . .venv/bin/activate
+            pip install pytest-circleci-parallelized
+      - run:
           name: run tests for webview
           command: |
             . .venv/bin/activate
-            echo $(circleci tests glob "./tests/webview/**/*.py")
-            circleci tests glob ./tests/webview/**/*.py |
-            circleci tests split |
-            xargs python -m pytest -m "webview and not visual" --headless
+            pytest -m "webview and not visual" --headless --circleci-parallelize
+      - store_artifacts:
+          path: report.html
+workflows:
+  version: 2
+  test:
+    jobs:
+      - test
