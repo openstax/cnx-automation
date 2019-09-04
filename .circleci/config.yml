@@ -20,6 +20,10 @@ jobs:
           paths:
             - ".venv"
       - run:
+          name: start selenium server
+          command: /opt/bin/entry_point.sh
+          background: true
+      - run:
           command: |
             . .venv/bin/activate
-            pytest -m "webview and not visual --headless" -n 4
+            pytest -m "webview and not visual" --headless -n 4
