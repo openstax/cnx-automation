@@ -1,6 +1,6 @@
 version: 2
 jobs:
-  build:
+  test:
     docker:
       - image: openstax/selenium-chrome-debug:3.141.59
         environment:
@@ -8,6 +8,7 @@ jobs:
           LEGACY_BASE_URL: https://legacy-staging.cnx.org
           ARCHIVE_BASE_URL: https://archive-staging.cnx.org
           REX_BASE_URL: https://staging.openstax.org
+    parallelism: 4
     steps:
       - checkout
       - restore_cache:
@@ -20,10 +21,13 @@ jobs:
           paths:
             - ".venv"
       - run:
-          name: start selenium server
+          name: start selenium server via entrypoint
           command: /opt/bin/entry_point.sh
           background: true
       - run:
+          name: run tests for webview
           command: |
             . .venv/bin/activate
-            pytest -m "webview and not visual" --headless -n 4
+            circleci tests glob **/tests/webview/*.py |
+            circleci tests split --split-by=timings |
+            xargs pytest -m "webview and not visual" --headless -n 4
