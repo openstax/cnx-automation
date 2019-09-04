@@ -1,6 +1,6 @@
 version: 2
 jobs:
-  test:
+  test-webview:
     docker:
       - image: openstax/selenium-chrome-debug:3.141.59
         environment:
@@ -35,16 +35,16 @@ jobs:
             . .venv/bin/activate
             pytest -m "webview and not visual" --headless --circleci-parallelize --junitxml=/tmp/test-reports/junit.xml
       - store_artifacts:
-          path: tmp/test-reports/junit.xml
+          path: /tmp/test-reports/junit.xml
           destination: test-reports
       - store_artifacts:
           path: report.html
           destination: test-reports
       - store_test_results:
           path: /tmp/test-reports
-          test:
+          test-webview:
 workflows:
   version: 2
   test:
     jobs:
-      - test
+      - test-webview
