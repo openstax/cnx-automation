@@ -8,7 +8,7 @@ jobs:
           LEGACY_BASE_URL: https://legacy-staging.cnx.org
           ARCHIVE_BASE_URL: https://archive-staging.cnx.org
           REX_BASE_URL: https://staging.openstax.org
-    parallelism: 4
+    parallelism: 2
     steps:
       - checkout
       - restore_cache:
@@ -50,18 +50,14 @@ jobs:
           NEB_ENV: staging
     steps:
       - checkout
-      - restore_cache:
-            key: deps1-{{ .Branch }}-{{ checksum "neb/requirements.txt" }}
       - run:
           name: Install Python deps in a venv
           command: make venv
-      - save_cache:
-          key: deps1-{{ .Branch }}-{{ checksum "neb/requirements.txt" }}
-          paths:
-            - ".venv"
       - run:
           name: run tests for neb
-          command: pytest -m "neb" --junitxml=/tmp/test-reports/junit.xml
+          command: |
+            . .venv/bin/activate
+            pytest -m "neb" --junitxml=/tmp/test-reports/junit.xml
 workflows:
   version: 2
   test:
