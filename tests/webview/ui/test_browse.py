@@ -9,7 +9,7 @@ from pages.webview.search_results import SearchResults
 
 
 @markers.webview
-@markers.test_case("C176268", "C176269")
+@markers.test_case("C176269")
 @markers.nondestructive
 def test_search_input_and_button_are_displayed(webview_base_url, selenium):
     # GIVEN the webview base url and Selenium driver
@@ -26,7 +26,7 @@ def test_search_input_and_button_are_displayed(webview_base_url, selenium):
 
 @markers.webview
 @markers.smoke
-@markers.test_case("C176270")
+@markers.test_case("C176268")
 @markers.nondestructive
 def test_subject_categories_load(webview_base_url, selenium):
     # GIVEN the webview base url and Selenium driver

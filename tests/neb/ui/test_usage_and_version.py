@@ -13,6 +13,7 @@ from cli.neb import Neb
 
 
 @markers.neb
+@markers.test_case("C541976")
 @markers.nondestructive
 def test_no_command():
     # GIVEN neb
@@ -31,6 +32,7 @@ def test_no_command():
 
 
 @markers.neb
+@markers.test_case("C541973")
 @markers.nondestructive
 def test_help():
     # GIVEN neb

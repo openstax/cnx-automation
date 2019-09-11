@@ -5,6 +5,10 @@
 from pytest import mark
 from pytest_testrail.plugin import pytestrail
 
+# Markers need to be registered in conftest.py and added as a return value
+# in the get_custom_markers() function.
+# FIXME: Replace all instances of @markers.{custom_marker} with @pytest.mark.{custom_marker}
+
 nondestructive = mark.nondestructive
 parametrize = mark.parametrize
 test_case = pytestrail.case
@@ -16,6 +20,8 @@ smoke = mark.smoke
 webview = mark.webview
 legacy = mark.legacy
 neb = mark.neb
+rex = mark.rex
+visual = mark.visual
 
 requires_complete_dataset = mark.requires_complete_dataset
 requires_deployment = mark.requires_deployment

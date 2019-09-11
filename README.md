@@ -1,11 +1,9 @@
 # cnx-automation
 
-[![Build Status](https://travis-ci.org/openstax/cnx-automation.svg?branch=master)](https://travis-ci.org/openstax/cnx-automation)
-[![Build with ZenHub](https://raw.githubusercontent.com/ZenHubIO/support/master/zenhub-badge.png)](https://zenhub.com)
+[![CircleCI](https://circleci.com/gh/openstax/cnx-automation/tree/master.svg?style=svg)](https://circleci.com/gh/openstax/cnx-automation/tree/master)
 <a href="https://github.com/ambv/black"><img alt="Code style: black" src="https://img.shields.io/badge/code%20style-black-000000.svg"></a>
-</p>
 
-## Getting started
+# Getting started
 
 ### Clone the repository
 
@@ -20,6 +18,14 @@ repository, check out this [help page][git-clone] from GitHub.
 Follow the instructions to install [Docker](https://docs.docker.com/install/).
 
 Follow the instructions to install [Docker Compose](https://docs.docker.com/compose/install/).
+
+### Docker first run
+
+If you have a fresh cloned repository ignore this step.
+
+If you have run this repo without docker before please run to delete e.g. prebuilt `.pyc` files:
+
+    $ make clean
 
 ### Run Docker Compose
 
@@ -54,6 +60,10 @@ Switch over to the VNC window to see your tests running!
 
 ### Install dependencies
 
+#### Install Selenium Chrome WebDriver
+
+    $ brew cask install chromedriver    # macOS
+
 #### Create a virtualenv
 
     $ make venv
@@ -65,7 +75,7 @@ Switch over to the VNC window to see your tests running!
 #### Install git pre-commit hooks
 
 This utilizes [pre-commit](https://pre-commit.com/) to format code using [black](https://github.com/ambv/black)
-and lint your code using flake8. This is IDE agnostic and runs only on checked in code before a commit. 
+and lint your code using flake8. This is IDE agnostic and runs only on checked in code before a commit.
 
     $ make precommit
 
@@ -85,7 +95,7 @@ shell profile or simply add them to a `.env` file in the root dir of this repo.
 
 ### Run the tests using pytest
 
-When only using the `pytest` command the default environment will set to QA. 
+When only using the `pytest` command the default environment will set to QA.
 
 To run against a different environment pass in a value for `--webview_base_url`, `--legacy_base_url`, `--archive_base_url`:
 

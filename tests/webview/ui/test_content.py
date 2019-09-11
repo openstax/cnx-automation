@@ -15,6 +15,7 @@ from tests import markers
 
 from pages.webview.home import Home
 from pages.webview.content import Content
+from tests.utils import similar
 
 
 @markers.webview
@@ -141,7 +142,7 @@ def test_canonical_link_is_correct(webview_base_url, selenium, id):
 
 
 @markers.webview
-@markers.test_case("C176231", "C176232", "C176233")
+@markers.test_case("C176232", "C176233")
 @markers.nondestructive
 def test_navs_and_elements_are_displayed(webview_base_url, selenium):
     # GIVEN the home page
@@ -312,14 +313,14 @@ def test_share_on_top_right_corner(webview_base_url, selenium):
     "uuid,query,has_results,result_index,has_os_figures,has_os_tables",
     [
         (
-            "8d50a0af-948b-4204-a71d-4826cba765b8",
+            "caa57dab-41c7-455e-bd6f-f443cda5519c",
             "mitosis genetics gorilla",
             False,
             None,
             None,
             None,
         ),
-        ("8d50a0af-948b-4204-a71d-4826cba765b8", "mitosis genetics", True, 0, True, False),
+        ("e42bd376-624b-4c0f-972f-e0c57998e765", "mitosis genetics", True, 0, True, False),
         ("d50f6e32-0fda-46ef-a362-9bd36ca7c97d", "table", True, 1, True, True),
     ],
 )
@@ -375,7 +376,7 @@ def test_in_book_search(
 
 @markers.webview
 @markers.smoke
-@markers.test_case("C176258", "C176259", "C176260", "C176261")
+@markers.test_case("C176258", "C176259", "C176261")
 @markers.nondestructive
 def test_share_links_displayed(webview_base_url, selenium):
     # GIVEN the home page
@@ -397,6 +398,11 @@ def test_share_links_displayed(webview_base_url, selenium):
         url=current_url, title=normalized_title
     )
     assert share.twitter_share_url == expected_twitter_url
+
+    expected_linkedin_url = "https://www.linkedin.com/shareArticle?mini=true&url={url}&title={title}&summary=An%20OpenStax%20CNX%20book&source=OpenStax%20CNX".format(
+        url=current_url, title=normalized_title
+    )
+    assert share.linkedin_share_url == expected_linkedin_url
 
 
 @markers.webview
@@ -450,23 +456,6 @@ def test_get_this_book(webview_base_url, selenium):
 
     if offline_zip_displayed:
         assert downloads.is_offline_zip_available
-
-
-@markers.webview
-@markers.test_case("C167408")
-@markers.nondestructive
-def test_section_title_for_no_markup(webview_base_url, selenium):
-    # GIVEN the home page and a book
-    home = Home(selenium, webview_base_url).open()
-    book = home.featured_books.openstax_list[0]
-
-    # WHEN the book's cover is clicked
-    content = book.click_book_cover()
-
-    # THEN the section title does not contain HTML markup
-    section_title = content.section_title
-    assert "<" not in section_title
-    assert ">" not in section_title
 
 
 @markers.webview
@@ -743,7 +732,8 @@ def test_back_to_top(webview_base_url, selenium):
 @markers.test_case("C176238", "C176239", "C176240", "C176245")
 @markers.nondestructive
 def test_navigation(webview_base_url, selenium):
-    # GIVEN a book's content page
+    # GIVEN a book's content page and a sim_ratio
+    sim_ratio = 0.4
     home = Home(selenium, webview_base_url).open()
     book = home.featured_books.openstax_list[0]
     content = book.click_book_cover()
@@ -754,7 +744,10 @@ def test_navigation(webview_base_url, selenium):
 
     assert type(content) == Content
     # Introduction should be the first section loaded
-    assert content.section_title == "Introduction"
+    assert (
+        content.section_title == "Introduction"
+        or similar(content.section_title, "Introduction") > sim_ratio
+    )
     # Preface is skipped by default
     assert header_nav.progress_bar_fraction_is(2 / num_pages)
 
@@ -796,7 +789,7 @@ def test_ncy_is_not_displayed(webview_base_url, american_gov_uuid, selenium):
 
 
 @markers.webview
-@markers.test_case("C132547", "C132548", "C162195")
+@markers.test_case("C132547", "C132548")
 @markers.nondestructive
 @markers.parametrize(
     "page_uuid,is_baked_book_index",

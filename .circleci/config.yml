@@ -1,0 +1,112 @@
+version: 2
+jobs:
+  test-webview:
+    docker:
+      - image: openstax/selenium-chrome-debug:3.141.59
+        environment:
+          WEBVIEW_BASE_URL: https://staging.cnx.org
+          LEGACY_BASE_URL: https://legacy-staging.cnx.org
+          ARCHIVE_BASE_URL: https://archive-staging.cnx.org
+          REX_BASE_URL: https://staging.openstax.org
+    parallelism: 2
+    steps:
+      - checkout
+      - restore_cache:
+            key: deps1-{{ .Branch }}-{{ checksum "requirements.txt" }}
+      - run:
+          name: Install Python deps in a venv
+          command: make venv
+      - save_cache:
+          key: deps1-{{ .Branch }}-{{ checksum "requirements.txt" }}
+          paths:
+            - ".venv"
+      - run:
+          name: start selenium server via entrypoint
+          command: /opt/bin/entry_point.sh
+          background: true
+      - run:
+          name: install pytest-circleci-parallelized
+          command: |
+            . .venv/bin/activate
+            pip install pytest-circleci-parallelized
+      - run:
+          name: run tests for webview
+          command: |
+            . .venv/bin/activate
+            pytest -n 2 -m "webview and not visual" --headless --circleci-parallelize --junitxml=/tmp/test-reports/junit.xml
+      - store_artifacts:
+          path: /tmp/test-reports/junit.xml
+          destination: test-reports
+      - store_artifacts:
+          path: report.html
+          destination: test-reports
+      - store_test_results:
+          path: /tmp/test-reports
+          test-webview:
+  test-neb:
+    docker:
+      - image: circleci/python:3.7
+        environment:
+          NEB_ENV: staging
+    steps:
+      - checkout
+      - run:
+          name: Install Python deps in a venv
+          command: make venv
+      - run:
+          name: run tests for neb
+          command: |
+            . .venv/bin/activate
+            pytest -m "neb" --junitxml=/tmp/test-reports/junit.xml
+      - store_artifacts:
+          path: /tmp/test-reports/junit.xml
+          destination: test-reports
+      - store_artifacts:
+          path: report.html
+          destination: test-reports
+      - store_test_results:
+          path: /tmp/test-reports
+          test-neb:
+  test-legacy:
+    docker:
+      - image: openstax/selenium-chrome-debug:3.141.59
+        environment:
+          WEBVIEW_BASE_URL: https://staging.cnx.org
+          LEGACY_BASE_URL: https://legacy-staging.cnx.org
+          ARCHIVE_BASE_URL: https://archive-staging.cnx.org
+    steps:
+      - checkout
+      - run:
+          name: Install Python deps in a venv
+          command: make venv
+      - run:
+          name: run tests for legacy
+          command: |
+            . .venv/bin/activate
+            pytest -m legacy -k TestCreateImportPublishModuleAndCollection --runslow --headless --junitxml=/tmp/test-reports/junit.xml
+      - store_artifacts:
+          path: /tmp/test-reports/junit.xml
+          destination: test-reports
+      - store_artifacts:
+          path: report.html
+          destination: test-reports
+      - store_test_results:
+          path: /tmp/test-reports
+          test-legacy:
+
+workflows:
+  version: 2
+  test-webview-and-neb:
+    jobs:
+      - test-webview
+      - test-neb
+  test-legacy-nightly:
+    triggers:
+      - schedule:
+          cron: "0 0 * * *"
+          filters:
+            branches:
+              only:
+                - master
+    jobs:
+      - test-legacy

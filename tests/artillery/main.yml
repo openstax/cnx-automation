@@ -1,0 +1,26 @@
+config:
+  target: 'https://qa.cnx.org'
+  order: sequence
+  payload:
+    path: "cnx_urls.csv"
+    fields:
+      - source_URL
+    # skipHeader: true # CSV includes header, skip it
+  phases:
+    - duration: 2 # seconds
+      arrivalRate: 10 # virtual users per second
+      rampTo: 50 # increase new arrivals linearly to this quantity
+      name: "Warm up phase"
+    - duration: 2
+      arrivalRate: 100
+      name: "Max load/users per second"
+  http:
+    timeout: 1.0 # seconds, after which time an `Error: ETIMEDOUT` is returned
+  ensure:
+    maxErrorRate: 1 # to make Artillery exit with a non-zero if the total error rate exceeded the given %
+scenarios:
+  - flow:
+    - log: "REQUEST {{ target }}{{ source_URL }}"
+    - get:
+         url: "{{ source_URL }}"
+         followRedirect: false

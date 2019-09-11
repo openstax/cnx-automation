@@ -20,11 +20,37 @@ pytest_plugins = (
     "fixtures.webview",
     "fixtures.legacy",
     "fixtures.neb",
+    "fixtures.applitools",
 )
+
+
+def get_custom_markers():
+    """Function used to register custom markers.
+
+    """
+    return (
+        "slow: mark tests that are slow",
+        "smoke: mark tests used for smoke testing",
+        "webview: mark tests that target cnx.org",
+        "legacy: mark tests that are for legacy",
+        "neb: mark tests that use the neb cli",
+        "rex: mark tests that are REX specific",
+        "visual: mark tests that use applitools and screenshots",
+        "requires_publishing: mark tests that require publishing being deployed",
+        "requires_varnish_routing: mark tests that require varnish routing",
+        "requires_complete_dataset: mark tests that require the complete dataset",
+        "requires_deployment: mark tests that require deployment",
+    )
+
 
 # Load environment variables from .env file
 DOTENV_PATH = os.path.join(os.path.realpath(os.path.dirname(__file__)), "../.env")
 load_dotenv(dotenv_path=DOTENV_PATH)
+
+
+def pytest_configure(config):
+    for marker in get_custom_markers():
+        config.addinivalue_line("markers", marker)
 
 
 def pytest_addoption(parser):
@@ -33,25 +59,25 @@ def pytest_addoption(parser):
         "--disable-dev-shm-usage",
         action="store_true",
         default=os.getenv("DISABLE_DEV_SHM_USAGE", False),
-        help="disable chrome's usage of /dev/shm.",
+        help="disable chrome's usage of /dev/shm. (used by Travis)",
     )
     group.addoption(
         "--headless",
         action="store_true",
         default=os.getenv("HEADLESS", False),
-        help="enable headless mode for chrome.",
+        help="enable headless mode for chrome. So chrome does not interrupt you.",
     )
     group.addoption(
         "--no-sandbox",
         action="store_true",
         default=os.getenv("NO_SANDBOX", False),
-        help="disable chrome's sandbox.",
+        help="disable chrome's sandbox. (used by Travis)",
     )
     group.addoption(
         "--print-page-source-on-failure",
         action="store_true",
         default=os.getenv("PRINT_PAGE_SOURCE_ON_FAILURE", False),
-        help="print page source to stdout when a test fails.",
+        help="print page source to stdout when a test fails. (used by Travis)",
     )
     parser.addoption(
         "--github-token",
@@ -59,10 +85,15 @@ def pytest_addoption(parser):
         help="OAuth token used to login to GitHub.",
     )
     parser.addoption(
+        "--applitools-key",
+        default=os.getenv("APPLITOOLS_API_KEY", None),
+        help="OAuth key used to login to Applitools.",
+    )
+    parser.addoption(
         "--runslow",
         action="store_true",
         default=os.getenv("RUNSLOW", False),
-        help="run slow tests.",
+        help="run slow tests (necessary for legacy tests).",
     )
     # Adapted from:
     # https://github.com/pytest-dev/pytest-base-url/blob/master/pytest_base_url/plugin.py#L51
@@ -86,6 +117,13 @@ def pytest_addoption(parser):
         metavar="url",
         default=os.getenv("WEBVIEW_BASE_URL", None),
         help="base url for CNX webview.",
+    )
+    parser.addini("rex_base_url", help="base url for REX.")
+    parser.addoption(
+        "--rex_base_url",
+        metavar="url",
+        default=os.getenv("REX_BASE_URL", None),
+        help="base url for REX.",
     )
     parser.addoption(
         "--legacy_username", default=os.getenv("LEGACY_USERNAME"), help="username for CNX legacy."

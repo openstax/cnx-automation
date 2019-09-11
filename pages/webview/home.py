@@ -8,6 +8,7 @@ from selenium.webdriver.common.by import By
 
 from pages.webview.base import Page
 from regions.webview.base import Region
+from tests.utils import retry_stale_element_reference_exception
 
 
 class Home(Page):
@@ -17,7 +18,10 @@ class Home(Page):
 
     @property
     def loaded(self):
-        return self.is_element_present(*self.featured_books._openstax_books_locator)
+        return any(
+            featured_book.is_book_cover_clickable
+            for featured_book in self.featured_books.openstax_list
+        )
 
     @property
     def splash(self):
@@ -73,6 +77,11 @@ class Home(Page):
             return self.find_element(*self._book_cover_img_locator)
 
         @property
+        def cnx_id(self):
+            return self.book_cover_link.get_attribute("href").split("/")[-1]
+
+        @property
+        @retry_stale_element_reference_exception
         def is_book_cover_clickable(self):
             """Returns a boolean if the book cover is clickable
 
