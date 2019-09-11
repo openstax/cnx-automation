@@ -2,24 +2,25 @@ import urllib.request
 import json
 
 """
-Takes a json file and converts it to a list, finds indexes of searched items, 
-their values and prints them out  
+Takes a json file and converts it to a list, finds indexes of searched items,
+their values and prints them out
 """
 
 # FINAL VERSION: June 19, 2019
+
 
 def user_input(prompt=None):
     return input(prompt)
 
 
 def convert_json_to_list(url):
-    if url > str(''):
+    if url > str(""):
         # Gets the webpage and reads its content
         doc_page = urllib.request.urlopen(url)
         webpage_text = doc_page.read()
         # Converts json file
         jsondata = json.loads(webpage_text)
-        treedata = json.dumps(jsondata['tree'], indent=2)
+        treedata = json.dumps(jsondata, indent=2)
         # split() method returns a list of strings after breaking the given string by the specified separator
         splitdat = treedata.split()
 
@@ -50,7 +51,7 @@ def json_indexs(matchedi, splitdat, word):
     length2 = len(matchedi)
     index_values = []
 
-    print(f'VALUES OF {word} INDEXES: \n')
+    print(f"VALUES OF {word} INDEXES: \n")
 
     for j in range(length2):
         mplus.append(matchedi[j] + 1)
@@ -62,45 +63,41 @@ def json_indexs(matchedi, splitdat, word):
 
     return index_values
 
+
 # index_values
 def json_values(matchedi, splitdat, word):
     count = splitdat.count(word)
 
     if matchedi > [] or count > 0:
-        print(' ')
-        print(f'String >>{word}<< was found in the list >>{count}<< times')
-        print(' ')
-
-    elif word == str(''):
+        print(" ")
+        print(f"String >>{word}<< was found in the list >>{count}<< times")
+        print(" ")
+    elif word == str(""):
         print("String is missing. Exiting")
         exit()
-
     else:
-        print(' ')
-        print(f'!!! String >>{word}<< was not found in the list !!!')
-        print(' ')
+        print(" ")
+        print(f"!!! String >>{word}<< was not found in the list !!!")
+        print(" ")
         exit()
 
 
 def main():
-    url = input('Webapge address: ')
-    print(' ')
-    word = input('Search this string: ')
-    print(' ')
+    url = input("Webapge address: ")
+    print(" ")
+    word = input("Search this string: ")
+    print(" ")
 
     splitdats = convert_json_to_list(url)
     indexed_slugs = json_splits(splitdats, word)
     values_of_indexes = json_indexs(indexed_slugs, splitdats, word)
-    counting = json_values(indexed_slugs, splitdats, word)
-
-    # values_of_indexes,
-
+    # counting = json_values(indexed_slugs, splitdats, word)
     # (optional) Prints the complete list created out of the json file
     # print("COMPLETE LIST: ", splitdats)
     # (optional) Prints the indexes of the searched items in the list
     # print("ITEM INDEXES: ", indexed_slugs)
     # (optional)
-    # print("VALUES OF INDEXES: \n", values_of_indexes)
+    print("VALUES OF INDEXES: \n", values_of_indexes)
 
     return
 
@@ -108,3 +105,4 @@ def main():
 if __name__ == "__main__":
     main()
 
+# end of code
