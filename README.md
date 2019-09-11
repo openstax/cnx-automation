@@ -1,9 +1,7 @@
 # cnx-automation
 
-[![Build Status](https://travis-ci.org/openstax/cnx-automation.svg?branch=master)](https://travis-ci.org/openstax/cnx-automation)
-[![Build with ZenHub](https://raw.githubusercontent.com/ZenHubIO/support/master/zenhub-badge.png)](https://zenhub.com)
+[![CircleCI](https://circleci.com/gh/openstax/cnx-automation/tree/master.svg?style=svg)](https://circleci.com/gh/openstax/cnx-automation/tree/master)
 <a href="https://github.com/ambv/black"><img alt="Code style: black" src="https://img.shields.io/badge/code%20style-black-000000.svg"></a>
-</p>
 
 # Getting started
 
