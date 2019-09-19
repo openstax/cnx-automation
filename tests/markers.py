@@ -14,7 +14,6 @@ parametrize = mark.parametrize
 test_case = pytestrail.case
 xfail = mark.xfail
 skip = mark.skip
-otto = mark.otto
 
 slow = mark.slow
 smoke = mark.smoke
