@@ -266,11 +266,6 @@ def test_footer_has_correct_content_and_links(webview_base_url, selenium):
         " is licensed under a Creative Commons Attribution 4.0 License.".format(year=year)
     )
 
-    assert footer.is_android_app_link_displayed
-    assert footer.android_app_url == (
-        "https://play.google.com/store/apps/details?id=org.openstaxcollege.android"
-    )
-
     webview_url = urljoin(webview_base_url, "/")
 
     assert footer.is_facebook_link_displayed
