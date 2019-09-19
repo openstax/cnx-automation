@@ -28,6 +28,8 @@ def test_redirect_for_rex_books(webview_base_url, rex_base_url):
     assert rex_base_url in response.history[0].headers["location"]
 
 
+@markers.test_case("C553086")
+@markers.slow
 @markers.rex
 @markers.nondestructive
 def test_archive_is_still_reachable(archive_base_url, rex_base_url):
@@ -44,12 +46,15 @@ def test_archive_is_still_reachable(archive_base_url, rex_base_url):
         assert rex_base_url not in hist.headers["location"]
 
 
+@markers.test_case("C553080")
+@markers.slow
 @markers.rex
 @markers.nondestructive
 def test_redirecting_to_rex_from_within_webview(webview_base_url, rex_base_url, selenium):
     """Webview needs to redirect to REX when one of the featured books is a REX book.
     https://github.com/openstax/cnx/issues/401
     """
+
     # GIVEN the home page
     home = Home(selenium, webview_base_url).open()
 
@@ -61,6 +66,7 @@ def test_redirecting_to_rex_from_within_webview(webview_base_url, rex_base_url, 
             #  THEN we redirect to REX
             assert rex_base_url in home.current_url
             break
+
     else:
         assert False, "Chemistry 2e not found in featured books"
 
@@ -116,8 +122,9 @@ def test_cnx_sitemap_exclusion(rex_base_url, archive_base_url):
         assert first_book_uuid not in collection_url.text
 
 
-@markers.rex
+@markers.test_case("C553081")
 @markers.slow
+@markers.rex
 @markers.nondestructive
 def test_chemistry_2e_uris_redirect_to_rex(webview_base_url, rex_base_url, chemistry_2e_uri):
     # GIVEN a webview_base_url, rex_base_url and a chemistry_2e_uri
@@ -125,6 +132,23 @@ def test_chemistry_2e_uris_redirect_to_rex(webview_base_url, rex_base_url, chemi
     # WHEN we go to a page based on the webview_base_url and uri
     cnx_page_slug = chemistry_2e_uri.split("/")[-1]
     cnx_url = f"{webview_base_url}{chemistry_2e_uri}"
+    response = get_url(cnx_url)
+
+    # THEN we are redirected to rex
+    assert response.url.startswith(rex_base_url)
+    assert response.url.endswith(cnx_page_slug)
+
+
+@markers.test_case("C553085")
+@markers.slow
+@markers.rex
+@markers.nondestructive
+def test_biology_2e_uris_redirect_to_rex(webview_base_url, rex_base_url, biology_2e_uri):
+    # GIVEN a webview_base_url, rex_base_url and a biology_2e_uri
+
+    # WHEN we go to a page based on the webview_base_url and uri
+    cnx_page_slug = biology_2e_uri.split("/")[-1]
+    cnx_url = f"{webview_base_url}{biology_2e_uri}"
     response = get_url(cnx_url)
 
     # THEN we are redirected to rex
