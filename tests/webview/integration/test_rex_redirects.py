@@ -29,7 +29,6 @@ def test_redirect_for_rex_books(webview_base_url, rex_base_url):
 
 
 @markers.test_case("C553086")
-@markers.slow
 @markers.rex
 @markers.nondestructive
 def test_archive_is_still_reachable(archive_base_url, rex_base_url):
@@ -47,7 +46,6 @@ def test_archive_is_still_reachable(archive_base_url, rex_base_url):
 
 
 @markers.test_case("C553080")
-@markers.slow
 @markers.rex
 @markers.nondestructive
 def test_redirecting_to_rex_from_within_webview(webview_base_url, rex_base_url, selenium):
