@@ -36,6 +36,17 @@ def chemistry_2e_uri(request):
     yield request.param
 
 
+@pytest.fixture(
+    params=gen_from_file(os.path.join(DATA_DIR, "8d50a0af-948b-4204-a71d-4826cba765b8.txt"))
+)
+def biology_2e_uri(request):
+    """Yields a URI from the Biology 2e book located on a cnx.org instance
+
+    Example: /contents/f8zJz5tx@0.0:2po7o99e/1-essential-ideas
+    """
+    yield request.param
+
+
 @pytest.fixture
 def webview_base_url(request):
     """Return a base URL for CNX webview"""
