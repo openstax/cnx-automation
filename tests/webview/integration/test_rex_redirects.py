@@ -48,25 +48,29 @@ def test_archive_is_still_reachable(archive_base_url, rex_base_url):
 @markers.test_case("C553080")
 @markers.rex
 @markers.nondestructive
-def test_redirecting_to_rex_from_within_webview(webview_base_url, rex_base_url, selenium):
-    """Webview needs to redirect to REX when one of the featured books is a REX book.
+def test_redirecting_to_rex_from_within_webview(
+    webview_base_url, rex_base_url, selenium, redirecting_books_titles
+):
+    """Webview needs to redirect to REX when any of the featured books is a REX book.
     https://github.com/openstax/cnx/issues/401
     """
 
-    # GIVEN the home page
-    home = Home(selenium, webview_base_url).open()
+    for eligible_book in redirecting_books_titles:
+        # GIVEN the home page
+        home = Home(selenium, webview_base_url).open()
 
-    # WHEN we click on a featured book "Chemistry 2e"
-    for book in home.featured_books.openstax_list:
-        if book.title == "Chemistry 2e":
-            book.offscreen_click(book.book_cover_link)
+        # WHEN we click on a REX book
+        for book in home.featured_books.openstax_list:
 
-            #  THEN we redirect to REX
-            assert rex_base_url in home.current_url
-            break
+            if book.title == eligible_book:
+                book.offscreen_click(book.book_cover_link)
 
-    else:
-        assert False, "Chemistry 2e not found in featured books"
+                # THEN we redirect to REX
+                assert rex_base_url in home.current_url
+                break
+
+        else:
+            assert False, f"{eligible_book} not found in featured books"
 
 
 @markers.rex
