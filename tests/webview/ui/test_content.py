@@ -320,7 +320,7 @@ def test_share_on_top_right_corner(webview_base_url, selenium):
             None,
             None,
         ),
-        ("e42bd376-624b-4c0f-972f-e0c57998e765", "mitosis genetics", True, 0, True, False),
+        ("2d941ab9-ac5b-4eb8-b21c-965d36a4f296", "filanthropic", False, 0, True, False),
         ("d50f6e32-0fda-46ef-a362-9bd36ca7c97d", "table", True, 1, True, True),
     ],
 )
