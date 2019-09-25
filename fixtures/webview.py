@@ -94,7 +94,7 @@ def redirecting_books_titles():
 
     while True:
         f = open(
-            "/Users/om9/Documents/Projects/cnx-automation2/fixtures/data/webview/redirected_books.txt",
+            "/Users/om9/Documents/Projects/cnx-automation2/fixtures/data/webview/spreadsheet_rex_books.txt",
             "r",
         )
 
