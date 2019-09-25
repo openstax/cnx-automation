@@ -1,5 +1,7 @@
 import requests
 from tests import markers
+import webbrowser
+from lxml import html
 
 
 @markers.otto
@@ -19,6 +21,8 @@ def test_redirecting_to_rex_from_within_webview(
         print()
         print("REDIRECTED FROM: ", book)
         print("REDIRECTED TO  : ", url)
+        print("STATUS CODE    : ", data.status_code)
         print()
 
         assert rex_base_url in url
+        assert 200 == data.status_code
