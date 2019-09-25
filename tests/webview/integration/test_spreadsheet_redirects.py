@@ -1,7 +1,5 @@
 import requests
 from tests import markers
-import webbrowser
-from lxml import html
 
 
 @markers.otto
