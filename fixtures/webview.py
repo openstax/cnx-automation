@@ -85,3 +85,22 @@ def webview_instance(webview_base_url):
         return url.subdomain
     else:
         return "prod"
+
+
+@pytest.fixture
+def redirecting_books_titles():
+    """Yields all the books from the redirecting_books.txt which redirects to rex
+    """
+
+    while True:
+        f = open(
+            "/Users/om9/Documents/Projects/cnx-automation2/fixtures/data/webview/redirected_books.txt",
+            "r",
+        )
+
+        lines = f.readlines()
+        book_row = map(lambda each: each.strip("\n"), lines)
+
+        f.close()
+
+        return book_row
