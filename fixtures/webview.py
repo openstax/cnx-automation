@@ -92,15 +92,13 @@ def redirecting_books_titles():
     """Returns all the books from the list of redirecting books to rex
     """
 
-    here = os.path.join(DATA_DIR, "redirected_books.txt")
+    here = DATA_DIR + "/redirected_books.txt"
 
-    f = open(here, "r")
+    with open(here, "r") as file:
 
-    while True:
-
-        tlines = f.readlines()
+        tlines = file.readlines()
         ttlines = map(lambda each: each.strip("\n"), tlines)
 
-        f.close()
+        file.close()
 
         return ttlines
