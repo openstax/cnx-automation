@@ -1,8 +1,6 @@
 import backoff
 import requests
 
-from xml.etree import ElementTree
-
 from tests import markers
 from pages.webview.home import Home
 
