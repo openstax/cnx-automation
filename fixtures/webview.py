@@ -87,17 +87,16 @@ def webview_instance(webview_base_url):
         return "prod"
 
 
-@pytest.fixture(
-    params=gen_from_file(os.path.join(DATA_DIR, "7fccc9cf-9b71-44f6-800b-f9457fd64335.txt"))
-)
+@pytest.fixture
 def redirecting_books_titles():
-    """Yields all the books from the redirecting_books.txt which redirects to rex
+    """Returns all the books from the list of redirecting books to rex
     """
+
+    here = os.path.join(DATA_DIR, "redirected_books.txt")
+
+    f = open(here, "r")
+
     while True:
-        f = open(
-            "/Users/om9/Documents/Projects/cnx-automation2/fixtures/data/webview/redirected_books.txt",
-            "r",
-        )
 
         tlines = f.readlines()
         ttlines = map(lambda each: each.strip("\n"), tlines)

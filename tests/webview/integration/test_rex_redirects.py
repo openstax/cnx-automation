@@ -12,22 +12,6 @@ def get_url(url):
     return requests.get(url)
 
 
-@markers.rex
-@markers.nondestructive
-def test_redirect_for_rex_books(webview_base_url, rex_base_url):
-    # end-to-end integration test for redirecting REX-available books from webview to REX.
-    # see: https://github.com/openstax/cnx/issues/344
-
-    # GIVEN a cnx book url for which there is a REX-version
-    url = f"{webview_base_url}/contents/f8zJz5tx@11.3:Pw-p-yeP@10/10-3-Phase-Transitions"
-
-    # WHEN requesting such URL
-    response = requests.get(url)
-
-    # THEN we redirect to REX
-    assert rex_base_url in response.history[0].headers["location"]
-
-
 @markers.test_case("C553086")
 @markers.rex
 @markers.nondestructive
@@ -92,36 +76,6 @@ def test_minimal_view_for_android_apps(webview_base_url, rex_base_url):
 
     #  THEN we do not redirect to REX
     assert rex_base_url not in response.url
-
-
-@markers.rex
-@markers.nondestructive
-@markers.xfail  # until we resolve and deploy https://github.com/openstax/cnx/issues/357
-def test_cnx_sitemap_exclusion(rex_base_url, archive_base_url):
-    """CNX books that are also available in REX should be excluded
-    from the CNX sitemap.
-    https://github.com/openstax/cnx/issues/357
-    """
-    # GIVEN a cnx book for which there is a REX-version
-
-    # WHEN included in the REX release.json / when marked as a rex book
-    releases_url = f"{rex_base_url}/rex/release.json"
-    releases = requests.get(releases_url)
-
-    first_book_uuid = [b for b in releases.json()["books"].items()][0][0]
-
-    #  THEN we exclude the book from the CNX sitemap
-    metadata_url = f"{archive_base_url}/contents/{first_book_uuid}.json"
-    authors = requests.get(metadata_url).json()["authors"]
-    assert 1 == len(authors)
-    author = authors[0]["id"]
-    sitemap_url = f"{archive_base_url}/sitemap-{author}.xml"
-    sitemap = requests.get(sitemap_url)
-
-    namespace = "http://www.sitemaps.org/schemas/sitemap/0.9"
-    sitemap_tree = ElementTree.fromstring(sitemap.content)
-    for collection_url in sitemap_tree.iter(f"{{{namespace}}}loc"):
-        assert first_book_uuid not in collection_url.text
 
 
 @markers.test_case("C553081")
