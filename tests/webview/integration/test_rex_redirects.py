@@ -2,6 +2,7 @@ import backoff
 import requests
 
 from tests import markers
+from pages.webview.home import Home
 
 
 @backoff.on_exception(backoff.expo, requests.exceptions.ConnectionError)
@@ -29,25 +30,25 @@ def test_archive_is_still_reachable(archive_base_url, rex_base_url):
 @markers.test_case("C553080")
 @markers.rex
 @markers.nondestructive
-def test_redirecting_to_rex_from_within_webview(
-    webview_base_url, rex_base_url, selenium, rex_released_books
-):
-    """Webview needs to redirect to REX when any of the featured books is a REX book.
+def test_redirecting_to_rex_from_within_webview(webview_base_url, rex_base_url, selenium):
+    """Webview needs to redirect to REX when one of the featured books is a REX book.
     https://github.com/openstax/cnx/issues/401
     """
 
-    for book in rex_released_books:
+    # GIVEN the home page
+    home = Home(selenium, webview_base_url).open()
 
-        # GIVEN the cnx url of a redirecting book
-        cnx_book_url = f"{webview_base_url}/contents/{book}"
+    # WHEN we click on a featured book "Chemistry 2e"
+    for book in home.featured_books.openstax_list:
+        if book.title == "Chemistry 2e":
+            book.offscreen_click(book.book_cover_link)
 
-        # WHEN we click on the url
-        data = requests.get(cnx_book_url)
+            #  THEN we redirect to REX
+            assert rex_base_url in home.current_url
+            break
 
-        # THEN we redirect to REX
-        rex_url = data.url
-
-        assert rex_base_url in rex_url
+    else:
+        assert False, "Chemistry 2e not found in featured books"
 
 
 @markers.rex
