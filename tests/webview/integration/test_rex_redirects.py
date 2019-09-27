@@ -2,7 +2,6 @@ import backoff
 import requests
 
 from tests import markers
-from pages.webview.home import Home
 
 
 @backoff.on_exception(backoff.expo, requests.exceptions.ConnectionError)
@@ -31,28 +30,24 @@ def test_archive_is_still_reachable(archive_base_url, rex_base_url):
 @markers.rex
 @markers.nondestructive
 def test_redirecting_to_rex_from_within_webview(
-    webview_base_url, rex_base_url, selenium, redirecting_books_titles
+    webview_base_url, rex_base_url, selenium, rex_released_books
 ):
     """Webview needs to redirect to REX when any of the featured books is a REX book.
     https://github.com/openstax/cnx/issues/401
     """
 
-    for eligible_book in redirecting_books_titles:
-        # GIVEN the home page
-        home = Home(selenium, webview_base_url).open()
+    for book in rex_released_books:
 
-        # WHEN we click on a REX book
-        for book in home.featured_books.openstax_list:
+        # GIVEN the cnx url of a redirecting book
+        cnx_book_url = f"{webview_base_url}/contents/{book}"
 
-            if book.title == eligible_book:
-                book.offscreen_click(book.book_cover_link)
+        # WHEN we click on the url
+        data = requests.get(cnx_book_url)
 
-                # THEN we redirect to REX
-                assert rex_base_url in home.current_url
-                break
+        # THEN we redirect to REX
+        rex_url = data.url
 
-        else:
-            assert False, f"{eligible_book} not found in featured books"
+        assert rex_base_url in rex_url
 
 
 @markers.rex
@@ -103,6 +98,42 @@ def test_biology_2e_uris_redirect_to_rex(webview_base_url, rex_base_url, biology
     # WHEN we go to a page based on the webview_base_url and uri
     cnx_page_slug = biology_2e_uri.split("/")[-1]
     cnx_url = f"{webview_base_url}{biology_2e_uri}"
+    response = get_url(cnx_url)
+
+    # THEN we are redirected to rex
+    assert response.url.startswith(rex_base_url)
+    assert response.url.endswith(cnx_page_slug)
+
+
+@markers.test_case("C553519")
+@markers.slow
+@markers.rex
+@markers.nondestructive
+def test_microbiology_uris_redirect_to_rex(webview_base_url, rex_base_url, microbiology_uri):
+    # GIVEN a webview_base_url, rex_base_url and a microbiology_uri
+
+    # WHEN we go to a page based on the webview_base_url and uri
+    cnx_page_slug = microbiology_uri.split("/")[-1]
+    cnx_url = f"{webview_base_url}{microbiology_uri}"
+    response = get_url(cnx_url)
+
+    # THEN we are redirected to rex
+    assert response.url.startswith(rex_base_url)
+    assert response.url.endswith(cnx_page_slug)
+
+
+@markers.test_case("C553520")
+@markers.slow
+@markers.rex
+@markers.nondestructive
+def test_conceptsofbiology_uri_redirect_to_rex(
+    webview_base_url, rex_base_url, conceptsofbiology_uri
+):
+    # GIVEN a webview_base_url, rex_base_url and a conceptsofbiology_uri
+
+    # WHEN we go to a page based on the webview_base_url and uri
+    cnx_page_slug = conceptsofbiology_uri.split("/")[-1]
+    cnx_url = f"{webview_base_url}{conceptsofbiology_uri}"
     response = get_url(cnx_url)
 
     # THEN we are redirected to rex

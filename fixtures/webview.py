@@ -47,6 +47,28 @@ def biology_2e_uri(request):
     yield request.param
 
 
+@pytest.fixture(
+    params=gen_from_file(os.path.join(DATA_DIR, "e42bd376-624b-4c0f-972f-e0c57998e765.txt"))
+)
+def microbiology_uri(request):
+    """Yields a URI from the Microbiology book located on a cnx.org instance
+
+    Example: /contents/f8zJz5tx@0.0:2po7o99e/1-essential-ideas
+    """
+    yield request.param
+
+
+@pytest.fixture(
+    params=gen_from_file(os.path.join(DATA_DIR, "b3c1e1d2-839c-42b0-a314-e119a8aafbdd.txt"))
+)
+def conceptsofbiology_uri(request):
+    """Yields a URI from the Concepts of Biology book located on a cnx.org instance
+
+    Example: /contents/f8zJz5tx@0.0:2po7o99e/1-essential-ideas
+    """
+    yield request.param
+
+
 @pytest.fixture
 def webview_base_url(request):
     """Return a base URL for CNX webview"""
@@ -85,20 +107,3 @@ def webview_instance(webview_base_url):
         return url.subdomain
     else:
         return "prod"
-
-
-@pytest.fixture
-def redirecting_books_titles():
-    """Returns all the books from the list of redirecting books to rex
-    """
-
-    here = DATA_DIR + "/redirected_books.txt"
-
-    with open(here, "r") as file:
-
-        tlines = file.readlines()
-        ttlines = map(lambda each: each.strip("\n"), tlines)
-
-        file.close()
-
-        return ttlines
