@@ -5,13 +5,16 @@ import os
 from string import Template
 
 message_template = """:female-detective: An updated $host_url/history.txt has been discovered. Browser tests will start in a moment ...
-- *date*:           $date
-- *webview*:        $webview
-- *cnx-archive*:    $archive
-- *cnx-publishing*: $publishing
-- *oer.exports*:    $oer_exports
-- *cnx-press*:      $press
-- *cnx-deploy*:     $cnx_deploy
+*Versions*
+```
+date:           $date
+webview         $webview
+cnx-archive     $archive
+cnx-publishing  $publishing
+oer.exports     $oer_exports
+cnx-press       $press
+cnx-deploy      $cnx_deploy
+```
 """
 
 template = Template(message_template)
