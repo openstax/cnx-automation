@@ -31,7 +31,8 @@ resources:
 
   - name: cnx-automation
     type: git
-    source: https://github.com/openstax/cnx-automation
+    source:
+      uri: https://github.com/openstax/cnx-automation
       branch: message-output-versions
 
   - name: notify
@@ -47,8 +48,10 @@ jobs:
         trigger: true
       - get: cnx-automation
       - task: create-version-message
-        file: cnx-automation/.concourse/tasks/version-message.yml
-        input_mapping: {history-txt: history-qa}
+        file: cnx-automation/.concourse/tasks/version-message/task.yml
+        input_mapping:
+          history-txt: history-qa
+          cnx-automation: cnx-automation
       - put: notify
         params:
           text_file: message-output/out.txt
