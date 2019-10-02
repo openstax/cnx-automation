@@ -29,20 +29,31 @@ resources:
     source:
       instance: prod
 
+  - name: cnx-automation
+    type: git
+    source:
+      uri: https://github.com/openstax/cnx-automation
+      branch: message-output-versions
+
   - name: notify
     type: slack-notification
     source:
       url: ((slack-webhook-cestream))
 
 jobs:
-
   - name: test-qa
     plan:
       - get: history-qa
         trigger: true
+      - get: cnx-automation
+      - task: create-version-message
+        file: cnx-automation/.concourse/tasks/version-message/task.yml
+        input_mapping:
+          history-txt: history-qa
+          cnx-automation: cnx-automation
       - put: notify
         params:
-          text: ":male-detective: An updated https://qa.cnx.org/history.txt has been discovered. Browser tests will start in a moment ..."
+          text_file: message-output/out.txt
       - task: run-functional-tests
         config:
           platform: linux
@@ -75,9 +86,15 @@ jobs:
     plan:
       - get: history-staging
         trigger: true
+      - get: cnx-automation
+      - task: create-version-message
+        file: cnx-automation/.concourse/tasks/version-message/task.yml
+        input_mapping:
+          history-txt: history-staging
+          cnx-automation: cnx-automation
       - put: notify
         params:
-          text: ":male-detective: An updated https://staging.cnx.org/history.txt has been discovered. Browser tests will start in a moment ..."
+          text_file: message-output/out.txt
       - task: run-functional-tests
         config:
           platform: linux
@@ -109,9 +126,15 @@ jobs:
     plan:
       - get: history-prod
         trigger: true
+      - get: cnx-automation
+      - task: create-version-message
+        file: cnx-automation/.concourse/tasks/version-message/task.yml
+        input_mapping:
+          history-txt: history-prod
+          cnx-automation: cnx-automation
       - put: notify
         params:
-          text: ":male-detective: An updated https://cnx.org/history.txt has been discovered. Browser tests will start in a moment ..."
+          text_file: message-output/out.txt
       - task: run-functional-tests
         config:
           platform: linux
