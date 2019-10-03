@@ -87,6 +87,8 @@ jobs:
       - get: history-staging
         trigger: true
       - get: cnx-automation
+      - task:
+          -
       - task: create-version-message
         file: cnx-automation/.concourse/tasks/version-message/task.yml
         input_mapping:
