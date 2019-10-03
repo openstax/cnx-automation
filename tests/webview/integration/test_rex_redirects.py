@@ -35,28 +35,28 @@ def test_redirecting_to_rex_from_within_webview(
 ):
 
     # GIVEN the home page and REX released books list
-    for allbooks in rex_released_books:
+    for rex_book in rex_released_books:
 
         home = Home(selenium, webview_base_url).open()
 
-        for book in home.featured_books.openstax_list:
+        for cnx_book in home.featured_books.openstax_list:
 
             # WHEN we click on a featured book
-            if book.cnx_id in allbooks:
+            if cnx_book.cnx_id in rex_book:
 
-                book_title = book.title
+                book_title = cnx_book.title
 
-                link_elem = home.selenium.find_element_by_link_text(book_title)
-                link_elem.click()
+                title_link = home.driver.find_element_by_link_text(book_title)
+                title_link.click()
 
-                current_url = home.selenium.current_url
+                current_url = home.current_url
 
                 # THEN we redirect to REX
                 assert rex_base_url in current_url
                 break
 
         else:
-            assert False, f"{allbooks} not a rex book"
+            assert False, f"{rex_book} not a rex book"
 
 
 @markers.rex
