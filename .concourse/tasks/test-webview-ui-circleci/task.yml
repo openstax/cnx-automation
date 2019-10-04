@@ -10,5 +10,5 @@ inputs:
   - name: history-txt
 run:
   path: bash
-  args: ["cnx-automation/.concourse/tasks/run-functional-tests/script.bash"]
+  args: ["cnx-automation/.concourse/tasks/run-webview-tests-circleci/script.bash"]
 
