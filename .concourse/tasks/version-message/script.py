@@ -18,6 +18,9 @@ cnx-deploy      $cnx_deploy
 ```
 """
 
+files = os.listdir(os.curdir)
+print(files)
+
 template = Template(message_template)
 
 current_dir = os.getcwd()
