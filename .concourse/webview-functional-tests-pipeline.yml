@@ -58,7 +58,7 @@ jobs:
         input_mapping:
           history-txt: history-qa
           cnx-automation: cnx-automation
-          run-circleci: defer-to-circleci
+          defer-to-circleci: defer-to-circleci
       - put: notify
         params:
           text_file: message-output/out.txt

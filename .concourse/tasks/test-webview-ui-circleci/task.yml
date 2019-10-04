@@ -9,7 +9,7 @@ inputs:
   - name: cnx-automation
   - name: history-txt
 outputs:
-  - name: run-circleci
+  - name: defer-to-circleci
 run:
   path: bash
   args: ["cnx-automation/.concourse/tasks/test-webview-ui-circleci/script.bash"]
