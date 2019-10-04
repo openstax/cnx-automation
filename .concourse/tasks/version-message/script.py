@@ -26,6 +26,7 @@ template = Template(message_template)
 current_dir = os.getcwd()
 history_txt_dir = os.path.join(current_dir, "history-txt")
 circleci_dir = os.path.join(current_dir, "circleci-output")
+print(os.listdir(circleci_dir))
 
 os.chdir(os.path.join(current_dir, "history-txt"))
 
