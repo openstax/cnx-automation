@@ -50,14 +50,12 @@ jobs:
         file: cnx-automation/.concourse/tasks/test-webview-ui-circleci/task.yml
         input_mapping:
           history-txt: history-qa
-          cnx-automation: cnx-automation
         params:
           CIRCLE_API_TOKEN: ((circleci-api-token))
       - task: create-version-message
         file: cnx-automation/.concourse/tasks/version-message/task.yml
         input_mapping:
           history-txt: history-qa
-          cnx-automation: cnx-automation
       - put: notify
         params:
           text_file: message-output/out.txt

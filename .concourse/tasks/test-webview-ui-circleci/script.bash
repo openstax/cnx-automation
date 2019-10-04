@@ -2,7 +2,6 @@
 set -euo pipefail
 
 base_dir=$(pwd)
-echo "$base_dir"
 
 # Map urls to variables generated from the concourse resource
 WEBVIEW_BASE_URL=$(jq -r .webview_url < ./history-txt/urls.json)
@@ -25,4 +24,4 @@ BUILD_URL=$(echo "$RESULT" | jq -r .build_url)
 
 echo "Circle CI Build URL=$BUILD_URL"
 
-echo "$BUILD_URL" > "build_url.txt"
+echo "$BUILD_URL" > "circleci-output/build_url.txt"
