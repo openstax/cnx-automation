@@ -32,7 +32,7 @@ with open("app_versions.json", "r") as infile:
 with open("urls.json", "r") as infile:
     urls = json.load(infile)
 
-with open(circleci_dir, "r") as infile:
+with open(os.path.join(circleci_dir, "build_url"), "r") as infile:
     circle_url = infile.read()
 
 webview_url = urls["webview_url"]
