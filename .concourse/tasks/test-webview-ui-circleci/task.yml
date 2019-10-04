@@ -13,6 +13,6 @@ outputs:
 run:
   path: bash
   args: ["cnx-automation/.concourse/tasks/test-webview-ui-circleci/script.bash"]
-  params:
-    CIRCLE_API_TOKEN: ((circleci-api-token))
+params:
+  CIRCLE_API_TOKEN: ((circleci-api-token))
 
