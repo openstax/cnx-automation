@@ -8,7 +8,7 @@ image_resource:
 inputs:
   - name: cnx-automation
   - name: history-txt
-  - name: run-circleci
+  - name: defer-to-circleci
 outputs:
   - name: message-output
 run:

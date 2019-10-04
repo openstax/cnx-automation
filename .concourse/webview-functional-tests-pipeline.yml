@@ -57,6 +57,8 @@ jobs:
         file: cnx-automation/.concourse/tasks/version-message/task.yml
         input_mapping:
           history-txt: history-qa
+          cnx-automation: cnx-automation
+          run-circleci: defer-to-circleci
       - put: notify
         params:
           text_file: message-output/out.txt

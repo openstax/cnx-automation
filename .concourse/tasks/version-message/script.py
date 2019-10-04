@@ -22,7 +22,7 @@ template = Template(message_template)
 
 current_dir = os.getcwd()
 history_txt_dir = os.path.join(current_dir, "history-txt")
-circleci_dir = os.path.join(current_dir, "run-circleci")
+circleci_dir = os.path.join(current_dir, "defer-to-circleci")
 
 os.chdir(os.path.join(current_dir, "history-txt"))
 
