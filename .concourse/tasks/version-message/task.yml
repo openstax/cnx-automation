@@ -8,6 +8,7 @@ image_resource:
 inputs:
   - name: cnx-automation
   - name: history-txt
+  - name: circleci-output
 outputs:
   - name: message-output
 run:

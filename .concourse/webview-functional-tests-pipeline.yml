@@ -33,7 +33,7 @@ resources:
     type: git
     source:
       uri: https://github.com/openstax/cnx-automation
-      branch: message-output-versions
+      branch: refactor-test-pipeline
 
   - name: notify
     type: slack-notification
@@ -46,119 +46,66 @@ jobs:
       - get: history-qa
         trigger: true
       - get: cnx-automation
+      - task: defer-to-circleci
+        file: cnx-automation/.concourse/tasks/test-webview-ui-circleci/task.yml
+        input_mapping:
+          history-txt: history-qa
+        params:
+          CIRCLE_API_TOKEN: ((circleci-api-token))
       - task: create-version-message
         file: cnx-automation/.concourse/tasks/version-message/task.yml
         input_mapping:
           history-txt: history-qa
-          cnx-automation: cnx-automation
       - put: notify
         params:
           text_file: message-output/out.txt
-      - task: run-functional-tests
-        config:
-          platform: linux
-          image_resource:
-            type: docker-image
-            source:
-              repository: openstax/cnx-automation
-          run:
-            path: bash
-            args:
-              - -exc
-              - |
-                cd /code
-                pytest -m "webview and smoke" --headless --disable-dev-shm-usage
-          params:
-            WEBVIEW_BASE_URL: "https://qa.cnx.org"
-            LEGACY_BASE_URL: "https://legacy-qa.cnx.org"
-            ARCHIVE_BASE_URL: "https://archive-qa.cnx.org"
-    on_success:
-      put: notify
-      params:
-        text: ":white_check_mark: All Chrome browser tests have passed on https://qa.cnx.org."
     on_failure:
       put: notify
       params:
-        text: ":warning: There was a problem running Chrome browser tests on https://qa.cnx.org. This message will have more info one day. :joy:"
-
+        text: ":warning: There was a problem deferring tests to CircleCI. Investigate this job in Concourse."
 
   - name: test-staging
     plan:
       - get: history-staging
         trigger: true
       - get: cnx-automation
+      - task: defer-to-circleci
+        file: cnx-automation/.concourse/tasks/test-webview-ui-circleci/task.yml
+        input_mapping:
+          history-txt: history-staging
+        params:
+          CIRCLE_API_TOKEN: ((circleci-api-token))
       - task: create-version-message
         file: cnx-automation/.concourse/tasks/version-message/task.yml
         input_mapping:
           history-txt: history-staging
-          cnx-automation: cnx-automation
       - put: notify
         params:
           text_file: message-output/out.txt
-      - task: run-functional-tests
-        config:
-          platform: linux
-          image_resource:
-            type: docker-image
-            source:
-              repository: openstax/cnx-automation
-          run:
-            path: bash
-            args:
-              - -exc
-              - |
-                cd /code
-                pytest -m "webview and smoke" --headless --disable-dev-shm-usage
-          params:
-            WEBVIEW_BASE_URL: "https://staging.cnx.org"
-            LEGACY_BASE_URL: "https://legacy-staging.cnx.org"
-            ARCHIVE_BASE_URL: "https://archive-staging.cnx.org"
-    on_success:
-      put: notify
-      params:
-        text: ":white_check_mark: All Chrome browser tests have passed on https://staging.cnx.org."
     on_failure:
       put: notify
       params:
-        text: ":warning: There was a problem running Chrome browser tests on https://staging.cnx.org. This message will have more info one day :joy:."
+        text: ":warning: There was a problem deferring tests to CircleCI. Investigate this job in Concourse."
 
   - name: test-prod
     plan:
       - get: history-prod
         trigger: true
       - get: cnx-automation
+      - task: defer-to-circleci
+        file: cnx-automation/.concourse/tasks/test-webview-ui-circleci/task.yml
+        input_mapping:
+          history-txt: history-prod
+        params:
+          CIRCLE_API_TOKEN: ((circleci-api-token))
       - task: create-version-message
         file: cnx-automation/.concourse/tasks/version-message/task.yml
         input_mapping:
           history-txt: history-prod
-          cnx-automation: cnx-automation
       - put: notify
         params:
           text_file: message-output/out.txt
-      - task: run-functional-tests
-        config:
-          platform: linux
-          image_resource:
-            type: docker-image
-            source:
-              repository: openstax/cnx-automation
-          run:
-            path: bash
-            args:
-              - -exc
-              - |
-                cd /code
-                pytest -m "webview and smoke" --headless --disable-dev-shm-usage
-          params:
-            WEBVIEW_BASE_URL: "https://cnx.org"
-            LEGACY_BASE_URL: "https://legacy.cnx.org"
-            ARCHIVE_BASE_URL: "https://archive.cnx.org"
-    on_success:
-      put: notify
-      params:
-        text: ":white_check_mark: All Chrome browser tests have passed on https://cnx.org."
     on_failure:
       put: notify
       params:
-        text: ":warning: There was a problem running Chrome browser tests on https://cnx.org. This message will have more info one day :joy:."
-
+        text: ":warning: There was a problem deferring tests to CircleCI. Investigate this job in Concourse."
