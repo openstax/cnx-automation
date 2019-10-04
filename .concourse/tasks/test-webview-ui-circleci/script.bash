@@ -25,3 +25,4 @@ echo "Build Parameters=$BUILD_PARAMS"
 BUILD_URL=$(echo "$RESULT" | jq -r .build_url | tee $base_dir/build_url)
 
 echo "Circle CI Build URL=$BUILD_URL"
+echo $base_dir
