@@ -2,6 +2,7 @@
 set -euo pipefail
 
 base_dir=$(pwd)
+echo "$base_dir"
 
 cd history-txt
 
@@ -22,7 +23,8 @@ BUILD_PARAMS=$(echo "$RESULT" | jq -r .build_parameters)
 
 echo "Build Parameters=$BUILD_PARAMS"
 
-BUILD_URL=$(echo "$RESULT" | jq -r .build_url | tee $base_dir/build_url)
+cd $base_dir
+
+BUILD_URL=$(echo "$RESULT" | jq -r .build_url | tee build_url)
 
 echo "Circle CI Build URL=$BUILD_URL"
-echo $base_dir
