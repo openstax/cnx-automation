@@ -4,12 +4,10 @@ set -euo pipefail
 base_dir=$(pwd)
 echo "$base_dir"
 
-cd history-txt
-
 # Map urls to variables generated from the concourse resource
-WEBVIEW_BASE_URL=$(jq -r .webview_url < urls.json)
-ARCHIVE_BASE_URL=$(jq -r .archive_url < urls.json)
-LEGACY_BASE_URL=$(jq -r .legacy_url < urls.json)
+WEBVIEW_BASE_URL=$(jq -r .webview_url < ./history-txt/urls.json)
+ARCHIVE_BASE_URL=$(jq -r .archive_url < ./history-txt/urls.json)
+LEGACY_BASE_URL=$(jq -r .legacy_url < ./history-txt/urls.json)
 
 # Send a POST request to circleci with the approriate values
 RESULT=$(curl --header "Content-Type: application/json" \
@@ -23,8 +21,8 @@ BUILD_PARAMS=$(echo "$RESULT" | jq -r .build_parameters)
 
 echo "Build Parameters=$BUILD_PARAMS"
 
-cd $base_dir
-
-BUILD_URL=$(echo "$RESULT" | jq -r .build_url | tee build_url)
+BUILD_URL=$(echo "$RESULT" | jq -r .build_url)
 
 echo "Circle CI Build URL=$BUILD_URL"
+
+echo "$BUILD_URL" > "build_url.txt"

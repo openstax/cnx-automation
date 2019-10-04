@@ -18,25 +18,19 @@ cnx-deploy      $cnx_deploy
 ```
 """
 
-files = os.listdir(os.curdir)
-print(files)
-
 template = Template(message_template)
 
 current_dir = os.getcwd()
 history_txt_dir = os.path.join(current_dir, "history-txt")
 circleci_dir = os.path.join(current_dir, "circleci-output")
-print(os.listdir(circleci_dir))
 
-os.chdir(os.path.join(current_dir, "history-txt"))
-
-with open("app_versions.json", "r") as infile:
+with open("./history-txt/app_versions.json", "r") as infile:
     app_versions = json.load(infile)
 
-with open("urls.json", "r") as infile:
+with open("./history-txt/urls.json", "r") as infile:
     urls = json.load(infile)
 
-with open(os.path.join(circleci_dir, "build_url"), "r") as infile:
+with open("./circleci-output/build_url.txt", "r") as infile:
     circle_url = infile.read()
 
 webview_url = urls["webview_url"]
