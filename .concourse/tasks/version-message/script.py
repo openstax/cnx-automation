@@ -20,10 +20,6 @@ cnx-deploy      $cnx_deploy
 
 template = Template(message_template)
 
-current_dir = os.getcwd()
-history_txt_dir = os.path.join(current_dir, "history-txt")
-circleci_dir = os.path.join(current_dir, "circleci-output")
-
 with open("./history-txt/app_versions.json", "r") as infile:
     app_versions = json.load(infile)
 

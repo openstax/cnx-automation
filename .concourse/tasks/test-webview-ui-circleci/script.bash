@@ -1,8 +1,6 @@
 #!/bin/bash
 set -euo pipefail
 
-base_dir=$(pwd)
-
 # Map urls to variables generated from the concourse resource
 WEBVIEW_BASE_URL=$(jq -r .webview_url < ./history-txt/urls.json)
 ARCHIVE_BASE_URL=$(jq -r .archive_url < ./history-txt/urls.json)
