@@ -33,7 +33,6 @@ resources:
     type: git
     source:
       uri: https://github.com/openstax/cnx-automation
-      branch: refactor-test-pipeline
 
   - name: notify
     type: slack-notification
