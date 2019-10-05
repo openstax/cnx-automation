@@ -821,29 +821,6 @@ def test_id_links_and_back_button(page_uuid, is_baked_book_index, webview_base_u
 
 
 @markers.webview
-@markers.test_case("C181754")
-@markers.nondestructive
-@markers.parametrize(
-    "ch_review_id",
-    [
-        "eg-XcBxE@9.2:PNQSpSVj",
-        pytest.param(
-            "eg-XcBxE:PNQSpSVj",
-            marks=markers.xfail(reason="https://github.com/openstax/cnx-automation/issues/549"),
-        ),
-    ],
-)
-def test_chapter_review_version_matches_book_version(webview_base_url, selenium, ch_review_id):
-    # GIVEN the webview base url, a chapter review id, and the Selenium driver
-
-    # WHEN we visit the chapter review page
-    content = Content(selenium, webview_base_url, id=ch_review_id).open()
-
-    # THEN the chapter review version matches the book version
-    assert content.page_version == content.book_version
-
-
-@markers.webview
 @markers.smoke
 @markers.test_case("C195064")
 @markers.nondestructive
