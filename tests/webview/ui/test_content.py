@@ -402,7 +402,7 @@ def test_share_links_displayed(webview_base_url, selenium):
 @markers.webview
 @markers.test_case("C193880")
 @markers.nondestructive
-@markers.parametrize("id", ["eg-XcBxE@3.30:dh0GjBEd@2"])
+@markers.parametrize("id", ["AgQDEnLI@13.1:XZe6d2Jr"])
 def test_newer_version_leads_to_correct_page(webview_base_url, selenium, id):
     # GIVEN the content page
     content = Content(selenium, webview_base_url, id=id).open()
