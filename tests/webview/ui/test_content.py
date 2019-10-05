@@ -116,13 +116,7 @@ def test_content_status_codes(
 @markers.test_case("C194465")
 @markers.nondestructive
 @markers.parametrize(
-    "id",
-    [
-        "AgQDEnLI@10.1:TrIRM88K@5",
-        "AgQDEnLI@10.1:XZe6d2Jr@9",
-        "AgQDEnLI@10.1:QMRfI2p1@8",
-        "eg-XcBxE@3.30:dh0GjBEd@2",
-    ],
+    "id", ["AgQDEnLI@10.1:TrIRM88K@5", "AgQDEnLI@10.1:XZe6d2Jr@9", "AgQDEnLI@10.1:QMRfI2p1@8"]
 )
 def test_canonical_link_is_correct(webview_base_url, selenium, id):
     # GIVEN a book's content page
