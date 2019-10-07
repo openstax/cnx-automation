@@ -121,7 +121,7 @@ def test_content_status_codes(
         "AgQDEnLI@10.1:TrIRM88K@5",
         "AgQDEnLI@10.1:XZe6d2Jr@9",
         "AgQDEnLI@10.1:QMRfI2p1@8",
-        "eg-XcBxE@3.30:dh0GjBEd@2",
+        "TqqPA4io@1.141:pLGsuj0f@6",
     ],
 )
 def test_canonical_link_is_correct(webview_base_url, selenium, id):
@@ -321,7 +321,7 @@ def test_share_on_top_right_corner(webview_base_url, selenium):
             None,
         ),
         ("2d941ab9-ac5b-4eb8-b21c-965d36a4f296", "developing", True, 10, True, False),
-        ("d50f6e32-0fda-46ef-a362-9bd36ca7c97d", "table", True, 1, True, True),
+        ("bb62933e-f20a-4ffc-90aa-97b36c296c3e", "table", True, 0, True, True),
     ],
 )
 def test_in_book_search(
@@ -408,7 +408,7 @@ def test_share_links_displayed(webview_base_url, selenium):
 @markers.webview
 @markers.test_case("C193880")
 @markers.nondestructive
-@markers.parametrize("id", ["eg-XcBxE@3.30:dh0GjBEd@2"])
+@markers.parametrize("id", ["u2KTPvIK@3.30:qVb4K8xR@3"])
 def test_newer_version_leads_to_correct_page(webview_base_url, selenium, id):
     # GIVEN the content page
     content = Content(selenium, webview_base_url, id=id).open()
@@ -794,7 +794,7 @@ def test_ncy_is_not_displayed(webview_base_url, american_gov_uuid, selenium):
 @markers.parametrize(
     "page_uuid,is_baked_book_index",
     [
-        ("d50f6e32-0fda-46ef-a362-9bd36ca7c97d:a6f70a45-6c2b-5be8-9b67-294e3d917330", True),
+        ("bb62933e-f20a-4ffc-90aa-97b36c296c3e:85036aed-fa1a-5d51-a9c2-c07ee673488d", True),
         ("6a0568d8-23d7-439b-9a01-16e4e73886b3", False),
     ],
 )
@@ -829,16 +829,7 @@ def test_id_links_and_back_button(page_uuid, is_baked_book_index, webview_base_u
 @markers.webview
 @markers.test_case("C181754")
 @markers.nondestructive
-@markers.parametrize(
-    "ch_review_id",
-    [
-        "eg-XcBxE@9.2:PNQSpSVj",
-        pytest.param(
-            "eg-XcBxE:PNQSpSVj",
-            marks=markers.xfail(reason="https://github.com/openstax/cnx-automation/issues/549"),
-        ),
-    ],
-)
+@markers.parametrize("ch_review_id", ["u2KTPvIK@3.32:6IrsWVCW", pytest.param("u2KTPvIK:6IrsWVCW")])
 def test_chapter_review_version_matches_book_version(webview_base_url, selenium, ch_review_id):
     # GIVEN the webview base url, a chapter review id, and the Selenium driver
 
