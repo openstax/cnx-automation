@@ -148,3 +148,111 @@ def test_conceptsofbiology_uri_redirect_to_rex(
     # THEN we are redirected to rex
     assert response.url.startswith(rex_base_url)
     assert response.url.endswith(cnx_page_slug)
+
+
+@markers.test_case("C559358")
+@markers.slow
+@markers.rex
+@markers.nondestructive
+def test_astronomy_uri_redirect_to_rex(webview_base_url, rex_base_url, astronomy_uri):
+    # GIVEN a webview_base_url, rex_base_url and an astronomy_uri
+
+    # WHEN we go to a page based on the webview_base_url and uri
+    cnx_page_slug = astronomy_uri.split("/")[-1]
+    cnx_url = f"{webview_base_url}{astronomy_uri}"
+    response = get_url(cnx_url)
+
+    # THEN we are redirected to rex
+    assert response.url.startswith(rex_base_url)
+    assert response.url.endswith(cnx_page_slug)
+
+
+@markers.test_case("C559363")
+@markers.slow
+@markers.rex
+@markers.nondestructive
+def test_biology_ap_uri_redirect_to_rex(webview_base_url, rex_base_url, biology_ap_uri):
+    # GIVEN a webview_base_url, rex_base_url and a biology_ap_uri
+
+    # WHEN we go to a page based on the webview_base_url and uri
+    cnx_page_slug = biology_ap_uri.split("/")[-1]
+    cnx_url = f"{webview_base_url}{biology_ap_uri}"
+    response = get_url(cnx_url)
+
+    # THEN we are redirected to rex
+    assert response.url.startswith(rex_base_url)
+    assert response.url.endswith(cnx_page_slug)
+
+
+@markers.test_case("C559362")
+@markers.slow
+@markers.rex
+@markers.nondestructive
+def test_college_physics_ap_courses_uri_redirect_to_rex(
+    webview_base_url, rex_base_url, college_physics_ap_courses_uri
+):
+    # GIVEN a webview_base_url, rex_base_url and a college_physics_ap_courses_uri
+
+    # WHEN we go to a page based on the webview_base_url and uri
+    cnx_page_slug = college_physics_ap_courses_uri.split("/")[-1]
+    cnx_url = f"{webview_base_url}{college_physics_ap_courses_uri}"
+    response = get_url(cnx_url)
+
+    # THEN we are redirected to rex
+    assert response.url.startswith(rex_base_url)
+    assert response.url.endswith(cnx_page_slug)
+
+
+@markers.test_case("C559361")
+@markers.slow
+@markers.rex
+@markers.nondestructive
+def test_anatomy_and_physiology_uri_redirect_to_rex(
+    webview_base_url, rex_base_url, anatomy_and_physiology_uri
+):
+    # GIVEN a webview_base_url, rex_base_url and an anatomy_and_physiology_uri
+
+    # WHEN we go to a page based on the webview_base_url and uri
+    cnx_page_slug = anatomy_and_physiology_uri.split("/")[-1]
+    cnx_url = f"{webview_base_url}{anatomy_and_physiology_uri}"
+    response = get_url(cnx_url)
+
+    # THEN we are redirected to rex
+    assert response.url.startswith(rex_base_url)
+    assert response.url.endswith(cnx_page_slug)
+
+
+@markers.test_case("C559360")
+@markers.slow
+@markers.rex
+@markers.nondestructive
+def test_college_physics_uri_redirect_to_rex(webview_base_url, rex_base_url, college_physics_uri):
+    # GIVEN a webview_base_url, rex_base_url and a college_physics_uri
+
+    # WHEN we go to a page based on the webview_base_url and uri
+    cnx_page_slug = college_physics_uri.split("/")[-1]
+    cnx_url = f"{webview_base_url}{college_physics_uri}"
+    response = get_url(cnx_url)
+
+    # THEN we are redirected to rex
+    assert response.url.startswith(rex_base_url)
+    assert response.url.endswith(cnx_page_slug)
+
+
+@markers.test_case("C559359")
+@markers.slow
+@markers.rex
+@markers.nondestructive
+def test_chemistry_atoms_first_2e_uri_redirect_to_rex(
+    webview_base_url, rex_base_url, chemistry_atoms_first_2e_uri
+):
+    # GIVEN a webview_base_url, rex_base_url and a chemistry_atoms_first_2e_uri
+
+    # WHEN we go to a page based on the webview_base_url and uri
+    cnx_page_slug = chemistry_atoms_first_2e_uri.split("/")[-1]
+    cnx_url = f"{webview_base_url}{chemistry_atoms_first_2e_uri}"
+    response = get_url(cnx_url)
+
+    # THEN we are redirected to rex
+    assert response.url.startswith(rex_base_url)
+    assert response.url.endswith(cnx_page_slug)

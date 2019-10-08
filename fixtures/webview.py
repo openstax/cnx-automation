@@ -69,6 +69,72 @@ def conceptsofbiology_uri(request):
     yield request.param
 
 
+@pytest.fixture(
+    params=gen_from_file(os.path.join(DATA_DIR, "2e737be8-ea65-48c3-aa0a-9f35b4c6a966.txt"))
+)
+def astronomy_uri(request):
+    """Yields a URI from the Astronomy book located on a cnx.org instance
+
+    Example: /contents/f8zJz5tx@0.0:2po7o99e/1-essential-ideas
+    """
+    yield request.param
+
+
+@pytest.fixture(
+    params=gen_from_file(os.path.join(DATA_DIR, "6c322e32-9fb0-4c4d-a1d7-20c95c5c7af2.txt"))
+)
+def biology_ap_uri(request):
+    """Yields a URI from the Biology AP book located on a cnx.org instance
+
+    Example: /contents/f8zJz5tx@0.0:2po7o99e/1-essential-ideas
+    """
+    yield request.param
+
+
+@pytest.fixture(
+    params=gen_from_file(os.path.join(DATA_DIR, "8d04a686-d5e8-4798-a27d-c608e4d0e187.txt"))
+)
+def college_physics_ap_courses_uri(request):
+    """Yields a URI from the College Physics AP Courses book located on a cnx.org instance
+
+    Example: /contents/f8zJz5tx@0.0:2po7o99e/1-essential-ideas
+    """
+    yield request.param
+
+
+@pytest.fixture(
+    params=gen_from_file(os.path.join(DATA_DIR, "14fb4ad7-39a1-4eee-ab6e-3ef2482e3e22.txt"))
+)
+def anatomy_and_physiology_uri(request):
+    """Yields a URI from the Anatomy And Physiology book located on a cnx.org instance
+
+    Example: /contents/f8zJz5tx@0.0:2po7o99e/1-essential-ideas
+    """
+    yield request.param
+
+
+@pytest.fixture(
+    params=gen_from_file(os.path.join(DATA_DIR, "031da8d3-b525-429c-80cf-6c8ed997733a.txt"))
+)
+def college_physics_uri(request):
+    """Yields a URI from the College Physics book located on a cnx.org instance
+
+    Example: /contents/f8zJz5tx@0.0:2po7o99e/1-essential-ideas
+    """
+    yield request.param
+
+
+@pytest.fixture(
+    params=gen_from_file(os.path.join(DATA_DIR, "d9b85ee6-c57f-4861-8208-5ddf261e9c5f.txt"))
+)
+def chemistry_atoms_first_2e_uri(request):
+    """Yields a URI from the Chemistry: Atoms First 2e book located on a cnx.org instance
+
+    Example: /contents/f8zJz5tx@0.0:2po7o99e/1-essential-ideas
+    """
+    yield request.param
+
+
 @pytest.fixture
 def webview_base_url(request):
     """Return a base URL for CNX webview"""
