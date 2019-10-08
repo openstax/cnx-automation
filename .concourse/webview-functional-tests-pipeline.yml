@@ -1,0 +1,110 @@
+---
+resource_types:
+
+  - name: history-txt
+    type: docker-image
+    source:
+      repository: openstax/concourse-history-txt-resource
+      tag: latest
+
+  - name: slack-notification
+    type: docker-image
+    source:
+      repository: cfcommunity/slack-notification-resource
+
+resources:
+
+  - name: history-qa
+    type: history-txt
+    source:
+      instance: qa
+
+  - name: history-staging
+    type: history-txt
+    source:
+      instance: staging
+
+  - name: history-prod
+    type: history-txt
+    source:
+      instance: prod
+
+  - name: cnx-automation
+    type: git
+    source:
+      uri: https://github.com/openstax/cnx-automation
+
+  - name: notify
+    type: slack-notification
+    source:
+      url: ((slack-webhook-cestream))
+
+jobs:
+  - name: test-qa
+    plan:
+      - get: history-qa
+        trigger: true
+      - get: cnx-automation
+      - task: defer-to-circleci
+        file: cnx-automation/.concourse/tasks/test-webview-ui-circleci/task.yml
+        input_mapping:
+          history-txt: history-qa
+        params:
+          CIRCLE_API_TOKEN: ((circleci-api-token))
+      - task: create-version-message
+        file: cnx-automation/.concourse/tasks/version-message/task.yml
+        input_mapping:
+          history-txt: history-qa
+      - put: notify
+        params:
+          text_file: message-output/out.txt
+    on_failure:
+      put: notify
+      params:
+        text: ":warning: There was a problem deferring tests to CircleCI. Investigate this job in Concourse."
+
+  - name: test-staging
+    plan:
+      - get: history-staging
+        trigger: true
+      - get: cnx-automation
+      - task: defer-to-circleci
+        file: cnx-automation/.concourse/tasks/test-webview-ui-circleci/task.yml
+        input_mapping:
+          history-txt: history-staging
+        params:
+          CIRCLE_API_TOKEN: ((circleci-api-token))
+      - task: create-version-message
+        file: cnx-automation/.concourse/tasks/version-message/task.yml
+        input_mapping:
+          history-txt: history-staging
+      - put: notify
+        params:
+          text_file: message-output/out.txt
+    on_failure:
+      put: notify
+      params:
+        text: ":warning: There was a problem deferring tests to CircleCI. Investigate this job in Concourse."
+
+  - name: test-prod
+    plan:
+      - get: history-prod
+        trigger: true
+      - get: cnx-automation
+      - task: defer-to-circleci
+        file: cnx-automation/.concourse/tasks/test-webview-ui-circleci/task.yml
+        input_mapping:
+          history-txt: history-prod
+        params:
+          CIRCLE_API_TOKEN: ((circleci-api-token))
+      - task: create-version-message
+        file: cnx-automation/.concourse/tasks/version-message/task.yml
+        input_mapping:
+          history-txt: history-prod
+      - put: notify
+        params:
+          text_file: message-output/out.txt
+    on_failure:
+      put: notify
+      params:
+        text: ":warning: There was a problem deferring tests to CircleCI. Investigate this job in Concourse."
