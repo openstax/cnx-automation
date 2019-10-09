@@ -1,0 +1,337 @@
+import backoff
+import requests
+
+from tests import markers
+
+
+@backoff.on_exception(backoff.expo, requests.exceptions.ConnectionError)
+def get_url(url):
+    return requests.get(url)
+
+
+@markers.slow
+@markers.rex
+@markers.nondestructive
+def test_chemistry_2e_uris_redirect_to_rex(webview_base_url, rex_base_url, chemistry_2e_uri):
+    # GIVEN a webview_base_url, rex_base_url and a chemistry_2e_uri
+
+    # WHEN we go to a page based on the webview_base_url and uri
+    cnx_url = f"{webview_base_url}{chemistry_2e_uri}"
+    response = requests.get(cnx_url, allow_redirects=False)
+
+    # THEN we are redirected to rex
+    print()
+    print("REDIRECTING FROM: ", cnx_url)
+    print("REDIRECTING TO  : ", response.headers["Location"])
+    print("STATUS CODE     : ", response.status_code)
+
+    assert rex_base_url in response.headers["Location"]
+    assert 301 == response.status_code
+
+
+@markers.slow
+@markers.rex
+@markers.nondestructive
+def test_biology_2e_uris_redirect_to_rex(webview_base_url, rex_base_url, biology_2e_uri):
+    # GIVEN a webview_base_url, rex_base_url and a biology_2e_uri
+
+    # WHEN we go to a page based on the webview_base_url and uri
+    cnx_url = f"{webview_base_url}{biology_2e_uri}"
+    response = requests.get(cnx_url, allow_redirects=False)
+
+    # THEN we are redirected to rex
+    print()
+    print("REDIRECTING FROM: ", cnx_url)
+    print("REDIRECTING TO  : ", response.headers["Location"])
+    print("STATUS CODE     : ", response.status_code)
+
+    assert rex_base_url in response.headers["Location"]
+    assert 301 == response.status_code
+
+
+@markers.slow
+@markers.rex
+@markers.nondestructive
+def test_microbiology_uris_redirect_to_rex(webview_base_url, rex_base_url, microbiology_uri):
+    # GIVEN a webview_base_url, rex_base_url and a microbiology_uri
+
+    # WHEN we go to a page based on the webview_base_url and uri
+    cnx_url = f"{webview_base_url}{microbiology_uri}"
+    response = requests.get(cnx_url, allow_redirects=False)
+
+    # THEN we are redirected to rex
+    print()
+    print("REDIRECTING FROM: ", cnx_url)
+    print("REDIRECTING TO  : ", response.headers["Location"])
+    print("STATUS CODE     : ", response.status_code)
+
+    assert rex_base_url in response.headers["Location"]
+    assert 301 == response.status_code
+
+
+@markers.slow
+@markers.rex
+@markers.nondestructive
+def test_conceptsofbiology_uri_redirect_to_rex(
+    webview_base_url, rex_base_url, conceptsofbiology_uri
+):
+    # GIVEN a webview_base_url, rex_base_url and a conceptsofbiology_uri
+
+    # WHEN we go to a page based on the webview_base_url and uri
+    cnx_url = f"{webview_base_url}{conceptsofbiology_uri}"
+    response = requests.get(cnx_url, allow_redirects=False)
+
+    # THEN we are redirected to rex
+    print()
+    print("REDIRECTING FROM: ", cnx_url)
+    print("REDIRECTING TO  : ", response.headers["Location"])
+    print("STATUS CODE     : ", response.status_code)
+
+    assert rex_base_url in response.headers["Location"]
+    assert 301 == response.status_code
+
+
+@markers.slow
+@markers.rex
+@markers.nondestructive
+def test_astronomy_uri_redirect_to_rex(webview_base_url, rex_base_url, astronomy_uri):
+    # GIVEN a webview_base_url, rex_base_url and an astronomy_uri
+
+    # WHEN we go to a page based on the webview_base_url and uri
+    cnx_url = f"{webview_base_url}{astronomy_uri}"
+    response = requests.get(cnx_url, allow_redirects=False)
+
+    # THEN we are redirected to rex
+    print()
+    print("REDIRECTING FROM: ", cnx_url)
+    print("REDIRECTING TO  : ", response.headers["Location"])
+    print("STATUS CODE     : ", response.status_code)
+
+    assert rex_base_url in response.headers["Location"]
+    assert 301 == response.status_code
+
+
+@markers.slow
+@markers.rex
+@markers.nondestructive
+def test_biology_ap_uri_redirect_to_rex(webview_base_url, rex_base_url, biology_ap_uri):
+    # GIVEN a webview_base_url, rex_base_url and a biology_ap_uri
+
+    # WHEN we go to a page based on the webview_base_url and uri
+    cnx_url = f"{webview_base_url}{biology_ap_uri}"
+    response = requests.get(cnx_url, allow_redirects=False)
+
+    # THEN we are redirected to rex
+    print()
+    print("REDIRECTING FROM: ", cnx_url)
+    print("REDIRECTING TO  : ", response.headers["Location"])
+    print("STATUS CODE     : ", response.status_code)
+
+    assert rex_base_url in response.headers["Location"]
+    assert 301 == response.status_code
+
+
+@markers.slow
+@markers.rex
+@markers.nondestructive
+def test_college_physics_ap_courses_uri_redirect_to_rex(
+    webview_base_url, rex_base_url, college_physics_ap_courses_uri
+):
+    # GIVEN a webview_base_url, rex_base_url and a college_physics_ap_courses_uri
+
+    # WHEN we go to a page based on the webview_base_url and uri
+    cnx_url = f"{webview_base_url}{college_physics_ap_courses_uri}"
+    response = requests.get(cnx_url, allow_redirects=False)
+
+    # THEN we are redirected to rex
+    print()
+    print("REDIRECTING FROM: ", cnx_url)
+    print("REDIRECTING TO  : ", response.headers["Location"])
+    print("STATUS CODE     : ", response.status_code)
+
+    assert rex_base_url in response.headers["Location"]
+    assert 301 == response.status_code
+
+
+@markers.slow
+@markers.rex
+@markers.nondestructive
+def test_anatomy_and_physiology_uri_redirect_to_rex(
+    webview_base_url, rex_base_url, anatomy_and_physiology_uri
+):
+    # GIVEN a webview_base_url, rex_base_url and an anatomy_and_physiology_uri
+
+    # WHEN we go to a page based on the webview_base_url and uri
+    cnx_url = f"{webview_base_url}{anatomy_and_physiology_uri}"
+    response = requests.get(cnx_url, allow_redirects=False)
+
+    # THEN we are redirected to rex
+    print()
+    print("REDIRECTING FROM: ", cnx_url)
+    print("REDIRECTING TO  : ", response.headers["Location"])
+    print("STATUS CODE     : ", response.status_code)
+
+    assert rex_base_url in response.headers["Location"]
+    assert 301 == response.status_code
+
+
+@markers.slow
+@markers.rex
+@markers.nondestructive
+def test_college_physics_uri_redirect_to_rex(webview_base_url, rex_base_url, college_physics_uri):
+    # GIVEN a webview_base_url, rex_base_url and a college_physics_uri
+
+    # WHEN we go to a page based on the webview_base_url and uri
+    cnx_url = f"{webview_base_url}{college_physics_uri}"
+    response = requests.get(cnx_url, allow_redirects=False)
+
+    # THEN we are redirected to rex
+    print()
+    print("REDIRECTING FROM: ", cnx_url)
+    print("REDIRECTING TO  : ", response.headers["Location"])
+    print("STATUS CODE     : ", response.status_code)
+
+    assert rex_base_url in response.headers["Location"]
+    assert 301 == response.status_code
+
+
+@markers.slow
+@markers.rex
+@markers.nondestructive
+def test_chemistry_atoms_first_2e_uri_redirect_to_rex(
+    webview_base_url, rex_base_url, chemistry_atoms_first_2e_uri
+):
+    # GIVEN a webview_base_url, rex_base_url and a chemistry_atoms_first_2e_uri
+
+    # WHEN we go to a page based on the webview_base_url and uri
+    cnx_url = f"{webview_base_url}{chemistry_atoms_first_2e_uri}"
+    response = requests.get(cnx_url, allow_redirects=False)
+
+    # THEN we are redirected to rex
+    print()
+    print("REDIRECTING FROM: ", cnx_url)
+    print("REDIRECTING TO  : ", response.headers["Location"])
+    print("STATUS CODE     : ", response.status_code)
+
+    assert rex_base_url in response.headers["Location"]
+    assert 301 == response.status_code
+
+
+@markers.slow
+@markers.rex
+@markers.nondestructive
+def test_calculus_vol_1_uri_redirect_to_rex(webview_base_url, rex_base_url, calculus_vol_1_uri):
+    # GIVEN a webview_base_url, rex_base_url and a calculus_vol_1_uri
+
+    # WHEN we go to a page based on the webview_base_url and uri
+    cnx_url = f"{webview_base_url}{calculus_vol_1_uri}"
+    response = requests.get(cnx_url, allow_redirects=False)
+
+    # THEN we are redirected to rex
+    print()
+    print("REDIRECTING FROM: ", cnx_url)
+    print("REDIRECTING TO  : ", response.headers["Location"])
+    print("STATUS CODE     : ", response.status_code)
+
+    assert rex_base_url in response.headers["Location"]
+    assert 301 == response.status_code
+
+
+@markers.slow
+@markers.rex
+@markers.nondestructive
+def test_calculus_vol_2_uri_redirect_to_rex(webview_base_url, rex_base_url, calculus_vol_2_uri):
+    # GIVEN a webview_base_url, rex_base_url and a calculus_vol_2_uri
+
+    # WHEN we go to a page based on the webview_base_url and uri
+    cnx_url = f"{webview_base_url}{calculus_vol_2_uri}"
+    response = requests.get(cnx_url, allow_redirects=False)
+
+    # THEN we are redirected to rex
+    print()
+    print("REDIRECTING FROM: ", cnx_url)
+    print("REDIRECTING TO  : ", response.headers["Location"])
+    print("STATUS CODE     : ", response.status_code)
+
+    assert rex_base_url in response.headers["Location"]
+    assert 301 == response.status_code
+
+
+@markers.slow
+@markers.rex
+@markers.nondestructive
+def test_calculus_vol_3_uri_redirect_to_rex(webview_base_url, rex_base_url, calculus_vol_3_uri):
+    # GIVEN a webview_base_url, rex_base_url and a calculus_vol_3_uri
+
+    # WHEN we go to a page based on the webview_base_url and uri
+    cnx_url = f"{webview_base_url}{calculus_vol_3_uri}"
+    response = requests.get(cnx_url, allow_redirects=False)
+
+    # THEN we are redirected to rex
+    print()
+    print("REDIRECTING FROM: ", cnx_url)
+    print("REDIRECTING TO  : ", response.headers["Location"])
+    print("STATUS CODE     : ", response.status_code)
+
+    assert rex_base_url in response.headers["Location"]
+    assert 301 == response.status_code
+
+
+@markers.slow
+@markers.rex
+@markers.nondestructive
+def test_univ_phys_1_uri_redirect_to_rex(webview_base_url, rex_base_url, univ_phys_1_uri):
+    # GIVEN a webview_base_url, rex_base_url and a univ_phys_1_uri
+
+    # WHEN we go to a page based on the webview_base_url and uri
+    cnx_url = f"{webview_base_url}{univ_phys_1_uri}"
+    response = requests.get(cnx_url, allow_redirects=False)
+
+    # THEN we are redirected to rex
+    print()
+    print("REDIRECTING FROM: ", cnx_url)
+    print("REDIRECTING TO  : ", response.headers["Location"])
+    print("STATUS CODE     : ", response.status_code)
+
+    assert rex_base_url in response.headers["Location"]
+    assert 301 == response.status_code
+
+
+@markers.slow
+@markers.rex
+@markers.nondestructive
+def test_univ_phys_2_uri_redirect_to_rex(webview_base_url, rex_base_url, univ_phys_2_uri):
+    # GIVEN a webview_base_url, rex_base_url and a univ_phys_2_uri
+
+    # WHEN we go to a page based on the webview_base_url and uri
+    cnx_url = f"{webview_base_url}{univ_phys_2_uri}"
+    response = requests.get(cnx_url, allow_redirects=False)
+
+    # THEN we are redirected to rex
+    print()
+    print("REDIRECTING FROM: ", cnx_url)
+    print("REDIRECTING TO  : ", response.headers["Location"])
+    print("STATUS CODE     : ", response.status_code)
+
+    assert rex_base_url in response.headers["Location"]
+    assert 301 == response.status_code
+
+
+@markers.slow
+@markers.rex
+@markers.nondestructive
+def test_univ_phys_3_uri_redirect_to_rex(webview_base_url, rex_base_url, univ_phys_3_uri):
+    # GIVEN a webview_base_url, rex_base_url and a univ_phys_3_uri
+
+    # WHEN we go to a page based on the webview_base_url and uri
+    cnx_url = f"{webview_base_url}{univ_phys_3_uri}"
+    response = requests.get(cnx_url, allow_redirects=False)
+
+    # THEN we are redirected to rex
+    print()
+    print("REDIRECTING FROM: ", cnx_url)
+    print("REDIRECTING TO  : ", response.headers["Location"])
+    print("STATUS CODE     : ", response.status_code)
+
+    assert rex_base_url in response.headers["Location"]
+    assert 301 == response.status_code
