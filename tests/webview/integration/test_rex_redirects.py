@@ -27,7 +27,7 @@ def test_archive_is_still_reachable(archive_base_url, rex_base_url):
         assert rex_base_url not in hist.headers["location"]
 
 
-@markers.webview
+@markers.rex
 @markers.test_case("C553080")
 @markers.nondestructive
 def test_redirecting_to_rex_from_within_webview(
