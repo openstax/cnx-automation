@@ -9,6 +9,7 @@ def get_url(url):
     return requests.get(url)
 
 
+@markers.test_case("C568716")
 @markers.slow
 @markers.rex
 @markers.nondestructive
@@ -29,6 +30,7 @@ def test_chemistry_2e_uris_redirect_to_rex(webview_base_url, rex_base_url, chemi
     assert 301 == response.status_code
 
 
+@markers.test_case("C568716")
 @markers.slow
 @markers.rex
 @markers.nondestructive
@@ -49,6 +51,7 @@ def test_biology_2e_uris_redirect_to_rex(webview_base_url, rex_base_url, biology
     assert 301 == response.status_code
 
 
+@markers.test_case("C568716")
 @markers.slow
 @markers.rex
 @markers.nondestructive
@@ -69,6 +72,7 @@ def test_microbiology_uris_redirect_to_rex(webview_base_url, rex_base_url, micro
     assert 301 == response.status_code
 
 
+@markers.test_case("C568716")
 @markers.slow
 @markers.rex
 @markers.nondestructive
@@ -91,6 +95,7 @@ def test_conceptsofbiology_uri_redirect_to_rex(
     assert 301 == response.status_code
 
 
+@markers.test_case("C568716")
 @markers.slow
 @markers.rex
 @markers.nondestructive
@@ -111,6 +116,7 @@ def test_astronomy_uri_redirect_to_rex(webview_base_url, rex_base_url, astronomy
     assert 301 == response.status_code
 
 
+@markers.test_case("C568716")
 @markers.slow
 @markers.rex
 @markers.nondestructive
@@ -131,6 +137,7 @@ def test_biology_ap_uri_redirect_to_rex(webview_base_url, rex_base_url, biology_
     assert 301 == response.status_code
 
 
+@markers.test_case("C568716")
 @markers.slow
 @markers.rex
 @markers.nondestructive
@@ -153,6 +160,7 @@ def test_college_physics_ap_courses_uri_redirect_to_rex(
     assert 301 == response.status_code
 
 
+@markers.test_case("C568716")
 @markers.slow
 @markers.rex
 @markers.nondestructive
@@ -175,6 +183,7 @@ def test_anatomy_and_physiology_uri_redirect_to_rex(
     assert 301 == response.status_code
 
 
+@markers.test_case("C568716")
 @markers.slow
 @markers.rex
 @markers.nondestructive
@@ -195,6 +204,7 @@ def test_college_physics_uri_redirect_to_rex(webview_base_url, rex_base_url, col
     assert 301 == response.status_code
 
 
+@markers.test_case("C568716")
 @markers.slow
 @markers.rex
 @markers.nondestructive
@@ -217,6 +227,7 @@ def test_chemistry_atoms_first_2e_uri_redirect_to_rex(
     assert 301 == response.status_code
 
 
+@markers.test_case("C568716")
 @markers.slow
 @markers.rex
 @markers.nondestructive
@@ -237,6 +248,7 @@ def test_calculus_vol_1_uri_redirect_to_rex(webview_base_url, rex_base_url, calc
     assert 301 == response.status_code
 
 
+@markers.test_case("C568716")
 @markers.slow
 @markers.rex
 @markers.nondestructive
@@ -257,6 +269,7 @@ def test_calculus_vol_2_uri_redirect_to_rex(webview_base_url, rex_base_url, calc
     assert 301 == response.status_code
 
 
+@markers.test_case("C568716")
 @markers.slow
 @markers.rex
 @markers.nondestructive
@@ -277,6 +290,7 @@ def test_calculus_vol_3_uri_redirect_to_rex(webview_base_url, rex_base_url, calc
     assert 301 == response.status_code
 
 
+@markers.test_case("C568716")
 @markers.slow
 @markers.rex
 @markers.nondestructive
@@ -297,6 +311,7 @@ def test_univ_phys_1_uri_redirect_to_rex(webview_base_url, rex_base_url, univ_ph
     assert 301 == response.status_code
 
 
+@markers.test_case("C568716")
 @markers.slow
 @markers.rex
 @markers.nondestructive
@@ -317,6 +332,7 @@ def test_univ_phys_2_uri_redirect_to_rex(webview_base_url, rex_base_url, univ_ph
     assert 301 == response.status_code
 
 
+@markers.test_case("C568716")
 @markers.slow
 @markers.rex
 @markers.nondestructive
