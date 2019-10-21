@@ -358,3 +358,115 @@ def test_univ_phys_3_uri_redirect_to_rex(webview_base_url, rex_base_url, univ_ph
     # THEN we are redirected to rex
     assert response.url.startswith(rex_base_url)
     assert response.url.endswith(cnx_page_slug)
+
+
+@markers.test_case("C568719")
+@markers.slow
+@markers.rex
+@markers.nondestructive
+def test_american_government_2e_uri_redirect_to_rex(
+    webview_base_url, rex_base_url, american_government_2e_uri
+):
+    # GIVEN a webview_base_url, rex_base_url and an american_government_2e_uri
+
+    # WHEN we go to a page based on the webview_base_url and uri
+    cnx_page_slug = american_government_2e_uri.split("/")[-1]
+    cnx_url = f"{webview_base_url}{american_government_2e_uri}"
+    response = get_url(cnx_url)
+
+    # THEN we are redirected to rex
+    assert response.url.startswith(rex_base_url)
+    assert response.url.endswith(cnx_page_slug)
+
+
+@markers.test_case("C568718")
+@markers.slow
+@markers.rex
+@markers.nondestructive
+def test_introductory_business_statistics_uri_redirect_to_rex(
+    webview_base_url, rex_base_url, introductory_business_statistics_uri
+):
+    # GIVEN a webview_base_url, rex_base_url and a introductory_business_statistics_uri
+
+    # WHEN we go to a page based on the webview_base_url and uri
+    cnx_page_slug = introductory_business_statistics_uri.split("/")[-1]
+    cnx_url = f"{webview_base_url}{introductory_business_statistics_uri}"
+    response = get_url(cnx_url)
+
+    # THEN we are redirected to rex
+    assert response.url.startswith(rex_base_url)
+    assert response.url.endswith(cnx_page_slug)
+
+
+@markers.test_case("C568717")
+@markers.slow
+@markers.rex
+@markers.nondestructive
+def test_introductory_statistics_uri_redirect_to_rex(
+    webview_base_url, rex_base_url, introductory_statistics_uri
+):
+    # GIVEN a webview_base_url, rex_base_url and an introductory_statistics_uri
+
+    # WHEN we go to a page based on the webview_base_url and uri
+    cnx_page_slug = introductory_statistics_uri.split("/")[-1]
+    cnx_url = f"{webview_base_url}{introductory_statistics_uri}"
+    response = get_url(cnx_url)
+
+    # THEN we are redirected to rex
+    assert response.url.startswith(rex_base_url)
+    assert response.url.endswith(cnx_page_slug)
+
+
+@markers.test_case("C568721")
+@markers.slow
+@markers.rex
+@markers.nondestructive
+def test_principles_of_accounting_1_uri_redirect_to_rex(
+    webview_base_url, rex_base_url, principles_of_accounting_1_uri
+):
+    # GIVEN a webview_base_url, rex_base_url and a principles_of_accounting_vol_1_uri
+
+    # WHEN we go to a page based on the webview_base_url and uri
+    cnx_page_slug = principles_of_accounting_1_uri.split("/")[-1]
+    cnx_url = f"{webview_base_url}{principles_of_accounting_1_uri}"
+    response = get_url(cnx_url)
+
+    # THEN we are redirected to rex
+    assert response.url.startswith(rex_base_url)
+    assert response.url.endswith(cnx_page_slug)
+
+
+@markers.test_case("C568722")
+@markers.slow
+@markers.rex
+@markers.nondestructive
+def test_principles_of_accounting_2_uri_redirect_to_rex(
+    webview_base_url, rex_base_url, principles_of_accounting_2_uri
+):
+    # GIVEN a webview_base_url, rex_base_url and a principles_of_accounting_vol_2_uri
+
+    # WHEN we go to a page based on the webview_base_url and uri
+    cnx_page_slug = principles_of_accounting_2_uri.split("/")[-1]
+    cnx_url = f"{webview_base_url}{principles_of_accounting_2_uri}"
+    response = get_url(cnx_url)
+
+    # THEN we are redirected to rex
+    assert response.url.startswith(rex_base_url)
+    assert response.url.endswith(cnx_page_slug)
+
+
+@markers.test_case("C568720")
+@markers.slow
+@markers.rex
+@markers.nondestructive
+def test_us_history_uri_redirect_to_rex(webview_base_url, rex_base_url, us_history_uri):
+    # GIVEN a webview_base_url, rex_base_url and a us_history_uri
+
+    # WHEN we go to a page based on the webview_base_url and uri
+    cnx_page_slug = us_history_uri.split("/")[-1]
+    cnx_url = f"{webview_base_url}{us_history_uri}"
+    response = get_url(cnx_url)
+
+    # THEN we are redirected to rex
+    assert response.url.startswith(rex_base_url)
+    assert response.url.endswith(cnx_page_slug)

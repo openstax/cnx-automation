@@ -201,6 +201,72 @@ def calculus_vol_3_uri(request):
     yield request.param
 
 
+@pytest.fixture(
+    params=gen_from_file(os.path.join(DATA_DIR, "9ab4ba6d-1e48-486d-a2de-38ae1617ca84.txt"))
+)
+def principles_of_accounting_1_uri(request):
+    """Yields a URI from the principles of accounting 1 book located on a cnx.org instance
+
+    Example: /contents/f8zJz5tx@0.0:2po7o99e/1-essential-ideas
+    """
+    yield request.param
+
+
+@pytest.fixture(
+    params=gen_from_file(os.path.join(DATA_DIR, "920d1c8a-606c-4888-bfd4-d1ee27ce1795.txt"))
+)
+def principles_of_accounting_2_uri(request):
+    """Yields a URI from the principles of accounting 2 book located on a cnx.org instance
+
+    Example: /contents/f8zJz5tx@0.0:2po7o99e/1-essential-ideas
+    """
+    yield request.param
+
+
+@pytest.fixture(
+    params=gen_from_file(os.path.join(DATA_DIR, "9d8df601-4f12-4ac1-8224-b450bf739e5f.txt"))
+)
+def american_government_2e_uri(request):
+    """Yields a URI from the american government 2e book located on a cnx.org instance
+
+    Example: /contents/f8zJz5tx@0.0:2po7o99e/1-essential-ideas
+    """
+    yield request.param
+
+
+@pytest.fixture(
+    params=gen_from_file(os.path.join(DATA_DIR, "30189442-6998-4686-ac05-ed152b91b9de.txt"))
+)
+def introductory_statistics_uri(request):
+    """Yields a URI from the introductory statistics book located on a cnx.org instance
+
+    Example: /contents/f8zJz5tx@0.0:2po7o99e/1-essential-ideas
+    """
+    yield request.param
+
+
+@pytest.fixture(
+    params=gen_from_file(os.path.join(DATA_DIR, "a7ba2fb8-8925-4987-b182-5f4429d48daa.txt"))
+)
+def us_history_uri(request):
+    """Yields a URI from the us history book located on a cnx.org instance
+
+    Example: /contents/f8zJz5tx@0.0:2po7o99e/1-essential-ideas
+    """
+    yield request.param
+
+
+@pytest.fixture(
+    params=gen_from_file(os.path.join(DATA_DIR, "b56bb9e9-5eb8-48ef-9939-88b1b12ce22f.txt"))
+)
+def introductory_business_statistics_uri(request):
+    """Yields a URI from the introductory business statistics book located on a cnx.org instance
+
+    Example: /contents/f8zJz5tx@0.0:2po7o99e/1-essential-ideas
+    """
+    yield request.param
+
+
 @pytest.fixture
 def webview_base_url(request):
     """Return a base URL for CNX webview"""
