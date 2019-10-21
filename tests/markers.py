@@ -21,7 +21,6 @@ webview = mark.webview
 legacy = mark.legacy
 neb = mark.neb
 rex = mark.rex
-visual = mark.visual
 
 requires_complete_dataset = mark.requires_complete_dataset
 requires_deployment = mark.requires_deployment
