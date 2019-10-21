@@ -353,7 +353,7 @@ def test_univ_phys_3_uri_redirect_to_rex(webview_base_url, rex_base_url, univ_ph
     assert 301 == response.status_code
 
 
-@markers.test_case("C568719")
+@markers.test_case("C568716")
 @markers.slow
 @markers.rex
 @markers.nondestructive
@@ -376,7 +376,7 @@ def test_american_government_2e_uri_redirect_to_rex(
     assert 301 == response.status_code
 
 
-@markers.test_case("C568718")
+@markers.test_case("C568716")
 @markers.slow
 @markers.rex
 @markers.nondestructive
@@ -399,7 +399,7 @@ def test_introductory_business_statistics_uri_redirect_to_rex(
     assert 301 == response.status_code
 
 
-@markers.test_case("C568717")
+@markers.test_case("C568716")
 @markers.slow
 @markers.rex
 @markers.nondestructive
@@ -422,7 +422,7 @@ def test_introductory_statistics_uri_redirect_to_rex(
     assert 301 == response.status_code
 
 
-@markers.test_case("C568721")
+@markers.test_case("C568716")
 @markers.slow
 @markers.rex
 @markers.nondestructive
@@ -445,7 +445,7 @@ def test_principles_of_accounting_1_uri_redirect_to_rex(
     assert 301 == response.status_code
 
 
-@markers.test_case("C568722")
+@markers.test_case("C568716")
 @markers.slow
 @markers.rex
 @markers.nondestructive
@@ -468,7 +468,7 @@ def test_principles_of_accounting_2_uri_redirect_to_rex(
     assert 301 == response.status_code
 
 
-@markers.test_case("C568720")
+@markers.test_case("C568716")
 @markers.slow
 @markers.rex
 @markers.nondestructive
