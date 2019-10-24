@@ -86,4 +86,6 @@ def test_derived_copies_in_sitemap(webview_base_url, author, uuid, should_be_pre
     # THEN non-OpenStax derived copies have been removed
     # while OpenStax books remain
     found_url = [url for url in urls if uuid in url]
+    # This essentially tries to check if it should or shouldn't be found,
+    # & return the correct boolean value based on it being or not being found.
     assert xnor(should_be_present, found_url)
