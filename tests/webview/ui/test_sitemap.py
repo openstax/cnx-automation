@@ -15,6 +15,7 @@ def xor(a, b):
 
 
 def xnor(a, b):
+    # See truth table: https://en.wikipedia.org/wiki/XNOR_gate
     return not xor(a, b)
 
 
