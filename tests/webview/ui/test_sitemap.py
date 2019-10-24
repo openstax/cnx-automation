@@ -10,6 +10,14 @@ from tests import markers
 from pages.webview.sitemap_index import SitemapIndex
 
 
+def xor(a, b):
+    return bool(a) ^ bool(b)
+
+
+def xnor(a, b):
+    return not xor(a, b)
+
+
 @markers.webview
 @markers.smoke
 @markers.requires_varnish_routing
@@ -41,7 +49,7 @@ def test_sitemap_is_segmented_by_author(webview_base_url, selenium, author_usern
 @markers.requires_varnish_routing
 @markers.nondestructive
 @markers.parametrize(
-    "author, uuid, be_present",
+    "author, uuid, should_be_present",
     [  # case parameters for the removal of derived content
         (
             "cnxbio_espanol",
@@ -58,7 +66,7 @@ def test_sitemap_is_segmented_by_author(webview_base_url, selenium, author_usern
         ),
     ],
 )
-def test_derived_copies_in_sitemap(webview_base_url, author, uuid, be_present):
+def test_derived_copies_in_sitemap(webview_base_url, author, uuid, should_be_present):
     # As OpenStax, I want to remove all derived copies except OpenStax
     # books from the content, so that we begin the transition away from cnx.
     # see: https://github.com/openstax/cnx/issues/727
@@ -76,5 +84,5 @@ def test_derived_copies_in_sitemap(webview_base_url, author, uuid, be_present):
 
     # THEN non-OpenStax derived copies have been removed
     # while OpenStax books remain
-    presents_operation = be_present and (lambda x: x) or (lambda x: not x)
-    assert presents_operation([url for url in urls if uuid in url])
+    found_url = [url for url in urls if uuid in url]
+    assert xnor(should_be_present, found_url)
