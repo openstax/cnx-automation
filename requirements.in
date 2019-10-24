@@ -1,5 +1,4 @@
 apipkg==1.5
-Appium-Python-Client==0.38
 asn1crypto==0.24.0
 aspy.yaml==1.3.0
 atomicwrites==1.3.0
@@ -20,9 +19,6 @@ cnxml==3.0.1
 cryptography==2.7
 docker==4.0.2
 execnet==1.6.1
-eyes-common==4.0.7
-eyes-core==4.0.7
-eyes-selenium==4.0.7
 filelock==3.0.12
 github3.py==1.3.0
 identify==1.4.5
@@ -63,12 +59,9 @@ rhaptos.cnxmlutils==1.7.1
 selenium==3.141.0
 simplejson==3.16.0
 six==1.12.0
-tinycss2==0.6.1
 tldextract==2.2.1
 toml==0.10.0
 tox==3.13.2
-transitions==0.6.9
-ua-parser==0.8.0
 uritemplate==3.0.0
 urllib3==1.24.3
 virtualenv==16.7.2
