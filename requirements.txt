@@ -23,7 +23,7 @@ cnx-litezip==1.6.0
 git+https://github.com/openstax/cnx-rex-redirects.git@downgrade-requests
 cnx-transforms==1.2.0
 cnxml==3.0.1
-cryptography==2.7
+cryptography==2.8
 docker==4.0.2
 execnet==1.7.1
 filelock==3.0.12
