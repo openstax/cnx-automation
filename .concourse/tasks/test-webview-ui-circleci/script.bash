@@ -14,6 +14,8 @@ RESULT=$(curl --header "Content-Type: application/json" \
                                    "ARCHIVE_BASE_URL": "'"$ARCHIVE_BASE_URL"'"}
              }' https://circleci.com/api/v1.1/project/github/openstax/cnx-automation/tree/master\?circle-token\=$CIRCLE_API_TOKEN)
 
+echo "Result=$RESULT"
+
 BUILD_PARAMS=$(echo "$RESULT" | jq -r .build_parameters)
 
 echo "Build Parameters=$BUILD_PARAMS"
