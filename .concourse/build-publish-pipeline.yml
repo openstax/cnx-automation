@@ -8,7 +8,7 @@ resources:
   - name: notify
     type: slack-notification
     source:
-      url: ((slack-webhook-qa-stream))
+      url: ((slack-webhook-cestream))
 
   - name: source-code
     type: git
