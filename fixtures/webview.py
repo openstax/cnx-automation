@@ -299,6 +299,16 @@ def rex_released_books(rex_base_url):
 
 
 @pytest.fixture
+def vendor_base_url(request):
+    """Return a base URL for Vendor cnx page used for integration testing"""
+    config = request.config
+    base_url = config.getoption("vendor_base_url") or config.getini("vendor_base_url")
+    if base_url is not None:
+        skip_if_destructive_and_sensitive(request, base_url)
+        return base_url
+
+
+@pytest.fixture
 def webview_instance(webview_base_url):
     url = tldextract.extract(webview_base_url)
     if url.subdomain:
