@@ -267,6 +267,13 @@ def introductory_business_statistics_uri(request):
     yield request.param
 
 
+@pytest.fixture(params=gen_from_file(os.path.join(DATA_DIR, "openstax_books_uuids.txt")))
+def openstax_allbooks_uuids(request):
+    """Yields a UUIDS for all openstax books
+    """
+    yield request.param
+
+
 @pytest.fixture
 def webview_base_url(request):
     """Return a base URL for CNX webview"""
