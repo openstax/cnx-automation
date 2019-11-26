@@ -269,7 +269,7 @@ def introductory_business_statistics_uri(request):
 
 @pytest.fixture(params=gen_from_file(os.path.join(DATA_DIR, "openstax_books_uuids.txt")))
 def openstax_allbooks_uuids(request):
-    """Yields a UUIDS for all openstax books
+    """Yields UUIDs for all openstax books
     """
     yield request.param
 

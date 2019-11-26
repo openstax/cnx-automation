@@ -8,7 +8,7 @@ from pages.webview.home import Home
 import requests
 
 
-# @markers.vendor
+@markers.vendor
 @markers.nondestructive
 def test_vendor_pages_load(vendor_base_url, selenium, openstax_allbooks_uuids):
 
@@ -22,9 +22,9 @@ def test_vendor_pages_load(vendor_base_url, selenium, openstax_allbooks_uuids):
     toc = content.table_of_contents
 
     # WHEN a chapter is expanded and we navigate to one of its pages
-    chapter = toc.chapters[0]
+    chapter = toc.chapters[2]
     chapter = chapter.click()
-    page = chapter.pages[1]
+    page = chapter.pages[4]
     title = page.title
     print("PAGE TITLE  : ", title)
     content = page.click()
@@ -36,6 +36,6 @@ def test_vendor_pages_load(vendor_base_url, selenium, openstax_allbooks_uuids):
 
     data = requests.get(current_url)
 
-    assert vendor_base_url in current_url, "webview_base_url is NOT in current_url"
+    assert vendor_base_url in current_url, "vendor_base_url is NOT in current_url"
     assert 200 == data.status_code, "status code is NOT 200"
-    assert content.section_title == title, "section title does NOT match"
+    assert content.section_title == title, "section titles does NOT match"
