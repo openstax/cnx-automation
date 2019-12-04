@@ -9,6 +9,7 @@ import requests
 
 
 @markers.vendor
+@markers.test_case("C593142")
 @markers.nondestructive
 def test_vendor_pages_load(vendor_base_url, selenium, openstax_allbooks_uuids):
 
@@ -22,9 +23,9 @@ def test_vendor_pages_load(vendor_base_url, selenium, openstax_allbooks_uuids):
     toc = content.table_of_contents
 
     # WHEN a chapter is expanded and we navigate to one of its pages
-    chapter = toc.chapters[2]
+    chapter = toc.chapters[1]
     chapter = chapter.click()
-    page = chapter.pages[4]
+    page = chapter.pages[1]
     title = page.title
     print("PAGE TITLE  : ", title)
     content = page.click()

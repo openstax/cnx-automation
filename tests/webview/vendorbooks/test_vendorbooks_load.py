@@ -3,7 +3,8 @@ from tests import markers
 from pages.webview.home import Home
 
 
-# @markers.vendor
+@markers.vendor
+@markers.test_case("C593141")
 @markers.nondestructive
 def test_vendor_books_not_redirecting(vendor_base_url, selenium):
 
