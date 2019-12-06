@@ -11,7 +11,7 @@ from pages.robots import Robots
 @markers.requires_deployment
 @markers.test_case("C593158", "C593544")
 @markers.nondestructive
-def test_robots(webview_base_url, archive_base_url, robots_production_list, selenium):
+def test_robots_production(webview_base_url, archive_base_url, robots_production_list, selenium):
     # GIVEN the webview base url, the archive base url and the Selenium driver
 
     # WHEN we visit /robots.txt in webview and archive
@@ -22,16 +22,8 @@ def test_robots(webview_base_url, archive_base_url, robots_production_list, sele
     archive_robots = Robots(selenium, archive_base_url).open()
     archive_robots_text = "\n{text}\n".format(text=archive_robots.text)
 
-    # THEN robots.txt has the correct content
-    assert "\nUser-agent: *\nDisallow: /\n" in webview_robots_text
+    # The following directives are only present on prod:
+    if "//cnx.org/" in webview_base_url:
+        assert robots_production_list == webview_robots_text
 
-    # The following directives are only present on staging:
-    if "staging.cnx.org" in webview_base_url:
-        assert "\nUser-agent: ScoutJet\nCrawl-delay: 10\nDisallow: /\n" in webview_robots_text
-        assert "\nUser-agent: Baiduspider\nCrawl-delay: 10\nDisallow: /\n" in webview_robots_text
-        assert "\nUser-agent: BecomeBot\nCrawl-delay: 20\nDisallow: /\n" in webview_robots_text
-        assert "\nUser-agent: Slurp\nCrawl-delay: 10\nDisallow: /\n" in webview_robots_text
-    elif "cnx.org" in webview_base_url:
-        print()
-
-    assert "\nUser-agent: *\nDisallow: /\n" in archive_robots_text
+    assert "\nUser-agent: *\nAllow: /\n" in archive_robots_text
