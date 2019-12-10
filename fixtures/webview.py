@@ -275,6 +275,14 @@ def robots_production_list(request):
 
 
 @pytest.fixture
+def robots_staging_list():
+    params = gen_from_file(os.path.join(DATA_DIR, "robots_stag_list.txt"))
+    """Yields values of robots.txt on production environment
+    """
+    return params
+
+
+@pytest.fixture
 def webview_base_url(request):
     """Return a base URL for CNX webview"""
     config = request.config
