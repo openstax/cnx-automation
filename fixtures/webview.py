@@ -267,19 +267,13 @@ def introductory_business_statistics_uri(request):
     yield request.param
 
 
-@pytest.fixture(params=gen_from_file(os.path.join(DATA_DIR, "robots_prod_list.txt")))
-def robots_production_list(request):
-    """Yields values of robots.txt on production environment
-    """
-    yield request.param
-
-
 @pytest.fixture
-def robots_staging_list():
-    params = gen_from_file(os.path.join(DATA_DIR, "robots_stag_list.txt"))
-    """Yields values of robots.txt on production environment
+def robots_production_list():
+    """Returns the text file location which includes all the robots.txt lines for production env
     """
-    return params
+    txt_dir = DATA_DIR + "/robots_prod_list.txt"
+
+    return txt_dir
 
 
 @pytest.fixture
