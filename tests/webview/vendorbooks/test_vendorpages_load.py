@@ -2,7 +2,6 @@ from tests import markers
 from pages.webview.content import Content
 from pages.webview.home import Home
 import requests
-import pytest
 
 
 @markers.vendor
@@ -44,8 +43,17 @@ def test_vendor_pages_load(vendor_base_url, selenium, openstax_allbooks_uuids):
         or openstax_allbooks_uuids == "16ab5b96-4598-45f9-993c-b8d78d82b0c6"
         or openstax_allbooks_uuids == "bb62933e-f20a-4ffc-90aa-97b36c296c3e"
     ):
-        # skipping 3 Polish books (chapter/page level as I cannot find appropriate indexes)
-        pytest.skip()
+        # testing 3 Polish books as I cannot find appropriate indexes
+        home.driver.find_element_by_link_text("Rozwiązania zadań").click()
+
+        print("PAGE TITLE  : Rozwiązania zadań")
+
+        current_url = home.current_url
+        print("CURRENT URL : ", current_url)
+        data = requests.get(current_url)
+
+        assert vendor_base_url in current_url
+        assert 200 == data.status_code
 
     else:
         # checking rest of the books that title and chapter/pages redirects
