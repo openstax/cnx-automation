@@ -34,5 +34,4 @@ def test_robots_production(webview_base_url, archive_base_url, robots_production
             assert "\nUser-agent: *\nAllow: /\n" in archive_robots_text
 
     else:
-        print("\n\nTesting production only, skipping other environments\n")
         pytest.skip()

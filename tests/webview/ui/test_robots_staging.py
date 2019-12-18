@@ -38,5 +38,4 @@ def test_robots(webview_base_url, archive_base_url, selenium):
         assert "\nUser-agent: *\nDisallow: /\n" in archive_robots_text
 
     else:
-        print("\n\nTesting staging only, skipping other environments\n")
         pytest.skip()
