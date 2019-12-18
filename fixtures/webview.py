@@ -288,6 +288,26 @@ def rex_base_url(request):
 
 
 @pytest.fixture
+def archive_base_url2(request):
+    """Return an archive URL for CNX webview"""
+    config = request.config
+    base_url = config.getoption("archive_base_url2") or config.getini("archive_base_url2")
+    if base_url is not None:
+        skip_if_destructive_and_sensitive(request, base_url)
+        return base_url
+
+
+@pytest.fixture
+def webview_base_url2(request):
+    """Return a base URL for CNX webview"""
+    config = request.config
+    base_url = config.getoption("webview_base_url2") or config.getini("webview_base_url2")
+    if base_url is not None:
+        skip_if_destructive_and_sensitive(request, base_url)
+        return base_url
+
+
+@pytest.fixture
 def rex_released_books(rex_base_url):
     rex_host = rex_base_url.split("://")[-1]
 

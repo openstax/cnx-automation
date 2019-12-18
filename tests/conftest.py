@@ -84,11 +84,6 @@ def pytest_addoption(parser):
         help="OAuth token used to login to GitHub.",
     )
     parser.addoption(
-        "--applitools-key",
-        default=os.getenv("APPLITOOLS_API_KEY", None),
-        help="OAuth key used to login to Applitools.",
-    )
-    parser.addoption(
         "--runslow",
         action="store_true",
         default=os.getenv("RUNSLOW", False),
@@ -123,6 +118,20 @@ def pytest_addoption(parser):
         metavar="url",
         default=os.getenv("REX_BASE_URL", None),
         help="base url for REX.",
+    )
+    parser.addini("archive_base_url2", help="base url for CNX archive.")
+    parser.addoption(
+        "--archive_base_url2",
+        metavar="url",
+        default=os.getenv("ARCHIVE_BASE_URL2", None),
+        help="base url for CNX archive.",
+    )
+    parser.addini("webview_base_url2", help="base url for CNX webview.")
+    parser.addoption(
+        "--webview_base_url2",
+        metavar="url",
+        default=os.getenv("WEBVIEW_BASE_URL2", None),
+        help="base url for CNX webview.",
     )
     parser.addoption(
         "--legacy_username", default=os.getenv("LEGACY_USERNAME"), help="username for CNX legacy."
