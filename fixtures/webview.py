@@ -299,7 +299,7 @@ def rex_released_books(rex_base_url):
 
 
 @pytest.fixture(params=gen_from_file(os.path.join(DATA_DIR, "openstax_books_uuids.txt")))
-def openstax_allbooks_uuids(request):
+def openstax_all_books_uuids(request):
     """Yields UUIDs for all openstax books
     """
     yield request.param

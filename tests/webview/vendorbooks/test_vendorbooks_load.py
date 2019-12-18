@@ -20,13 +20,10 @@ def test_vendor_books_not_redirecting(vendor_base_url, selenium):
 
         home = Home(selenium, vendor_base_url).open()
 
-        print("\nBOOK TITLE  : ", book_title)
-
         title_link = home.driver.find_element_by_link_text(book_title)
         title_link.click()
 
         current_url = home.current_url
-        print("CURRENT URL : ", current_url)
         data = requests.get(current_url)
 
         assert vendor_base_url in current_url
