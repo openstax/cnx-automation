@@ -62,7 +62,7 @@ def test_redirecting_to_rex_from_within_webview(
 @markers.rex
 @markers.nondestructive
 def test_minimal_view_for_android_apps(webview_base_url, rex_base_url):
-    """All requests for REX books that come from the Android App
+    """ All requests for REX books that come from the Android App
     should continue to pass through to the cnx site (these requests
     are indicated by the attachment of the query-string: `?minimal=true`)
     https://github.com/openstax/cnx/issues/401

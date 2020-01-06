@@ -8,7 +8,7 @@ from tests import markers
 @markers.parametrize("uuid, version", [("fea3130c-6e57-41b2-a00f-0267ffae273c", 5)])
 def test_archive_redirect_for_google_results(archive_base_url, uuid, version):
     # end-to-end integration test for redirecting google away from archive URLs
-    # see: https://github.com/openstax/cnx/issues/209
+    # see issue: https://github.com/openstax/cnx/issues/209
 
     # GIVEN an "archive" URL
     url = f"{archive_base_url}/contents/{uuid}@{version}"
