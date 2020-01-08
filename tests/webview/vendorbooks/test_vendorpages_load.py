@@ -4,7 +4,6 @@ from pages.webview.home import Home
 import requests
 
 
-@markers.otto2
 @markers.vendor
 @markers.test_case("C593142")
 @markers.nondestructive
