@@ -5,56 +5,56 @@
 #    pip-compile --output-file=requirements.txt requirements.in
 #
 apipkg==1.5
-asn1crypto==1.2.0
+asn1crypto==0.24.0
 aspy.yaml==1.3.0
 atomicwrites==1.3.0
-attrs==19.3.0
-backoff==1.8.1
+attrs==19.1.0
+backoff==1.8.0
 cached-property==1.5.1
-certifi==2019.9.11
-cffi==1.13.1
+certifi==2019.6.16
+cffi==1.12.3
 cfgv==2.0.1
 chardet==3.0.4
 chromedriver-binary==76.0.3809.68.0
 click==7.0
 cnx-common==1.2.2
-cnx-epub==0.20.1
+cnx-epub==0.19.0
 cnx-litezip==1.6.0
 git+https://github.com/openstax/cnx-rex-redirects.git@downgrade-requests
 cnx-transforms==1.2.0
 cnxml==3.0.1
-cryptography==2.8
-docker==4.1.0
+cryptography==2.7
+docker==4.0.2
 execnet==1.7.1
 filelock==3.0.12
 github3.py==1.3.0
 identify==1.4.7
 idna==2.7
-importlib-metadata==0.23
-jinja2==2.10.3
+importlib-metadata==0.19
+jinja2==2.10.1
 jwcrypto==0.6.0
 lxml==4.4.1
 markupsafe==1.1.1
 more-itertools==7.2.0
-nebuchadnezzar==9.3.0
+nebuchadnezzar==9.1.0
 nodeenv==1.3.3
-packaging==19.2
-pillow==6.2.1
-pluggy==0.13.0
-pre-commit==1.20.0
+packaging==19.1
+pillow==6.2.0
+pluggy==0.12.0
+pre-commit==1.18.3
 py==1.8.0
 pycparser==2.19
 pyparsing==2.4.2
 pypom==2.2.0
 pytest-base-url==1.4.1
-pytest-forked==1.1.3
-pytest-html==2.0.0
+pytest-forked==1.0.2
+pytest-html==1.22.0
 pytest-metadata==1.8.0
 pytest-selenium==1.17.0
-pytest-testrail==2.8.3
-pytest-variables==1.9.0
-pytest-xdist==1.30.0
-pytest==5.2.2
+pytest-testrail==2.3.3
+pytest-variables==1.7.1
+pytest-xdist==1.29.0
+pytest==5.1.2
 python-dateutil==2.8.0
 python-dotenv==0.10.3
 python-magic==0.4.15
@@ -68,18 +68,18 @@ selenium==3.141.0
 simplejson==3.16.0
 six==1.12.0
 text-unidecode==1.2       # via python-slugify
-tldextract==2.2.2
+tldextract==2.2.1
 toml==0.10.0
-tox==3.14.0
+tox==3.13.2
 uritemplate==3.0.0
 urllib3==1.24.3
-virtualenv==16.7.7
+virtualenv==16.7.4
 wcwidth==0.1.7
 webencodings==0.5.1
 websocket-client==0.56.0
 zipp==0.6.0
 zope.component==4.5
-zope.deferredimport==4.3.1
+zope.deferredimport==4.3
 zope.deprecation==4.4.0
 zope.event==4.4
 zope.hookable==4.2.0
@@ -88,4 +88,4 @@ zope.proxy==4.3.1
 
 # The following packages are considered to be unsafe in a requirements file:
 # pip==19.3.1               # via nebuchadnezzar
-# setuptools==41.6.0        # via nebuchadnezzar, rhaptos.cnxmlutils, tldextract, zope.component, zope.deferredimport, zope.deprecation, zope.event, zope.hookable, zope.interface, zope.proxy
+# setuptools==41.4.0        # via nebuchadnezzar, rhaptos.cnxmlutils, tldextract, zope.component, zope.deferredimport, zope.deprecation, zope.event, zope.hookable, zope.interface, zope.proxy
