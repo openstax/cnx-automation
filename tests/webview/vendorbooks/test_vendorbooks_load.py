@@ -20,7 +20,8 @@ def test_vendor_books_not_redirecting(vendor_base_url, selenium):
 
         home = Home(selenium, vendor_base_url).open()
 
-        title_link = home.driver.find_element_by_link_text(book_title)
+        # using selenium fixture to overcome stale element exception occurring with page objects
+        title_link = selenium.find_element_by_link_text(book_title)
         title_link.click()
 
         current_url = home.current_url
