@@ -15,7 +15,7 @@ certifi==2019.9.11
 cffi==1.13.1
 cfgv==2.0.1
 chardet==3.0.4
-chromedriver-binary==76.0.3809.68.0
+chromedriver-binary==79.0.3945.36.0
 click==7.0
 cnx-common==1.2.2
 cnx-epub==0.20.1
@@ -87,5 +87,5 @@ zope.interface==4.6.0
 zope.proxy==4.3.1
 
 # The following packages are considered to be unsafe in a requirements file:
-# pip==19.3.1               # via nebuchadnezzar
-# setuptools==41.6.0        # via nebuchadnezzar, rhaptos.cnxmlutils, tldextract, zope.component, zope.deferredimport, zope.deprecation, zope.event, zope.hookable, zope.interface, zope.proxy
+# pip==20.0.2               # via nebuchadnezzar
+# setuptools==45.1.0        # via nebuchadnezzar, rhaptos.cnxmlutils, tldextract, zope.component, zope.deferredimport, zope.deprecation, zope.event, zope.hookable, zope.interface, zope.proxy
