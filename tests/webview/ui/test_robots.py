@@ -6,8 +6,6 @@ from tests import markers
 
 from pages.robots import Robots
 
-import pytest
-
 
 @markers.webview
 @markers.requires_deployment
@@ -25,17 +23,13 @@ def test_robots(webview_base_url, archive_base_url, selenium):
     archive_robots_text = "\n{text}\n".format(text=archive_robots.text)
 
     # THEN robots.txt has the correct content
+    assert "\nUser-agent: *\nDisallow: /\n" in webview_robots_text
 
     # The following directives are only present on staging:
-    if "//staging.cnx.org" in webview_base_url:
-        assert "\nUser-agent: *\nDisallow: /\n" in webview_robots_text
-
+    if "staging.cnx.org" in webview_base_url:
         assert "\nUser-agent: ScoutJet\nCrawl-delay: 10\nDisallow: /\n" in webview_robots_text
         assert "\nUser-agent: Baiduspider\nCrawl-delay: 10\nDisallow: /\n" in webview_robots_text
         assert "\nUser-agent: BecomeBot\nCrawl-delay: 20\nDisallow: /\n" in webview_robots_text
         assert "\nUser-agent: Slurp\nCrawl-delay: 10\nDisallow: /\n" in webview_robots_text
 
-        assert "\nUser-agent: *\nDisallow: /\n" in archive_robots_text
-
-    else:
-        pytest.skip()
+    assert "\nUser-agent: *\nDisallow: /\n" in archive_robots_text
