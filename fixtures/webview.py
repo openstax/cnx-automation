@@ -268,6 +268,19 @@ def introductory_business_statistics_uri(request):
 
 
 @pytest.fixture
+def robots_txt_production():
+    """Returns the text file location which includes all the robots.txt lines for production env
+    """
+    data_file = DATA_DIR + "/robots.prod.txt"
+
+    with open(data_file, "r") as infile:
+
+        data = infile.read()
+
+    return data.strip()
+
+
+@pytest.fixture
 def webview_base_url(request):
     """Return a base URL for CNX webview"""
     config = request.config
