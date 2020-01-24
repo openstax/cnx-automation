@@ -13,4 +13,4 @@ class Robots(Page):
 
     @property
     def text(self):
-        return self.find_element(*self._pre_locator).text
+        return self.find_element(*self._pre_locator).text.strip()
