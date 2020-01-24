@@ -13,6 +13,7 @@ nondestructive = mark.nondestructive
 parametrize = mark.parametrize
 test_case = pytestrail.case
 xfail = mark.xfail
+vendor = mark.vendor
 
 slow = mark.slow
 smoke = mark.smoke
