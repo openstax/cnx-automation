@@ -48,7 +48,7 @@ pyparsing==2.4.6
 pypom==2.2.0
 pytest-base-url==1.4.1
 pytest-forked==1.1.3
-pytest-html==2.0.0
+pytest-html==2.0.1
 pytest-metadata==1.8.0
 pytest-selenium==1.17.0
 pytest-testrail==2.8.3
