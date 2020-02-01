@@ -12,7 +12,7 @@ attrs==19.3.0
 backoff==1.10.0
 cached-property==1.5.1
 certifi==2019.11.28
-cffi==1.13.1
+cffi==1.13.2
 cfgv==2.0.1
 chardet==3.0.4
 chromedriver-binary==79.0.3945.36.0
