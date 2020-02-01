@@ -76,7 +76,7 @@ urllib3==1.25.8
 virtualenv==16.7.9
 wcwidth==0.1.8
 webencodings==0.5.1
-websocket-client==0.56.0
+websocket-client==0.57.0
 zipp==0.6.0
 zope.component==4.5
 zope.deferredimport==4.3.1
