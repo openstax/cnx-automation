@@ -15,7 +15,7 @@ certifi==2019.11.28
 cffi==1.13.2
 cfgv==2.0.1
 chardet==3.0.4
-chromedriver-binary==79.0.3945.36.0
+chromedriver-binary==80.0.3987.16.0
 click==7.0
 cnx-common==1.2.2
 cnx-epub==0.20.1
