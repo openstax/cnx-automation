@@ -2,8 +2,8 @@ from tests import markers
 from urllib.request import urlopen
 import json
 import urllib
+import pytest
 import requests
-
 
 """
 Verifies collections in s3 bucket
@@ -12,33 +12,38 @@ Latest update on 01/02/2020
 
 s3_base_url = "https://d27639afyuqlps.cloudfront.net"
 
-# @markers.ottoa
+
 @markers.nondestructive
-@markers.parametrize(
-    "uuids",
-    [
-        "9d8df601-4f12-4ac1-8224-b450bf739e5f",
-        "2e737be8-ea65-48c3-aa0a-9f35b4c6a966",
-        "405335a3-7cff-4df2-a9ad-29062a4af261",
-        "30189442-6998-4686-ac05-ed152b91b9de",
-    ],
-)
-def test_cops_s3_books(selenium, uuids):
+def test_cops_s3_books(selenium, openstax_all_books_uuids):
 
-    url = f"{s3_base_url}" + "/baked/" + f"{uuids}" + ".json"
+    s3_url = f"{s3_base_url}" + "/baked/" + f"{openstax_all_books_uuids}" + ".json"
 
-    page = urllib.request.urlopen(url).read()
-    jdata = json.loads(page)
+    s3_page = urllib.request.urlopen(s3_url).read()
+    s3_jdata = json.loads(s3_page)
 
-    raw_title = {v for k, v in jdata.items() if k == "title"}
-    title = str(raw_title)[2:-2]
+    s3_title = s3_jdata.get("title")
 
-    response = requests.get(url)
+    s3_nest = s3_jdata["tree"]["contents"]
+    slug_name = s3_nest[0]["slug"]
+    response = requests.get(s3_url)
 
-    assert 200 == response.status_code
-    assert (
-        title == "American Government 2e"
-        or title == "Astronomy"
-        or title == "College Physics with Courseware"
-        or title == "Introductory Statistics"
-    )
+    if slug_name == "preface":
+        assert slug_name == "preface"
+        assert 200 == response.status_code
+        assert (
+            s3_title == "American Government 2e"
+            or s3_title == "Astronomy"
+            or s3_title == "College Physics with Courseware"
+            or s3_title == "Introductory Statistics"
+        )
+
+    elif slug_name != "preface":
+        assert 200 == response.status_code
+        assert (
+            s3_title == "American Government 2e"
+            or s3_title == "Astronomy"
+            or s3_title == "College Physics with Courseware"
+            or s3_title == "Introductory Statistics"
+        )
+
+        pytest.skip(msg="Skipping slug[0] verification as it is NOT preface")
