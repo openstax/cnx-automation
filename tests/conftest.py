@@ -39,6 +39,7 @@ def get_custom_markers():
         "requires_varnish_routing: mark tests that require varnish routing",
         "requires_complete_dataset: mark tests that require the complete dataset",
         "requires_deployment: mark tests that require deployment",
+        "vendor: mark tests that target vendor.cnx.org",
     )
 
 
