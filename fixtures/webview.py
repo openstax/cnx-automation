@@ -335,3 +335,16 @@ def webview_instance(webview_base_url):
         return url.subdomain
     else:
         return "prod"
+
+
+@pytest.fixture
+def s3_books():
+    """Returns the text file location of all book uuids
+    """
+    s3_file = DATA_DIR + "/openstax_books_uuids.txt"
+
+    with open(s3_file, "r") as s3file:
+
+        s3data = s3file.read()
+
+    return s3data.strip()
