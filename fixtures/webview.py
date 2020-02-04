@@ -6,6 +6,10 @@ import os
 import pytest
 import requests
 
+import json
+import urllib
+from urllib.request import urlopen
+
 import tldextract
 from rex_redirects import get_rex_release_json_url
 
@@ -320,7 +324,7 @@ def openstax_all_books_uuids(request):
 
 @pytest.fixture
 def vendor_base_url(request):
-    """Return a base URL for Vendor cnx page used for integration testing"""
+    """Return a base URL for Vendor cnx page"""
     config = request.config
     base_url = config.getoption("vendor_base_url") or config.getini("vendor_base_url")
     if base_url is not None:
@@ -338,13 +342,43 @@ def webview_instance(webview_base_url):
 
 
 @pytest.fixture
-def s3_books():
-    """Returns the text file location of all book uuids
+def s3_base_url(request):
+    """Return a base URL for AWS S3 bucket"""
+    config = request.config
+    base_url = config.getoption("s3_base_url") or config.getini("s3_base_url")
+    if base_url is not None:
+        skip_if_destructive_and_sensitive(request, base_url)
+        return base_url
+
+
+@pytest.fixture(params=gen_from_file(os.path.join(DATA_DIR, "s3_books_uuids.txt")))
+def s3_books_uuids(request):
+    """Yields UUIDs for all books in aws s3 bucket
     """
-    s3_file = DATA_DIR + "/openstax_books_uuids.txt"
+    yield request.param
 
-    with open(s3_file, "r") as s3file:
 
-        s3data = s3file.read()
+@pytest.fixture
+def s3_books_url(s3_base_url, s3_books_uuids):
+    """Return a base URL for AWS S3 bucket"""
+    s3_url = f"{s3_base_url}" + "/baked/" + f"{s3_books_uuids}" + ".json"
+    return s3_url
 
-    return s3data.strip()
+
+@pytest.fixture
+def s3_json_data(s3_books_url, s3_books_uuids):
+    """Return a converted json file of a book in AWS S3 bucket"""
+    s3_page = urllib.request.urlopen(s3_books_url).read()
+    s3_jdata = json.loads(s3_page)
+    return s3_jdata
+
+
+@pytest.fixture
+def s3_books_titles():
+    """Returns the book titles for books in aws s3 bucket
+    """
+    data_file = DATA_DIR + "/s3_books_titles.txt"
+
+    with open(data_file, "r") as infile:
+        data = infile.read()
+    return data.strip()

@@ -127,6 +127,13 @@ def pytest_addoption(parser):
         default=os.getenv("VENDOR_BASE_URL", None),
         help="base url for Vendor cnx books.",
     )
+    parser.addini("s3_base_url", help="base url for cnx books in aws s3 bucket.")
+    parser.addoption(
+        "--s3_base_url",
+        metavar="url",
+        default=os.getenv("S3_BASE_URL", None),
+        help="base url for cnx books in aws s3 bucket.",
+    )
     parser.addoption(
         "--legacy_username", default=os.getenv("LEGACY_USERNAME"), help="username for CNX legacy."
     )
