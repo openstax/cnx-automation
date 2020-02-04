@@ -7,6 +7,7 @@ Latest update on 03/02/2020
 """
 
 
+@markers.awss3
 @markers.nondestructive
 def test_aws_s3_books(selenium, s3_books_url, s3_json_data, s3_books_titles, s3_books_uuids):
 

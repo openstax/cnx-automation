@@ -40,6 +40,7 @@ def get_custom_markers():
         "requires_complete_dataset: mark tests that require the complete dataset",
         "requires_deployment: mark tests that require deployment",
         "vendor: mark tests that target vendor.cnx.org",
+        "awss3: mark tests that target collections in aws s3 bucket",
     )
 
 
