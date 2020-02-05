@@ -6,10 +6,6 @@ import os
 import pytest
 import requests
 
-import json
-import urllib
-from urllib.request import urlopen
-
 import tldextract
 from rex_redirects import get_rex_release_json_url
 
@@ -352,25 +348,17 @@ def s3_base_url(request):
 
 
 @pytest.fixture(params=gen_from_file(os.path.join(DATA_DIR, "s3_books_uuids.txt")))
-def s3_books_uuids(request):
+def s3_all_books_uuids(request):
     """Yields UUIDs for all books in aws s3 bucket
     """
     yield request.param
 
 
 @pytest.fixture
-def s3_books_url(s3_base_url, s3_books_uuids):
+def s3_books_url(s3_base_url, s3_all_books_uuids):
     """Return a base URL for AWS S3 bucket"""
-    s3_url = f"{s3_base_url}/baked/{s3_books_uuids}.json"
+    s3_url = f"{s3_base_url}/baked/{s3_all_books_uuids}.json"
     return s3_url
-
-
-@pytest.fixture
-def s3_json_data(s3_books_url, s3_books_uuids):
-    """Return a converted json file of a book in AWS S3 bucket"""
-    s3_page = urllib.request.urlopen(s3_books_url).read()
-    s3_jdata = json.loads(s3_page)
-    return s3_jdata
 
 
 @pytest.fixture
