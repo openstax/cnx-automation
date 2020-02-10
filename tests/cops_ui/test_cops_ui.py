@@ -10,12 +10,7 @@ create_xp = '//*[@id="app"]/div[3]/div/div/div[3]/button[2]/span'
 
 
 @markers.parametrize(
-    "colid, style, bserver",
-    [
-        ("col11992", "astronomy", "qa"),
-        ("col11496", "anatomy", "staging"),
-        ("col26069", "chemistry", "easyvm5"),
-    ],
+    "colid, style, bserver", [("col11992", "astronomy", "qa"), ("col11496", "anatomy", "staging")]
 )
 def test_cops_ui(selenium, colid, style, bserver):
 
