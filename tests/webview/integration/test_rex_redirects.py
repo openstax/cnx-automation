@@ -4,6 +4,8 @@ import requests
 from tests import markers
 from pages.webview.home import Home
 
+"""Tests pages of redirecting collections for correct rex url and page slug titles"""
+
 
 @backoff.on_exception(backoff.expo, requests.exceptions.ConnectionError)
 def get_url(url):
@@ -465,6 +467,168 @@ def test_us_history_uri_redirect_to_rex(webview_base_url, rex_base_url, us_histo
     # WHEN we go to a page based on the webview_base_url and uri
     cnx_page_slug = us_history_uri.split("/")[-1]
     cnx_url = f"{webview_base_url}{us_history_uri}"
+    response = get_url(cnx_url)
+
+    # THEN we are redirected to rex
+    assert response.url.startswith(rex_base_url)
+    assert response.url.endswith(cnx_page_slug)
+
+
+@markers.test_case("C597392")
+@markers.slow
+@markers.rex
+@markers.nondestructive
+def test_economics_2e_uri_redirect_to_rex(webview_base_url, rex_base_url, economics_2e_uri):
+    # GIVEN a webview_base_url, rex_base_url and a economics_2e_uri
+
+    # WHEN we go to a page based on the webview_base_url and uri
+    cnx_page_slug = economics_2e_uri.split("/")[-1]
+    cnx_url = f"{webview_base_url}{economics_2e_uri}"
+    response = get_url(cnx_url)
+
+    # THEN we are redirected to rex
+    assert response.url.startswith(rex_base_url)
+    assert response.url.endswith(cnx_page_slug)
+
+
+@markers.test_case("C597392")
+@markers.slow
+@markers.rex
+@markers.nondestructive
+def test_microeconomics_2e_uri_redirect_to_rex(
+    webview_base_url, rex_base_url, microeconomics_2e_uri
+):
+    # GIVEN a webview_base_url, rex_base_url and a microeconomics_2e_uri
+
+    # WHEN we go to a page based on the webview_base_url and uri
+    cnx_page_slug = microeconomics_2e_uri.split("/")[-1]
+    cnx_url = f"{webview_base_url}{microeconomics_2e_uri}"
+    response = get_url(cnx_url)
+
+    # THEN we are redirected to rex
+    assert response.url.startswith(rex_base_url)
+    assert response.url.endswith(cnx_page_slug)
+
+
+@markers.test_case("C597392")
+@markers.slow
+@markers.rex
+@markers.nondestructive
+def test_macroeconomics_2e_uri_redirect_to_rex(
+    webview_base_url, rex_base_url, macroeconomics_2e_uri
+):
+    # GIVEN a webview_base_url, rex_base_url and a macroeconomics_2e_uri
+
+    # WHEN we go to a page based on the webview_base_url and uri
+    cnx_page_slug = macroeconomics_2e_uri.split("/")[-1]
+    cnx_url = f"{webview_base_url}{macroeconomics_2e_uri}"
+    response = get_url(cnx_url)
+
+    # THEN we are redirected to rex
+    assert response.url.startswith(rex_base_url)
+    assert response.url.endswith(cnx_page_slug)
+
+
+@markers.otto5
+@markers.test_case("C597392")
+@markers.slow
+@markers.rex
+@markers.nondestructive
+def test_entrepreneurship_uri_redirect_to_rex(webview_base_url, rex_base_url, entrepreneurship_uri):
+    # GIVEN a webview_base_url, rex_base_url and a entrepreneurship_uri
+
+    # WHEN we go to a page based on the webview_base_url and uri
+    cnx_page_slug = entrepreneurship_uri.split("/")[-1]
+    cnx_url = f"{webview_base_url}{entrepreneurship_uri}"
+    response = get_url(cnx_url)
+
+    # THEN we are redirected to rex
+    # assert response.url.startswith(rex_base_url)
+    assert response.url.endswith(cnx_page_slug)
+
+
+@markers.test_case("C597392")
+@markers.slow
+@markers.rex
+@markers.nondestructive
+def test_sociology_2e_uri_redirect_to_rex(webview_base_url, rex_base_url, sociology_2e_uri):
+    # GIVEN a webview_base_url, rex_base_url and a sociology_2e_uri
+
+    # WHEN we go to a page based on the webview_base_url and uri
+    cnx_page_slug = sociology_2e_uri.split("/")[-1]
+    cnx_url = f"{webview_base_url}{sociology_2e_uri}"
+    response = get_url(cnx_url)
+
+    # THEN we are redirected to rex
+    assert response.url.startswith(rex_base_url)
+    assert response.url.endswith(cnx_page_slug)
+
+
+@markers.test_case("C597392")
+@markers.slow
+@markers.rex
+@markers.nondestructive
+def test_intro_business_uri_redirect_to_rex(webview_base_url, rex_base_url, intro_business_uri):
+    # GIVEN a webview_base_url, rex_base_url and a intro_business_uri
+
+    # WHEN we go to a page based on the webview_base_url and uri
+    cnx_page_slug = intro_business_uri.split("/")[-1]
+    cnx_url = f"{webview_base_url}{intro_business_uri}"
+    response = get_url(cnx_url)
+
+    # THEN we are redirected to rex
+    assert response.url.startswith(rex_base_url)
+    assert response.url.endswith(cnx_page_slug)
+
+
+@markers.test_case("C597392")
+@markers.slow
+@markers.rex
+@markers.nondestructive
+def test_business_ethics_uri_redirect_to_rex(webview_base_url, rex_base_url, business_ethics_uri):
+    # GIVEN a webview_base_url, rex_base_url and a business_ethics_uri
+
+    # WHEN we go to a page based on the webview_base_url and uri
+    cnx_page_slug = business_ethics_uri.split("/")[-1]
+    cnx_url = f"{webview_base_url}{business_ethics_uri}"
+    response = get_url(cnx_url)
+
+    # THEN we are redirected to rex
+    assert response.url.startswith(rex_base_url)
+    assert response.url.endswith(cnx_page_slug)
+
+
+@markers.test_case("C597392")
+@markers.slow
+@markers.rex
+@markers.nondestructive
+def test_principles_of_mgnt_uri_redirect_to_rex(
+    webview_base_url, rex_base_url, principles_of_mgnt_uri
+):
+    # GIVEN a webview_base_url, rex_base_url and a principles_of_mgnt_uri
+
+    # WHEN we go to a page based on the webview_base_url and uri
+    cnx_page_slug = principles_of_mgnt_uri.split("/")[-1]
+    cnx_url = f"{webview_base_url}{principles_of_mgnt_uri}"
+    response = get_url(cnx_url)
+
+    # THEN we are redirected to rex
+    assert response.url.startswith(rex_base_url)
+    assert response.url.endswith(cnx_page_slug)
+
+
+@markers.test_case("C597392")
+@markers.slow
+@markers.rex
+@markers.nondestructive
+def test_organizational_behavior_uri_redirect_to_rex(
+    webview_base_url, rex_base_url, organizational_behavior_uri
+):
+    # GIVEN a webview_base_url, rex_base_url and a organizational_behavior_uri
+
+    # WHEN we go to a page based on the webview_base_url and uri
+    cnx_page_slug = organizational_behavior_uri.split("/")[-1]
+    cnx_url = f"{webview_base_url}{organizational_behavior_uri}"
     response = get_url(cnx_url)
 
     # THEN we are redirected to rex
