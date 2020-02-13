@@ -433,7 +433,6 @@ def test_macroeconomics_2e_uri_redirect_to_rex(
     assert 301 == response.status_code
 
 
-@markers.otto5
 @markers.test_case("C568716")
 @markers.slow
 @markers.rex

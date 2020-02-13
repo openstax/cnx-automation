@@ -529,7 +529,6 @@ def test_macroeconomics_2e_uri_redirect_to_rex(
     assert response.url.endswith(cnx_page_slug)
 
 
-@markers.otto5
 @markers.test_case("C597392")
 @markers.slow
 @markers.rex
@@ -543,7 +542,7 @@ def test_entrepreneurship_uri_redirect_to_rex(webview_base_url, rex_base_url, en
     response = get_url(cnx_url)
 
     # THEN we are redirected to rex
-    # assert response.url.startswith(rex_base_url)
+    assert response.url.startswith(rex_base_url)
     assert response.url.endswith(cnx_page_slug)
 
 
