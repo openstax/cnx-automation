@@ -46,9 +46,10 @@ def test_api_results(selenium):
 
                 if job_status0 != "completed" and job_status1 != "completed":
 
-                    print("waiting 30 seconds")
+                    print("waiting 5 seconds")
 
-                    sleep(30)
+                    sleep(5)
+
                     continue
 
                 else:
