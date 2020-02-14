@@ -25,73 +25,57 @@ from tests.utils import similar
     "is_archive,path,expected_response_status_code",
     [
         # FIXME Requires varnish
-        # (False, '/content/col11762', 301),
-        (True, "/content/col11762", 301),
+        # (False, '/content/col23946', 301),
+        (True, "/content/col23946", 301),
         # FIXME Requires varnish
-        # (False, '/content/col11762/1.10', 301),
-        (True, "/content/col11762/1.10", 301),
-        (False, "/contents/02040312-72c8-441e-a685-20e9333f3e1d", 200),
-        (True, "/contents/02040312-72c8-441e-a685-20e9333f3e1d", 302),
+        # (False, '/content/col23946/1.1', 301),
+        (True, "/content/col23946/1.1", 301),
+        (False, "/contents/4eaa8f03-88a8-485a-a777-dd3602f6c13e", 200),
+        (True, "/contents/4eaa8f03-88a8-485a-a777-dd3602f6c13e", 302),
         (
             False,
             (
-                "/contents/02040312-72c8-441e-a685-20e9333f3e1d"
-                ":40c45f23-6a75-414a-987a-cccd50bd04b8"
+                "/contents/4eaa8f03-88a8-485a-a777-dd3602f6c13e"
+                ":7d039be2-93c6-4f32-a469-41689bab7225"
             ),
             200,
         ),
         (
             True,
             (
-                "/contents/02040312-72c8-441e-a685-20e9333f3e1d"
-                ":40c45f23-6a75-414a-987a-cccd50bd04b8"
+                "/contents/4eaa8f03-88a8-485a-a777-dd3602f6c13e"
+                ":7d039be2-93c6-4f32-a469-41689bab7225"
             ),
             302,
         ),
-        (False, "/contents/02040312-72c8-441e-a685-20e9333f3e1d@10.1", 200),
-        (True, "/contents/02040312-72c8-441e-a685-20e9333f3e1d@10.1", 200),
+        (False, "/contents/4eaa8f03-88a8-485a-a777-dd3602f6c13e@1.1", 200),
+        (True, "/contents/4eaa8f03-88a8-485a-a777-dd3602f6c13e@1.1", 200),
         (
             False,
             (
-                "/contents/02040312-72c8-441e-a685-20e9333f3e1d@10.1"
-                ":40c45f23-6a75-414a-987a-cccd50bd04b8"
+                "/contents/4eaa8f03-88a8-485a-a777-dd3602f6c13e@1.1"
+                ":7d039be2-93c6-4f32-a469-41689bab7225"
             ),
             200,
         ),
         (
-            True,
-            (
-                "/contents/02040312-72c8-441e-a685-20e9333f3e1d@10.1"
-                ":40c45f23-6a75-414a-987a-cccd50bd04b8"
-            ),
-            302,
-        ),
-        (
             False,
             (
-                "/contents/02040312-72c8-441e-a685-20e9333f3e1d@10.1"
-                ":40c45f23-6a75-414a-987a-cccd50bd04b8@8"
+                "/contents/4eaa8f03-88a8-485a-a777-dd3602f6c13e@1.1"
+                ":7d039be2-93c6-4f32-a469-41689bab7225@5"
             ),
             200,
         ),
-        (
-            True,
-            (
-                "/contents/02040312-72c8-441e-a685-20e9333f3e1d@10.1"
-                ":40c45f23-6a75-414a-987a-cccd50bd04b8@8"
-            ),
-            302,
-        ),
-        (False, "/contents/AgQDEnLI", 200),
-        (True, "/contents/AgQDEnLI", 302),
-        (False, "/contents/AgQDEnLI:OkLwVQKH", 200),
-        (True, "/contents/AgQDEnLI:QMRfI2p1", 302),
-        (False, "/contents/AgQDEnLI@10.1", 200),
-        (True, "/contents/AgQDEnLI@10.1", 301),
-        (False, "/contents/AgQDEnLI@10.1:QMRfI2p1", 200),
-        (True, "/contents/AgQDEnLI@10.1:QMRfI2p1", 301),
-        (False, "/contents/AgQDEnLI@10.1:QMRfI2p1@8", 200),
-        (True, "/contents/AgQDEnLI@10.1:QMRfI2p1@8", 301),
+        (False, "/contents/TqqPA4io", 200),
+        (True, "/contents/TqqPA4io", 302),
+        (False, "/contents/TqqPA4io:fQOb4pPG", 200),
+        (True, "/contents/TqqPA4io:fQOb4pPG", 302),
+        (False, "/contents/TqqPA4io@1.157", 200),
+        (True, "/contents/TqqPA4io@1.157", 301),
+        (False, "/contents/TqqPA4io@1.157:fQOb4pPG", 200),
+        (True, "/contents/TqqPA4io@1.157:fQOb4pPG", 301),
+        (False, "/contents/TqqPA4io@1.157:fQOb4pPG@5", 200),
+        (True, "/contents/TqqPA4io@1.157:fQOb4pPG@5", 301),
     ],
 )
 def test_content_status_codes(
@@ -118,10 +102,10 @@ def test_content_status_codes(
 @markers.parametrize(
     "id",
     [
-        "AgQDEnLI@10.1:TrIRM88K@5",
-        "AgQDEnLI@10.1:XZe6d2Jr@9",
-        "AgQDEnLI@10.1:QMRfI2p1@8",
-        "TqqPA4io@1.141:pLGsuj0f@6",
+        "FqtblkWY@2.1:E3XenWEQ",
+        "FqtblkWY@2.1:E3XenWEQ@2",
+        "FqtblkWY@2.1:rKBtkIWG@2",
+        "TqqPA4io@1.1:fQOb4pPG@2",
     ],
 )
 def test_canonical_link_is_correct(webview_base_url, selenium, id):
@@ -212,31 +196,6 @@ def test_author_contains_openstax(webview_base_url, selenium):
 
 
 @markers.webview
-@markers.test_case("C189063")
-@markers.nondestructive
-# https://stackoverflow.com/a/33879151
-@markers.parametrize("language", ["en", "pl"])
-@markers.parametrize("uuid", ["02040312-72c8-441e-a685-20e9333f3e1d"])
-def test_derived_from_content(webview_base_url, selenium, language, uuid):
-    # GIVEN the selenium driver set to a specific language and a derived book's uuid
-
-    # WHEN we visit the derived book's content page
-    content = Content(selenium, webview_base_url, id=uuid).open()
-
-    # THEN we get "derived from" text appropriate for the given language
-    content_header = content.content_header
-
-    assert content_header.is_derived_from_displayed
-
-    if language == "en":
-        expected = "Derived from Introduction to Sociology by OpenStax"
-        assert content_header.derived_from_text == expected
-    elif language == "pl":
-        expected = "Utworzone z Introduction to Sociology autorstwa OpenStax"
-        assert content_header.derived_from_text == expected
-
-
-@markers.webview
 @markers.test_case("C176242")
 @markers.nondestructive
 def test_toc_is_displayed(webview_base_url, selenium):
@@ -320,8 +279,8 @@ def test_share_on_top_right_corner(webview_base_url, selenium):
             None,
             None,
         ),
-        ("2d941ab9-ac5b-4eb8-b21c-965d36a4f296", "developing", True, 10, True, False),
-        ("bb62933e-f20a-4ffc-90aa-97b36c296c3e", "table", True, 0, True, True),
+        ("bb62933e-f20a-4ffc-90aa-97b36c296c3e", "Fizyka", True, 1, True, False),
+        ("bb62933e-f20a-4ffc-90aa-97b36c296c3e", "Tabela", True, 3, True, True),
     ],
 )
 def test_in_book_search(
