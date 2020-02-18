@@ -5,7 +5,7 @@ from urllib.error import HTTPError
 
 from time import sleep
 
-cops_api_url = "https://cops-staging.openstax.org/api/jobs/"
+cops_api_url = "https://cops.openstax.org/api/jobs/"
 
 
 def test_api_results(selenium):
@@ -46,17 +46,16 @@ def test_api_results(selenium):
 
                 if job_status0 != "completed" and job_status1 != "completed":
 
-                    print("waiting 5 seconds")
+                    print("JOBS NOT COMPLETED YET, WAIT 3 SECONDS")
 
-                    sleep(5)
+                    sleep(3)
 
                     continue
 
                 else:
-                    print("LLLLLLLLLLLLLLLLLLLLLLLL")
                     break
 
-            print("UUUUUUUUUUUUUUUUU")
+            print("JOBS COMPLETED")
 
             assert collection_id0 == "col11496"
             assert job_status0 == "completed"
