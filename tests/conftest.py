@@ -40,6 +40,7 @@ def get_custom_markers():
         "requires_complete_dataset: mark tests that require the complete dataset",
         "requires_deployment: mark tests that require deployment",
         "vendor: mark tests that target vendor.cnx.org",
+        "awss3: mark tests that target collections in aws s3 bucket",
     )
 
 
@@ -126,6 +127,13 @@ def pytest_addoption(parser):
         metavar="url",
         default=os.getenv("VENDOR_BASE_URL", None),
         help="base url for Vendor cnx books.",
+    )
+    parser.addini("s3_base_url", help="base url for cnx books in aws s3 bucket.")
+    parser.addoption(
+        "--s3_base_url",
+        metavar="url",
+        default=os.getenv("S3_BASE_URL", None),
+        help="base url for cnx books in aws s3 bucket.",
     )
     parser.addoption(
         "--legacy_username", default=os.getenv("LEGACY_USERNAME"), help="username for CNX legacy."
