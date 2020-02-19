@@ -1,4 +1,3 @@
-College Physics with Courseware
 Prealgebra
 Elementary Algebra
 Intermediate Algebra
@@ -44,3 +43,4 @@ Entrepreneurship
 Organizational Behavior
 Business Law I Essentials
 College Success
+College Physics with Courseware
