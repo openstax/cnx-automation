@@ -1,4 +1,46 @@
-American Government 2e
-Astronomy
-College Physics with Courseware
+Prealgebra
+Elementary Algebra
+Intermediate Algebra
+College Algebra
+Algebra and Trigonometry
+Precalculus
+Calculus Volume 1
+Calculus Volume 2
+Calculus Volume 3
 Introductory Statistics
+Anatomy and Physiology
+Astronomy
+Biology 2e
+Concepts of Biology
+Microbiology
+Chemistry 2e
+Chemistry: Atoms First 2e
+College Physics
+University Physics Volume 1
+University Physics Volume 2
+University Physics Volume 3
+Biology for AP® Courses
+The AP Physics Collection
+Fizyka dla szkół wyższych. Tom 1
+Fizyka dla szkół wyższych. Tom 2
+Fizyka dla szkół wyższych. Tom 3
+American Government 2e
+Principles of Economics 2e
+Principles of Macroeconomics 2e
+Principles of Microeconomics 2e
+Psychology
+Introduction to Sociology 2e
+Principles of Macroeconomics for AP® Courses 2e
+Principles of Microeconomics for AP® Courses 2e
+U.S. History
+Introduction to Business
+Business Ethics
+Principles of Accounting, Volume 1: Financial Accounting
+Principles of Accounting, Volume 2: Managerial Accounting
+Introductory Business Statistics
+Principles of Management
+Entrepreneurship
+Organizational Behavior
+Business Law I Essentials
+College Success
+College Physics with Courseware
