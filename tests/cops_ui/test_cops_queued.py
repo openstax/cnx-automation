@@ -5,7 +5,7 @@ from urllib.error import HTTPError
 
 from time import sleep
 
-cops_api_url = "https://cops-staging.openstax.org/api/jobs/"
+cops_api_url = "http://localhost/api/jobs/"
 
 
 def test_api_results(selenium):
@@ -33,5 +33,5 @@ def test_api_results(selenium):
     else:
         sleep(2)
 
-        assert job_status0 == "queued" or job_status0 == "assigned"
-        assert job_status1 == "queued" or job_status1 == "assigned"
+        assert job_status0 == "queued" or job_status0 == "assigned" or job_status0 == "processing"
+        assert job_status1 == "queued" or job_status1 == "assigned" or job_status0 == "processing"

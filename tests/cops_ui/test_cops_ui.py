@@ -2,7 +2,7 @@ import requests
 from tests import markers
 from selenium.webdriver.common.keys import Keys
 
-cops_base_url = "https://cops-staging.openstax.org"
+cops_base_url = "http://localhost"
 new_pdf_xp = (
     '// *[ @ id = "app"] / div[1] / main / div / div / div / div / div[1] / button / span / span'
 )
