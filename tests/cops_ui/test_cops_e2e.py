@@ -6,96 +6,107 @@ import json
 import urllib
 from urllib.request import urlopen
 
-# from urllib.error import HTTPError
+from urllib.error import HTTPError
 
 from time import sleep
 
-
-cops_api_url = "http://localhost/api/jobs/"
-cops_base_url = "http://localhost"
-
-new_pdf_xp = (
-    '// *[ @ id = "app"] / div[1] / main / div / div / div / div / div[1] / button / span / span'
-)
-create_xp = '//*[@id="app"]/div[3]/div/div/div[3]/button[2]/span'
+"""
+End to end test of cops(-staging).openstax.org
+Creates jobs for 2 collections and verifies that they were successful and pdf is created
+Latest update on 24/02/2020
+"""
 
 
 @markers.parametrize(
     "colid, style, bserver", [("col11992", "astronomy", "qa"), ("col11496", "anatomy", "staging")]
 )
-def test_cops_ui(selenium, colid, style, bserver):
+def test_cops_ui(selenium, cops_base_url, create_new_pdf_job, create_button, colid, style, bserver):
 
-    # GIVEN an archive URL for a book
-    url = f"{cops_base_url}"
+    # GIVEN a cops base URL
+    # WHEN making a request to cops
 
-    # WHEN making a request to Archive
-    response = requests.get(url)
+    try:
 
-    selenium.get(url)
-    new_pdf = selenium.find_element_by_xpath(new_pdf_xp)
-    new_pdf.click()
+        response = requests.get(cops_base_url)
 
-    selenium.find_element_by_tag_name("body").send_keys(Keys.TAB, colid)
-    selenium.find_element_by_tag_name("body").send_keys(Keys.TAB)
-    selenium.find_element_by_tag_name("body").send_keys(Keys.TAB, style)
-    selenium.find_element_by_tag_name("body").send_keys(Keys.TAB, bserver)
+    except HTTPError as err:
+        if err.code:
+            print("Cannot reach url")
+        else:
+            raise
+    else:
 
-    create_button_xp = selenium.find_element_by_xpath(create_xp)
-    create_button_xp.click()
-    create_button_xp.click()
+        selenium.get(cops_base_url)
+        new_pdf = selenium.find_element_by_xpath(create_new_pdf_job)
+        new_pdf.click()
 
-    # THEN we should NOT redirect to REX
-    assert response.status_code == 200
+        selenium.find_element_by_tag_name("body").send_keys(Keys.TAB, colid)
+        selenium.find_element_by_tag_name("body").send_keys(Keys.TAB)
+        selenium.find_element_by_tag_name("body").send_keys(Keys.TAB, style)
+        selenium.find_element_by_tag_name("body").send_keys(Keys.TAB, bserver)
+
+        create_button_xp = selenium.find_element_by_xpath(create_button)
+        create_button_xp.click()
+        create_button_xp.click()
+
+        # THEN we should get successful connection
+        assert response.status_code == 200
 
 
-def test_api_results(selenium):
+def test_job_results(selenium, cops_api_url):
 
-    # GIVEN an archive URL for a book
-    api_url = f"{cops_api_url}"
+    # GIVEN a cops api URL
+
+    sleep(2)
 
     while True:
 
-        sleep(5)
+        try:
 
-        api_page = urllib.request.urlopen(api_url).read()
-        api_jdata = json.loads(api_page)
+            api_page = urllib.request.urlopen(cops_api_url).read()
 
-        newest0 = api_jdata[0]
-        newest1 = api_jdata[1]
-        # newest2 = api_jdata[2]
+        except HTTPError as err:
+            if err.code:
+                print("Cannot reach url")
+            else:
+                raise
 
-        job_id0 = newest0["id"]
-        job_id1 = newest1["id"]
-        # job_id2 = newest2["id"]
+        else:
 
-        if job_id0 > job_id1:
+            api_jdata = json.loads(api_page)
+
+            newest0 = api_jdata[0]
+            newest1 = api_jdata[1]
+
+            job_id0 = newest0["id"]
+            job_id1 = newest1["id"]
 
             collection_id0 = newest0["collection_id"]
-            # pdf_url0 = newest0["pdf_url"]
+            pdf_url0 = newest0["pdf_url"]
             job_status0 = newest0["status"]["name"]
 
             collection_id1 = newest1["collection_id"]
-            # pdf_url1 = newest1["pdf_url"]
+            pdf_url1 = newest1["pdf_url"]
             job_status1 = newest1["status"]["name"]
 
-            if job_status0 != "failed" and job_status1 != "failed":
+            if job_status0 != "completed" and job_status1 != "completed":
 
-                print("\nJOBS NOT COMPLETED YET, WAITING...")
+                print(f"\nJOBS {job_id0} and {job_id1} NOT COMPLETED YET, WAITING...")
 
                 sleep(5)
 
                 continue
 
-            elif job_status0 == "failed" and job_status1 == "failed":
+            elif job_status0 == "completed" and job_status1 == "completed":
 
-                print("\nJOBS COMPLETED SUCCESSFULLY")
+                print(f"\nJOBS {job_id0} and {job_id1} COMPLETED SUCCESSFULLY")
                 assert collection_id0 == "col11496"
-                assert job_status0 == "failed"
-                # assert collection_id0 in pdf_url0
+                assert job_status0 == "completed"
+                assert collection_id0 in pdf_url0
 
                 assert collection_id1 == "col11992"
-                assert job_status1 == "failed"
-                # assert collection_id1 in pdf_url1
+                assert job_status1 == "completed"
+                assert collection_id1 in pdf_url1
 
                 break
 
