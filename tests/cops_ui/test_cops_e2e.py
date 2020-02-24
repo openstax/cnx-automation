@@ -27,6 +27,8 @@ def test_cops_ui(selenium, cops_base_url, create_new_pdf_job, create_button, col
 
     try:
 
+        # verifying that cops URL is active
+
         response = requests.get(cops_base_url)
 
     except HTTPError as err:
@@ -36,14 +38,20 @@ def test_cops_ui(selenium, cops_base_url, create_new_pdf_job, create_button, col
             raise
     else:
 
+        # opening 'CREATE A NEW PDF JOB' dialog
+
         selenium.get(cops_base_url)
         new_pdf = selenium.find_element_by_xpath(create_new_pdf_job)
         new_pdf.click()
+
+        # tabbing through fields and inputting colID, style and server
 
         selenium.find_element_by_tag_name("body").send_keys(Keys.TAB, colid)
         selenium.find_element_by_tag_name("body").send_keys(Keys.TAB)
         selenium.find_element_by_tag_name("body").send_keys(Keys.TAB, style)
         selenium.find_element_by_tag_name("body").send_keys(Keys.TAB, bserver)
+
+        # clicking 'CREATE' button to start the jobs
 
         create_button_xp = selenium.find_element_by_xpath(create_button)
         create_button_xp.click()
@@ -63,6 +71,8 @@ def test_job_results(selenium, cops_api_url):
 
         try:
 
+            # verifying that cops URL is active
+
             api_page = urllib.request.urlopen(cops_api_url).read()
 
         except HTTPError as err:
@@ -72,6 +82,8 @@ def test_job_results(selenium, cops_api_url):
                 raise
 
         else:
+
+            # loading cops json file and extracting required data
 
             api_jdata = json.loads(api_page)
 
@@ -93,6 +105,7 @@ def test_job_results(selenium, cops_api_url):
 
                 print(f"\nJOBS {job_id0} and {job_id1} NOT COMPLETED YET, WAITING...")
 
+                # waiting for the cops jobs to complete
                 sleep(5)
 
                 continue
