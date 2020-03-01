@@ -65,7 +65,7 @@ python-memcached==1.59
 python-slugify==4.0.0     # via cnx-common
 pyyaml==5.3.0
 requests-file==1.4.3
-requests==2.20.1
+requests==2.23.0
 rhaptos.cnxmlutils==1.7.3
 selenium==3.141.0
 simplejson==3.17.0
