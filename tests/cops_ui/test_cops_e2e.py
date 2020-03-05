@@ -24,7 +24,7 @@ Latest update on 26/02/2020
 @markers.parametrize(
     "colid, style, bserver", [("col11992", "astronomy", "qa"), ("col11496", "anatomy", "staging")]
 )
-def test_cops_ui(selenium, cops_base_url, create_new_pdf_job, create_button, colid, style, bserver):
+def test_cops_ui(selenium, cops_base_url, job_dialog_button, create_button, colid, style, bserver):
 
     # GIVEN a cops base URL
     # WHEN making a request to cops
@@ -45,7 +45,7 @@ def test_cops_ui(selenium, cops_base_url, create_new_pdf_job, create_button, col
 
         # opening 'CREATE A NEW PDF JOB' dialog
         selenium.get(cops_base_url)
-        new_pdf = selenium.find_element_by_xpath(create_new_pdf_job)
+        new_pdf = selenium.find_element_by_xpath(job_dialog_button)
         new_pdf.click()
 
         # tabbing through fields and inputting colID, style and server

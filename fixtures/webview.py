@@ -489,8 +489,8 @@ def cops_api_url(cops_base_url):
 
 
 @pytest.fixture
-def create_new_pdf_job():
-    """  Return xpath of the 'Create a new pdf job button' """
+def job_dialog_button():
+    """  Return xpath of the 'Create a new pdf job' button """
     create_new_pdf_job = '// *[ @ id = "app"] / div[1] / main / div / div / div / div / div[1] / button / span / span'
     return create_new_pdf_job
 
