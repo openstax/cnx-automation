@@ -12,19 +12,23 @@ from urllib.error import HTTPError, URLError
 from requests.exceptions import ConnectionError
 
 from time import sleep
+import time
 
 
 """
 End to end test of cops(-staging).openstax.org
 Creates jobs for 2 collections, verifies that they were successfully executed and pdf is created
-Latest update on 26/02/2020
+Latest update on 08/03/2020
 """
 
 
 @markers.parametrize(
-    "colid, style, bserver", [("col11992", "astronomy", "qa"), ("col11496", "anatomy", "staging")]
+    "colid, ver, style, bserver",
+    [("col11992", "latest", "astronomy", "qa"), ("col11496", "1.17", "anatomy", "staging")],
 )
-def test_cops_ui(selenium, cops_base_url, job_dialog_button, create_button, colid, style, bserver):
+def test_cops_ui(
+    selenium, cops_base_url, job_dialog_button, create_button, colid, ver, style, bserver
+):
 
     # GIVEN a cops base URL
     # WHEN making a request to cops
@@ -50,7 +54,7 @@ def test_cops_ui(selenium, cops_base_url, job_dialog_button, create_button, coli
 
         # tabbing through fields and inputting colID, style and server
         selenium.find_element_by_tag_name("body").send_keys(Keys.TAB, colid)
-        selenium.find_element_by_tag_name("body").send_keys(Keys.TAB)
+        selenium.find_element_by_tag_name("body").send_keys(Keys.TAB, ver)
         selenium.find_element_by_tag_name("body").send_keys(Keys.TAB, style)
         selenium.find_element_by_tag_name("body").send_keys(Keys.TAB, bserver)
 
@@ -65,7 +69,9 @@ def test_cops_ui(selenium, cops_base_url, job_dialog_button, create_button, coli
 
 def test_job_results(selenium, cops_base_url, cops_api_url):
 
-    sleep(2)
+    start_time = time.time()
+    # 25 minutes wait time before process times out
+    wait_time = 1500
 
     while True:
 
@@ -90,12 +96,15 @@ def test_job_results(selenium, cops_base_url, cops_api_url):
 
         if job_status0 != "completed" and job_status1 != "completed":
 
+            if time.time() > start_time + wait_time:
+                print("!!!!! SOMETHING WENT WRONG. PROCESS TIMED OUT AFTER 25 MINUTES !!!!!")
+                break
+
             # printing messages while waiting for appropriate jobs to be completed
-            print(f"JOBS {job_id0} and {job_id1} NOT COMPLETED YET, WAITING 5 SECONDS")
+            print(f"JOBS {job_id0} AND {job_id1} NOT COMPLETED YET, WAITING...")
 
             # waiting for the cops jobs to complete
-            sleep(5)
-
+            sleep(20)
             continue
 
         elif job_status0 == "completed" and job_status1 == "completed":
@@ -108,10 +117,15 @@ def test_job_results(selenium, cops_base_url, cops_api_url):
             assert collection_id1 in pdf_url1
             assert job_status1 == "completed"
 
-            print(f"\nJOBS {job_id0} and {job_id1} COMPLETED SUCCESSFULLY")
+            print(f"\nJOBS {job_id0} AND {job_id1} COMPLETED SUCCESSFULLY")
+            break
 
+        elif job_status0 == "failed" or job_status1 == "failed":
+            if job_status0 == "failed":
+                print(f"\nJOB {job_id0} FAILED")
+            else:
+                print(f"\nJOB {job_id1} FAILED")
             break
 
         else:
-
             continue
