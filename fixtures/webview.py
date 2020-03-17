@@ -366,6 +366,72 @@ def organizational_behavior_uri(request):
     yield request.param
 
 
+@pytest.fixture(
+    params=gen_from_file(os.path.join(DATA_DIR, "464a3fba-68c1-426a-99f9-597e739dc911.txt"))
+)
+def business_law_i_ess_uri(request):
+    """Yields a URI from collection
+
+    Example: /contents/f8zJz5tx@0.0:2po7o99e/1-essential-ideas
+    """
+    yield request.param
+
+
+@pytest.fixture(
+    params=gen_from_file(os.path.join(DATA_DIR, "9b08c294-057f-4201-9f48-5d6ad992740d.txt"))
+)
+def college_algebra_uri(request):
+    """Yields a URI from collection
+
+    Example: /contents/f8zJz5tx@0.0:2po7o99e/1-essential-ideas
+    """
+    yield request.param
+
+
+@pytest.fixture(
+    params=gen_from_file(os.path.join(DATA_DIR, "13ac107a-f15f-49d2-97e8-60ab2e3b519c.txt"))
+)
+def algebra_and_trig_uri(request):
+    """Yields a URI from collection
+
+    Example: /contents/f8zJz5tx@0.0:2po7o99e/1-essential-ideas
+    """
+    yield request.param
+
+
+@pytest.fixture(
+    params=gen_from_file(os.path.join(DATA_DIR, "fd53eae1-fa23-47c7-bb1b-972349835c3c.txt"))
+)
+def precalculus_uri(request):
+    """Yields a URI from collection
+
+    Example: /contents/f8zJz5tx@0.0:2po7o99e/1-essential-ideas
+    """
+    yield request.param
+
+
+@pytest.fixture(
+    params=gen_from_file(os.path.join(DATA_DIR, "636cbfd9-4e37-4575-83ab-9dec9029ca4e.txt"))
+)
+def principles_microecon_ap_courses_2e_uri(request):
+    """Yields a URI from collection
+
+    Example: /contents/f8zJz5tx@0.0:2po7o99e/1-essential-ideas
+    """
+    yield request.param
+
+
+@pytest.fixture(
+    params=gen_from_file(os.path.join(DATA_DIR, "9117cf8c-a8a3-4875-8361-9cb0f1fc9362.txt"))
+)
+def principles_macroecon_ap_courses_2e_uri(request):
+    """Yields a URI from collection
+
+    Example: /contents/f8zJz5tx@0.0:2po7o99e/1-essential-ideas
+    """
+    yield request.param
+
+
 @pytest.fixture
 def robots_txt_production():
     """Returns the text file location which includes all the robots.txt lines for production env
