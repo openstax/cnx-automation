@@ -432,6 +432,17 @@ def principles_macroecon_ap_courses_2e_uri(request):
     yield request.param
 
 
+@pytest.fixture(
+    params=gen_from_file(os.path.join(DATA_DIR, "f0fa90be-fca8-43c9-9aad-715c0a2cee2b.txt"))
+)
+def prealgebra_2e_uri(request):
+    """Yields a URI from collection
+
+    Example: /contents/f8zJz5tx@0.0:2po7o99e/1-essential-ideas
+    """
+    yield request.param
+
+
 @pytest.fixture
 def robots_txt_production():
     """Returns the text file location which includes all the robots.txt lines for production env
