@@ -238,3 +238,18 @@ pattern.
 [pytest]: https://docs.pytest.org/en/latest/
 [mozilla]: https://github.com/mozilla/addons-server
 [selenium-training]: https://qualitas-server.herokuapp.com/wiki/Introduction_to_Pytest_and_Selenium
+
+### HOW TO CREATE TEST DATA FOR REDIRECTS
+
+1. go to ce-scripts repo
+2. cd python
+3. run gen_book_uris.py <archive_host> <cnx_uuid>
+e.g. $ ./gen_book_uris.py archive-staging.cnx.org e42bd376-624b-4c0f-972f-e0c57998e765
+4. this will create a cnx_uuid.txt file with all url variations as per rex_redirects.py 
+5. this file can be found here: /usr/local/lib/python3.7/site-packages/rex_redirects.py 
+6. copy the created cnx_uuid.txt file into cnx-automation folder: 
+fixtures/data/webview/
+7. in fixtures/webview.py add fixture to read and iterate through by tests:
+tests/webview/integration/test_redirects_301.py
+tests/webview/integration/test_rex_redirects.py
+ 
