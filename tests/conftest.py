@@ -20,6 +20,7 @@ pytest_plugins = (
     "fixtures.webview",
     "fixtures.legacy",
     "fixtures.neb",
+    "fixtures.cops",
 )
 
 
