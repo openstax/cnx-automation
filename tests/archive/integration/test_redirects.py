@@ -36,3 +36,21 @@ def test_headers_for_google_results(archive_base_url, uuid, version):
     assert "archive" not in response.headers["Location"]
     assert response.headers["Location"] == response.headers["X-Varnish-Canonical-Url"]
     assert response.headers["X-Varnish-Status"] == "uncacheable - redirected google"
+
+
+@markers.test_case("C553086")
+@markers.rex
+@markers.archive
+@markers.nondestructive
+def test_archive_is_still_reachable(archive_base_url, rex_base_url):
+    """REX still needs a way to fetch the content from Archive without being redirected
+    """
+    # GIVEN an archive URL for a book
+    url = f"{archive_base_url}/contents/f8zJz5tx@11.3:Pw-p-yeP@10/10-3-Phase-Transitions"
+
+    # WHEN making a request to Archive
+    response = requests.get(url)
+
+    # THEN we should NOT redirect to REX
+    for hist in response.history:
+        assert rex_base_url not in hist.headers["location"]
