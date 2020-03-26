@@ -241,15 +241,38 @@ pattern.
 
 ### HOW TO CREATE TEST DATA FOR REDIRECTS
 
-1. go to ce-scripts repo
-2. cd python
-3. run gen_book_uris.py <archive_host> <cnx_uuid>
+go to ce-scripts repo
+create virtual environment: 
+
+```pyenv virtualenv 3.7.x virtualenv_name```
+activate it: 
+
+```pyenv activate virtualenv_name```
+
+install requirements:
+
+```pip install -r requirements.txt```
+
+cd python
+
+run 
+
+```gen_book_uris.py <archive_host> <cnx_uuid>```
+
 e.g. $ ./gen_book_uris.py archive-staging.cnx.org e42bd376-624b-4c0f-972f-e0c57998e765
-4. this will create a cnx_uuid.txt file with all url variations as per rex_redirects.py 
-5. this file can be found here: /usr/local/lib/python3.7/site-packages/rex_redirects.py 
-6. copy the created cnx_uuid.txt file into cnx-automation folder: 
+
+this will create url variations as per rex_redirects.py and stores it in output/<cnx_uuid.txt> file 
+
+e.g. output/e42bd376-624b-4c0f-972f-e0c57998e765.txt
+
+rex_redirects.py file can be found here: /usr/local/lib/python3.7/site-packages/rex_redirects.py 
+
+copy the created cnx_uuid.txt file into cnx-automation folder: 
 fixtures/data/webview/
-7. in fixtures/webview.py add fixture to read and iterate through by tests:
+
+in fixtures/webview.py add fixture to read and iterate through by tests:
+
 tests/webview/integration/test_redirects_301.py
+
 tests/webview/integration/test_rex_redirects.py
  
