@@ -546,3 +546,24 @@ def s3_books_titles():
     with open(data_file, "r") as infile:
         data = infile.read()
     return data.strip()
+
+
+@pytest.fixture
+def cops_api_url(cops_base_url):
+    """Return URL for cops api"""
+    api_url = f"{cops_base_url}/api/jobs"
+    return api_url
+
+
+@pytest.fixture
+def job_dialog_button():
+    """  Return xpath of the 'Create a new pdf job' button """
+    create_new_pdf_job = '// *[ @ id = "app"] / div[1] / main / div / div / div / div / div[1] / button / span / span'
+    return create_new_pdf_job
+
+
+@pytest.fixture
+def create_button():
+    """  Return xpath of the 'Create button' """
+    create_button = '//*[@id="app"]/div[3]/div/div/div[3]/button[2]/span'
+    return create_button
