@@ -265,7 +265,7 @@ this will create url variations as per rex_redirects.py and stores it in output/
 
 e.g. output/e42bd376-624b-4c0f-972f-e0c57998e765.txt
 
-rex_redirects.py file can be found here: /usr/local/lib/python3.7/site-packages/rex_redirects.py 
+rex_redirects.py file can be found here: [rex_redirects][rex_redirects]
 
 copy the created cnx_uuid.txt file into cnx-automation folder: 
 fixtures/data/webview/
@@ -275,4 +275,6 @@ in fixtures/webview.py add fixture to read and iterate through by tests:
 tests/webview/integration/test_redirects_301.py
 
 tests/webview/integration/test_rex_redirects.py
+
+[rex_redirects]: https://github.com/openstax/cnx-rex-redirects/blob/master/rex_redirects.py
  
