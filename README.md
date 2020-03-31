@@ -239,7 +239,7 @@ pattern.
 [mozilla]: https://github.com/mozilla/addons-server
 [selenium-training]: https://qualitas-server.herokuapp.com/wiki/Introduction_to_Pytest_and_Selenium
 
-### HOW TO CREATE TEST DATA FOR REDIRECTS
+## HOW TO CREATE TEST DATA FOR REDIRECTS
 
 go to ce-scripts repo
 create virtual environment: 
