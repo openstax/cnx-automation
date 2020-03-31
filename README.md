@@ -49,6 +49,7 @@ A table will be displayed with column names. Find the one labeled PORTS
     4444/tcp, 0.0.0.0:32778->5900/tcp
 
 Use a VNC application to connect to `0.0.0.0:32778`. The port number `32778` may be different.
+The password for the VNC session is `secret`.
 
 Execute the tests as described above.
 
