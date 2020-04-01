@@ -46,7 +46,7 @@ pillow==7.1.0
 pluggy==0.13.1
 pre-commit==2.2.0
 py==1.8.1
-pycparser==2.19
+pycparser==2.20
 pyparsing==2.4.6
 pypom==2.2.0
 pytest-base-url==1.4.1
