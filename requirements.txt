@@ -87,7 +87,7 @@ zope.deprecation==4.4.0
 zope.event==4.4
 zope.hookable==5.0.1
 zope.interface==5.0.2
-zope.proxy==4.3.1
+zope.proxy==4.3.5
 
 # The following packages are considered to be unsafe in a requirements file:
 # pip==20.0.2               # via nebuchadnezzar
