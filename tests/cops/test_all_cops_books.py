@@ -23,7 +23,7 @@ def test_all_cops_books(selenium, s3_base_url, s3_books_titles, s3_books_url):
         s3_page = urllib.request.urlopen(s3_books_url).read()
 
     except HTTPError as err:
-        # skipping collection not it s3 bucket yet
+        # skipping collection not in s3 bucket yet
         if err.code:
             pytest.skip(msg="Collection NOT in aws s3 bucket yet")
         else:
