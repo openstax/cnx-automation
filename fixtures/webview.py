@@ -533,7 +533,7 @@ def s3_all_books_uuids(request):
 @pytest.fixture
 def s3_books_url(s3_base_url, s3_all_books_uuids):
     """Return a base URL for AWS S3 bucket"""
-    s3_url = f"{s3_base_url}/baked/{s3_all_books_uuids}.json"
+    s3_url = f"{s3_base_url}/contents/{s3_all_books_uuids}.json"
     return s3_url
 
 
