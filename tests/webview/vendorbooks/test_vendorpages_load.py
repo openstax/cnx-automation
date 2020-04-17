@@ -41,7 +41,7 @@ def test_vendor_pages_load(vendor_base_url, selenium, openstax_all_books_uuids):
         or openstax_all_books_uuids == "bb62933e-f20a-4ffc-90aa-97b36c296c3e"
     ):
         # testing 3 Polish books as I cannot find appropriate indexes
-        selenium.find_element_by_link_text("Rozwiązania zadań").click()
+        selenium.find_element_by_link_text("Rozdział 1").click()
 
         current_url = home.current_url
         data = requests.get(current_url)
