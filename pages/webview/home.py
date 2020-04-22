@@ -18,10 +18,7 @@ class Home(Page):
 
     @property
     def loaded(self):
-        return any(
-            featured_book.is_book_cover_clickable
-            for featured_book in self.featured_books.openstax_list
-        )
+        return bool([book.is_book_cover_clickable for book in self.featured_books.openstax_list])
 
     @property
     def splash(self):
@@ -59,6 +56,11 @@ class Home(Page):
         _book_cover_img_locator = (By.CSS_SELECTOR, ".book > a > img")
         _title_link_locator = (By.CSS_SELECTOR, "h3 > a")
         _sub_regex = re.compile("[^A-Za-z0-9 ]+")
+
+        @retry_stale_element_reference_exception
+        @property
+        def loaded(self):
+            return self.is_book_cover_clickable
 
         @property
         def is_show_more_displayed(self):
