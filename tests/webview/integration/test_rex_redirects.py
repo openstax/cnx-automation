@@ -741,3 +741,71 @@ def test_prealgebra_2e_uri_redirect_to_rex(webview_base_url, rex_base_url, preal
     # THEN we are redirected to rex
     assert response.url.startswith(rex_base_url)
     assert response.url.endswith(cnx_page_slug)
+
+
+@markers.test_case("")
+@markers.slow
+@markers.rex
+@markers.nondestructive
+def test_elem_algebra_2e_uri_redirect_to_rex(webview_base_url, rex_base_url, elem_algebra_2e_uri):
+    # GIVEN a webview_base_url, rex_base_url and a ..._uri
+
+    # WHEN we go to a page based on the webview_base_url and uri
+    cnx_page_slug = elem_algebra_2e_uri.split("/")[-1]
+    cnx_url = f"{webview_base_url}{elem_algebra_2e_uri}"
+    response = get_url(cnx_url)
+
+    # THEN we are redirected to rex
+    assert response.url.startswith(rex_base_url)
+    assert response.url.endswith(cnx_page_slug)
+
+
+@markers.test_case("")
+@markers.slow
+@markers.rex
+@markers.nondestructive
+def test_stats_hs_uri_redirect_to_rex(webview_base_url, rex_base_url, stats_hs_uri):
+    # GIVEN a webview_base_url, rex_base_url and a ..._uri
+
+    # WHEN we go to a page based on the webview_base_url and uri
+    cnx_page_slug = stats_hs_uri.split("/")[-1]
+    cnx_url = f"{webview_base_url}{stats_hs_uri}"
+    response = get_url(cnx_url)
+
+    # THEN we are redirected to rex
+    assert response.url.startswith(rex_base_url)
+    assert response.url.endswith(cnx_page_slug)
+
+
+@markers.test_case("")
+@markers.slow
+@markers.rex
+@markers.nondestructive
+def test_co_success_uri_redirect_to_rex(webview_base_url, rex_base_url, cosu_uri):
+    # GIVEN a webview_base_url, rex_base_url and a ..._uri
+
+    # WHEN we go to a page based on the webview_base_url and uri
+    cnx_page_slug = cosu_uri.split("/")[-1]
+    cnx_url = f"{webview_base_url}{cosu_uri}"
+    response = get_url(cnx_url)
+
+    # THEN we are redirected to rex
+    assert response.url.startswith(rex_base_url)
+    assert response.url.endswith(cnx_page_slug)
+
+
+@markers.test_case("")
+@markers.slow
+@markers.rex
+@markers.nondestructive
+def test_psych_2e_uri_redirect_to_rex(webview_base_url, rex_base_url, psych_2e_uri):
+    # GIVEN a webview_base_url, rex_base_url and a ..._uri
+
+    # WHEN we go to a page based on the webview_base_url and uri
+    cnx_page_slug = psych_2e_uri.split("/")[-1]
+    cnx_url = f"{webview_base_url}{psych_2e_uri}"
+    response = get_url(cnx_url)
+
+    # THEN we are redirected to rex
+    assert response.url.startswith(rex_base_url)
+    assert response.url.endswith(cnx_page_slug)
