@@ -91,7 +91,14 @@ def test_publish_no_commit_message(neb_env):
     ],
 )
 def test_publish_invalid_cnxml(
-    neb_env, col_id, col_version, publication_message, expected_validation_errors, snapshot
+    neb_env,
+    col_id,
+    col_version,
+    publication_message,
+    expected_validation_errors,
+    snapshot,
+    legacy_username,
+    legacy_password,
 ):
     # GIVEN neb, an environment, a content dir, a publication message,
     # the expected errors, and the snapshot tool
@@ -101,12 +108,17 @@ def test_publish_invalid_cnxml(
         snapshot.extract(snapshot_name, content_dir)
 
         # WHEN we run `neb publish env content_dir publication_message`
-        # Neb currently fails with a cryptic error if content_dir is not inside the CWD
-        # Remove the following 2 lines once https://trello.com/c/jVkv4hQd is fixed
-        import os
-
-        os.chdir(os.path.join(content_dir, ".."))
-        stdout, stderr, returncode = Neb.run("publish", neb_env, content_dir, publication_message)
+        stdout, stderr, returncode = Neb.run(
+            "publish",
+            neb_env,
+            content_dir,
+            "--message",
+            publication_message,
+            "--username",
+            legacy_username,
+            "--password",
+            legacy_password,
+        )
 
     # THEN neb exits with an error and the CNXML validation failure message is displayed
     assert returncode > 0
