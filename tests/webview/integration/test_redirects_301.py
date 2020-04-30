@@ -651,7 +651,7 @@ def test_prealgebra_2e_uri_redirect_to_rex(webview_base_url, rex_base_url, preal
     assert 301 == response.status_code
 
 
-@markers.test_case("")
+@markers.test_case("C568716")
 @markers.slow
 @markers.rex
 @markers.nondestructive
@@ -667,7 +667,7 @@ def test_elem_algebra_2e_uri_redirect_to_rex(webview_base_url, rex_base_url, ele
     assert 301 == response.status_code
 
 
-@markers.test_case("")
+@markers.test_case("C568716")
 @markers.slow
 @markers.rex
 @markers.nondestructive
@@ -683,7 +683,7 @@ def test_stats_hs_uri_redirect_to_rex(webview_base_url, rex_base_url, stats_hs_u
     assert 301 == response.status_code
 
 
-@markers.test_case("")
+@markers.test_case("C568716")
 @markers.slow
 @markers.rex
 @markers.nondestructive
@@ -699,7 +699,7 @@ def test_co_success_uri_redirect_to_rex(webview_base_url, rex_base_url, cosu_uri
     assert 301 == response.status_code
 
 
-@markers.test_case("")
+@markers.test_case("C568716")
 @markers.slow
 @markers.rex
 @markers.nondestructive
