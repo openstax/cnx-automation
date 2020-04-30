@@ -443,6 +443,50 @@ def prealgebra_2e_uri(request):
     yield request.param
 
 
+@pytest.fixture(
+    params=gen_from_file(os.path.join(DATA_DIR, "55931856-c627-418b-a56f-1dd0007683a8.txt"))
+)
+def elem_algebra_2e_uri(request):
+    """Yields a URI from collection
+
+    Example: /contents/f8zJz5tx@0.0:2po7o99e/1-essential-ideas
+    """
+    yield request.param
+
+
+@pytest.fixture(
+    params=gen_from_file(os.path.join(DATA_DIR, "394a1101-fd8f-4875-84fa-55f15b06ba66.txt"))
+)
+def stats_hs_uri(request):
+    """Yields a URI from collection
+
+    Example: /contents/f8zJz5tx@0.0:2po7o99e/1-essential-ideas
+    """
+    yield request.param
+
+
+@pytest.fixture(
+    params=gen_from_file(os.path.join(DATA_DIR, "e8668a14-9a7d-4d74-b58c-3681f8351224.txt"))
+)
+def cosu_uri(request):
+    """Yields a URI from collection
+
+    Example: /contents/f8zJz5tx@0.0:2po7o99e/1-essential-ideas
+    """
+    yield request.param
+
+
+@pytest.fixture(
+    params=gen_from_file(os.path.join(DATA_DIR, "06aba565-9432-40f6-97ee-b8a361f118a8.txt"))
+)
+def psych_2e_uri(request):
+    """Yields a URI from collection
+
+    Example: /contents/f8zJz5tx@0.0:2po7o99e/1-essential-ideas
+    """
+    yield request.param
+
+
 @pytest.fixture
 def robots_txt_production():
     """Returns the text file location which includes all the robots.txt lines for production env
