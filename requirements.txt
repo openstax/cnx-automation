@@ -47,7 +47,7 @@ pluggy==0.13.1
 pre-commit==2.3.0
 py==1.8.1
 pycparser==2.20
-pyparsing==2.4.6
+pyparsing==2.4.7
 pypom==2.2.0
 pytest-base-url==1.4.1
 pytest-forked==1.1.3
