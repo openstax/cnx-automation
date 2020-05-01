@@ -64,7 +64,7 @@ python-magic==0.4.15
 python-memcached==1.59
 python-slugify==4.0.0     # via cnx-common
 pyyaml==5.3.1
-requests-file==1.4.3
+requests-file==1.5.1
 requests==2.20.1
 rhaptos.cnxmlutils==1.7.3
 selenium==3.141.0
