@@ -42,7 +42,7 @@ multidict==4.7.5          # via aiohttp, yarl
 nebuchadnezzar==9.6.0
 nodeenv==1.3.5
 packaging==20.3
-pillow==7.0.0
+pillow==7.1.2
 pluggy==0.13.1
 pre-commit==2.0.1
 py==1.8.1
