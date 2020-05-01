@@ -6,6 +6,7 @@ import subprocess
 import random
 from tempfile import TemporaryDirectory
 from litezip.main import COLLECTION_NSMAP
+import re
 
 from tests import markers
 from tests.utils import get_neb_snapshot_name, edit_collXML
@@ -39,7 +40,7 @@ def test_publish_no_env():
     # THEN neb exits with an error and the usage message is displayed
     assert returncode > 0
     assert "Usage: neb publish " in stderr
-    assert 'Error: Missing argument "ENV"' in stderr
+    assert re.compile('Error: Missing argument ["\']ENV["\']').search(stderr)
 
 
 @markers.neb
@@ -54,7 +55,7 @@ def test_publish_no_col_id(neb_env):
     # THEN neb exits with an error and the usage message is displayed
     assert returncode > 0
     assert "Usage: neb publish " in stderr
-    assert 'Error: Missing argument "CONTENT_DIR"' in stderr
+    assert re.compile('Error: Missing argument ["\']CONTENT_DIR["\']').search(stderr)
 
 
 @markers.neb
