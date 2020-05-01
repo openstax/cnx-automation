@@ -34,7 +34,7 @@ identify==1.4.15
 idna==2.9
 importlib-metadata==1.6.0
 jinja2==2.11.2
-jwcrypto==0.6.0
+jwcrypto==0.7
 lxml==4.5.0
 markupsafe==1.1.1
 more-itertools==8.2.0
