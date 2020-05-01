@@ -1,48 +1,5 @@
 version: 2
 jobs:
-  test-webview:
-    docker:
-      - image: openstax/selenium-chrome-debug:3.141.59
-        environment:
-          WEBVIEW_BASE_URL: https://staging.cnx.org
-          LEGACY_BASE_URL: https://legacy-staging.cnx.org
-          ARCHIVE_BASE_URL: https://archive-staging.cnx.org
-          REX_BASE_URL: https://staging.openstax.org
-    parallelism: 2
-    steps:
-      - checkout
-      - restore_cache:
-            key: deps1-{{ .Branch }}-{{ checksum "requirements.txt" }}
-      - run:
-          name: Install Python deps in a venv
-          command: make venv
-      - save_cache:
-          key: deps1-{{ .Branch }}-{{ checksum "requirements.txt" }}
-          paths:
-            - ".venv"
-      - run:
-          name: start selenium server via entrypoint
-          command: /opt/bin/entry_point.sh
-          background: true
-      - run:
-          name: install pytest-circleci-parallelized
-          command: |
-            . .venv/bin/activate
-            pip install pytest-circleci-parallelized
-      - run:
-          name: run tests for webview
-          command: |
-            . .venv/bin/activate
-            pytest -n 2 -m "webview" --headless --circleci-parallelize --junitxml=/tmp/test-reports/junit.xml ./tests/webview/ui
-      - store_artifacts:
-          path: /tmp/test-reports/junit.xml
-          destination: test-reports
-      - store_artifacts:
-          path: report.html
-          destination: test-reports
-      - store_test_results:
-          path: /tmp/test-reports
-          test-webview:
   test-neb:
     docker:
       - image: circleci/python:3.7
@@ -96,9 +53,8 @@ jobs:
 
 workflows:
   version: 2
-  test-webview-and-neb:
+  test-neb:
     jobs:
-      - test-webview
       - test-neb
   test-legacy-nightly:
     triggers:
