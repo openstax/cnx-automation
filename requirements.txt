@@ -65,7 +65,7 @@ python-dotenv==0.13.0     # via -r requirements.in
 python-magic==0.4.15      # via -r requirements.in, cnx-litezip
 python-memcached==1.59    # via -r requirements.in, cnx-epub
 python-slugify==3.0.2     # via cnx-common
-pyyaml==5.3               # via -r requirements.in, aspy.yaml, pre-commit
+pyyaml==5.3.1             # via -r requirements.in, aspy.yaml, pre-commit
 requests-file==1.5.1      # via -r requirements.in, tldextract
 requests==2.20.1          # via -r requirements.in, cnx-epub, cnx-rex-redirects, docker, github3.py, nebuchadnezzar, pytest-base-url, pytest-selenium, pytest-testrail, requests-file, tldextract
 rhaptos.cnxmlutils==1.7.3  # via -r requirements.in, cnx-transforms
