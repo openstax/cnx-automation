@@ -20,7 +20,7 @@ cfgv==2.0.1               # via -r requirements.in, pre-commit
 chardet==3.0.4            # via -r requirements.in, aiohttp, requests
 chromedriver-binary==81.0.4044.69  # via -r requirements.in
 click==7.0                # via -r requirements.in, cnx-rex-redirects, nebuchadnezzar
-cnx-common==1.2.2         # via cnx-rex-redirects
+cnx-common==1.3.3         # via cnx-rex-redirects
 cnx-epub==0.21.0          # via -r requirements.in, nebuchadnezzar
 cnx-litezip==1.6.0        # via -r requirements.in, nebuchadnezzar
 git+https://github.com/openstax/cnx-rex-redirects.git@downgrade-requests  # via -r requirements.in
