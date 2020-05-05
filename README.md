@@ -5,7 +5,7 @@
 
 # Getting started
 
-### Clone the repository
+## Clone the repository
 
 If you have cloned this project already then you can skip this, otherwise you'll
 need to clone this repo using Git. If you do not know how to clone a GitHub
@@ -105,6 +105,20 @@ Dotenv is used by the framework to load environmental variables from a `.env` fi
 This is useful for loading environment variables that use usernames. To use a .env file copy the example and fill out the values.
 
     $ cp .env.example .env
+
+### Doing updates to dependencies
+
+[pip-tools](https://pypi.org/project/pip-tools/) are utilized for updating dependencies in the framework. Pip-tools provides a number of utilities to pip that are useful for cnx-automation. Cnx-automation installs dependencies from a number of our projects that may have conflicting versions. Pip-tools will warn when there is a conflict and can help with finding compatible versions between all the dependencies and sub-dependencies.
+
+First, install [pip-tools](https://pypi.org/project/pip-tools/):
+
+    $ pip install pip-tools
+
+To do updates to dependencies you'll first need to update the main dependency in [./requirements.in](./requirements.in) file.
+
+When the dependency has been updated you can then generate the requirements.txt that will be used to install the dependencies.
+
+    $ pip-compile --output-file=requirements.txt
 
 ### Set username and password for legacy tests
 
