@@ -133,7 +133,7 @@ def test_navs_and_elements_are_displayed(webview_base_url, selenium):
     home = Home(selenium, webview_base_url).open()
 
     # WHEN a book is clicked
-    book = home.featured_books.openstax_list[0]
+    book = home.featured_books.openstax_list[1]
     content = book.click_book_cover()
 
     # THEN the site navbar and content nav are displayed
@@ -183,7 +183,7 @@ def test_navs_and_elements_are_displayed(webview_base_url, selenium):
 def test_author_contains_openstax(webview_base_url, selenium):
     # GIVEN the home page and a book
     home = Home(selenium, webview_base_url).open()
-    book = home.featured_books.openstax_list[0]
+    book = home.featured_books.openstax_list[1]
 
     # WHEN the book's cover is clicked
     content = book.click_book_cover()
@@ -201,7 +201,7 @@ def test_author_contains_openstax(webview_base_url, selenium):
 def test_toc_is_displayed(webview_base_url, selenium):
     # GIVEN a book's content page
     home = Home(selenium, webview_base_url).open()
-    book = home.featured_books.openstax_list[0]
+    book = home.featured_books.openstax_list[1]
     content = book.click_book_cover()
 
     # WHEN the contents button is clicked
@@ -221,7 +221,7 @@ def test_toc_is_displayed(webview_base_url, selenium):
 def test_toc_navigation(webview_base_url, selenium):
     # GIVEN a book's table of contents
     home = Home(selenium, webview_base_url).open()
-    book = home.featured_books.openstax_list[0]
+    book = home.featured_books.openstax_list[1]
     content = book.click_book_cover()
     content.header_nav.click_contents_button()
     toc = content.table_of_contents
@@ -249,7 +249,7 @@ def test_share_on_top_right_corner(webview_base_url, selenium):
     home = Home(selenium, webview_base_url).open()
 
     # WHEN a book is clicked
-    book = home.featured_books.openstax_list[0]
+    book = home.featured_books.openstax_list[1]
     content = book.click_book_cover()
 
     # THEN social share links are displayed in the top right corner
@@ -342,7 +342,7 @@ def test_share_links_displayed(webview_base_url, selenium):
     home = Home(selenium, webview_base_url).open()
 
     # WHEN a book is clicked
-    book = home.featured_books.openstax_list[0]
+    book = home.featured_books.openstax_list[1]
     content = book.click_book_cover()
 
     # THEN social share links have the expected urls
@@ -389,7 +389,7 @@ def test_newer_version_leads_to_correct_page(webview_base_url, selenium, id):
 def test_get_this_book(webview_base_url, selenium):
     # GIVEN a book's content page
     home = Home(selenium, webview_base_url).open()
-    book = home.featured_books.openstax_list[0]
+    book = home.featured_books.openstax_list[1]
     content = book.click_book_cover()
 
     # WHEN we click the "Get This Book!" button
@@ -446,7 +446,7 @@ def test_page_with_unicode_characters_in_title_loads(webview_base_url, selenium,
 def test_content_and_figures_display_after_scrolling(webview_base_url, selenium):
     # GIVEN a book's content page with figures
     home = Home(selenium, webview_base_url).open()
-    book = home.featured_books.openstax_list[0]
+    book = home.featured_books.openstax_list[1]
     content_page = book.click_book_cover()
     content_region = content_page.content_region
     assert not content_region.is_blank
@@ -467,7 +467,7 @@ def test_content_and_figures_display_after_scrolling(webview_base_url, selenium)
 def test_nav_and_menus_display_after_scrolling(webview_base_url, selenium):
     # GIVEN a book's content page
     home = Home(selenium, webview_base_url).open()
-    book = home.featured_books.openstax_list[0]
+    book = home.featured_books.openstax_list[1]
     content = book.click_book_cover()
     content_header = content.content_header
     original_content_header_y = content_header.root.location["y"]
@@ -523,7 +523,7 @@ def test_nav_and_menus_display_after_scrolling(webview_base_url, selenium):
 def test_mobile_nav_and_menus_hide_after_scrolling(webview_base_url, selenium, width, height):
     # GIVEN a book's content page
     home = Home(selenium, webview_base_url).open()
-    book = home.featured_books.openstax_list[0]
+    book = home.featured_books.openstax_list[1]
     content = book.click_book_cover()
     content_header = content.content_header
     original_content_header_y = content_header.root.location["y"]
@@ -625,7 +625,7 @@ def test_mobile_nav_and_menus_hide_after_scrolling(webview_base_url, selenium, w
 def test_attribution(webview_base_url, selenium):
     # GIVEN a book's content page
     home = Home(selenium, webview_base_url).open()
-    book = home.featured_books.openstax_list[0]
+    book = home.featured_books.openstax_list[1]
     content = book.click_book_cover()
 
     # WHEN we click the attribution tab
@@ -644,7 +644,7 @@ def test_attribution(webview_base_url, selenium):
 def test_back_to_top(webview_base_url, selenium):
     # GIVEN a book's scrolled content page
     home = Home(selenium, webview_base_url).open()
-    book = home.featured_books.openstax_list[0]
+    book = home.featured_books.openstax_list[1]
     content = book.click_book_cover()
     footer = content.content_footer
     content_header = content.content_header
@@ -694,7 +694,7 @@ def test_navigation(webview_base_url, selenium):
     # GIVEN a book's content page and a sim_ratio
     sim_ratio = 0.4
     home = Home(selenium, webview_base_url).open()
-    book = home.featured_books.openstax_list[0]
+    book = home.featured_books.openstax_list[1]
     content = book.click_book_cover()
     header_nav = content.header_nav
     header_nav.click_contents_button()
@@ -874,7 +874,7 @@ def test_books_containing_message_is_correct(webview_base_url, selenium, page_id
     if book_count > 1:
         assert overview == f"This page is in {book_count} books:"
     elif book_count > 0:
-        assert overview == f"This page is in this book:"
+        assert overview == "This page is in this book:"
     else:
         assert overview == "This page is not in any books."
 
