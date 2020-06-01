@@ -83,7 +83,7 @@ webencodings==0.5.1       # via -r requirements.in
 websocket-client==0.57.0  # via -r requirements.in, docker
 yarl==1.4.2               # via aiohttp
 zipp==3.1.0               # via -r requirements.in, importlib-metadata
-zope.component==4.5       # via -r requirements.in, pypom
+zope.component==4.6.1       # via -r requirements.in, pypom
 zope.deferredimport==4.3.1  # via -r requirements.in, zope.component
 zope.deprecation==4.4.0   # via -r requirements.in, zope.component
 zope.event==4.4           # via -r requirements.in, zope.component
