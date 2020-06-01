@@ -36,7 +36,7 @@ identify==1.4.18          # via -r requirements.in, pre-commit
 idna==2.9                 # via -r requirements.in, requests, tldextract, yarl
 importlib-metadata==1.6.0  # via -r requirements.in, pluggy, pre-commit, pytest, virtualenv
 jinja2==2.11.2            # via -r requirements.in, cnx-epub
-jwcrypto==0.6.0           # via -r requirements.in, github3.py
+jwcrypto==0.7           # via -r requirements.in, github3.py
 lxml==4.5.0               # via -r requirements.in, cnx-epub, cnx-litezip, cnxml, rhaptos.cnxmlutils
 markupsafe==1.1.1         # via -r requirements.in, jinja2
 more-itertools==8.2.0     # via -r requirements.in, pytest
