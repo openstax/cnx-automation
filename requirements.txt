@@ -89,7 +89,7 @@ zope.deprecation==4.4.0   # via -r requirements.in, zope.component
 zope.event==4.4           # via -r requirements.in, zope.component
 zope.hookable==5.0.1      # via -r requirements.in, zope.component
 zope.interface==5.1.0     # via -r requirements.in, pypom, zope.component, zope.proxy
-zope.proxy==4.3.1         # via -r requirements.in, zope.deferredimport
+zope.proxy==4.3.5         # via -r requirements.in, zope.deferredimport
 
 # The following packages are considered to be unsafe in a requirements file:
 # pip
