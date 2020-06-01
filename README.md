@@ -5,7 +5,7 @@
 
 # Getting started
 
-### Clone the repository
+## Clone the repository
 
 If you have cloned this project already then you can skip this, otherwise you'll
 need to clone this repo using Git. If you do not know how to clone a GitHub
@@ -33,7 +33,25 @@ If you have run this repo without docker before please run to delete e.g. prebui
 
 ### Execute the tests
 
-    $ docker-compose exec selenium-chrome pytest
+It's necessary for reducing the amount of time that it takes for test collection
+to be specific about the set of tests you'd like to execute.
+
+You do this by adding the test folder you want pytest to scan for tests. Typically,
+the folders follow the following format `/tests/<application>/<type of test>. 
+The following test folders exist for running tests with pytest:
+
+* ./tests/webview/integration
+* ./tests/webview/ui
+* ./tests/webview/vendorbooks
+* ./tests/archive/integration
+* ./tests/legacy/ui
+* ./tests/cops
+* ./tests/neb/ui
+
+An example on how to target the UI test for webview is below:
+
+    $ docker-compose exec selenium-chrome pytest tests/webview/ui
+
 
 > Note: The [Run the tests using pytest](#run-the-tests-using-pytest) section covers how to pass arguments to pytest in order to target specific tests
 
@@ -88,6 +106,20 @@ This is useful for loading environment variables that use usernames. To use a .e
 
     $ cp .env.example .env
 
+### Doing updates to dependencies
+
+[pip-tools](https://pypi.org/project/pip-tools/) are utilized for updating dependencies in the framework. Pip-tools provides a number of utilities to pip that are useful for cnx-automation. Cnx-automation installs dependencies from a number of our projects that may have conflicting versions. Pip-tools will warn when there is a conflict and can help with finding compatible versions between all the dependencies and sub-dependencies.
+
+First, install [pip-tools](https://pypi.org/project/pip-tools/):
+
+    $ pip install pip-tools
+
+To do updates to dependencies you'll first need to update the main dependency in [./requirements.in](./requirements.in) file.
+
+When the dependency has been updated you can then generate the requirements.txt that will be used to install the dependencies.
+
+    $ pip-compile --output-file=requirements.txt
+
 ### Set username and password for legacy tests
 
 If you intend to run the legacy tests, you will need to set the LEGACY_USERNAME
@@ -102,36 +134,36 @@ To run against a different environment pass in a value for `--webview_base_url`,
 
 **Staging**
 ```bash
-$ pytest --webview_base_url https://staging.cnx.org --legacy_base_url https://legacy-staging.cnx.org --archive_base_url https://archive-staging.cnx.org
+$ pytest --webview_base_url https://staging.cnx.org --legacy_base_url https://legacy-staging.cnx.org --archive_base_url https://archive-staging.cnx.org tests/webview/ui
 ```
 
 **Production**
 ```bash
-$ pytest --webview_base_url https://cnx.org --legacy_base_url https://legacy.cnx.org --archive_base_url https://archive.cnx.org
+$ pytest --webview_base_url https://cnx.org --legacy_base_url https://legacy.cnx.org --archive_base_url https://archive.cnx.org tests/webview/ui
 ```
 
 To run a specific test or test module pass in a value for `-k`:
 
 ```bash
-$ pytest -k test_about
+$ pytest -k test_about tests/webview/ui
 ```
 
 To run a specific project, pass in `webview`, `legacy`, or `neb` for `-m`:
 
 ```bash
-$ pytest -m webview
+$ pytest -m webview tests/webview
 ```
 
 To run a more complicated example that runs a specific project and a specific test module in headless mode:
 
 ```bash
-$ pytest -m webview -k test_home --headless
+$ pytest -m webview -k test_home --headless tests/webview/ui
 ```
 
 To run tests in parallel you can combine the above and use `-n` option to specify the number of workers.
 
 ```bash
-$ pytest -n 4 -m webview
+$ pytest -n 4 -m webview tests/webview/ui
 ```
 
 #### Run Smoke Tests
@@ -140,6 +172,13 @@ To run smoke tests you can add the `smoke` marker to the particular project that
 
 ```bash
 $ pytest -m "webview and smoke"
+```
+### Run Integration Tests
+
+To run integration tests you'll want to add teh `integration` marker and target the correct folder you want to scan for test:
+
+```bash
+$ pytest -m "webview and integration" tests/webview
 ```
 
 ### Additional Pytest Options

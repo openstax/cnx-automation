@@ -5,9 +5,10 @@
 #    pip-compile --output-file=requirements.txt requirements.in
 #
 aiohttp==3.6.2            # via nebuchadnezzar
-apipkg==1.5
-asn1crypto==1.3.0
-aspy.yaml==1.3.0
+apipkg==1.5               # via -r requirements.in, execnet
+appdirs==1.4.3            # via virtualenv
+asn1crypto==1.3.0         # via -r requirements.in
+aspy.yaml==1.3.0          # via -r requirements.in
 async-timeout==3.0.1      # via aiohttp
 atomicwrites==1.4.0       # via -r requirements.in
 attrs==19.3.0             # via -r requirements.in, aiohttp, pytest
@@ -81,15 +82,15 @@ wcwidth==0.1.8            # via -r requirements.in, pytest
 webencodings==0.5.1       # via -r requirements.in
 websocket-client==0.57.0  # via -r requirements.in, docker
 yarl==1.4.2               # via aiohttp
-zipp==2.1.0
-zope.component==4.5
-zope.deferredimport==4.3.1
-zope.deprecation==4.4.0
-zope.event==4.4
-zope.hookable==4.2.0
-zope.interface==4.6.0
-zope.proxy==4.3.1
+zipp==2.1.0               # via -r requirements.in, importlib-metadata
+zope.component==4.5       # via -r requirements.in, pypom
+zope.deferredimport==4.3.1  # via -r requirements.in, zope.component
+zope.deprecation==4.4.0   # via -r requirements.in, zope.component
+zope.event==4.4           # via -r requirements.in, zope.component
+zope.hookable==4.2.0      # via -r requirements.in, zope.component
+zope.interface==5.1.0     # via -r requirements.in, pypom, zope.component, zope.proxy
+zope.proxy==4.3.1         # via -r requirements.in, zope.deferredimport
 
 # The following packages are considered to be unsafe in a requirements file:
-# pip==20.0.2               # via nebuchadnezzar
-# setuptools==45.1.0        # via nebuchadnezzar, rhaptos.cnxmlutils, tldextract, zope.component, zope.deferredimport, zope.deprecation, zope.event, zope.hookable, zope.interface, zope.proxy
+# pip
+# setuptools

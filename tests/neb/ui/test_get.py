@@ -5,6 +5,7 @@
 from os.path import join
 import xml.etree.ElementTree as ET
 from pkg_resources import parse_version
+import re
 
 from tests import markers
 from tests.utils import get_neb_snapshot_name
@@ -38,7 +39,7 @@ def test_get_no_env():
     # THEN neb exits with an error and the usage message is displayed
     assert returncode > 0
     assert "Usage: neb get " in stderr
-    assert 'Error: Missing argument "ENV"' in stderr
+    assert re.compile('Error: Missing argument ["\']ENV["\']').search(stderr)
 
 
 @markers.neb
@@ -53,7 +54,7 @@ def test_get_no_col_id(neb_env):
     # THEN neb exits with an error and the usage message is displayed
     assert returncode > 0
     assert "Usage: neb get " in stderr
-    assert 'Error: Missing argument "COL_ID"' in stderr
+    assert re.compile('Error: Missing argument ["\']COL_ID["\']').search(stderr)
 
 
 @markers.neb
@@ -69,7 +70,7 @@ def test_get_no_col_version(neb_env, col_id):
     # THEN neb exits with an error and the usage message is displayed
     assert returncode > 0
     assert "Usage: neb get " in stderr
-    assert 'Error: Missing argument "COL_VERSION"' in stderr
+    assert re.compile('Error: Missing argument ["\']COL_VERSION["\']').search(stderr)
 
 
 @markers.neb

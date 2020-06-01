@@ -6,6 +6,7 @@ import subprocess
 import random
 from tempfile import TemporaryDirectory
 from litezip.main import COLLECTION_NSMAP
+import re
 
 from tests import markers
 from tests.utils import get_neb_snapshot_name, edit_collXML
@@ -39,7 +40,7 @@ def test_publish_no_env():
     # THEN neb exits with an error and the usage message is displayed
     assert returncode > 0
     assert "Usage: neb publish " in stderr
-    assert 'Error: Missing argument "ENV"' in stderr
+    assert re.compile('Error: Missing argument ["\']ENV["\']').search(stderr)
 
 
 @markers.neb
@@ -54,7 +55,7 @@ def test_publish_no_col_id(neb_env):
     # THEN neb exits with an error and the usage message is displayed
     assert returncode > 0
     assert "Usage: neb publish " in stderr
-    assert 'Error: Missing argument "CONTENT_DIR"' in stderr
+    assert re.compile('Error: Missing argument ["\']CONTENT_DIR["\']').search(stderr)
 
 
 @markers.neb
@@ -91,7 +92,14 @@ def test_publish_no_commit_message(neb_env):
     ],
 )
 def test_publish_invalid_cnxml(
-    neb_env, col_id, col_version, publication_message, expected_validation_errors, snapshot
+    neb_env,
+    col_id,
+    col_version,
+    publication_message,
+    expected_validation_errors,
+    snapshot,
+    legacy_username,
+    legacy_password,
 ):
     # GIVEN neb, an environment, a content dir, a publication message,
     # the expected errors, and the snapshot tool
@@ -101,12 +109,17 @@ def test_publish_invalid_cnxml(
         snapshot.extract(snapshot_name, content_dir)
 
         # WHEN we run `neb publish env content_dir publication_message`
-        # Neb currently fails with a cryptic error if content_dir is not inside the CWD
-        # Remove the following 2 lines once https://trello.com/c/jVkv4hQd is fixed
-        import os
-
-        os.chdir(os.path.join(content_dir, ".."))
-        stdout, stderr, returncode = Neb.run("publish", neb_env, content_dir, publication_message)
+        stdout, stderr, returncode = Neb.run(
+            "publish",
+            neb_env,
+            content_dir,
+            "--message",
+            publication_message,
+            "--username",
+            legacy_username,
+            "--password",
+            legacy_password,
+        )
 
     # THEN neb exits with an error and the CNXML validation failure message is displayed
     assert returncode > 0
