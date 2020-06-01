@@ -16,7 +16,7 @@ backoff==1.10.0           # via -r requirements.in
 cached-property==1.5.1    # via -r requirements.in
 certifi==2020.4.5.1       # via -r requirements.in, requests
 cffi==1.14.0              # via -r requirements.in, cryptography
-cfgv==2.0.1               # via -r requirements.in, pre-commit
+cfgv==3.1.0               # via -r requirements.in, pre-commit
 chardet==3.0.4            # via -r requirements.in, aiohttp, requests
 chromedriver-binary==81.0.4044.69  # via -r requirements.in
 click==7.0                # via -r requirements.in, cnx-rex-redirects, nebuchadnezzar
