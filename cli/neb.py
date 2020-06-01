@@ -67,9 +67,10 @@ class MetaNeb(type):
                 # because neb refuses to use a dir that already exists
                 neb_dir = join(temp_dir, "neb")
 
-                options = ["--output-dir", neb_dir]
+                options = ["--output-dir", neb_dir, "--insecure"]
                 if verbose:
                     options.append("--verbose")
+                
 
                 cls.invoke("get", *options, env, col_id, col_version, **kwargs)
 
