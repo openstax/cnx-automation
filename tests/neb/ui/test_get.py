@@ -126,3 +126,20 @@ def test_get_col_minor_version(neb_env, col_id, col_version, snapshot):
     ) as zip_dir:
         # THEN the complete zip is downloaded and matches the snapshot
         snapshot.assert_file_or_dir_match(zip_dir, snapshot_name)
+
+@markers.neb
+@markers.nondestructive
+@markers.parametrize("col_id,col_version", [("col11562", "1.19.6")])
+def test_get_col_with_resources(neb_env, col_id, col_version, snapshot):
+    # GIVEN neb, an environment name, a collection id, a collection version, and the snapshot tool
+    snapshot_name = get_neb_snapshot_name(col_id, col_version, "resources")
+
+    # WHEN we run `neb get --verbose env col_id col_version`
+    with Neb.get(
+        verbose=True, resources=True, env=neb_env, col_id=col_id, col_version=col_version, input="y"
+    ) as zip_dir:
+        # THEN the complete zip is downloaded and matches the snapshot
+        snapshot.assert_file_or_dir_match(zip_dir, snapshot_name)
+
+
+    # first pass will return a false negative so  should test be ran twice?
