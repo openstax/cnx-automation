@@ -52,6 +52,12 @@ class Snapshot(object):
                 json.dump(value, snapshot_file)
 
     def assert_file_or_dir_match(self, path, name):
+
+        def _read_ordered(new_file):
+            value = new_file.read()
+            value = value.split(b'\n')
+            return sorted(value)
+
         snapshot_path = self.get_snapshot_path_and_ensure_dir_exists("tar_gz", name)
 
         if os.path.isfile(snapshot_path):
@@ -59,14 +65,13 @@ class Snapshot(object):
                 for snapshot_tarinfo in snapshot_tar:
                     name = snapshot_tarinfo.name
                     subpath = os.path.join(path, name)
-
                     if snapshot_tarinfo.isdir():
                         assert os.path.isdir(subpath)
                     else:
                         with snapshot_tar.extractfile(snapshot_tarinfo) as snapshot_file:
-                            snapshot_value = snapshot_file.read()
-                        with open(subpath, "rb") as file:
-                            value = file.read()
+                            snapshot_value = _read_ordered(snapshot_file)
+                        with open(subpath, "rb") as new_file:
+                            value = _read_ordered(new_file)
                         assert value == snapshot_value, "{name} did not match the snapshot.".format(
                             name=name
                         )

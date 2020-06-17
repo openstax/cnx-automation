@@ -85,9 +85,9 @@ def shorten_tag(tag):
     return tag.split("-")[0]
 
 
-def get_neb_snapshot_name(col_id, col_version):
-    return join("neb", col_id, "{col_version}.tar.gz".format(col_version=col_version))
-
+def get_neb_snapshot_name(col_id, col_version, tag=""):
+    file_name = "{col_version}-{tag}".format(col_version=col_version, tag=tag) if tag else col_version
+    return join("neb", col_id, "{file_name}.tar.gz".format(file_name=file_name))
 
 @contextmanager
 def edit_collXML(container):
