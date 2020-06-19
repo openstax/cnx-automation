@@ -811,7 +811,7 @@ def test_psych_2e_uri_redirect_to_rex(webview_base_url, rex_base_url, psych_2e_u
     assert response.url.endswith(cnx_page_slug)
 
 
-@markers.test_case("")
+@markers.test_case("C605719")
 @markers.slow
 @markers.rex
 @markers.nondestructive
