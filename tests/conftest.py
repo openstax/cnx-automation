@@ -146,6 +146,11 @@ def pytest_addoption(parser):
     parser.addoption(
         "--neb_env", default=os.getenv("NEB_ENV", None), help="environment name for Neb."
     )
+    parser.addoption(
+        "--insecure", default=os.getenv("INSECURE", False),
+        help="run without ssl for local testing.",
+        action="store_true"
+    )
 
 
 def pytest_collection_modifyitems(config, items):
