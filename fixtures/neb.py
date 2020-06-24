@@ -4,7 +4,7 @@
 
 import pytest
 
-__all__ = ["neb_env"]
+__all__ = ["neb_env", "insecure"]
 
 
 @pytest.fixture(scope="session")
@@ -14,3 +14,11 @@ def neb_env(request):
     neb_env = config.getoption("neb_env") or config.getini("neb_env")
     if neb_env is not None:
         return neb_env
+
+@pytest.fixture(scope="session")
+def insecure(request):
+    """Returns the insecure flag setting"""
+    config = request.config
+    insecure = config.getoption("insecure") or config.getini("insecure")
+    if insecure is not None:
+        return insecure

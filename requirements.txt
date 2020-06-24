@@ -20,10 +20,10 @@ cfgv==2.0.1               # via -r requirements.in, pre-commit
 chardet==3.0.4            # via -r requirements.in, aiohttp, requests
 chromedriver-binary==81.0.4044.69  # via -r requirements.in
 click==7.0                # via -r requirements.in, cnx-rex-redirects, nebuchadnezzar
-cnx-common==1.3.3         # via cnx-rex-redirects
-cnx-epub>=0.21.1          # via -r requirements.in, nebuchadnezzar
+cnx-common==1.3.5         # via cnx-rex-redirects
+cnx-epub==0.22.0          # via -r requirements.in, nebuchadnezzar
 cnx-litezip==1.6.0        # via -r requirements.in, nebuchadnezzar
-git+https://github.com/openstax/cnx-rex-redirects.git  # via -r requirements.in
+git+https://github.com/openstax/cnx-rex-redirects.git#egg=cnx-rex-redirects  # via -r requirements.in
 cnx-transforms==1.2.0     # via -r requirements.in, nebuchadnezzar
 cnxml==3.0.1              # via -r requirements.in, cnx-litezip, nebuchadnezzar
 cryptography==2.9.2       # via -r requirements.in, jwcrypto
@@ -34,14 +34,14 @@ filelock==3.0.12          # via -r requirements.in, virtualenv
 github3.py==1.3.0         # via -r requirements.in
 identify==1.4.15          # via -r requirements.in, pre-commit
 idna==2.7                 # via -r requirements.in, requests, tldextract, yarl
-importlib-metadata==0.23  # via -r requirements.in, pluggy, pre-commit, pytest, virtualenv
+importlib-metadata==0.23  # via -r requirements.in
 jinja2==2.11.2            # via -r requirements.in, cnx-epub
 jwcrypto==0.6.0           # via -r requirements.in, github3.py
-lxml==4.4.3               # via -r requirements.in, cnx-epub, cnx-litezip, cnxml, rhaptos.cnxmlutils
+lxml==4.4.3               # via -r requirements.in, cnx-epub, cnx-litezip, cnxml, nebuchadnezzar, rhaptos.cnxmlutils
 markupsafe==1.1.1         # via -r requirements.in, jinja2
 more-itertools==8.2.0     # via -r requirements.in, pytest
 multidict==4.7.5          # via aiohttp, yarl
-git+https://github.com/openstax/nebuchadnezzar.git
+nebuchadnezzar==9.8.0     # via -r requirements.in
 nodeenv==1.3.4            # via -r requirements.in, pre-commit
 packaging==20.1           # via -r requirements.in, pytest
 pillow==7.1.2             # via -r requirements.in
