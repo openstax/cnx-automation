@@ -134,8 +134,6 @@ def test_get_col_with_resources(insecure, neb_env, col_id, col_version, snapshot
     # GIVEN neb, an environment name, a collection id, a collection version, and the snapshot tool
     snapshot_name = get_neb_snapshot_name(col_id, col_version, "resources")
 
-    #assert insecure == False
-
     # WHEN we run `neb get --verbose env col_id col_version`
     with Neb.get(
         verbose=True, resources=True, insecure=insecure, env=neb_env, col_id=col_id, col_version=col_version, input="y"
