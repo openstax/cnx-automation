@@ -119,3 +119,7 @@ testrail.cfg
 # Make build files
 .state
 *.sql.gz
+
+# Pipfiles
+Pipfile
+Pipfile.lock
