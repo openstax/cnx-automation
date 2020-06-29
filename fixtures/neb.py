@@ -19,6 +19,7 @@ def neb_env(request):
 def insecure(request):
     """Returns the insecure flag setting"""
     config = request.config
-    insecure = config.getoption("insecure") or config.getini("insecure")
+    insecure = config.getoption("insecure")
     if insecure is not None:
         return insecure
+    return False
