@@ -78,7 +78,7 @@ toml==0.10.1              # via -r requirements.in, pre-commit
 uritemplate==3.0.1        # via -r requirements.in, github3.py
 urllib3==1.25.9           # via -r requirements.in, requests, selenium
 virtualenv==20.0.25       # via -r requirements.in, pre-commit
-wcwidth==0.2.2            # via -r requirements.in, pytest
+wcwidth==0.2.5            # via -r requirements.in, pytest
 webencodings==0.5.1       # via -r requirements.in
 websocket-client==0.57.0  # via -r requirements.in, docker
 yarl==1.4.2               # via aiohttp
