@@ -19,7 +19,7 @@ cffi==1.14.0              # via -r requirements.in, cryptography
 cfgv==3.1.0               # via -r requirements.in, pre-commit
 chardet==3.0.4            # via -r requirements.in, aiohttp, requests
 chromedriver-binary==84.0.4147.30.0  # via -r requirements.in
-click==7.1.2                # via -r requirements.in, cnx-rex-redirects, nebuchadnezzar
+click==7.0                # via -r requirements.in, cnx-rex-redirects, nebuchadnezzar
 cnx-common==1.3.5         # via cnx-rex-redirects
 cnx-epub==0.22.0          # via -r requirements.in, nebuchadnezzar
 cnx-litezip==1.6.0        # via -r requirements.in, nebuchadnezzar
@@ -33,11 +33,11 @@ execnet==1.7.1            # via -r requirements.in, pytest-xdist
 filelock==3.0.12          # via -r requirements.in, virtualenv
 github3.py==1.3.0         # via -r requirements.in
 identify==1.4.18          # via -r requirements.in, pre-commit
-idna==2.9                 # via -r requirements.in, requests, tldextract, yarl
+idna==2.7                 # via -r requirements.in, requests, tldextract, yarl
 importlib-metadata==1.6.0  # via -r requirements.in, pluggy, pre-commit, pytest, virtualenv
 jinja2==2.11.2            # via -r requirements.in, cnx-epub
-jwcrypto==0.7           # via -r requirements.in, github3.py
-lxml==4.5.1               # via -r requirements.in, cnx-epub, cnx-litezip, cnxml, rhaptos.cnxmlutils
+jwcrypto==0.7             # via -r requirements.in, github3.py
+lxml==4.4.3               # via -r requirements.in, cnx-epub, cnx-litezip, cnxml, nebuchadnezzar, rhaptos.cnxmlutils
 markupsafe==1.1.1         # via -r requirements.in, jinja2
 more-itertools==8.3.0     # via -r requirements.in, pytest
 multidict==4.7.6          # via aiohttp, yarl
@@ -67,11 +67,11 @@ python-memcached==1.59    # via -r requirements.in, cnx-epub
 python-slugify==4.0.0     # via cnx-common
 pyyaml==5.3.1             # via -r requirements.in, aspy.yaml, pre-commit
 requests-file==1.5.1      # via -r requirements.in, tldextract
-requests==2.23.0          # via -r requirements.in, cnx-epub, cnx-rex-redirects, docker, github3.py, nebuchadnezzar, pytest-base-url, pytest-selenium, pytest-testrail, requests-file, tldextract
+requests==2.22.0          # via -r requirements.in, cnx-epub, cnx-rex-redirects, docker, github3.py, nebuchadnezzar, pytest-base-url, pytest-selenium, pytest-testrail, requests-file, tldextract
 rhaptos.cnxmlutils==2.0.0  # via -r requirements.in, cnx-transforms
 selenium==3.141.0         # via -r requirements.in, pypom, pytest-selenium
 simplejson==3.17.0        # via -r requirements.in
-six==1.15.0               # via -r requirements.in, cfgv, cryptography, docker, packaging, pytest-xdist, python-dateutil, python-memcached, requests-file, virtualenv, websocket-client
+six==1.15.0               # via -r requirements.in, cryptography, docker, packaging, pytest-xdist, python-dateutil, python-memcached, requests-file, virtualenv, websocket-client
 text-unidecode==1.3       # via python-slugify
 tldextract==2.2.2         # via -r requirements.in
 toml==0.10.1              # via -r requirements.in, pre-commit
@@ -83,7 +83,7 @@ webencodings==0.5.1       # via -r requirements.in
 websocket-client==0.57.0  # via -r requirements.in, docker
 yarl==1.4.2               # via aiohttp
 zipp==3.1.0               # via -r requirements.in, importlib-metadata
-zope.component==4.6.1       # via -r requirements.in, pypom
+zope.component==4.6.1     # via -r requirements.in, pypom
 zope.deferredimport==4.3.1  # via -r requirements.in, zope.component
 zope.deprecation==4.4.0   # via -r requirements.in, zope.component
 zope.event==4.4           # via -r requirements.in, zope.component
