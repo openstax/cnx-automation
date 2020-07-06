@@ -578,26 +578,11 @@ def s3_base_url(request):
         return base_url
 
 
-@pytest.fixture(params=gen_from_file(os.path.join(DATA_DIR, "s3_books_uuids.txt")))
-def s3_all_books_uuids(request):
-    """Yields UUIDs for all books in aws s3 bucket
-    """
-    yield request.param
-
-
 @pytest.fixture
-def s3_books_url(s3_base_url, s3_all_books_uuids):
-    """Return a base URL for AWS S3 bucket"""
-    s3_url = f"{s3_base_url}/contents/{s3_all_books_uuids}.json"
-    return s3_url
-
-
-@pytest.fixture
-def s3_books_titles():
-    """Returns the book titles for books in aws s3 bucket
-    """
-    data_file = DATA_DIR + "/s3_books_titles.txt"
-
-    with open(data_file, "r") as infile:
-        data = infile.read()
-    return data.strip()
+def s3_approved_books_json_url(request):
+    """Return a base URL for approved books json file"""
+    config = request.config
+    base_url = config.getoption("s3_approved_books_json") or config.getini("s3_approved_books_json")
+    if base_url is not None:
+        skip_if_destructive_and_sensitive(request, base_url)
+        return base_url
