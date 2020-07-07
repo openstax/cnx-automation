@@ -52,7 +52,7 @@ class MetaNeb(type):
         return cls._version_regex.match(cls.invoke("--version", **kwargs))[1]
 
     @contextmanager
-    def get(cls, *, help=False, verbose=False, env=None, col_id=None, col_version=None, **kwargs):
+    def get(cls, *, help=False, resources=False, verbose=False, insecure=False, env=None, col_id=None, col_version=None, **kwargs):
         """Creates a temp dir, runs `neb get` with the given arguments, then yields the temp dir.
 
         Usage:
@@ -70,6 +70,12 @@ class MetaNeb(type):
                 options = ["--output-dir", neb_dir]
                 if verbose:
                     options.append("--verbose")
+                
+                if insecure:
+                    options.append("--insecure")
+
+                if resources:
+                    options.append("--get-resources")
 
                 cls.invoke("get", *options, env, col_id, col_version, **kwargs)
 
