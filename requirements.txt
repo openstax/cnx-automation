@@ -23,10 +23,11 @@ click==7.0                # via -r requirements.in, cnx-rex-redirects, nebuchadn
 cnx-common==1.3.5         # via cnx-rex-redirects
 cnx-epub==0.22.0          # via -r requirements.in, nebuchadnezzar
 cnx-litezip==1.6.0        # via -r requirements.in, nebuchadnezzar
-git+https://github.com/openstax/cnx-rex-redirects.git  # via -r requirements.in
+git+https://github.com/openstax/cnx-rex-redirects.git#egg=cnx-rex-redirects  # via -r requirements.in
 cnx-transforms==1.2.0     # via -r requirements.in, nebuchadnezzar
 cnxml==3.0.1              # via -r requirements.in, cnx-litezip, nebuchadnezzar
 cryptography==2.9.2       # via -r requirements.in, jwcrypto
+deepdiff==5.0.0           # via -r requirements.in
 distlib==0.3.0            # via virtualenv
 docker==4.2.0             # via -r requirements.in, nebuchadnezzar
 execnet==1.7.1            # via -r requirements.in, pytest-xdist
@@ -40,9 +41,10 @@ jwcrypto==0.7             # via -r requirements.in, github3.py
 lxml==4.4.3               # via -r requirements.in, cnx-epub, cnx-litezip, cnxml, nebuchadnezzar, rhaptos.cnxmlutils
 markupsafe==1.1.1         # via -r requirements.in, jinja2
 more-itertools==8.3.0     # via -r requirements.in, pytest
-multidict==4.7.6          # via aiohttp, yarl
-nebuchadnezzar==9.7.0     # via -r requirements.in
+multidict==4.7.5          # via aiohttp, yarl
+nebuchadnezzar==9.8.0     # via -r requirements.in
 nodeenv==1.3.5            # via -r requirements.in, pre-commit
+ordered-set==4.0.2        # via deepdiff
 packaging==20.4           # via -r requirements.in, pytest
 pillow==7.1.2             # via -r requirements.in
 pluggy==0.13.1            # via -r requirements.in, pypom, pytest

@@ -8,6 +8,8 @@ import tarfile
 
 import pytest
 
+from deepdiff import DeepDiff
+
 __all__ = ["snapshot"]
 
 SNAPSHOT_BASE_DIR = os.path.join(os.path.realpath(os.path.dirname(__file__)), "../snapshots")
@@ -52,6 +54,7 @@ class Snapshot(object):
                 json.dump(value, snapshot_file)
 
     def assert_file_or_dir_match(self, path, name):
+
         snapshot_path = self.get_snapshot_path_and_ensure_dir_exists("tar_gz", name)
 
         if os.path.isfile(snapshot_path):
@@ -59,17 +62,23 @@ class Snapshot(object):
                 for snapshot_tarinfo in snapshot_tar:
                     name = snapshot_tarinfo.name
                     subpath = os.path.join(path, name)
-
                     if snapshot_tarinfo.isdir():
                         assert os.path.isdir(subpath)
-                    else:
-                        with snapshot_tar.extractfile(snapshot_tarinfo) as snapshot_file:
-                            snapshot_value = snapshot_file.read()
-                        with open(subpath, "rb") as file:
-                            value = file.read()
-                        assert value == snapshot_value, "{name} did not match the snapshot.".format(
-                            name=name
-                        )
+                        continue
+                    with snapshot_tar.extractfile(snapshot_tarinfo) as snapshot_file:
+                        snapshot_value = snapshot_file.read()
+                    with open(subpath, "rb") as new_file:
+                        value = new_file.read()
+                    if ".sha1sum" in name:
+                        assert (sorted(snapshot_value.split(b"\n")) == sorted(value.split(b"\n")))
+                        continue
+                    if ".json" in name:
+                        diff = DeepDiff(json.loads(value), json.loads(snapshot_value), ignore_order=True)
+                        assert diff == {}
+                        continue
+                    assert value == snapshot_value, "{name} did not match the snapshot.".format(
+                        name=name
+                    )
         else:
             with tarfile.open(snapshot_path, "w|gz", encoding="utf-8") as snapshot_tar:
                 # arcname='.' makes tar not save the absolute path
