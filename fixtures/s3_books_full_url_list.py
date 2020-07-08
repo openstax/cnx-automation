@@ -5,7 +5,7 @@ from urllib.request import urlopen
 
 """
 Verifies which collections are present in the aws s3 bucket
-Latest update on 07/02/2020
+Latest update on 07/08/2020
 """
 
 
@@ -42,8 +42,7 @@ def s3_books_full_url_list(s3_base_url, s3_approved_books_json_url):
         version_list[i] = version_list[i][2:]
 
     s3_books_full_url = [
-        s3_base_url + s3_archive_folder + i + "@" + j + ".json"
-        for i, j in zip(uuid_list, version_list)
+        f"{s3_base_url}{s3_archive_folder}{i}@{j}.json" for i, j in zip(uuid_list, version_list)
     ]
 
     return s3_books_full_url

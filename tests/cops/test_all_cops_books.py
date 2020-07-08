@@ -11,13 +11,14 @@ from urllib.error import HTTPError
 
 """
 Verifies which collections are present in the aws s3 bucket
-Latest update on 07/02/2020
+Latest update on 07/08/2020
 """
 
 
+@pytest.mark.xfail(raises=(AssertionError, HTTPError))
 @markers.awss3
 @markers.nondestructive
-def test_all_cops_books(selenium, s3_books_title_list, s3_books_full_url_list):
+def test_verify_collections_in_s3_bucket(selenium, s3_books_title_list, s3_books_full_url_list):
 
     for books in range(len(s3_books_full_url_list)):
 
@@ -27,11 +28,23 @@ def test_all_cops_books(selenium, s3_books_title_list, s3_books_full_url_list):
 
         except HTTPError as err:
             # skipping collection not in s3 bucket yet
+
+            # and getting the title(s) of missing book(s)
+            missing_book = s3_books_full_url_list[books].replace(
+                "sandbox.openstax.org/apps/archive/master", "cnx.org"
+            )
+            missing_split = missing_book.split("@", 1)[0]
+            missing_format = "{0}.json".format(missing_split)
+            missing_data = urllib.request.urlopen(missing_format).read()
+            s3_exception = json.loads(missing_data)
+            missing_title = s3_exception.get("title")
+
             if err.code:
-                print("\nCOLLECTION NOT IN THE AWS S3 BUCKET YET: \n", err)
-                pytest.skip(msg="Collection NOT in the aws s3 bucket yet")
+                print(f"\n!!!!!!! COLLECTION NOT IN THE AWS S3 BUCKET YET: {missing_title} \n", err)
+                pass
             else:
                 raise
+
         else:
 
             try:
@@ -62,7 +75,7 @@ def test_all_cops_books(selenium, s3_books_title_list, s3_books_full_url_list):
 
             except AssertionError as err2:
                 if err2:
-                    print(f"\nASSERTION ERROR EXCEPTION: {s3_title}\n", err2)
+                    print(f"\n!!!!!!! ASSERTION ERROR EXCEPTION: {s3_title}\n", err2)
                     continue
                 else:
                     raise
