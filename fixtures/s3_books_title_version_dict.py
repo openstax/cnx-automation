@@ -10,7 +10,7 @@ Latest update on 07/02/2020
 
 
 @pytest.fixture
-def s3_books_title_list(s3_approved_books_json_url):
+def s3_books_title_version_dict(s3_approved_books_json_url):
 
     # opens the collection urls and verifies which are in s3 bucket and which are not
     read_approved_books_json = urllib.request.urlopen(s3_approved_books_json_url).read()
@@ -27,4 +27,15 @@ def s3_books_title_list(s3_approved_books_json_url):
             name_list.append(i["name"])
         j += 1
 
-    return name_list
+    version_list = [""]
+    j = 0
+    for i in json_data:
+        if j == 0:
+            version_list[0] = i["version"]
+        else:
+            version_list.append(i["version"])
+        j += 1
+
+    res = {name_list[i]: version_list[i] for i in range(len(version_list))}
+
+    return res

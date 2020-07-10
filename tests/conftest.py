@@ -20,8 +20,8 @@ pytest_plugins = (
     "fixtures.webview",
     "fixtures.legacy",
     "fixtures.neb",
-    "fixtures.s3_books_title_list",
     "fixtures.s3_books_full_url_list",
+    "fixtures.s3_books_title_version_dict",
 )
 
 
@@ -156,9 +156,10 @@ def pytest_addoption(parser):
         "--neb_env", default=os.getenv("NEB_ENV", None), help="environment name for Neb."
     )
     parser.addoption(
-        "--insecure", default=os.getenv("INSECURE", False),
+        "--insecure",
+        default=os.getenv("INSECURE", False),
         help="run without ssl for local testing.",
-        action="store_true"
+        action="store_true",
     )
 
 
