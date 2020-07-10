@@ -8,8 +8,6 @@ from urllib.request import urlopen
 
 from urllib.error import HTTPError
 
-from collections import OrderedDict
-
 
 """
 Verifies which collections are present in the aws s3 bucket
@@ -22,7 +20,7 @@ Latest update on 07/08/2020
 @markers.nondestructive
 def test_verify_collections_in_s3_bucket(selenium, s3_books_title_list, s3_books_full_url_list):
 
-    for books in list(OrderedDict.fromkeys(reversed(range(len(s3_books_full_url_list))))):
+    for books in dict.fromkeys(reversed(range(len(s3_books_full_url_list)))):
 
         try:
             # opens the collection urls and verifies which are in s3 bucket and which are not
@@ -54,8 +52,6 @@ def test_verify_collections_in_s3_bucket(selenium, s3_books_title_list, s3_books
                 s3_jdata = json.loads(s3_books)
                 s3_nest = s3_jdata["tree"]["contents"]
                 s3_title = s3_jdata.get("title")
-                print(s3_title)
-
                 slug_pref = s3_nest[0]["slug"]
                 last_chap = s3_nest[-1]
                 slug_index = last_chap["slug"]
