@@ -20,9 +20,14 @@ def s3_books_full_url_list(s3_base_url, s3_approved_books_json_url):
     # reading nested lists and getting slug names
     json_data = json.loads(read_approved_books_json)
 
+    # removes the old version of Microbiology collection from the list
+    json_data_alt = [
+        i for i in json_data if not (i["name"] == "Microbiology" and i["version"] == "1.8.6")
+    ]
+
     uuid_list = [""]
     j = 0
-    for i in json_data:
+    for i in json_data_alt:
         if j == 0:
             uuid_list[0] = i["uuid"]
         else:
@@ -31,7 +36,7 @@ def s3_books_full_url_list(s3_base_url, s3_approved_books_json_url):
 
     version_list = [""]
     j = 0
-    for i in json_data:
+    for i in json_data_alt:
         if j == 0:
             version_list[0] = i["version"]
         else:
