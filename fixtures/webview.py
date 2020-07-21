@@ -578,11 +578,8 @@ def s3_base_url(request):
         return base_url
 
 
-@pytest.fixture
-def s3_approved_books_json_url(request):
-    """Return a base URL for approved books json file"""
-    config = request.config
-    base_url = config.getoption("s3_approved_books_json") or config.getini("s3_approved_books_json")
-    if base_url is not None:
-        skip_if_destructive_and_sensitive(request, base_url)
-        return base_url
+@pytest.fixture(params=gen_from_file(os.path.join(DATA_DIR, "s3_bucket_books.json")))
+def s3_queue_state_bucket_books(request):
+    """Yields UUIDs for all openstax books
+    """
+    yield request.param
