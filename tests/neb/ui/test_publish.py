@@ -70,7 +70,7 @@ def test_publish_no_commit_message(neb_env):
             stdout, stderr, returncode = Neb.run("publish", neb_env, content_dir, timeout=1)
     except subprocess.TimeoutExpired as e:
         # THEN neb prompts for a publication message and waits for user to enter it until it times out
-        assert "Publication message:" in e.stdout
+        assert "Publication message:" in str(e.stdout)
 
 
 @markers.neb
