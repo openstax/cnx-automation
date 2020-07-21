@@ -8,11 +8,44 @@ from urllib.request import urlopen
 
 from urllib.error import HTTPError
 
+import os
+import boto3
 
 """
 Verifies which collections are present in the aws s3 bucket
-Latest update on 07/08/2020
+Latest update on July 21, 2020
 """
+
+
+def test_create_queue_state_books_list(aws_access_key_id_value, aws_secret_access_key_value):
+
+    # creates a json file containing book details,
+    # such as name, collection_id, style, version, server, uuid
+
+    os.environ["AWS_ACCESS_KEY_ID"] = aws_access_key_id_value
+    os.environ["AWS_SECRET_ACCESS_KEY"] = aws_secret_access_key_value
+
+    s3_queue_state_bucket = "sandbox-web-hosting-content-queue-state"
+    queue_filename = "distribution-queue.json"
+    code_tag = "20200708.184941"
+    json_output_filename = f"{os.getcwd()}/fixtures/data/webview/s3_bucket_books.json"
+
+    s3_bucket_books = []
+    client = boto3.client("s3")
+    queue_state_key = f"{code_tag}.{queue_filename}"
+
+    resp = client.list_object_versions(Bucket=s3_queue_state_bucket, Prefix=queue_state_key)
+
+    versions = resp["Versions"]
+
+    for version in versions:
+        resp = client.get_object(
+            Bucket=s3_queue_state_bucket, Key=queue_state_key, VersionId=version["VersionId"]
+        )
+        s3_bucket_books.append(json.loads(resp["Body"].read()))
+
+    with open(json_output_filename, "w") as json_output_file:
+        json.dump(s3_bucket_books, json_output_file)
 
 
 @pytest.mark.xfail(raises=(AssertionError, HTTPError))

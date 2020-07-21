@@ -580,6 +580,24 @@ def s3_base_url(request):
 
 @pytest.fixture(params=gen_from_file(os.path.join(DATA_DIR, "s3_bucket_books.json")))
 def s3_queue_state_bucket_books(request):
-    """Yields UUIDs for all openstax books
+    """Yields location of the json file
     """
     yield request.param
+
+
+@pytest.fixture(scope="session")
+def aws_access_key_id_value(request):
+    """Return value of the aws access key id"""
+    config = request.config
+    awskeyvalue = config.getoption("aws_access_key_id_value")
+    if awskeyvalue is not None:
+        return awskeyvalue
+
+
+@pytest.fixture(scope="session")
+def aws_secret_access_key_value(request):
+    """Return value of the aws secret access key value"""
+    config = request.config
+    awssecretvalue = config.getoption("aws_secret_access_key_value")
+    if awssecretvalue is not None:
+        return awssecretvalue

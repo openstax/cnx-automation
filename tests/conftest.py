@@ -161,6 +161,16 @@ def pytest_addoption(parser):
         help="run without ssl for local testing.",
         action="store_true",
     )
+    parser.addoption(
+        "--aws-access-key-id-value",
+        default=os.getenv("AWS_ACCESS_KEY_ID_VALUE", None),
+        help="value of the s3 aws access key id",
+    )
+    parser.addoption(
+        "--aws-secret-access-key-value",
+        default=os.getenv("AWS_SECRET_ACCESS_KEY_VALUE", None),
+        help="value of the aws secret access key value",
+    )
 
 
 def pytest_collection_modifyitems(config, items):
