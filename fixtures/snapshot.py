@@ -73,7 +73,12 @@ class Snapshot(object):
                         assert (sorted(snapshot_value.split(b"\n")) == sorted(value.split(b"\n")))
                         continue
                     if ".json" in name:
-                        diff = DeepDiff(json.loads(value), json.loads(snapshot_value), ignore_order=True)
+                        value_data = json.loads(value)
+                        snapshot_data = json.loads(snapshot_value)
+                        # Ignore `canon_url` in comparison
+                        value_data.pop('canon_url')
+                        snapshot_data.pop('canon_url')
+                        diff = DeepDiff(value_data, snapshot_data, ignore_order=True)
                         assert diff == {}
                         continue
                     assert value == snapshot_value, "{name} did not match the snapshot.".format(
