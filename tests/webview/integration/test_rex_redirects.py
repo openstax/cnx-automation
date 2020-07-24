@@ -828,3 +828,37 @@ def test_interm_algebra_2e_uri_redirect_to_rex(
     # THEN we are redirected to rex
     assert response.url.startswith(rex_base_url)
     assert response.url.endswith(cnx_page_slug)
+
+
+@markers.test_case("C608129")
+@markers.slow
+@markers.rex
+@markers.nondestructive
+def test_psychology_uri_redirect_to_rex(webview_base_url, rex_base_url, psychology_uri):
+    # GIVEN a webview_base_url, rex_base_url and a ..._uri
+
+    # WHEN we go to a page based on the webview_base_url and uri
+    cnx_page_slug = psychology_uri.split("/")[-1]
+    cnx_url = f"{webview_base_url}{psychology_uri}"
+    response = get_url(cnx_url)
+
+    # THEN we are redirected to rex
+    assert response.url.startswith(rex_base_url)
+    assert response.url.endswith(cnx_page_slug)
+
+
+@markers.test_case("C608129")
+@markers.slow
+@markers.rex
+@markers.nondestructive
+def test_physics_hs_uri_redirect_to_rex(webview_base_url, rex_base_url, physics_hs_uri):
+    # GIVEN a webview_base_url, rex_base_url and a ..._uri
+
+    # WHEN we go to a page based on the webview_base_url and uri
+    cnx_page_slug = physics_hs_uri.split("/")[-1]
+    cnx_url = f"{webview_base_url}{physics_hs_uri}"
+    response = get_url(cnx_url)
+
+    # THEN we are redirected to rex
+    assert response.url.startswith(rex_base_url)
+    assert response.url.endswith(cnx_page_slug)

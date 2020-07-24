@@ -498,6 +498,28 @@ def interm_algebra_2e_uri(request):
     yield request.param
 
 
+@pytest.fixture(
+    params=gen_from_file(os.path.join(DATA_DIR, "4abf04bf-93a0-45c3-9cbc-2cefd46e68cc.txt"))
+)
+def psychology_uri(request):
+    """Yields a URI from collection
+
+    Example: /contents/f8zJz5tx@0.0:2po7o99e/1-essential-ideas
+    """
+    yield request.param
+
+
+@pytest.fixture(
+    params=gen_from_file(os.path.join(DATA_DIR, "cce64fde-f448-43b8-ae88-27705cceb0da.txt"))
+)
+def physics_hs_uri(request):
+    """Yields a URI from collection
+
+    Example: /contents/f8zJz5tx@0.0:2po7o99e/1-essential-ideas
+    """
+    yield request.param
+
+
 @pytest.fixture
 def robots_txt_production():
     """Returns the text file location which includes all the robots.txt lines for production env
