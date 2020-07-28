@@ -22,6 +22,7 @@ pytest_plugins = (
     "fixtures.neb",
     "fixtures.s3_books_full_url_list",
     "fixtures.s3_books_title_version_dict",
+    "fixtures.s3_books_uuids_list",
 )
 
 
