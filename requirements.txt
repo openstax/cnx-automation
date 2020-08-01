@@ -54,7 +54,7 @@ pycparser==2.20           # via -r requirements.in, cffi
 pyparsing==2.4.7          # via -r requirements.in, packaging
 pypom==2.2.0              # via -r requirements.in
 pytest-base-url==1.4.1    # via -r requirements.in, pytest-selenium
-pytest-forked==1.2.0      # via -r requirements.in, pytest-xdist
+pytest-forked==1.3.0      # via -r requirements.in, pytest-xdist
 pytest-html==2.1.1        # via -r requirements.in, pytest-selenium
 pytest-metadata==1.10.0   # via -r requirements.in, pytest-html
 pytest-selenium==1.17.0   # via -r requirements.in
