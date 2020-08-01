@@ -42,7 +42,7 @@ lxml==4.5.2               # via -r requirements.in, cnx-epub, cnx-litezip, cnxml
 markupsafe==1.1.1         # via -r requirements.in, jinja2
 more-itertools==8.4.0     # via -r requirements.in, pytest
 multidict==4.7.6          # via aiohttp, yarl
-nebuchadnezzar==9.8.0     # via -r requirements.in
+nebuchadnezzar==9.8.1     # via -r requirements.in
 nodeenv==1.4.0            # via -r requirements.in, pre-commit
 ordered-set==4.0.2        # via deepdiff
 packaging==20.4           # via -r requirements.in, pytest
