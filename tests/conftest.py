@@ -20,9 +20,8 @@ pytest_plugins = (
     "fixtures.webview",
     "fixtures.legacy",
     "fixtures.neb",
-    "fixtures.s3_books_full_url_list",
     "fixtures.s3_books_title_version_dict",
-    "fixtures.s3_books_uuids_list",
+    "fixtures.bucket_books_tree",
 )
 
 
@@ -138,13 +137,6 @@ def pytest_addoption(parser):
         metavar="url",
         default=os.getenv("S3_BASE_URL", None),
         help="base url for cnx books in aws s3 bucket.",
-    )
-    parser.addini("s3_approved_books_json", help="base url for the approved books json.")
-    parser.addoption(
-        "--s3_approved_books_json",
-        metavar="url",
-        default=os.getenv("S3_APPROVED_BOOKS_JSON", None),
-        help="base url for the approved books json containing all the books approved and present in the s3 bucket",
     )
     parser.addoption(
         "--legacy_username", default=os.getenv("LEGACY_USERNAME"), help="username for CNX legacy."
