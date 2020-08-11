@@ -11,7 +11,7 @@ import os
 import boto3
 
 """
-Verifies which collections are present in the aws s3 bucket
+Verifies collections in the aws s3 bucket against queue-state list of approved books
 Latest update on Aug. 11th, 2020
 """
 
@@ -88,13 +88,14 @@ def test_page_content(bucket_books_tree, s3_books_title_version_dict, s3_base_ur
 
                     page_id_noversion = []
 
+                # checking for exceptions when iteration runs out of "contents" item
                 except (KeyError, IndexError) as ki_errors:
                     print(f"{ki_errors}: key or index error in {book_title}, next collection")
 
                 else:
 
                     # extracts the page ids from books in aws s3 bucket and removes their versions
-                    for pid in range(0, len(page_id), 9):
+                    for pid in range(0, len(page_id), 6):
 
                         page_ids = page_id[pid]["id"]
                         page_id_noversion.append(page_ids[0 : page_ids.index("@")])
@@ -107,6 +108,7 @@ def test_page_content(bucket_books_tree, s3_books_title_version_dict, s3_base_ur
                             for i, j in zip(uuid_dict.values(), uuid_dict.keys())
                         ]
 
+                        # iterates through pages in books and asserts that content exists
                         for pages in range(len(s3_pages_full_url)):
 
                             response = requests.get(s3_pages_full_url[pages])
@@ -124,6 +126,7 @@ def test_page_content(bucket_books_tree, s3_books_title_version_dict, s3_base_ur
 
                                 assert 200 == response.status_code
 
+                            # checking for exceptions as some page urls are non-clickable
                             except (HTTPError, AssertionError) as ha_errors:
                                 print(
                                     f"{ha_errors}, non-clickable pages in {book_title} / {s3_page_title}"
