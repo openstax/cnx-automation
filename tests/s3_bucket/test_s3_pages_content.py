@@ -12,13 +12,13 @@ import boto3
 
 """
 Verifies which collections are present in the aws s3 bucket
-Latest update on Aug. 7th, 2020
+Latest update on Aug. 11th, 2020
 """
 
 
 def test_create_queue_state_books_list(aws_access_key_id_value, aws_secret_access_key_value):
 
-    # Ripal's code: creates a json file containing these book details:
+    # Ripal's code: creates a json file of approved books containing these details:
     # collection_id, style, version, server, uuid
     # from queue-state list
 
@@ -94,7 +94,7 @@ def test_page_content(bucket_books_tree, s3_books_title_version_dict, s3_base_ur
                 else:
 
                     # extracts the page ids from books in aws s3 bucket and removes their versions
-                    for pid in range(len(page_id)):
+                    for pid in range(0, len(page_id), 9):
 
                         page_ids = page_id[pid]["id"]
                         page_id_noversion.append(page_ids[0 : page_ids.index("@")])
