@@ -28,7 +28,7 @@ cnx-litezip==1.6.0        # via -r requirements.in, nebuchadnezzar
 git+https://github.com/openstax/cnx-rex-redirects.git#egg=cnx-rex-redirects  # via -r requirements.in
 cnx-transforms==1.2.1     # via -r requirements.in, nebuchadnezzar
 cnxml==3.0.1              # via -r requirements.in, cnx-litezip, nebuchadnezzar
-cryptography==3.0       # via -r requirements.in, jwcrypto
+cryptography==3.0         # via -r requirements.in, jwcrypto
 deepdiff==5.0.2           # via -r requirements.in
 distlib==0.3.1            # via virtualenv
 docker==4.2.2             # via -r requirements.in, nebuchadnezzar
@@ -38,11 +38,12 @@ filelock==3.0.12          # via -r requirements.in, virtualenv
 github3.py==1.3.0         # via -r requirements.in
 identify==1.4.25          # via -r requirements.in, pre-commit
 idna==2.10                # via -r requirements.in, requests, tldextract, yarl
-importlib-metadata==1.7.0  # via -r requirements.in
+importlib-metadata==1.7.0  # via -r requirements.in, pluggy, pre-commit, pytest, virtualenv
+iniconfig==1.0.1          # via pytest
 jinja2==2.11.2            # via -r requirements.in, cnx-epub
 jmespath==0.10.0          # via boto3, botocore
 jwcrypto==0.7             # via -r requirements.in, github3.py
-lxml==4.5.2               # via -r requirements.in, cnx-epub, cnx-litezip, cnxml, nebuchadnezzar, rhaptos.cnxmlutils
+lxml==4.4.3               # via -r requirements.in, cnx-epub, cnx-litezip, cnxml, nebuchadnezzar, rhaptos.cnxmlutils
 markupsafe==1.1.1         # via -r requirements.in, jinja2
 more-itertools==8.4.0     # via -r requirements.in, pytest
 multidict==4.7.6          # via aiohttp, yarl
@@ -53,7 +54,7 @@ packaging==20.4           # via -r requirements.in, pytest
 pillow==7.2.0             # via -r requirements.in
 pluggy==0.13.1            # via -r requirements.in, pypom, pytest
 pre-commit==2.6.0         # via -r requirements.in
-py==1.9.0                 # via -r requirements.in, pytest
+py==1.9.0                 # via -r requirements.in, pytest, pytest-forked
 pycparser==2.20           # via -r requirements.in, cffi
 pyparsing==2.4.7          # via -r requirements.in, packaging
 pypom==2.2.0              # via -r requirements.in
@@ -64,28 +65,29 @@ pytest-metadata==1.10.0   # via -r requirements.in, pytest-html
 pytest-selenium==1.17.0   # via -r requirements.in
 pytest-testrail==2.8.3    # via -r requirements.in
 pytest-variables==1.9.0   # via -r requirements.in, pytest-selenium
-pytest-xdist==1.32.0      # via -r requirements.in
-pytest==5.4.3             # via -r requirements.in, pytest-base-url, pytest-forked, pytest-html, pytest-metadata, pytest-selenium, pytest-testrail, pytest-variables, pytest-xdist
+pytest-xdist==1.34.0      # via -r requirements.in
+pytest==6.0.1             # via -r requirements.in, pytest-base-url, pytest-forked, pytest-html, pytest-metadata, pytest-selenium, pytest-testrail, pytest-variables, pytest-xdist
 python-dateutil==2.8.1    # via -r requirements.in, botocore, github3.py
-python-dotenv==0.13.0     # via -r requirements.in
+python-dotenv==0.14.0     # via -r requirements.in
 python-magic==0.4.18      # via -r requirements.in, cnx-litezip
 python-memcached==1.59    # via -r requirements.in, cnx-epub
 python-slugify==4.0.1     # via cnx-common
 pyyaml==5.3.1             # via -r requirements.in, aspy.yaml, pre-commit
 requests-file==1.5.1      # via -r requirements.in, tldextract
 requests==2.24.0          # via -r requirements.in, cnx-epub, cnx-rex-redirects, docker, github3.py, nebuchadnezzar, pytest-base-url, pytest-selenium, pytest-testrail, requests-file, tldextract
-rhaptos.cnxmlutils==2.0.0  # via -r requirements.in, cnx-transforms
+rhaptos.cnxmlutils==2.1.0  # via -r requirements.in, cnx-transforms
 s3transfer==0.3.3         # via boto3
 selenium==3.141.0         # via -r requirements.in, pypom, pytest-selenium
 simplejson==3.17.2        # via -r requirements.in
 six==1.15.0               # via -r requirements.in, cryptography, docker, packaging, pytest-xdist, python-dateutil, python-memcached, requests-file, virtualenv, websocket-client
 text-unidecode==1.3       # via python-slugify
 tldextract==2.2.2         # via -r requirements.in
-toml==0.10.1              # via -r requirements.in, pre-commit
+toml==0.10.1              # via -r requirements.in, pre-commit, pytest
+typing-extensions==3.7.4.2  # via yarl
 uritemplate==3.0.1        # via -r requirements.in, github3.py
-urllib3==1.25.9           # via -r requirements.in, botocore, requests, selenium
-virtualenv==20.0.25       # via -r requirements.in, pre-commit
-wcwidth==0.2.5            # via -r requirements.in, pytest
+urllib3==1.25.10          # via -r requirements.in, botocore, requests, selenium
+virtualenv==20.0.29       # via -r requirements.in, pre-commit
+wcwidth==0.2.5            # via -r requirements.in
 webencodings==0.5.1       # via -r requirements.in
 websocket-client==0.57.0  # via -r requirements.in, docker
 yarl==1.5.1               # via aiohttp
