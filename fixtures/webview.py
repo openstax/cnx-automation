@@ -600,11 +600,26 @@ def s3_base_url(request):
         return base_url
 
 
-@pytest.fixture
-def s3_approved_books_json_url(request):
-    """Return a base URL for approved books json file"""
+@pytest.fixture(params=gen_from_file(os.path.join(DATA_DIR, "s3_bucket_books.json")))
+def s3_queue_state_bucket_books(request):
+    """Yields location of the json file
+    """
+    yield request.param
+
+
+@pytest.fixture(scope="session")
+def aws_access_key_id_value(request):
+    """Return value of the aws access key id"""
     config = request.config
-    base_url = config.getoption("s3_approved_books_json") or config.getini("s3_approved_books_json")
-    if base_url is not None:
-        skip_if_destructive_and_sensitive(request, base_url)
-        return base_url
+    awskeyvalue = config.getoption("aws_access_key_id_value")
+    if awskeyvalue is not None:
+        return awskeyvalue
+
+
+@pytest.fixture(scope="session")
+def aws_secret_access_key_value(request):
+    """Return value of the aws secret access key value"""
+    config = request.config
+    awssecretvalue = config.getoption("aws_secret_access_key_value")
+    if awssecretvalue is not None:
+        return awssecretvalue

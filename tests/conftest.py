@@ -20,8 +20,8 @@ pytest_plugins = (
     "fixtures.webview",
     "fixtures.legacy",
     "fixtures.neb",
-    "fixtures.s3_books_title_list",
-    "fixtures.s3_books_full_url_list",
+    "fixtures.s3_books_title_version_dict",
+    "fixtures.bucket_books_tree",
 )
 
 
@@ -138,13 +138,6 @@ def pytest_addoption(parser):
         default=os.getenv("S3_BASE_URL", None),
         help="base url for cnx books in aws s3 bucket.",
     )
-    parser.addini("s3_approved_books_json", help="base url for the approved books json.")
-    parser.addoption(
-        "--s3_approved_books_json",
-        metavar="url",
-        default=os.getenv("S3_APPROVED_BOOKS_JSON", None),
-        help="base url for the approved books json containing all the books approved and present in the s3 bucket",
-    )
     parser.addoption(
         "--legacy_username", default=os.getenv("LEGACY_USERNAME"), help="username for CNX legacy."
     )
@@ -156,9 +149,20 @@ def pytest_addoption(parser):
         "--neb_env", default=os.getenv("NEB_ENV", None), help="environment name for Neb."
     )
     parser.addoption(
-        "--insecure", default=os.getenv("INSECURE", False),
+        "--insecure",
+        default=os.getenv("INSECURE", False),
         help="run without ssl for local testing.",
-        action="store_true"
+        action="store_true",
+    )
+    parser.addoption(
+        "--aws-access-key-id-value",
+        default=os.getenv("AWS_ACCESS_KEY_ID_VALUE", None),
+        help="value of the s3 aws access key id",
+    )
+    parser.addoption(
+        "--aws-secret-access-key-value",
+        default=os.getenv("AWS_SECRET_ACCESS_KEY_VALUE", None),
+        help="value of the aws secret access key value",
     )
 
 
