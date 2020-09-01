@@ -17,7 +17,7 @@ boto3==1.14.52            # via -r requirements.in
 botocore==1.17.52         # via boto3, s3transfer
 cached-property==1.5.1    # via -r requirements.in
 certifi==2020.6.20        # via -r requirements.in, requests
-cffi==1.14.1              # via -r requirements.in, cryptography
+cffi==1.14.2              # via -r requirements.in, cryptography
 cfgv==3.2.0               # via -r requirements.in, pre-commit
 chardet==3.0.4            # via -r requirements.in, aiohttp, requests
 chromedriver-binary==85.0.4183.38.0  # via -r requirements.in
