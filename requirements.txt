@@ -31,7 +31,7 @@ cnxml==3.0.1              # via -r requirements.in, cnx-litezip, nebuchadnezzar
 cryptography==3.1         # via -r requirements.in, jwcrypto
 deepdiff==5.0.2           # via -r requirements.in
 distlib==0.3.1            # via virtualenv
-docker==4.2.2             # via -r requirements.in, nebuchadnezzar
+docker==4.3.1             # via -r requirements.in, nebuchadnezzar
 docutils==0.15.2          # via botocore
 execnet==1.7.1            # via -r requirements.in, pytest-xdist
 filelock==3.0.12          # via -r requirements.in, virtualenv
