@@ -62,7 +62,7 @@ pytest-base-url==1.4.1    # via -r requirements.in, pytest-selenium
 pytest-forked==1.3.0      # via -r requirements.in, pytest-xdist
 pytest-html==2.1.1        # via -r requirements.in, pytest-selenium
 pytest-metadata==1.10.0   # via -r requirements.in, pytest-html
-pytest-selenium==1.17.0   # via -r requirements.in
+pytest-selenium==2.0.0   # via -r requirements.in
 pytest-testrail==2.8.3    # via -r requirements.in
 pytest-variables==1.9.0   # via -r requirements.in, pytest-selenium
 pytest-xdist==1.34.0      # via -r requirements.in
