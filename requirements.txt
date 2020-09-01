@@ -11,7 +11,7 @@ asn1crypto==1.4.0         # via -r requirements.in
 aspy.yaml==1.3.0          # via -r requirements.in
 async-timeout==3.0.1      # via aiohttp
 atomicwrites==1.4.0       # via -r requirements.in
-attrs==19.3.0             # via -r requirements.in, aiohttp, pytest
+attrs==20.1.0             # via -r requirements.in, aiohttp, pytest
 backoff==1.10.0           # via -r requirements.in
 boto3==1.14.23            # via -r requirements.in
 botocore==1.17.39         # via boto3, s3transfer
