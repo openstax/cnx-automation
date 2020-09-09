@@ -623,3 +623,25 @@ def aws_secret_access_key_value(request):
     awssecretvalue = config.getoption("aws_secret_access_key_value")
     if awssecretvalue is not None:
         return awssecretvalue
+
+
+@pytest.fixture
+def code_tag(request):
+    """Return a deployment code tag"""
+    config = request.config
+    code_tag = config.getoption("code_tag") or config.getini("code_tag")
+    if code_tag is not None:
+        skip_if_destructive_and_sensitive(request, code_tag)
+        return code_tag
+
+
+@pytest.fixture
+def queue_state_bucket(request):
+    """Return queue state bucket name"""
+    config = request.config
+    queue_state_bucket = config.getoption("queue_state_bucket") or config.getini(
+        "queue_state_bucket"
+    )
+    if queue_state_bucket is not None:
+        skip_if_destructive_and_sensitive(request, queue_state_bucket)
+        return queue_state_bucket
