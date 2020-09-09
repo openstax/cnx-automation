@@ -138,6 +138,20 @@ def pytest_addoption(parser):
         default=os.getenv("S3_BASE_URL", None),
         help="base url for cnx books in aws s3 bucket.",
     )
+    parser.addini("code_tag", help="code tag for latest deployment in s3 bucket.")
+    parser.addoption(
+        "--code_tag",
+        metavar="tag",
+        default=os.getenv("CODE_TAG", None),
+        help="code tag for latest deployment in s3 bucket.",
+    )
+    parser.addini("queue_state_bucket", help="s3 queue state bucket name.")
+    parser.addoption(
+        "--queue_state_bucket",
+        metavar="name",
+        default=os.getenv("QUEUE_STATE_BUCKET", None),
+        help="s3 queue state bucket name.",
+    )
     parser.addoption(
         "--legacy_username", default=os.getenv("LEGACY_USERNAME"), help="username for CNX legacy."
     )

@@ -8,30 +8,44 @@ from urllib.error import HTTPError
 
 import requests
 import os
+
 import boto3
 
 """
 Verifies collections in the aws s3 bucket against queue-state list of approved books
-Latest update on Aug. 11th, 2020
+Latest update on Sept. 9th, 2020
 """
 
 
-def test_create_queue_state_books_list(aws_access_key_id_value, aws_secret_access_key_value):
+def test_create_queue_state_books_list(
+    aws_access_key_id_value, aws_secret_access_key_value, code_tag, queue_state_bucket
+):
 
-    # Ripal's code: creates a json file of approved books containing these details:
+    # Ripal's code: creates a json file of approved books from queue-state list containing these details:
     # collection_id, style, version, server, uuid
-    # from queue-state list
 
+    # apply aws credentials to access s3 buckets
     os.environ["AWS_ACCESS_KEY_ID"] = aws_access_key_id_value
     os.environ["AWS_SECRET_ACCESS_KEY"] = aws_secret_access_key_value
 
-    s3_queue_state_bucket = "sandbox-web-hosting-content-queue-state"
+    client = boto3.client("s3")
+
+    # queue state bucket containing approved books list with their corresponding states. Can be applied by
+    # --state_bucket bucket-name
+    # staging/sandbox environment "openstax-sandbox-web-hosting-content-queue-state"
+    # production environment "openstax-web-hosting-content-queue-state"
+    s3_queue_state_bucket = queue_state_bucket
+
+    # code tag of each new deployment in s3 bucket. Can be applied by --code_tag code.number
+    code_tag = code_tag
+
+    # queue filename set in the bakery environment, same for both staging and production
     queue_filename = "distribution-queue.json"
-    code_tag = "20200708.184941"
+
     json_output_filename = f"{os.getcwd()}/fixtures/data/webview/s3_bucket_books.json"
 
     s3_bucket_books = []
-    client = boto3.client("s3")
+
     queue_state_key = f"{code_tag}.{queue_filename}"
 
     resp = client.list_object_versions(Bucket=s3_queue_state_bucket, Prefix=queue_state_key)
