@@ -14,7 +14,7 @@ atomicwrites==1.4.0       # via -r requirements.in
 attrs==20.2.0             # via -r requirements.in, aiohttp, pytest
 backoff==1.10.0           # via -r requirements.in
 boto3==1.15.9            # via -r requirements.in
-botocore==1.17.52         # via boto3, s3transfer
+botocore==1.18.9         # via boto3, s3transfer
 cached-property==1.5.1    # via -r requirements.in
 certifi==2020.6.20        # via -r requirements.in, requests
 cffi==1.14.2              # via -r requirements.in, cryptography
