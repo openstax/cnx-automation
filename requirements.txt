@@ -20,7 +20,7 @@ certifi==2020.6.20        # via -r requirements.in, requests
 cffi==1.14.3              # via -r requirements.in, cryptography
 cfgv==3.2.0               # via -r requirements.in, pre-commit
 chardet==3.0.4            # via -r requirements.in, aiohttp, requests
-chromedriver-binary==85.0.4183.87.0  # via -r requirements.in
+chromedriver-binary==86.0.4240.22.0  # via -r requirements.in
 click==7.1.2              # via -r requirements.in, cnx-rex-redirects, nebuchadnezzar
 cnx-common==1.3.6         # via cnx-rex-redirects
 cnx-epub==0.24.0          # via -r requirements.in, nebuchadnezzar
