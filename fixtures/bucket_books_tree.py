@@ -21,14 +21,9 @@ def bucket_books_tree(s3_base_url, code_tag, s3_queue_state_bucket_books):
     json_data = json.loads(s3_queue_state_bucket_books)
     json_data = json_data[::-1]
 
-    # json list to dict, so the latest name will override, and take care of duplicates
-    json_data_new = {item["name"]: item for item in json_data}
-    # convert back to list, will contain no duplicates
-    non_duplicates = list(json_data_new.values())
-
     uuid_list = []
     version_list = []
-    for key in non_duplicates:
+    for key in json_data:
         if key["uuid"]:
             uuid_list.append(key["uuid"])
         if key["version"]:
