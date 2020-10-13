@@ -13,7 +13,7 @@ import boto3
 
 """
 Verifies collections in the aws s3 bucket against queue-state list of approved books
-Latest update on Sept. 9th, 2020
+Latest update on Oct. 7th, 2020
 """
 
 
@@ -63,10 +63,10 @@ def test_create_queue_state_books_list(
         json.dump(s3_bucket_books, json_output_file)
 
 
-def test_page_content(bucket_books_tree, s3_books_title_version_dict, s3_base_url):
+def test_page_content(bucket_books_tree, s3_books_title_version_dict, code_tag, s3_base_url):
 
     # path to the aws s3 bucket folder
-    s3_archive_folder = "/apps/archive/master/contents/"
+    s3_archive_folder = f"/apps/archive/{code_tag}/contents/"
 
     book_id = []
     book_title = []
@@ -89,7 +89,7 @@ def test_page_content(bucket_books_tree, s3_books_title_version_dict, s3_base_ur
 
         except AssertionError as as_error:
 
-            print(f"{as_error}: book title not found")
+            print(f"{as_error}: book title {book_title} not found, next item")
 
         else:
 
@@ -104,7 +104,7 @@ def test_page_content(bucket_books_tree, s3_books_title_version_dict, s3_base_ur
 
                 # checking for exceptions when iteration runs out of "contents" item
                 except (KeyError, IndexError) as ki_errors:
-                    print(f"{ki_errors}: key or index error in {book_title}, next collection")
+                    print(f"{ki_errors}: key or index error in {book_title}, next item")
 
                 else:
 
@@ -143,7 +143,7 @@ def test_page_content(bucket_books_tree, s3_books_title_version_dict, s3_base_ur
                             # checking for exceptions as some page urls are non-clickable
                             except (HTTPError, AssertionError) as ha_errors:
                                 print(
-                                    f"{ha_errors}, non-clickable pages in {book_title} / {s3_page_title}"
+                                    f"{ha_errors}, non-clickable page in {book_title} / {s3_page_title}, next item"
                                 )
 
                             else:
