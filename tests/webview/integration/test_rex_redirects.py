@@ -188,25 +188,6 @@ def test_college_physics_ap_courses_uri_redirect_to_rex(
     assert response.url.endswith(cnx_page_slug)
 
 
-@markers.test_case("C559361")
-@markers.slow
-@markers.rex
-@markers.nondestructive
-def test_anatomy_and_physiology_uri_redirect_to_rex(
-    webview_base_url, rex_base_url, anatomy_and_physiology_uri
-):
-    # GIVEN a webview_base_url, rex_base_url and an anatomy_and_physiology_uri
-
-    # WHEN we go to a page based on the webview_base_url and uri
-    cnx_page_slug = anatomy_and_physiology_uri.split("/")[-1]
-    cnx_url = f"{webview_base_url}{anatomy_and_physiology_uri}"
-    response = get_url(cnx_url)
-
-    # THEN we are redirected to rex
-    assert response.url.startswith(rex_base_url)
-    assert response.url.endswith(cnx_page_slug)
-
-
 @markers.test_case("C559360")
 @markers.slow
 @markers.rex
@@ -658,40 +639,6 @@ def test_college_algebra_uri_redirect_to_rex(webview_base_url, rex_base_url, col
 @markers.slow
 @markers.rex
 @markers.nondestructive
-def test_algebra_and_trig_uri_redirect_to_rex(webview_base_url, rex_base_url, algebra_and_trig_uri):
-    # GIVEN a webview_base_url, rex_base_url and a ..._uri
-
-    # WHEN we go to a page based on the webview_base_url and uri
-    cnx_page_slug = algebra_and_trig_uri.split("/")[-1]
-    cnx_url = f"{webview_base_url}{algebra_and_trig_uri}"
-    response = get_url(cnx_url)
-
-    # THEN we are redirected to rex
-    assert response.url.startswith(rex_base_url)
-    assert response.url.endswith(cnx_page_slug)
-
-
-@markers.test_case("C600020")
-@markers.slow
-@markers.rex
-@markers.nondestructive
-def test_precalculus_uri_redirect_to_rex(webview_base_url, rex_base_url, precalculus_uri):
-    # GIVEN a webview_base_url, rex_base_url and a ..._uri
-
-    # WHEN we go to a page based on the webview_base_url and uri
-    cnx_page_slug = precalculus_uri.split("/")[-1]
-    cnx_url = f"{webview_base_url}{precalculus_uri}"
-    response = get_url(cnx_url)
-
-    # THEN we are redirected to rex
-    assert response.url.startswith(rex_base_url)
-    assert response.url.endswith(cnx_page_slug)
-
-
-@markers.test_case("C600020")
-@markers.slow
-@markers.rex
-@markers.nondestructive
 def test_principles_microecon_ap_courses_2e_uri_redirect_to_rex(
     webview_base_url, rex_base_url, principles_microecon_ap_courses_2e_uri
 ):
@@ -857,6 +804,95 @@ def test_physics_hs_uri_redirect_to_rex(webview_base_url, rex_base_url, physics_
     # WHEN we go to a page based on the webview_base_url and uri
     cnx_page_slug = physics_hs_uri.split("/")[-1]
     cnx_url = f"{webview_base_url}{physics_hs_uri}"
+    response = get_url(cnx_url)
+
+    # THEN we are redirected to rex
+    assert response.url.startswith(rex_base_url)
+    assert response.url.endswith(cnx_page_slug)
+
+
+@markers.test_case("C600020")
+@markers.slow
+@markers.rex
+@markers.nondestructive
+def test_precalculus_uri_redirect_to_rex(webview_base_url, rex_base_url, precalculus_uri):
+    # GIVEN a webview_base_url, rex_base_url and a ..._uri
+
+    # WHEN we go to a page based on the webview_base_url and uri
+    cnx_page_slug = precalculus_uri.split("/")[-1]
+    cnx_url = f"{webview_base_url}{precalculus_uri}"
+    response = get_url(cnx_url)
+
+    # THEN we are redirected to rex
+    assert response.url.startswith(rex_base_url)
+    assert response.url.endswith(cnx_page_slug)
+
+
+@markers.test_case("C600020")
+@markers.slow
+@markers.rex
+@markers.nondestructive
+def test_algebra_and_trig_uri_redirect_to_rex(webview_base_url, rex_base_url, algebra_and_trig_uri):
+    # GIVEN a webview_base_url, rex_base_url and a ..._uri
+
+    # WHEN we go to a page based on the webview_base_url and uri
+    cnx_page_slug = algebra_and_trig_uri.split("/")[-1]
+    cnx_url = f"{webview_base_url}{algebra_and_trig_uri}"
+    response = get_url(cnx_url)
+
+    # THEN we are redirected to rex
+    assert response.url.startswith(rex_base_url)
+    assert response.url.endswith(cnx_page_slug)
+
+
+@markers.test_case("C559361")
+@markers.slow
+@markers.rex
+@markers.nondestructive
+def test_anatomy_and_physiology_uri_redirect_to_rex(
+    webview_base_url, rex_base_url, anatomy_and_physiology_uri
+):
+    # GIVEN a webview_base_url, rex_base_url and an anatomy_and_physiology_uri
+
+    # WHEN we go to a page based on the webview_base_url and uri
+    cnx_page_slug = anatomy_and_physiology_uri.split("/")[-1]
+    cnx_url = f"{webview_base_url}{anatomy_and_physiology_uri}"
+    response = get_url(cnx_url)
+
+    # THEN we are redirected to rex
+    assert response.url.startswith(rex_base_url)
+    assert response.url.endswith(cnx_page_slug)
+
+
+@markers.test_case("C615597")
+@markers.slow
+@markers.rex
+@markers.nondestructive
+def test_amer_gov_1e_uri_redirect_to_rex(webview_base_url, rex_base_url, amer_gov_1e_uri):
+    # GIVEN a webview_base_url, rex_base_url and a ..._uri
+
+    # WHEN we go to a page based on the webview_base_url and uri
+    cnx_page_slug = amer_gov_1e_uri.split("/")[-1]
+    cnx_url = f"{webview_base_url}{amer_gov_1e_uri}"
+    response = get_url(cnx_url)
+
+    # THEN we are redirected to rex
+    assert response.url.startswith(rex_base_url)
+    assert response.url.endswith(cnx_page_slug)
+
+
+@markers.test_case("C615597")
+@markers.slow
+@markers.rex
+@markers.nondestructive
+def test_col_alg_with_coreq_uri_redirect_to_rex(
+    webview_base_url, rex_base_url, col_alg_with_coreq_uri
+):
+    # GIVEN a webview_base_url, rex_base_url and a ..._uri
+
+    # WHEN we go to a page based on the webview_base_url and uri
+    cnx_page_slug = col_alg_with_coreq_uri.split("/")[-1]
+    cnx_url = f"{webview_base_url}{col_alg_with_coreq_uri}"
     response = get_url(cnx_url)
 
     # THEN we are redirected to rex
