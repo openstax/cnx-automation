@@ -103,8 +103,8 @@ def test_page_content(bucket_books_tree, s3_books_title_version_dict, code_tag, 
                     page_id_noversion = []
 
                 # checking for exceptions when iteration runs out of "contents" item
-                except (KeyError, IndexError) as ki_errors:
-                    print(f"{ki_errors}: key or index error in {book_title}, next item")
+                except (KeyError, IndexError):
+                    continue
 
                 else:
 
@@ -141,10 +141,9 @@ def test_page_content(bucket_books_tree, s3_books_title_version_dict, code_tag, 
                                 assert 200 == response.status_code
 
                             # checking for exceptions as some page urls are non-clickable
-                            except HTTPError as hh_errors:
-                                print(
-                                    f"{hh_errors}, non-clickable page in {book_title} / {s3_page_title}, next item"
-                                )
+                            except HTTPError:
+                                continue
+
                             except AssertionError as aa_errors:
                                 print(
                                     f"{aa_errors}, page title or content is empty in {book_title} / {s3_page_title}, "
