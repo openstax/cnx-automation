@@ -13,7 +13,7 @@ import boto3
 
 """
 Verifies collections in the aws s3 bucket against queue-state list of approved books
-Latest update on Oct. 7th, 2020
+Latest update on Oct. 19th, 2020
 """
 
 
@@ -141,11 +141,15 @@ def test_page_content(bucket_books_tree, s3_books_title_version_dict, code_tag, 
                                 assert 200 == response.status_code
 
                             # checking for exceptions as some page urls are non-clickable
-                            except (HTTPError, AssertionError) as ha_errors:
+                            except HTTPError as hh_errors:
                                 print(
-                                    f"{ha_errors}, non-clickable page in {book_title} / {s3_page_title}, next item"
+                                    f"{hh_errors}, non-clickable page in {book_title} / {s3_page_title}, next item"
                                 )
-
+                            except AssertionError as aa_errors:
+                                print(
+                                    f"{aa_errors}, page title or content is empty in {book_title} / {s3_page_title}, "
+                                    f"next item "
+                                )
                             else:
                                 page_id_noversion.clear()
                                 continue
