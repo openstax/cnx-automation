@@ -2,8 +2,8 @@ import pytest
 import json
 
 """
-Verifies which collections are present in the aws s3 bucket
-Latest update on July 21, 2020
+Creates a dictionary of book titles and their corresponding versions from queue state bucket json
+Latest update on Oct. 19th, 2020
 """
 
 
@@ -15,14 +15,9 @@ def s3_books_title_version_dict(s3_queue_state_bucket_books):
 
     json_data = json_data[::-1]
 
-    # json list to dict, so the latest name will override, and take care of duplicates
-    json_data_new = {item["name"]: item for item in json_data}
-    # convert back to list, will contain no duplicates
-    non_dups = list(json_data_new.values())
-
     name_list = []
     version_list = []
-    for key in non_dups:
+    for key in json_data:
         if key["name"]:
             name_list.append(key["name"])
         if key["version"]:
