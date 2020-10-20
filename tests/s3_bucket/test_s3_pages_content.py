@@ -13,7 +13,7 @@ import boto3
 
 """
 Verifies collections in the aws s3 bucket against queue-state list of approved books
-Latest update on Oct. 19th, 2020
+Latest update on Oct. 20th, 2020
 """
 
 
@@ -63,7 +63,9 @@ def test_create_queue_state_books_list(
         json.dump(s3_bucket_books, json_output_file)
 
 
-def test_page_content(bucket_books_tree, s3_books_title_version_dict, code_tag, s3_base_url):
+def test_page_content(
+    bucket_books_tree, s3_books_title_version_dict, s3_books_uuids, code_tag, s3_base_url
+):
 
     # path to the aws s3 bucket folder
     s3_archive_folder = f"/apps/archive/{code_tag}/contents/"
@@ -75,7 +77,8 @@ def test_page_content(bucket_books_tree, s3_books_title_version_dict, code_tag, 
     for elem in range(len(bucket_books_tree)):
 
         book_id.clear()
-        book_id.append(bucket_books_tree[elem]["id"])
+        uuids_vers = bucket_books_tree[elem]["id"]
+        book_id.append(uuids_vers[0 : uuids_vers.index("@")])
 
         book_title.clear()
         book_title.append(bucket_books_tree[elem]["title"])
@@ -84,12 +87,21 @@ def test_page_content(bucket_books_tree, s3_books_title_version_dict, code_tag, 
 
         try:
 
+            # compares book uuids in the queue-state list against actual books in aws s3 bucket
+            assert [j for j in book_id if j in s3_books_uuids]
+
+        except AssertionError as as_error:
+
+            print(f"{as_error}: book id {book_id} : {book_title} not found, next item")
+
+        try:
+
             # compares book titles in the queue-state list against actual books in aws s3 bucket
             assert [i for i in book_title if i in title_results]
 
         except AssertionError as as_error:
 
-            print(f"{as_error}: book title {book_title} not found, next item")
+            print(f"{as_error}: book title {book_title} : {book_id} not found, next item")
 
         else:
 
