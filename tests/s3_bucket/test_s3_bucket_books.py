@@ -90,56 +90,47 @@ def test_s3_bucket_books(s3_base_url, code_tag, s3_queue_state_bucket_books):
     successful_books = []
     unsuccessful_books = []
 
-    for ii in approved_books_full_url:
+    for url in approved_books_full_url:
         try:
-            urllib.request.urlopen(ii)
+            urllib.request.urlopen(url)
         except HTTPError as h_e:
             # Return code 404, 501, ...
-            print("HTTPError (check concourse jobs): {}".format(h_e.code) + ", " + ii)
-            unsuccessful_books.append(ii)
+            print("HTTPError (check concourse jobs): {}".format(h_e.code) + ", " + url)
+            unsuccessful_books.append(url)
 
         else:
-            successful_books.append(ii.replace(".json", ".xhtml"))
+            successful_books.append(url.replace(".json", ".xhtml"))
 
-    # list of approved book urls without http errors
-    for books in successful_books:
+    # list of approved book urls without http errors (unsuccessful concourse jobs)
+    for book in successful_books:
 
-        try:
-            print(f"Processing page urls for {books}")
-            requests.get(books)
-        except (HTTPError, etree.XMLSyntaxError) as h_e:
-            # Return code 404, 501, ...
-            print("HTTPError (check concourse jobs): {}".format(h_e.code) + ", " + books)
-        else:
+        print("Verifying pages of collection ", book)
 
-            xhtml_data = requests.get(books).content
+        xhtml_data = requests.get(book).content
+        doc = etree.fromstring(xhtml_data)
 
-            doc = etree.fromstring(xhtml_data)
+        links = []
+        for node in doc.xpath(
+            '//x:a[@href and starts-with(@href, "./")]',
+            namespaces={"x": "http://www.w3.org/1999/xhtml"},
+        ):
+            links.append(node.attrib["href"])
 
-            links = []
-            for node in doc.xpath(
-                '//x:a[@href and starts-with(@href, "./")]',
-                namespaces={"x": "http://www.w3.org/1999/xhtml"},
-            ):
-                links.append(node.attrib["href"])
-            for link in links[::10]:
+        # verifies every 10th page url in each book
+        for link in links[::10]:
 
-                links_replaced = link.replace("./", f"{s3_base_url}{s3_archive_folder}").replace(
-                    ".xhtml", ".json"
-                )
+            links_replaced = link.replace("./", f"{s3_base_url}{s3_archive_folder}").replace(
+                ".xhtml", ".json"
+            )
 
-                res = requests.get(links_replaced)
+            res = requests.get(links_replaced)
 
-                s3_pages = urllib.request.urlopen(links_replaced).read()
-                s3_pages_jdata = json.loads(s3_pages)
-                s3_page_title = s3_pages_jdata.get("title")
-                s3_page_content = s3_pages_jdata.get("content")
+            s3_pages = urllib.request.urlopen(links_replaced).read()
+            s3_pages_jdata = json.loads(s3_pages)
+            s3_page_title = s3_pages_jdata.get("title")
+            s3_page_content = s3_pages_jdata.get("content")
 
-                assert s3_page_title != ""
-                assert s3_page_content != ""
+            assert s3_page_title != ""
+            assert s3_page_content != ""
 
-                assert res.status_code == 200
-
-    print("ALL QUEUE STATE BOOKS: ", len(approved_books_full_url))
-    print("UNSUCCESSFUL BOOKS   : ", len(unsuccessful_books))
-    print("SUCCESSFUL BOOKS     : ", len(successful_books))
+            assert res.status_code == 200
