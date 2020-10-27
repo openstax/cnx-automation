@@ -94,14 +94,16 @@ def test_s3_bucket_books(
         ):
             links.append(node.attrib["href"])
 
-        # verifies every 8th page url in each book
+        # verifies every 8th page url of each book
         for link in links[::8]:
 
             links_replaced = link.replace("./", f"{s3_base_url}{s3_archive_folder}").replace(
                 ".xhtml", ".json"
             )
 
-            s3_pages = urllib.request.urlopen(links_replaced).read()
+            s3_pages_request = urllib.request.urlopen(links_replaced)
+
+            s3_pages = s3_pages_request.read()
             s3_pages_jdata = json.loads(s3_pages)
             s3_page_title = s3_pages_jdata.get("title")
             s3_page_content = s3_pages_jdata.get("content")
@@ -109,5 +111,4 @@ def test_s3_bucket_books(
             assert s3_page_title != ""
             assert s3_page_content != ""
 
-            res = requests.get(links_replaced)
-            assert res.status_code == 200
+            assert s3_pages_request.getcode() == 200
