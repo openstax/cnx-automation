@@ -2,6 +2,7 @@ Sitemap: https://cnx.org/sitemap_index.xml
 User-agent: ScoutJet
 Crawl-delay: 10
 Disallow: legacy.cnx.org
+Disallow: vendor.cnx.org
 Disallow: /lenses
 Disallow: /browse_content
 Disallow: /*/pdf$
@@ -19,6 +20,7 @@ Disallow: /haproxy-status
 
 User-agent: *
 Disallow: legacy.cnx.org
+Disallow: vendor.cnx.org
 Disallow: /lenses
 Disallow: /browse_content
 Disallow: /*/pdf$
@@ -37,6 +39,7 @@ Disallow: /haproxy-status
 User-agent: Baiduspider
 Crawl-delay: 10
 Disallow: legacy.cnx.org
+Disallow: vendor.cnx.org
 Disallow: /lenses
 Disallow: /browse_content
 Disallow: /*/pdf$
@@ -55,6 +58,7 @@ Disallow: /haproxy-status
 User-agent: BecomeBot
 Crawl-delay: 20
 Disallow: legacy.cnx.org
+Disallow: vendor.cnx.org
 Disallow: /lenses
 Disallow: /browse_content
 Disallow: /*/pdf$
@@ -73,6 +77,7 @@ Disallow: /haproxy-status
 User-agent: Slurp
 Crawl-delay: 10
 Disallow: legacy.cnx.org
+Disallow: vendor.cnx.org
 Disallow: /lenses
 Disallow: /browse_content
 Disallow: /*/pdf$
