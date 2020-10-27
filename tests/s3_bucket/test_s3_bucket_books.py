@@ -63,32 +63,11 @@ def test_create_queue_state_books_list(
         json.dump(s3_bucket_books, json_output_file)
 
 
-def test_s3_bucket_books(s3_base_url, code_tag, s3_queue_state_bucket_books):
-
-    # path to the aws s3 bucket folder
-    s3_archive_folder = f"/apps/archive/{code_tag}/contents/"
-
-    # reading nested lists and getting slug names
-    json_data = json.loads(s3_queue_state_bucket_books)
-    json_data = json_data[::-1]
-
-    uuid_list = []
-    version_list = []
-    for key in json_data:
-        if key["uuid"]:
-            uuid_list.append(key["uuid"])
-        if key["version"]:
-            version_list.append(key["version"])
-
-    for i in range(0, len(version_list)):
-        version_list[i] = version_list[i][2:]
-
-    approved_books_full_url = [
-        f"{s3_base_url}{s3_archive_folder}{i}@{j}.json" for i, j in zip(uuid_list, version_list)
-    ]
+def test_s3_bucket_books(
+    s3_base_url, s3_queue_state_bucket_books, approved_books_full_url, s3_archive_folder
+):
 
     successful_books = []
-    unsuccessful_books = []
 
     for url in approved_books_full_url:
         try:
@@ -96,7 +75,6 @@ def test_s3_bucket_books(s3_base_url, code_tag, s3_queue_state_bucket_books):
         except HTTPError as h_e:
             # Return code 404, 501, ...
             print("HTTPError (check concourse jobs): {}".format(h_e.code) + ", " + url)
-            unsuccessful_books.append(url)
 
         else:
             successful_books.append(url.replace(".json", ".xhtml"))
@@ -116,14 +94,12 @@ def test_s3_bucket_books(s3_base_url, code_tag, s3_queue_state_bucket_books):
         ):
             links.append(node.attrib["href"])
 
-        # verifies every 10th page url in each book
-        for link in links[::10]:
+        # verifies every 8th page url in each book
+        for link in links[::8]:
 
             links_replaced = link.replace("./", f"{s3_base_url}{s3_archive_folder}").replace(
                 ".xhtml", ".json"
             )
-
-            res = requests.get(links_replaced)
 
             s3_pages = urllib.request.urlopen(links_replaced).read()
             s3_pages_jdata = json.loads(s3_pages)
@@ -133,4 +109,5 @@ def test_s3_bucket_books(s3_base_url, code_tag, s3_queue_state_bucket_books):
             assert s3_page_title != ""
             assert s3_page_content != ""
 
+            res = requests.get(links_replaced)
             assert res.status_code == 200
