@@ -82,6 +82,23 @@ def test_chemistry_2e_uris_redirect_to_rex(webview_base_url, rex_base_url, chemi
     assert response.url.endswith(cnx_page_slug)
 
 
+@markers.test_case("C616758")
+@markers.slow
+@markers.rex
+@markers.nondestructive
+def test_chemistry_uris_redirect_to_rex(webview_base_url, rex_base_url, chemistry_uri):
+    # GIVEN a webview_base_url, rex_base_url and a chemistry_uri
+
+    # WHEN we go to a page based on the webview_base_url and uri
+    cnx_page_slug = chemistry_uri.split("/")[-1]
+    cnx_url = f"{webview_base_url}{chemistry_uri}"
+    response = get_url(cnx_url)
+
+    # THEN we are redirected to rex
+    assert response.url.startswith(rex_base_url)
+    assert response.url.endswith(cnx_page_slug)
+
+
 @markers.test_case("C553085")
 @markers.slow
 @markers.rex
@@ -217,6 +234,25 @@ def test_chemistry_atoms_first_2e_uri_redirect_to_rex(
     # WHEN we go to a page based on the webview_base_url and uri
     cnx_page_slug = chemistry_atoms_first_2e_uri.split("/")[-1]
     cnx_url = f"{webview_base_url}{chemistry_atoms_first_2e_uri}"
+    response = get_url(cnx_url)
+
+    # THEN we are redirected to rex
+    assert response.url.startswith(rex_base_url)
+    assert response.url.endswith(cnx_page_slug)
+
+
+@markers.test_case("C616758")
+@markers.slow
+@markers.rex
+@markers.nondestructive
+def test_chemistry_atoms_first_uri_redirect_to_rex(
+    webview_base_url, rex_base_url, chemistry_atoms_first_uri
+):
+    # GIVEN a webview_base_url, rex_base_url and a chemistry_atoms_first_uri
+
+    # WHEN we go to a page based on the webview_base_url and uri
+    cnx_page_slug = chemistry_atoms_first_uri.split("/")[-1]
+    cnx_url = f"{webview_base_url}{chemistry_atoms_first_uri}"
     response = get_url(cnx_url)
 
     # THEN we are redirected to rex
@@ -690,6 +726,23 @@ def test_prealgebra_2e_uri_redirect_to_rex(webview_base_url, rex_base_url, preal
     assert response.url.endswith(cnx_page_slug)
 
 
+@markers.test_case("C616758")
+@markers.slow
+@markers.rex
+@markers.nondestructive
+def test_prealgebra_uri_redirect_to_rex(webview_base_url, rex_base_url, prealgebra_uri):
+    # GIVEN a webview_base_url, rex_base_url and a ..._uri
+
+    # WHEN we go to a page based on the webview_base_url and uri
+    cnx_page_slug = prealgebra_uri.split("/")[-1]
+    cnx_url = f"{webview_base_url}{prealgebra_uri}"
+    response = get_url(cnx_url)
+
+    # THEN we are redirected to rex
+    assert response.url.startswith(rex_base_url)
+    assert response.url.endswith(cnx_page_slug)
+
+
 @markers.test_case("C602857")
 @markers.slow
 @markers.rex
@@ -700,6 +753,23 @@ def test_elem_algebra_2e_uri_redirect_to_rex(webview_base_url, rex_base_url, ele
     # WHEN we go to a page based on the webview_base_url and uri
     cnx_page_slug = elem_algebra_2e_uri.split("/")[-1]
     cnx_url = f"{webview_base_url}{elem_algebra_2e_uri}"
+    response = get_url(cnx_url)
+
+    # THEN we are redirected to rex
+    assert response.url.startswith(rex_base_url)
+    assert response.url.endswith(cnx_page_slug)
+
+
+@markers.test_case("C616758")
+@markers.slow
+@markers.rex
+@markers.nondestructive
+def test_elem_algebra_uri_redirect_to_rex(webview_base_url, rex_base_url, elem_algebra_uri):
+    # GIVEN a webview_base_url, rex_base_url and a ..._uri
+
+    # WHEN we go to a page based on the webview_base_url and uri
+    cnx_page_slug = elem_algebra_uri.split("/")[-1]
+    cnx_url = f"{webview_base_url}{elem_algebra_uri}"
     response = get_url(cnx_url)
 
     # THEN we are redirected to rex
@@ -770,6 +840,23 @@ def test_interm_algebra_2e_uri_redirect_to_rex(
     # WHEN we go to a page based on the webview_base_url and uri
     cnx_page_slug = interm_algebra_2e_uri.split("/")[-1]
     cnx_url = f"{webview_base_url}{interm_algebra_2e_uri}"
+    response = get_url(cnx_url)
+
+    # THEN we are redirected to rex
+    assert response.url.startswith(rex_base_url)
+    assert response.url.endswith(cnx_page_slug)
+
+
+@markers.test_case("C616758")
+@markers.slow
+@markers.rex
+@markers.nondestructive
+def test_interm_algebra_uri_redirect_to_rex(webview_base_url, rex_base_url, interm_algebra_uri):
+    # GIVEN a webview_base_url, rex_base_url and a ..._uri
+
+    # WHEN we go to a page based on the webview_base_url and uri
+    cnx_page_slug = interm_algebra_uri.split("/")[-1]
+    cnx_url = f"{webview_base_url}{interm_algebra_uri}"
     response = get_url(cnx_url)
 
     # THEN we are redirected to rex
@@ -893,6 +980,23 @@ def test_col_alg_with_coreq_uri_redirect_to_rex(
     # WHEN we go to a page based on the webview_base_url and uri
     cnx_page_slug = col_alg_with_coreq_uri.split("/")[-1]
     cnx_url = f"{webview_base_url}{col_alg_with_coreq_uri}"
+    response = get_url(cnx_url)
+
+    # THEN we are redirected to rex
+    assert response.url.startswith(rex_base_url)
+    assert response.url.endswith(cnx_page_slug)
+
+
+@markers.test_case("C616758")
+@markers.slow
+@markers.rex
+@markers.nondestructive
+def test_intro_to_soc_uri_redirect_to_rex(webview_base_url, rex_base_url, intro_to_soc_uri):
+    # GIVEN a webview_base_url, rex_base_url and a sociology_2e_uri
+
+    # WHEN we go to a page based on the webview_base_url and uri
+    cnx_page_slug = intro_to_soc_uri.split("/")[-1]
+    cnx_url = f"{webview_base_url}{intro_to_soc_uri}"
     response = get_url(cnx_url)
 
     # THEN we are redirected to rex

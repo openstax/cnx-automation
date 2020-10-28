@@ -37,6 +37,17 @@ def chemistry_2e_uri(request):
 
 
 @pytest.fixture(
+    params=gen_from_file(os.path.join(DATA_DIR, "85abf193-2bd2-4908-8563-90b8a7ac8df6.txt"))
+)
+def chemistry_uri(request):
+    """Yields a URI from the Chemistry book located on a cnx.org instance
+
+    Example: /contents/f8zJz5tx@0.0:2po7o99e/1-essential-ideas
+    """
+    yield request.param
+
+
+@pytest.fixture(
     params=gen_from_file(os.path.join(DATA_DIR, "8d50a0af-948b-4204-a71d-4826cba765b8.txt"))
 )
 def biology_2e_uri(request):
@@ -128,6 +139,17 @@ def college_physics_uri(request):
     params=gen_from_file(os.path.join(DATA_DIR, "d9b85ee6-c57f-4861-8208-5ddf261e9c5f.txt"))
 )
 def chemistry_atoms_first_2e_uri(request):
+    """Yields a URI from the Chemistry: Atoms First book located on a cnx.org instance
+
+    Example: /contents/f8zJz5tx@0.0:2po7o99e/1-essential-ideas
+    """
+    yield request.param
+
+
+@pytest.fixture(
+    params=gen_from_file(os.path.join(DATA_DIR, "4539ae23-1ccc-421e-9b25-843acbb6c4b0.txt"))
+)
+def chemistry_atoms_first_uri(request):
     """Yields a URI from the Chemistry: Atoms First 2e book located on a cnx.org instance
 
     Example: /contents/f8zJz5tx@0.0:2po7o99e/1-essential-ideas
@@ -444,9 +466,31 @@ def prealgebra_2e_uri(request):
 
 
 @pytest.fixture(
+    params=gen_from_file(os.path.join(DATA_DIR, "caa57dab-41c7-455e-bd6f-f443cda5519c.txt"))
+)
+def prealgebra_uri(request):
+    """Yields a URI from collection
+
+    Example: /contents/f8zJz5tx@0.0:2po7o99e/1-essential-ideas
+    """
+    yield request.param
+
+
+@pytest.fixture(
     params=gen_from_file(os.path.join(DATA_DIR, "55931856-c627-418b-a56f-1dd0007683a8.txt"))
 )
 def elem_algebra_2e_uri(request):
+    """Yields a URI from collection
+
+    Example: /contents/f8zJz5tx@0.0:2po7o99e/1-essential-ideas
+    """
+    yield request.param
+
+
+@pytest.fixture(
+    params=gen_from_file(os.path.join(DATA_DIR, "0889907c-f0ef-496a-bcb8-2a5bb121717f.txt"))
+)
+def elem_algebra_uri(request):
     """Yields a URI from collection
 
     Example: /contents/f8zJz5tx@0.0:2po7o99e/1-essential-ideas
@@ -499,6 +543,17 @@ def interm_algebra_2e_uri(request):
 
 
 @pytest.fixture(
+    params=gen_from_file(os.path.join(DATA_DIR, "02776133-d49d-49cb-bfaa-67c7f61b25a1.txt"))
+)
+def interm_algebra_uri(request):
+    """Yields a URI from collection
+
+    Example: /contents/f8zJz5tx@0.0:2po7o99e/1-essential-ideas
+    """
+    yield request.param
+
+
+@pytest.fixture(
     params=gen_from_file(os.path.join(DATA_DIR, "4abf04bf-93a0-45c3-9cbc-2cefd46e68cc.txt"))
 )
 def psychology_uri(request):
@@ -535,6 +590,17 @@ def amer_gov_1e_uri(request):
     params=gen_from_file(os.path.join(DATA_DIR, "507feb1e-cfff-4b54-bc07-d52636cecfe3.txt"))
 )
 def col_alg_with_coreq_uri(request):
+    """Yields a URI from collection
+
+    Example: /contents/f8zJz5tx@0.0:2po7o99e/1-essential-ideas
+    """
+    yield request.param
+
+
+@pytest.fixture(
+    params=gen_from_file(os.path.join(DATA_DIR, "afe4332a-c97f-4fc4-be27-4e4d384a32d8.txt"))
+)
+def intro_to_soc_uri(request):
     """Yields a URI from collection
 
     Example: /contents/f8zJz5tx@0.0:2po7o99e/1-essential-ideas

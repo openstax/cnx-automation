@@ -31,6 +31,22 @@ def test_chemistry_2e_uris_redirect_to_rex(webview_base_url, rex_base_url, chemi
 @markers.slow
 @markers.rex
 @markers.nondestructive
+def test_chemistry_uris_redirect_to_rex(webview_base_url, rex_base_url, chemistry_uri):
+    # GIVEN a webview_base_url, rex_base_url and a chemistry_2e_uri
+
+    # WHEN we go to a page based on the webview_base_url and uri
+    cnx_url = f"{webview_base_url}{chemistry_uri}"
+    response = requests.get(cnx_url, allow_redirects=False)
+
+    # THEN we are redirected to rex
+    assert rex_base_url in response.headers["Location"]
+    assert 301 == response.status_code
+
+
+@markers.test_case("C568716")
+@markers.slow
+@markers.rex
+@markers.nondestructive
 def test_biology_2e_uris_redirect_to_rex(webview_base_url, rex_base_url, biology_2e_uri):
     # GIVEN a webview_base_url, rex_base_url and a biology_2e_uri
 
@@ -154,6 +170,24 @@ def test_chemistry_atoms_first_2e_uri_redirect_to_rex(
 
     # WHEN we go to a page based on the webview_base_url and uri
     cnx_url = f"{webview_base_url}{chemistry_atoms_first_2e_uri}"
+    response = requests.get(cnx_url, allow_redirects=False)
+
+    # THEN we are redirected to rex
+    assert rex_base_url in response.headers["Location"]
+    assert 301 == response.status_code
+
+
+@markers.test_case("C568716")
+@markers.slow
+@markers.rex
+@markers.nondestructive
+def test_chemistry_atoms_first_uri_redirect_to_rex(
+    webview_base_url, rex_base_url, chemistry_atoms_first_uri
+):
+    # GIVEN a webview_base_url, rex_base_url and a chemistry_atoms_first_2e_uri
+
+    # WHEN we go to a page based on the webview_base_url and uri
+    cnx_url = f"{webview_base_url}{chemistry_atoms_first_uri}"
     response = requests.get(cnx_url, allow_redirects=False)
 
     # THEN we are redirected to rex
@@ -605,11 +639,43 @@ def test_prealgebra_2e_uri_redirect_to_rex(webview_base_url, rex_base_url, preal
 @markers.slow
 @markers.rex
 @markers.nondestructive
+def test_prealgebra_uri_redirect_to_rex(webview_base_url, rex_base_url, prealgebra_uri):
+    # GIVEN a webview_base_url, rex_base_url and a col..._uri
+
+    # WHEN we go to a page based on the webview_base_url and uri
+    cnx_url = f"{webview_base_url}{prealgebra_uri}"
+    response = requests.get(cnx_url, allow_redirects=False)
+
+    # THEN we are redirected to rex
+    assert rex_base_url in response.headers["Location"]
+    assert 301 == response.status_code
+
+
+@markers.test_case("C568716")
+@markers.slow
+@markers.rex
+@markers.nondestructive
 def test_elem_algebra_2e_uri_redirect_to_rex(webview_base_url, rex_base_url, elem_algebra_2e_uri):
     # GIVEN a webview_base_url, rex_base_url and a col..._uri
 
     # WHEN we go to a page based on the webview_base_url and uri
     cnx_url = f"{webview_base_url}{elem_algebra_2e_uri}"
+    response = requests.get(cnx_url, allow_redirects=False)
+
+    # THEN we are redirected to rex
+    assert rex_base_url in response.headers["Location"]
+    assert 301 == response.status_code
+
+
+@markers.test_case("C568716")
+@markers.slow
+@markers.rex
+@markers.nondestructive
+def test_elem_algebra_uri_redirect_to_rex(webview_base_url, rex_base_url, elem_algebra_uri):
+    # GIVEN a webview_base_url, rex_base_url and a col..._uri
+
+    # WHEN we go to a page based on the webview_base_url and uri
+    cnx_url = f"{webview_base_url}{elem_algebra_uri}"
     response = requests.get(cnx_url, allow_redirects=False)
 
     # THEN we are redirected to rex
@@ -676,6 +742,22 @@ def test_interm_algebra_2e_uri_redirect_to_rex(
 
     # WHEN we go to a page based on the webview_base_url and uri
     cnx_url = f"{webview_base_url}{interm_algebra_2e_uri}"
+    response = requests.get(cnx_url, allow_redirects=False)
+
+    # THEN we are redirected to rex
+    assert rex_base_url in response.headers["Location"]
+    assert 301 == response.status_code
+
+
+@markers.test_case("C568716")
+@markers.slow
+@markers.rex
+@markers.nondestructive
+def test_interm_algebra_uri_redirect_to_rex(webview_base_url, rex_base_url, interm_algebra_uri):
+    # GIVEN a webview_base_url, rex_base_url and a col..._uri
+
+    # WHEN we go to a page based on the webview_base_url and uri
+    cnx_url = f"{webview_base_url}{interm_algebra_uri}"
     response = requests.get(cnx_url, allow_redirects=False)
 
     # THEN we are redirected to rex
@@ -792,6 +874,22 @@ def test_col_alg_with_coreq_uri_redirect_to_rex(
 
     # WHEN we go to a page based on the webview_base_url and uri
     cnx_url = f"{webview_base_url}{col_alg_with_coreq_uri}"
+    response = requests.get(cnx_url, allow_redirects=False)
+
+    # THEN we are redirected to rex
+    assert rex_base_url in response.headers["Location"]
+    assert 301 == response.status_code
+
+
+@markers.test_case("C568716")
+@markers.slow
+@markers.rex
+@markers.nondestructive
+def test_intro_to_soc_uri_redirect_to_rex(webview_base_url, rex_base_url, intro_to_soc_uri):
+    # GIVEN a webview_base_url, rex_base_url and a col..._uri
+
+    # WHEN we go to a page based on the webview_base_url and uri
+    cnx_url = f"{webview_base_url}{intro_to_soc_uri}"
     response = requests.get(cnx_url, allow_redirects=False)
 
     # THEN we are redirected to rex
