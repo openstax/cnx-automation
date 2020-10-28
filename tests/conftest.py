@@ -20,8 +20,7 @@ pytest_plugins = (
     "fixtures.webview",
     "fixtures.legacy",
     "fixtures.neb",
-    "fixtures.s3_books_title_version_dict",
-    "fixtures.bucket_books_tree",
+    "fixtures.approved_books_full_url",
 )
 
 

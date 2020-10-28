@@ -658,6 +658,13 @@ def code_tag(request):
 
 
 @pytest.fixture
+def s3_archive_folder(code_tag):
+    """Return archive folder in aws s3 bucket"""
+    s3_archive_folder = f"/apps/archive/{code_tag}/contents/"
+    return s3_archive_folder
+
+
+@pytest.fixture
 def queue_state_bucket(request):
     """Return queue state bucket name"""
     config = request.config
