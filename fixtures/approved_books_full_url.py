@@ -4,12 +4,12 @@ import json
 
 """
 Returns full urls for approved books
-Latest update on Oct. 26th, 2020
+Latest update on Oct. 28th, 2020
 """
 
 
 @pytest.fixture
-def approved_books_full_url(s3_base_url, s3_queue_state_bucket_books, s3_archive_folder):
+def approved_books_full_url(s3_queue_state_bucket_books, s3_archive_folder):
 
     # reading nested lists and getting slug names
     json_data = json.loads(s3_queue_state_bucket_books)
@@ -27,7 +27,7 @@ def approved_books_full_url(s3_base_url, s3_queue_state_bucket_books, s3_archive
         version_list[i] = version_list[i][2:]
 
     approved_books_full_url = [
-        f"{s3_base_url}{s3_archive_folder}{i}@{j}.json" for i, j in zip(uuid_list, version_list)
+        f"{s3_archive_folder}{i}@{j}.json" for i, j in zip(uuid_list, version_list)
     ]
 
     return approved_books_full_url
