@@ -1,5 +1,5 @@
 # See https://github.com/openstax/docker-qa for more information about this base image.
-FROM openstax/selenium-chrome-debug:3.141.59
+FROM openstax/selenium-chrome-debug:latest
 
 USER root
 
