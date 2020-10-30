@@ -724,9 +724,9 @@ def code_tag(request):
 
 
 @pytest.fixture
-def s3_archive_folder(code_tag):
-    """Return archive folder in aws s3 bucket"""
-    s3_archive_folder = f"/apps/archive/{code_tag}/contents/"
+def s3_archive_folder(code_tag, s3_base_url):
+    """Return complete archive folder in aws s3 bucket"""
+    s3_archive_folder = f"{s3_base_url}/apps/archive/{code_tag}/contents/"
     return s3_archive_folder
 
 

@@ -12,8 +12,8 @@ import os
 import boto3
 
 """
-Verifies collections in the s3 bucket folder
-Latest update on Oct. 26th, 2020
+Verifies pages of collections in the aws s3 bucket folder
+Latest update on Oct. 28th, 2020
 """
 
 
@@ -63,52 +63,52 @@ def test_create_queue_state_books_list(
         json.dump(s3_bucket_books, json_output_file)
 
 
-def test_s3_bucket_books(
-    s3_base_url, s3_queue_state_bucket_books, approved_books_full_url, s3_archive_folder
-):
+def test_s3_bucket_books(s3_queue_state_bucket_books, approved_books_full_url, s3_archive_folder):
 
     successful_books = []
 
     for url in approved_books_full_url:
         try:
-            urllib.request.urlopen(url)
+            req_url = urllib.request.urlopen(url)
         except HTTPError as h_e:
             # Return code 404, 501, ...
-            print("HTTPError (check concourse jobs): {}".format(h_e.code) + ", " + url)
+            print(">>> HTTPError (check concourse jobs): {}".format(h_e.code) + ", " + url)
 
         else:
-            successful_books.append(url.replace(".json", ".xhtml"))
+            # Return code 200, ...
+            successful_books.append(url)
 
-    # list of approved book urls without http errors (unsuccessful concourse jobs)
-    for book in successful_books:
+            book_jsons = req_url.read()
+            jsons = json.loads(book_jsons)
+            book_title = jsons.get("title")
 
-        print("Verifying pages of collection ", book)
+            print(f"Verifying collection {book_title} : {url}")
 
-        xhtml_data = requests.get(book).content
-        doc = etree.fromstring(xhtml_data)
+            xhtml_data = requests.get(url.replace(".json", ".xhtml")).content
+            doc = etree.fromstring(xhtml_data)
 
-        links = []
-        for node in doc.xpath(
-            '//x:a[@href and starts-with(@href, "./")]',
-            namespaces={"x": "http://www.w3.org/1999/xhtml"},
-        ):
-            links.append(node.attrib["href"])
+            links = []
 
-        # verifies every 8th page url of each book
-        for link in links[::8]:
+            for node in doc.xpath(
+                '//x:a[@href and starts-with(@href, "./")]',
+                namespaces={"x": "http://www.w3.org/1999/xhtml"},
+            ):
+                links.append(node.attrib["href"])
 
-            links_replaced = link.replace("./", f"{s3_base_url}{s3_archive_folder}").replace(
-                ".xhtml", ".json"
-            )
+            # verifies every 5th page url of each book
+            for link in links[::5]:
 
-            s3_pages_request = urllib.request.urlopen(links_replaced)
+                links_replaced = link.replace("./", f"{s3_archive_folder}").replace(
+                    ".xhtml", ".json"
+                )
 
-            s3_pages = s3_pages_request.read()
-            s3_pages_jdata = json.loads(s3_pages)
-            s3_page_title = s3_pages_jdata.get("title")
-            s3_page_content = s3_pages_jdata.get("content")
+                s3_pages_request = urllib.request.urlopen(links_replaced)
 
-            assert s3_page_title != ""
-            assert s3_page_content != ""
+                s3_pages = s3_pages_request.read()
+                s3_pages_jdata = json.loads(s3_pages)
 
-            assert s3_pages_request.getcode() == 200
+                assert s3_pages_jdata["title"]
+                assert s3_pages_jdata["content"]
+                assert "<body>" and "</body>" in s3_pages_jdata["content"]
+
+                assert s3_pages_request.getcode() == 200
