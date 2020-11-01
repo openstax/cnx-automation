@@ -4,7 +4,7 @@
 #
 #    pip-compile --output-file=requirements.txt
 #
-aiohttp==3.6.2            # via nebuchadnezzar
+aiohttp==3.7.2            # via nebuchadnezzar
 apipkg==1.5               # via -r requirements.in, execnet
 appdirs==1.4.4            # via virtualenv
 asn1crypto==1.4.0         # via -r requirements.in
