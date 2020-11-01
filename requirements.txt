@@ -50,7 +50,7 @@ nebuchadnezzar==9.8.2     # via -r requirements.in
 nodeenv==1.5.0            # via -r requirements.in, pre-commit
 ordered-set==4.0.2        # via deepdiff
 packaging==20.4           # via -r requirements.in, pytest
-pillow==7.2.0             # via -r requirements.in
+pillow==8.0.1             # via -r requirements.in
 pluggy==0.13.1            # via -r requirements.in, pypom, pytest
 pre-commit==2.7.1         # via -r requirements.in
 py==1.9.0                 # via -r requirements.in, pytest, pytest-forked
