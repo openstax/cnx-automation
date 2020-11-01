@@ -52,7 +52,7 @@ ordered-set==4.0.2        # via deepdiff
 packaging==20.4           # via -r requirements.in, pytest
 pillow==8.0.1             # via -r requirements.in
 pluggy==0.13.1            # via -r requirements.in, pypom, pytest
-pre-commit==2.7.1         # via -r requirements.in
+pre-commit==2.8.2         # via -r requirements.in
 py==1.9.0                 # via -r requirements.in, pytest, pytest-forked
 pycparser==2.20           # via -r requirements.in, cffi
 pyparsing==2.4.7          # via -r requirements.in, packaging
