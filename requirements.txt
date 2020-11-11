@@ -4,7 +4,8 @@
 #
 #    pip-compile --output-file=requirements.txt
 #
-aiohttp==3.7.2            # via nebuchadnezzar
+aiodns==2.0.0             # via aiohttp
+aiohttp[speedups]==3.7.2  # via nebuchadnezzar
 apipkg==1.5               # via -r requirements.in, execnet
 appdirs==1.4.4            # via virtualenv
 asn1crypto==1.4.0         # via -r requirements.in
@@ -15,9 +16,11 @@ attrs==20.2.0             # via -r requirements.in, aiohttp, pytest
 backoff==1.10.0           # via -r requirements.in
 boto3==1.16.9             # via -r requirements.in
 botocore==1.19.9          # via boto3, s3transfer
+brotlipy==0.7.0           # via aiohttp
 cached-property==1.5.2    # via -r requirements.in
+cchardet==2.1.7           # via aiohttp
 certifi==2020.6.20        # via -r requirements.in, requests
-cffi==1.14.3              # via -r requirements.in, cryptography
+cffi==1.14.3              # via -r requirements.in, brotlipy, cryptography, pycares
 cfgv==3.2.0               # via -r requirements.in, pre-commit
 chardet==3.0.4            # via -r requirements.in, aiohttp, requests
 chromedriver-binary==87.0.4280.20.0  # via -r requirements.in
@@ -33,7 +36,7 @@ deepdiff==5.0.2           # via -r requirements.in
 distlib==0.3.1            # via virtualenv
 docker==4.3.1             # via -r requirements.in, nebuchadnezzar
 execnet==1.7.1            # via -r requirements.in, pytest-xdist
-filelock==3.0.12          # via -r requirements.in, virtualenv
+filelock==3.0.12          # via -r requirements.in, tldextract, virtualenv
 github3.py==1.3.0         # via -r requirements.in
 identify==1.5.6           # via -r requirements.in, pre-commit
 idna==2.10                # via -r requirements.in, requests, tldextract, yarl
@@ -42,7 +45,7 @@ iniconfig==1.1.1          # via pytest
 jinja2==2.11.2            # via -r requirements.in, cnx-epub
 jmespath==0.10.0          # via boto3, botocore
 jwcrypto==0.8             # via -r requirements.in, github3.py
-lxml==4.6.1               # via -r requirements.in, cnx-epub, cnx-litezip, cnxml, nebuchadnezzar, rhaptos.cnxmlutils
+lxml==4.4.3               # via -r requirements.in, cnx-epub, cnx-litezip, cnxml, nebuchadnezzar, rhaptos.cnxmlutils
 markupsafe==1.1.1         # via -r requirements.in, jinja2
 more-itertools==8.6.0     # via -r requirements.in
 multidict==5.0.0          # via aiohttp, yarl
@@ -54,6 +57,7 @@ pillow==8.0.1             # via -r requirements.in
 pluggy==0.13.1            # via -r requirements.in, pypom, pytest
 pre-commit==2.8.2         # via -r requirements.in
 py==1.9.0                 # via -r requirements.in, pytest, pytest-forked
+pycares==3.1.1            # via aiodns
 pycparser==2.20           # via -r requirements.in, cffi
 pyparsing==2.4.7          # via -r requirements.in, packaging
 pypom==2.2.0              # via -r requirements.in
@@ -83,10 +87,10 @@ tenacity==6.2.0           # via pytest-selenium
 text-unidecode==1.3       # via python-slugify
 tldextract==3.0.2         # via -r requirements.in
 toml==0.10.2              # via -r requirements.in, pre-commit, pytest
-typing-extensions==3.7.4.3  # via yarl
+typing-extensions==3.7.4.3  # via aiohttp, yarl
 uritemplate==3.0.1        # via -r requirements.in, github3.py
 urllib3==1.25.11          # via -r requirements.in, botocore, requests, selenium
-virtualenv==20.1.0       # via -r requirements.in, pre-commit
+virtualenv==20.1.0        # via -r requirements.in, pre-commit
 wcwidth==0.2.5            # via -r requirements.in
 webencodings==0.5.1       # via -r requirements.in
 websocket-client==0.57.0  # via -r requirements.in, docker
