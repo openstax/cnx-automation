@@ -699,7 +699,7 @@ def test_navigation(webview_base_url, selenium):
     # Introduction should be the first section loaded
     assert (
         content.section_title == "Introduction"
-        or similar(content.section_title, "Introduction") > sim_ratio
+        or similar(content.section_title, "📎 Inquiry Organizer") > sim_ratio
     )
     # Preface is skipped by default
     assert header_nav.progress_bar_fraction_is(2 / num_pages)
@@ -707,17 +707,17 @@ def test_navigation(webview_base_url, selenium):
     # WHEN we navigate next twice and then back twice using the header and footer controls
     content = content.header_nav.click_next_link()
     assert type(content) == Content
-    assert content.chapter_section == "1.1"
+    assert content.chapter_section == "1.2"
     assert header_nav.progress_bar_fraction_is(3 / num_pages)
 
     content = content.footer_nav.click_next_link()
     assert type(content) == Content
-    assert content.chapter_section == "1.2"
+    assert content.chapter_section == "1.3"
     assert header_nav.progress_bar_fraction_is(4 / num_pages)
 
     content = content.footer_nav.click_back_link()
     assert type(content) == Content
-    assert content.chapter_section == "1.1"
+    assert content.chapter_section == "1.2"
     assert header_nav.progress_bar_fraction_is(3 / num_pages)
 
     content = content.header_nav.click_back_link()

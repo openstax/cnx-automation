@@ -186,17 +186,13 @@ def test_title_link_loads_correct_page(webview_base_url, selenium, rex_released_
     sim_ratio = 0.4
 
     # WHEN the home page is fully loaded,
-    # AND we have a random OpenStax book title
+    # AND we have an OpenStax book title
     # AND we click the title link and load a content page
     # AND we have the title from the content page
     # AND we have a similarity ratio of the title
 
     home = Home(selenium, webview_base_url).open()
-
-    while True:
-        book = home.featured_books.get_random_openstax_book()
-        if book.cnx_id not in rex_released_books:
-            break
+    book = home.featured_books.openstax_list[32]
 
     book_title = book.clean_title
     content = book.click_title_link()
