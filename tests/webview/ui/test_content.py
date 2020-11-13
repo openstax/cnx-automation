@@ -346,21 +346,11 @@ def test_share_links_displayed(webview_base_url, selenium):
     content = book.click_book_cover()
 
     # THEN social share links have the expected urls
-    current_url = selenium.current_url
-    normalized_title = content.title.replace(" ", "%20")
+    share = content.share
 
-    expected_facebook_url = "https://facebook.com/sharer/sharer.php?u={url}".format(url=current_url)
-    assert "https://facebook.com/sharer/sharer" in expected_facebook_url
-
-    expected_twitter_url = "https://twitter.com/share?url={url}&text={title}&via=cnxorg".format(
-        url=current_url, title=normalized_title
-    )
-    assert "https://twitter.com/" in expected_twitter_url
-
-    expected_linkedin_url = "https://www.linkedin.com/shareArticle?mini=true&url={url}&title={title}&summary=An%20OpenStax%20CNX%20book&source=OpenStax%20CNX".format(
-        url=current_url, title=normalized_title
-    )
-    assert "https://www.linkedin.com/" in expected_linkedin_url
+    assert "https://facebook.com/share" in share.facebook_share_url
+    assert "https://twitter.com/share" in share.twitter_share_url
+    assert "https://www.linkedin.com/share" in share.linkedin_share_url
 
 
 @markers.webview
