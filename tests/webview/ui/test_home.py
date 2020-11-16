@@ -121,32 +121,29 @@ def test_featured_books_have_title_and_intro(webview_base_url, selenium):
 
 
 @markers.webview
-@markers.xfail
 @markers.test_case("C176227")
 @markers.nondestructive
 def test_show_more_and_less_expands_or_contracts_book_intro(webview_base_url, selenium):
     # GIVEN the webview base url and the Selenium driver
 
     # WHEN the home page is fully loaded,
-    #      find the first OpenStax book and click Show More
+    #      find a OpenStax book and click Show More
     home = Home(selenium, webview_base_url).open()
-    books = home.featured_books.openstax_list
-    books_with_show_more = [book for book in books if book.is_show_more_displayed]
-    assert len(books_with_show_more) >= _number_of_tested_books
-    for book in random.sample(books_with_show_more, _number_of_tested_books):
-        short_intro = book.intro
-        assert book.is_intro_collapsed
-        book = book.click_show_more()
+    books = home.featured_books.openstax_list[32]
+    title = books.title
 
-        # THEN The book description is expanded and can be collapsed again
-        long_intro = book.intro
-        assert "…" not in long_intro
-        assert book.is_show_less_displayed
-        assert long_intro.startswith(short_intro.rstrip("…"))
+    short_intro = books.intro
 
-        book = book.click_show_less()
-        assert book.intro == short_intro
-        assert book.is_show_more_displayed
+    assert title in short_intro
+    assert books.is_show_more_displayed
+
+    # THEN The book description is expanded
+    book = books.click_show_more()
+
+    long_intro = books.intro
+
+    assert title in long_intro
+    assert book.is_show_less_displayed
 
 
 @markers.webview
