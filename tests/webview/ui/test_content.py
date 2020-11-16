@@ -342,15 +342,21 @@ def test_share_links_displayed(webview_base_url, selenium):
     home = Home(selenium, webview_base_url).open()
 
     # WHEN a book is clicked
-    book = home.featured_books.openstax_list[59]
+    book = home.featured_books.openstax_list[32]
     content = book.click_book_cover()
 
     # THEN social share links have the expected urls
+    current_url = selenium.current_url
     share = content.share
 
-    assert "https://facebook.com/share" in share.facebook_share_url
-    assert "https://twitter.com/share" in share.twitter_share_url
-    assert "https://www.linkedin.com/share" in share.linkedin_share_url
+    expected_facebook_url = f"https://facebook.com/sharer/sharer.php?u={current_url}"
+    assert share.facebook_share_url == expected_facebook_url
+
+    expected_twitter_url = f"https://twitter.com/share?url={current_url}"
+    assert expected_twitter_url in share.twitter_share_url
+
+    expected_linkedin_url = f"https://www.linkedin.com/shareArticle?mini=true&url={current_url}"
+    assert expected_linkedin_url in share.linkedin_share_url
 
 
 @markers.webview
