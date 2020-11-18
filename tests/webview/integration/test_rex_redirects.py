@@ -116,6 +116,23 @@ def test_biology_2e_uris_redirect_to_rex(webview_base_url, rex_base_url, biology
     assert response.url.endswith(cnx_page_slug)
 
 
+@markers.test_case("C618400")
+@markers.slow
+@markers.rex
+@markers.nondestructive
+def test_biology_uris_redirect_to_rex(webview_base_url, rex_base_url, biology_uri):
+    # GIVEN a webview_base_url, rex_base_url and a biology_uri
+
+    # WHEN we go to a page based on the webview_base_url and uri
+    cnx_page_slug = biology_uri.split("/")[-1]
+    cnx_url = f"{webview_base_url}{biology_uri}"
+    response = get_url(cnx_url)
+
+    # THEN we are redirected to rex
+    assert response.url.startswith(rex_base_url)
+    assert response.url.endswith(cnx_page_slug)
+
+
 @markers.test_case("C553519")
 @markers.slow
 @markers.rex
@@ -491,6 +508,23 @@ def test_economics_2e_uri_redirect_to_rex(webview_base_url, rex_base_url, econom
     assert response.url.endswith(cnx_page_slug)
 
 
+@markers.test_case("C618400")
+@markers.slow
+@markers.rex
+@markers.nondestructive
+def test_economics_uri_redirect_to_rex(webview_base_url, rex_base_url, economics_uri):
+    # GIVEN a webview_base_url, rex_base_url and a economics_uri
+
+    # WHEN we go to a page based on the webview_base_url and uri
+    cnx_page_slug = economics_uri.split("/")[-1]
+    cnx_url = f"{webview_base_url}{economics_uri}"
+    response = get_url(cnx_url)
+
+    # THEN we are redirected to rex
+    assert response.url.startswith(rex_base_url)
+    assert response.url.endswith(cnx_page_slug)
+
+
 @markers.test_case("C597392")
 @markers.slow
 @markers.rex
@@ -510,6 +544,23 @@ def test_microeconomics_2e_uri_redirect_to_rex(
     assert response.url.endswith(cnx_page_slug)
 
 
+@markers.test_case("C618400")
+@markers.slow
+@markers.rex
+@markers.nondestructive
+def test_microeconomics_uri_redirect_to_rex(webview_base_url, rex_base_url, microeconomics_uri):
+    # GIVEN a webview_base_url, rex_base_url and a microeconomics_2e_uri
+
+    # WHEN we go to a page based on the webview_base_url and uri
+    cnx_page_slug = microeconomics_uri.split("/")[-1]
+    cnx_url = f"{webview_base_url}{microeconomics_uri}"
+    response = get_url(cnx_url)
+
+    # THEN we are redirected to rex
+    assert response.url.startswith(rex_base_url)
+    assert response.url.endswith(cnx_page_slug)
+
+
 @markers.test_case("C597392")
 @markers.slow
 @markers.rex
@@ -522,6 +573,23 @@ def test_macroeconomics_2e_uri_redirect_to_rex(
     # WHEN we go to a page based on the webview_base_url and uri
     cnx_page_slug = macroeconomics_2e_uri.split("/")[-1]
     cnx_url = f"{webview_base_url}{macroeconomics_2e_uri}"
+    response = get_url(cnx_url)
+
+    # THEN we are redirected to rex
+    assert response.url.startswith(rex_base_url)
+    assert response.url.endswith(cnx_page_slug)
+
+
+@markers.test_case("C618400")
+@markers.slow
+@markers.rex
+@markers.nondestructive
+def test_macroeconomics_uri_redirect_to_rex(webview_base_url, rex_base_url, macroeconomics_uri):
+    # GIVEN a webview_base_url, rex_base_url and a macroeconomics_uri
+
+    # WHEN we go to a page based on the webview_base_url and uri
+    cnx_page_slug = macroeconomics_uri.split("/")[-1]
+    cnx_url = f"{webview_base_url}{macroeconomics_uri}"
     response = get_url(cnx_url)
 
     # THEN we are redirected to rex
@@ -690,6 +758,25 @@ def test_principles_microecon_ap_courses_2e_uri_redirect_to_rex(
     assert response.url.endswith(cnx_page_slug)
 
 
+@markers.test_case("C618400")
+@markers.slow
+@markers.rex
+@markers.nondestructive
+def test_principles_microecon_ap_courses_uri_redirect_to_rex(
+    webview_base_url, rex_base_url, principles_microecon_ap_courses_uri
+):
+    # GIVEN a webview_base_url, rex_base_url and a ..._uri
+
+    # WHEN we go to a page based on the webview_base_url and uri
+    cnx_page_slug = principles_microecon_ap_courses_uri.split("/")[-1]
+    cnx_url = f"{webview_base_url}{principles_microecon_ap_courses_uri}"
+    response = get_url(cnx_url)
+
+    # THEN we are redirected to rex
+    assert response.url.startswith(rex_base_url)
+    assert response.url.endswith(cnx_page_slug)
+
+
 @markers.test_case("C600020")
 @markers.slow
 @markers.rex
@@ -702,6 +789,25 @@ def test_principles_macroecon_ap_courses_2e_uri_redirect_to_rex(
     # WHEN we go to a page based on the webview_base_url and uri
     cnx_page_slug = principles_macroecon_ap_courses_2e_uri.split("/")[-1]
     cnx_url = f"{webview_base_url}{principles_macroecon_ap_courses_2e_uri}"
+    response = get_url(cnx_url)
+
+    # THEN we are redirected to rex
+    assert response.url.startswith(rex_base_url)
+    assert response.url.endswith(cnx_page_slug)
+
+
+@markers.test_case("C618400")
+@markers.slow
+@markers.rex
+@markers.nondestructive
+def test_principles_macroecon_ap_courses_uri_redirect_to_rex(
+    webview_base_url, rex_base_url, principles_macroecon_ap_courses_uri
+):
+    # GIVEN a webview_base_url, rex_base_url and a ..._uri
+
+    # WHEN we go to a page based on the webview_base_url and uri
+    cnx_page_slug = principles_macroecon_ap_courses_uri.split("/")[-1]
+    cnx_url = f"{webview_base_url}{principles_macroecon_ap_courses_uri}"
     response = get_url(cnx_url)
 
     # THEN we are redirected to rex
