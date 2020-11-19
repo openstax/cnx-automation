@@ -301,6 +301,17 @@ def economics_2e_uri(request):
 
 
 @pytest.fixture(
+    params=gen_from_file(os.path.join(DATA_DIR, "69619d2b-68f0-44b0-b074-a9b2bf90b2c6.txt"))
+)
+def economics_uri(request):
+    """Yields a URI from collection
+
+    Example: /contents/f8zJz5tx@0.0:2po7o99e/1-essential-ideas
+    """
+    yield request.param
+
+
+@pytest.fixture(
     params=gen_from_file(os.path.join(DATA_DIR, "5c09762c-b540-47d3-9541-dda1f44f16e5.txt"))
 )
 def microeconomics_2e_uri(request):
@@ -312,9 +323,31 @@ def microeconomics_2e_uri(request):
 
 
 @pytest.fixture(
+    params=gen_from_file(os.path.join(DATA_DIR, "ea2f225e-6063-41ca-bcd8-36482e15ef65.txt"))
+)
+def microeconomics_uri(request):
+    """Yields a URI from collection
+
+    Example: /contents/f8zJz5tx@0.0:2po7o99e/1-essential-ideas
+    """
+    yield request.param
+
+
+@pytest.fixture(
     params=gen_from_file(os.path.join(DATA_DIR, "27f59064-990e-48f1-b604-5188b9086c29.txt"))
 )
 def macroeconomics_2e_uri(request):
+    """Yields a URI from collection
+
+    Example: /contents/f8zJz5tx@0.0:2po7o99e/1-essential-ideas
+    """
+    yield request.param
+
+
+@pytest.fixture(
+    params=gen_from_file(os.path.join(DATA_DIR, "4061c832-098e-4b3c-a1d9-7eb593a2cb31.txt"))
+)
+def macroeconomics_uri(request):
     """Yields a URI from collection
 
     Example: /contents/f8zJz5tx@0.0:2po7o99e/1-essential-ideas
@@ -444,9 +477,31 @@ def principles_microecon_ap_courses_2e_uri(request):
 
 
 @pytest.fixture(
+    params=gen_from_file(os.path.join(DATA_DIR, "ca344e2d-6731-43cd-b851-a7b3aa0b37aa.txt"))
+)
+def principles_microecon_ap_courses_uri(request):
+    """Yields a URI from collection
+
+    Example: /contents/f8zJz5tx@0.0:2po7o99e/1-essential-ideas
+    """
+    yield request.param
+
+
+@pytest.fixture(
     params=gen_from_file(os.path.join(DATA_DIR, "9117cf8c-a8a3-4875-8361-9cb0f1fc9362.txt"))
 )
 def principles_macroecon_ap_courses_2e_uri(request):
+    """Yields a URI from collection
+
+    Example: /contents/f8zJz5tx@0.0:2po7o99e/1-essential-ideas
+    """
+    yield request.param
+
+
+@pytest.fixture(
+    params=gen_from_file(os.path.join(DATA_DIR, "33076054-ec1d-4417-8824-ce354efe42d0.txt"))
+)
+def principles_macroecon_ap_courses_uri(request):
     """Yields a URI from collection
 
     Example: /contents/f8zJz5tx@0.0:2po7o99e/1-essential-ideas
@@ -601,6 +656,17 @@ def col_alg_with_coreq_uri(request):
     params=gen_from_file(os.path.join(DATA_DIR, "afe4332a-c97f-4fc4-be27-4e4d384a32d8.txt"))
 )
 def intro_to_soc_uri(request):
+    """Yields a URI from collection
+
+    Example: /contents/f8zJz5tx@0.0:2po7o99e/1-essential-ideas
+    """
+    yield request.param
+
+
+@pytest.fixture(
+    params=gen_from_file(os.path.join(DATA_DIR, "185cbf87-c72e-48f5-b51e-f14f21b5eabd.txt"))
+)
+def biology_uri(request):
     """Yields a URI from collection
 
     Example: /contents/f8zJz5tx@0.0:2po7o99e/1-essential-ideas

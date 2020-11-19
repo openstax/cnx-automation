@@ -63,6 +63,22 @@ def test_biology_2e_uris_redirect_to_rex(webview_base_url, rex_base_url, biology
 @markers.slow
 @markers.rex
 @markers.nondestructive
+def test_biology_uris_redirect_to_rex(webview_base_url, rex_base_url, biology_uri):
+    # GIVEN a webview_base_url, rex_base_url and a biology_uri
+
+    # WHEN we go to a page based on the webview_base_url and uri
+    cnx_url = f"{webview_base_url}{biology_uri}"
+    response = requests.get(cnx_url, allow_redirects=False)
+
+    # THEN we are redirected to rex
+    assert rex_base_url in response.headers["Location"]
+    assert 301 == response.status_code
+
+
+@markers.test_case("C568716")
+@markers.slow
+@markers.rex
+@markers.nondestructive
 def test_microbiology_uris_redirect_to_rex(webview_base_url, rex_base_url, microbiology_uri):
     # GIVEN a webview_base_url, rex_base_url and a microbiology_uri
 
@@ -417,6 +433,22 @@ def test_economics_2e_uri_redirect_to_rex(webview_base_url, rex_base_url, econom
 @markers.slow
 @markers.rex
 @markers.nondestructive
+def test_economics_uri_redirect_to_rex(webview_base_url, rex_base_url, economics_uri):
+    # GIVEN a webview_base_url, rex_base_url and a col..._uri
+
+    # WHEN we go to a page based on the webview_base_url and uri
+    cnx_url = f"{webview_base_url}{economics_uri}"
+    response = requests.get(cnx_url, allow_redirects=False)
+
+    # THEN we are redirected to rex
+    assert rex_base_url in response.headers["Location"]
+    assert 301 == response.status_code
+
+
+@markers.test_case("C568716")
+@markers.slow
+@markers.rex
+@markers.nondestructive
 def test_microeconomics_2e_uri_redirect_to_rex(
     webview_base_url, rex_base_url, microeconomics_2e_uri
 ):
@@ -435,6 +467,22 @@ def test_microeconomics_2e_uri_redirect_to_rex(
 @markers.slow
 @markers.rex
 @markers.nondestructive
+def test_microeconomics_uri_redirect_to_rex(webview_base_url, rex_base_url, microeconomics_uri):
+    # GIVEN a webview_base_url, rex_base_url and a col..._uri
+
+    # WHEN we go to a page based on the webview_base_url and uri
+    cnx_url = f"{webview_base_url}{microeconomics_uri}"
+    response = requests.get(cnx_url, allow_redirects=False)
+
+    # THEN we are redirected to rex
+    assert rex_base_url in response.headers["Location"]
+    assert 301 == response.status_code
+
+
+@markers.test_case("C568716")
+@markers.slow
+@markers.rex
+@markers.nondestructive
 def test_macroeconomics_2e_uri_redirect_to_rex(
     webview_base_url, rex_base_url, macroeconomics_2e_uri
 ):
@@ -442,6 +490,22 @@ def test_macroeconomics_2e_uri_redirect_to_rex(
 
     # WHEN we go to a page based on the webview_base_url and uri
     cnx_url = f"{webview_base_url}{macroeconomics_2e_uri}"
+    response = requests.get(cnx_url, allow_redirects=False)
+
+    # THEN we are redirected to rex
+    assert rex_base_url in response.headers["Location"]
+    assert 301 == response.status_code
+
+
+@markers.test_case("C568716")
+@markers.slow
+@markers.rex
+@markers.nondestructive
+def test_macroeconomics_uri_redirect_to_rex(webview_base_url, rex_base_url, macroeconomics_uri):
+    # GIVEN a webview_base_url, rex_base_url and a col..._uri
+
+    # WHEN we go to a page based on the webview_base_url and uri
+    cnx_url = f"{webview_base_url}{macroeconomics_uri}"
     response = requests.get(cnx_url, allow_redirects=False)
 
     # THEN we are redirected to rex
@@ -605,6 +669,24 @@ def test_principles_microecon_ap_courses_2e_uri_redirect_to_rex(
 @markers.slow
 @markers.rex
 @markers.nondestructive
+def test_principles_microecon_ap_courses_uri_redirect_to_rex(
+    webview_base_url, rex_base_url, principles_microecon_ap_courses_uri
+):
+    # GIVEN a webview_base_url, rex_base_url and a col..._uri
+
+    # WHEN we go to a page based on the webview_base_url and uri
+    cnx_url = f"{webview_base_url}{principles_microecon_ap_courses_uri}"
+    response = requests.get(cnx_url, allow_redirects=False)
+
+    # THEN we are redirected to rex
+    assert rex_base_url in response.headers["Location"]
+    assert 301 == response.status_code
+
+
+@markers.test_case("C568716")
+@markers.slow
+@markers.rex
+@markers.nondestructive
 def test_principles_macroecon_ap_courses_2e_uri_redirect_to_rex(
     webview_base_url, rex_base_url, principles_macroecon_ap_courses_2e_uri
 ):
@@ -612,6 +694,24 @@ def test_principles_macroecon_ap_courses_2e_uri_redirect_to_rex(
 
     # WHEN we go to a page based on the webview_base_url and uri
     cnx_url = f"{webview_base_url}{principles_macroecon_ap_courses_2e_uri}"
+    response = requests.get(cnx_url, allow_redirects=False)
+
+    # THEN we are redirected to rex
+    assert rex_base_url in response.headers["Location"]
+    assert 301 == response.status_code
+
+
+@markers.test_case("C568716")
+@markers.slow
+@markers.rex
+@markers.nondestructive
+def test_principles_macroecon_ap_courses_uri_redirect_to_rex(
+    webview_base_url, rex_base_url, principles_macroecon_ap_courses_uri
+):
+    # GIVEN a webview_base_url, rex_base_url and a col..._uri
+
+    # WHEN we go to a page based on the webview_base_url and uri
+    cnx_url = f"{webview_base_url}{principles_macroecon_ap_courses_uri}"
     response = requests.get(cnx_url, allow_redirects=False)
 
     # THEN we are redirected to rex
