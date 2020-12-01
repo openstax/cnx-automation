@@ -19,7 +19,7 @@ botocore==1.19.26          # via boto3, s3transfer
 brotlipy==0.7.0           # via aiohttp
 cached-property==1.5.2    # via -r requirements.in
 cchardet==2.1.7           # via aiohttp
-certifi==2020.6.20        # via -r requirements.in, requests
+certifi==2020.11.8        # via -r requirements.in, requests
 cffi==1.14.3              # via -r requirements.in, brotlipy, cryptography, pycares
 cfgv==3.2.0               # via -r requirements.in, pre-commit
 chardet==3.0.4            # via -r requirements.in, aiohttp, requests
