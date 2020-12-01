@@ -45,7 +45,7 @@ iniconfig==1.1.1          # via pytest
 jinja2==2.11.2            # via -r requirements.in, cnx-epub
 jmespath==0.10.0          # via boto3, botocore
 jwcrypto==0.8             # via -r requirements.in, github3.py
-lxml==4.4.3               # via -r requirements.in, cnx-epub, cnx-litezip, cnxml, nebuchadnezzar, rhaptos.cnxmlutils
+lxml==4.6.2               # via -r requirements.in, cnx-epub, cnx-litezip, cnxml, nebuchadnezzar, rhaptos.cnxmlutils
 markupsafe==1.1.1         # via -r requirements.in, jinja2
 more-itertools==8.6.0     # via -r requirements.in
 multidict==5.0.0          # via aiohttp, yarl
