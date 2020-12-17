@@ -4,15 +4,16 @@ from urllib.request import urlopen
 import deepdiff
 import json
 
-import pprint
+import pytest
 
 
 """
 Compares version.txt and python-version.txt files on qa or staging against production env
-Updated: 14/12/2020
+Updated: 17/12/2020
 """
 
 
+@pytest.mark.xfail(reason=" >>>>> Attention! No versions changed in current deploy <<<<< ")
 def test_versions_updates(webview_base_url):
 
     # Extracts versions from python-version.txt
@@ -52,7 +53,6 @@ def test_versions_updates(webview_base_url):
 
     # Compares both dictionaries and prints the changed values
     vers_diff = deepdiff.DeepDiff(pvlc_dict, vlc_dict)
-    # print("\nVERSIONS CHANGED IN: ", json.dumps(json.loads(vers_diff.to_json()), indent=2))
 
     # Creates a more readable output containing modules with changed versions only
     vers_diff_flat = {}
@@ -67,7 +67,10 @@ def test_versions_updates(webview_base_url):
     v_items = [(k, v) for k, v in vers_diff_flat.items()]
     print("\n", *v_items[1:], sep="\n")
 
+    assert not vers_diff
 
+
+@pytest.mark.xfail(reason=" >>>>> Attention! No versions changed in current deploy <<<<< ")
 def test_webview_versions_updates(webview_base_url):
 
     # Extracts versions from version.txt
@@ -85,7 +88,6 @@ def test_webview_versions_updates(webview_base_url):
 
     # Compares both dictionaries and prints the changed values
     vers_diff = deepdiff.DeepDiff(prod_jsons, staging_qa_jsons)
-    # print("\nVERSIONS CHANGED IN: ", json.dumps(vers_diff, indent=2))
 
     # Creates a more readable output containing modules with changed versions only
     vers_diff_flat = {}
@@ -99,3 +101,5 @@ def test_webview_versions_updates(webview_base_url):
 
     v_items = [(k, v) for k, v in vers_diff_flat.items()]
     print("\n", *v_items[1:], sep="\n")
+
+    assert not vers_diff
