@@ -52,7 +52,7 @@ multidict==5.1.0          # via aiohttp, yarl
 nebuchadnezzar==9.8.5     # via -r requirements.in
 nodeenv==1.5.0            # via -r requirements.in, pre-commit
 ordered-set==4.0.2        # via deepdiff
-packaging==20.7           # via -r requirements.in, pytest
+packaging==20.8           # via -r requirements.in, pytest
 pillow==8.0.1             # via -r requirements.in
 pluggy==0.13.1            # via -r requirements.in, pypom, pytest
 pre-commit==2.9.2         # via -r requirements.in
