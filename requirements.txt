@@ -38,7 +38,7 @@ docker==4.4.1             # via -r requirements.in, nebuchadnezzar
 execnet==1.7.1            # via -r requirements.in, pytest-xdist
 filelock==3.0.12          # via -r requirements.in, tldextract, virtualenv
 github3.py==1.3.0         # via -r requirements.in
-identify==1.5.10          # via -r requirements.in, pre-commit
+identify==1.5.11          # via -r requirements.in, pre-commit
 idna==2.10                # via -r requirements.in, requests, tldextract, yarl
 importlib-metadata==3.1.0  # via -r requirements.in, pluggy, pre-commit, pytest, virtualenv
 iniconfig==1.1.1          # via pytest
