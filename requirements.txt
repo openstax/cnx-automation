@@ -83,7 +83,7 @@ s3transfer==0.3.3         # via boto3
 selenium==3.141.0         # via -r requirements.in, pypom, pytest-selenium
 simplejson==3.17.2        # via -r requirements.in
 six==1.15.0               # via -r requirements.in, cryptography, docker, python-dateutil, python-memcached, requests-file, tenacity, virtualenv, websocket-client
-tenacity==6.2.0           # via pytest-selenium
+tenacity==6.3.1           # via pytest-selenium
 text-unidecode==1.3       # via python-slugify
 tldextract==3.1.0         # via -r requirements.in
 toml==0.10.2              # via -r requirements.in, pre-commit, pytest
