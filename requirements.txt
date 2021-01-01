@@ -78,7 +78,7 @@ python-slugify==4.0.1     # via cnx-common
 pyyaml==5.3.1             # via -r requirements.in, aspy.yaml, pre-commit
 requests-file==1.5.1      # via -r requirements.in, tldextract
 requests==2.25.1          # via -r requirements.in, cnx-epub, cnx-rex-redirects, docker, github3.py, nebuchadnezzar, pytest-base-url, pytest-selenium, pytest-testrail, requests-file, tldextract
-rhaptos.cnxmlutils==2.1.0  # via -r requirements.in, cnx-transforms
+rhaptos.cnxmlutils==2.1.1  # via -r requirements.in, cnx-transforms
 s3transfer==0.3.3         # via boto3
 selenium==3.141.0         # via -r requirements.in, pypom, pytest-selenium
 simplejson==3.17.2        # via -r requirements.in
