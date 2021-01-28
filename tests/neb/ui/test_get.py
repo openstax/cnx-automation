@@ -39,7 +39,7 @@ def test_get_no_env():
     # THEN neb exits with an error and the usage message is displayed
     assert returncode > 0
     assert "Usage: neb get " in stderr
-    assert re.compile('Error: Missing argument ["\']ENV["\']').search(stderr)
+    assert re.compile("Error: Missing argument [\"']ENV[\"']").search(stderr)
 
 
 @markers.neb
@@ -54,7 +54,7 @@ def test_get_no_col_id(neb_env):
     # THEN neb exits with an error and the usage message is displayed
     assert returncode > 0
     assert "Usage: neb get " in stderr
-    assert re.compile('Error: Missing argument ["\']COL_ID["\']').search(stderr)
+    assert re.compile("Error: Missing argument [\"']COL_ID[\"']").search(stderr)
 
 
 @markers.neb
@@ -70,18 +70,20 @@ def test_get_no_col_version(neb_env, col_id):
     # THEN neb exits with an error and the usage message is displayed
     assert returncode > 0
     assert "Usage: neb get " in stderr
-    assert re.compile('Error: Missing argument ["\']COL_VERSION["\']').search(stderr)
+    assert re.compile("Error: Missing argument [\"']COL_VERSION[\"']").search(stderr)
 
 
 @markers.neb
 @markers.test_case("C195237")
 @markers.nondestructive
-@markers.parametrize("col_id,col_minimum_version", [("col11562", "1.19")])
+@markers.parametrize("col_id,col_minimum_version", [("col11496", "1.10")])
 def test_get_col_latest(insecure, neb_env, col_id, col_minimum_version):
     # GIVEN neb, an environment name, a collection id, and a collection minimum version
 
     # WHEN we run `neb get --verbose env col_id latest`
-    with Neb.get(verbose=True, insecure=insecure, env=neb_env, col_id=col_id, col_version="latest") as zip_dir:
+    with Neb.get(
+        verbose=True, insecure=insecure, env=neb_env, col_id=col_id, col_version="latest"
+    ) as zip_dir:
         # THEN the complete zip is downloaded and has a collection.xml
         # with the minimum version or higher
         path = join(zip_dir, "collection.xml")
@@ -106,7 +108,12 @@ def test_get_col_version(insecure, neb_env, col_id, col_version, snapshot):
 
     # WHEN we run `neb get --verbose env col_id col_version`
     with Neb.get(
-        verbose=True, insecure=insecure, env=neb_env, col_id=col_id, col_version=col_version, input="y"
+        verbose=True,
+        insecure=insecure,
+        env=neb_env,
+        col_id=col_id,
+        col_version=col_version,
+        input="y",
     ) as zip_dir:
         # THEN the complete zip is downloaded and matches the snapshot
         snapshot.assert_file_or_dir_match(zip_dir, snapshot_name)
@@ -122,10 +129,16 @@ def test_get_col_minor_version(insecure, neb_env, col_id, col_version, snapshot)
 
     # WHEN we run `neb get --verbose env col_id col_version`
     with Neb.get(
-        verbose=True, insecure=insecure, env=neb_env, col_id=col_id, col_version=col_version, input="y"
+        verbose=True,
+        insecure=insecure,
+        env=neb_env,
+        col_id=col_id,
+        col_version=col_version,
+        input="y",
     ) as zip_dir:
         # THEN the complete zip is downloaded and matches the snapshot
         snapshot.assert_file_or_dir_match(zip_dir, snapshot_name)
+
 
 @markers.neb
 @markers.nondestructive
@@ -134,11 +147,17 @@ def test_get_col_with_resources(insecure, neb_env, col_id, col_version, snapshot
     # GIVEN neb, an environment name, a collection id, a collection version, and the snapshot tool
     snapshot_name = get_neb_snapshot_name(col_id, col_version, "resources")
 
-    #assert insecure == False
+    # assert insecure == False
 
     # WHEN we run `neb get --verbose env col_id col_version`
     with Neb.get(
-        verbose=True, resources=True, insecure=insecure, env=neb_env, col_id=col_id, col_version=col_version, input="y"
+        verbose=True,
+        resources=True,
+        insecure=insecure,
+        env=neb_env,
+        col_id=col_id,
+        col_version=col_version,
+        input="y",
     ) as zip_dir:
         # THEN the complete zip is downloaded and matches the snapshot
         snapshot.assert_file_or_dir_match(zip_dir, snapshot_name)
