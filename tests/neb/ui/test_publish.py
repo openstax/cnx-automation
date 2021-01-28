@@ -40,7 +40,7 @@ def test_publish_no_env():
     # THEN neb exits with an error and the usage message is displayed
     assert returncode > 0
     assert "Usage: neb publish " in stderr
-    assert re.compile('Error: Missing argument ["\']ENV["\']').search(stderr)
+    assert re.compile("Error: Missing argument [\"']ENV[\"']").search(stderr)
 
 
 @markers.neb
@@ -55,7 +55,7 @@ def test_publish_no_col_id(neb_env):
     # THEN neb exits with an error and the usage message is displayed
     assert returncode > 0
     assert "Usage: neb publish " in stderr
-    assert re.compile('Error: Missing argument ["\']CONTENT_DIR["\']').search(stderr)
+    assert re.compile("Error: Missing argument [\"']CONTENT_DIR[\"']").search(stderr)
 
 
 @markers.neb
@@ -85,8 +85,8 @@ def test_publish_no_commit_message(neb_env):
             "1.19-invalid",
             "Made the CNXML invalid",
             (
-                '/m46885/index.cnxml:102:22 -- error: ID "id9602938" has already been defined',
-                '/m46885/index.cnxml:101:22 -- error: first occurrence of ID "id9602938"',
+                'm46885/index.cnxml", "error": "101:22 -- error: first occurrence of ID \\\\"id9602938\\\\"',
+                'm46885/index.cnxml", "error": "102:22 -- error: ID \\\\"id9602938\\\\" has already been defined',
             ),
         )
     ],
@@ -122,8 +122,9 @@ def test_publish_invalid_cnxml(
         )
 
     # THEN neb exits with an error and the CNXML validation failure message is displayed
+
     assert returncode > 0
-    assert "We've got problems... :(" in stderr
+    assert "Stop the Press!!! =()" in stderr
 
     for validation_error in expected_validation_errors:
         assert validation_error in stderr
