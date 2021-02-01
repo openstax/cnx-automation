@@ -15,7 +15,7 @@ atomicwrites==1.4.0       # via -r requirements.in
 attrs==20.3.0             # via -r requirements.in, aiohttp, pytest
 backoff==1.10.0           # via -r requirements.in
 boto3==1.16.63            # via -r requirements.in
-botocore==1.19.47         # via boto3, s3transfer
+botocore==1.19.63         # via boto3, s3transfer
 brotlipy==0.7.0           # via aiohttp
 cached-property==1.5.2    # via -r requirements.in
 cchardet==2.1.7           # via aiohttp
