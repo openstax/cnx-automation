@@ -69,7 +69,7 @@ pytest-selenium==2.0.1    # via -r requirements.in
 pytest-testrail==2.9.0    # via -r requirements.in
 pytest-variables==1.9.0   # via -r requirements.in, pytest-selenium
 pytest-xdist==2.2.0       # via -r requirements.in
-pytest==6.2.1             # via -r requirements.in, pytest-base-url, pytest-forked, pytest-html, pytest-metadata, pytest-selenium, pytest-testrail, pytest-variables, pytest-xdist
+pytest==6.2.2             # via -r requirements.in, pytest-base-url, pytest-forked, pytest-html, pytest-metadata, pytest-selenium, pytest-testrail, pytest-variables, pytest-xdist
 python-dateutil==2.8.1    # via -r requirements.in, botocore, github3.py
 python-dotenv==0.15.0     # via -r requirements.in
 python-magic==0.4.18      # via -r requirements.in, cnx-litezip
