@@ -32,7 +32,7 @@ git+https://github.com/openstax/cnx-rex-redirects.git#egg=cnx-rex-redirects  # v
 cnx-transforms==1.2.2     # via -r requirements.in, nebuchadnezzar
 cnxml==3.1.2              # via -r requirements.in, cnx-litezip, nebuchadnezzar
 cryptography==3.3.1       # via -r requirements.in, jwcrypto
-deepdiff==5.2.1           # via -r requirements.in
+deepdiff==5.2.2           # via -r requirements.in
 distlib==0.3.1            # via virtualenv
 docker==4.4.1             # via -r requirements.in, nebuchadnezzar
 execnet==1.7.1            # via -r requirements.in, pytest-xdist
