@@ -72,7 +72,7 @@ pytest-xdist==2.2.0       # via -r requirements.in
 pytest==6.2.2             # via -r requirements.in, pytest-base-url, pytest-forked, pytest-html, pytest-metadata, pytest-selenium, pytest-testrail, pytest-variables, pytest-xdist
 python-dateutil==2.8.1    # via -r requirements.in, botocore, github3.py
 python-dotenv==0.15.0     # via -r requirements.in
-python-magic==0.4.18      # via -r requirements.in, cnx-litezip
+python-magic==0.4.20      # via -r requirements.in, cnx-litezip
 python-memcached==1.59    # via -r requirements.in, cnx-epub
 python-slugify==4.0.1     # via cnx-common
 pyyaml==5.3.1             # via -r requirements.in, aspy.yaml, pre-commit
