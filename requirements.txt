@@ -89,7 +89,7 @@ tldextract==3.1.0         # via -r requirements.in
 toml==0.10.2              # via -r requirements.in, pre-commit, pytest
 typing-extensions==3.7.4.3  # via aiohttp, importlib-metadata, yarl
 uritemplate==3.0.1        # via -r requirements.in, github3.py
-urllib3==1.26.2           # via -r requirements.in, botocore, requests, selenium
+urllib3==1.26.3           # via -r requirements.in, botocore, requests, selenium
 virtualenv==20.2.2        # via -r requirements.in, pre-commit
 wcwidth==0.2.5            # via -r requirements.in
 webencodings==0.5.1       # via -r requirements.in
