@@ -698,6 +698,33 @@ def webview_base_url(request):
 
 
 @pytest.fixture
+def prod_url():
+    """Return production URL for CNX webview"""
+    prod_url = "https://cnx.org"
+    return prod_url
+
+
+@pytest.fixture
+def packages_list():
+    """Return list of packages for CNX webview"""
+    packages_list = [
+        "webview",
+        "cnx-archive",
+        "cnx-publishing",
+        "oer.exports",
+        "press",
+        "cnx-deploy",
+        "cnx-common",
+        "cnx-db",
+        "cnx-epub",
+        "cnx-transforms",
+        "rhaptos.cnxmlutils",
+        "requests",
+    ]
+    return packages_list
+
+
+@pytest.fixture
 def rex_base_url(request):
     """Return a base URL for REX used for integration testing"""
     config = request.config
