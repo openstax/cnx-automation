@@ -121,7 +121,7 @@ idna==3.1
     #   requests
     #   tldextract
     #   yarl
-importlib-metadata==3.4.0
+importlib-metadata==3.7.0
     # via
     #   -r requirements.in
     #   pluggy
