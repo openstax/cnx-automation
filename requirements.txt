@@ -111,7 +111,7 @@ filelock==3.0.12
     #   virtualenv
 github3.py==1.3.0
     # via -r requirements.in
-identify==1.5.13
+identify==1.6.1
     # via
     #   -r requirements.in
     #   pre-commit
