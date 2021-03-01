@@ -179,7 +179,7 @@ pluggy==0.13.1
     #   -r requirements.in
     #   pypom
     #   pytest
-pre-commit==2.10.0
+pre-commit==2.10.1
     # via -r requirements.in
 py==1.10.0
     # via
