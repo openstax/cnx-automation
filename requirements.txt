@@ -88,7 +88,7 @@ cnxml==3.1.2
     #   -r requirements.in
     #   cnx-litezip
     #   nebuchadnezzar
-cryptography==3.3.2
+cryptography==3.4.6
     # via
     #   -r requirements.in
     #   jwcrypto
