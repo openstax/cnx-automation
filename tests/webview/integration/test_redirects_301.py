@@ -995,3 +995,19 @@ def test_intro_to_soc_uri_redirect_to_rex(webview_base_url, rex_base_url, intro_
     # THEN we are redirected to rex
     assert rex_base_url in response.headers["Location"]
     assert 301 == response.status_code
+
+
+@markers.test_case("C568716")
+@markers.slow
+@markers.rex
+@markers.nondestructive
+def test_intell_prop_uri_redirect_to_rex(webview_base_url, rex_base_url, intell_prop_uri):
+    # GIVEN a webview_base_url, rex_base_url and a col..._uri
+
+    # WHEN we go to a page based on the webview_base_url and uri
+    cnx_url = f"{webview_base_url}{intell_prop_uri}"
+    response = requests.get(cnx_url, allow_redirects=False)
+
+    # THEN we are redirected to rex
+    assert rex_base_url in response.headers["Location"]
+    assert 301 == response.status_code
