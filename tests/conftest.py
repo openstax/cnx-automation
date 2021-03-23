@@ -21,6 +21,9 @@ pytest_plugins = (
     "fixtures.legacy",
     "fixtures.neb",
     "fixtures.approved_books_full_url",
+    "fixtures.git_content_repos",
+    "fixtures.github_authorization",
+    "fixtures.github_tok",
 )
 
 
