@@ -3,10 +3,9 @@ import urllib
 import urllib.error
 import urllib.parse
 import urllib.request
-import requests
 
 """
-Verifies index.cnxml content of collection modules of every content repo in github.
+Verifies content of index.cnxml of every collection module of every github content repo.
 Latest update on March. 23nd, 2021
 """
 
