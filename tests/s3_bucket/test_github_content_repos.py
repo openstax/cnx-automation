@@ -39,7 +39,7 @@ def test_github_content_repos(git_content_repos, headers_data):
                 assert module_resp.status != 200, f"FAILED to find index.cnxml in {rel_path}"
 
             else:
-                resp_content = requests.get(modules_req.full_url, headers=headers_data).content
+                resp_content = module_resp.read()
 
                 # Verifies index.cnxml files for presence of content
                 assert (
