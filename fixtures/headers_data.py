@@ -2,8 +2,8 @@ import pytest
 
 
 @pytest.fixture
-def github_authorization(github_tok):
-    """Returns the authorization token for github
+def headers_data(github_tok):
+    """Returns the headers with token
     """
     headers = {"Authorization": "token " + github_tok, "Accept": "application/vnd.github.v3.raw"}
 

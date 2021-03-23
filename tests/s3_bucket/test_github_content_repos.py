@@ -7,17 +7,17 @@ import requests
 
 """
 Verifies index.cnxml content of collection modules of every content repo in github.
-Latest update on March. 22nd, 2021
+Latest update on March. 23nd, 2021
 """
 
 
-def test_github_content_repos(git_content_repos, github_authorization):
+def test_github_content_repos(git_content_repos, headers_data):
 
     for repo in git_content_repos:
 
         modules_url = f"https://api.github.com/repos/openstax/{repo}/contents/modules/"
 
-        modules_req = urllib.request.Request(modules_url, headers=github_authorization)
+        modules_req = urllib.request.Request(modules_url, headers=headers_data)
         modules_list = urllib.request.urlopen(modules_req).read()
 
         for item in json.loads(modules_list):
@@ -32,17 +32,14 @@ def test_github_content_repos(git_content_repos, github_authorization):
                 f"https://api.github.com/repos/openstax/{repo}/contents/{rel_path}/index.cnxml"
             )
 
-            modules_req = urllib.request.Request(modules_url, headers=github_authorization)
+            modules_req = urllib.request.Request(modules_url, headers=headers_data)
             module_resp = urllib.request.urlopen(modules_req)
 
             if module_resp.status != 200:
-                # Assert here if expected index.cnxml is not found
-                print(f"FAILED to find index.cnxml in {rel_path}")
+                assert module_resp.status != 200, f"FAILED to find index.cnxml in {rel_path}"
 
             else:
-                resp_content = requests.get(
-                    modules_req.full_url, headers=github_authorization
-                ).content
+                resp_content = requests.get(modules_req.full_url, headers=headers_data).content
 
                 # Verifies index.cnxml files for presence of content
                 assert (

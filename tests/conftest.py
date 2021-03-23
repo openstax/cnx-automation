@@ -22,7 +22,7 @@ pytest_plugins = (
     "fixtures.neb",
     "fixtures.approved_books_full_url",
     "fixtures.git_content_repos",
-    "fixtures.github_authorization",
+    "fixtures.headers_data",
     "fixtures.github_tok",
 )
 
