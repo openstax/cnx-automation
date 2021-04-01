@@ -331,7 +331,7 @@ wcwidth==0.2.5
     # via -r requirements.in
 webencodings==0.5.1
     # via -r requirements.in
-websocket-client==0.57.0
+websocket-client==0.58.0
     # via
     #   -r requirements.in
     #   docker
