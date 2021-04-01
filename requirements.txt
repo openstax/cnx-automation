@@ -60,7 +60,7 @@ chardet==4.0.0
     #   -r requirements.in
     #   aiohttp
     #   requests
-chromedriver-binary==89.0.4389.23.0
+chromedriver-binary==90.0.4430.24.0
     # via -r requirements.in
 click==7.1.2
     # via
