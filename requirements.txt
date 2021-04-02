@@ -122,12 +122,7 @@ idna==2.10
     #   tldextract
     #   yarl
 importlib-metadata==3.7.0
-    # via
-    #   -r requirements.in
-    #   pluggy
-    #   pre-commit
-    #   pytest
-    #   virtualenv
+    # via -r requirements.in
 iniconfig==1.1.1
     # via pytest
 jinja2==2.11.3
@@ -172,7 +167,7 @@ packaging==20.9
     # via
     #   -r requirements.in
     #   pytest
-pillow==8.1.0
+pillow==8.1.1
     # via -r requirements.in
 pluggy==0.13.1
     # via
@@ -309,10 +304,7 @@ toml==0.10.2
     #   pre-commit
     #   pytest
 typing-extensions==3.7.4.3
-    # via
-    #   aiohttp
-    #   importlib-metadata
-    #   yarl
+    # via aiohttp
 uritemplate==3.0.1
     # via
     #   -r requirements.in
