@@ -1,3 +1,4 @@
+import csv
 import json
 
 import urllib
@@ -5,26 +6,31 @@ from urllib.request import urlopen
 
 from urllib.error import HTTPError
 
-from lxml import etree
 import requests
+from lxml import etree
 
 import os
 import boto3
 
 """
 Verifies pages of collections in the aws s3 bucket folder
-Latest update on Oct. 28th, 2020
+Latest update on April 9th, 2021
 """
 
 
 def test_create_queue_state_books_list(
-    aws_access_key_id_value, aws_secret_access_key_value, code_tag, queue_state_bucket
+    aws_access_key_id_value,
+    aws_secret_access_key_value,
+    code_tag,
+    queue_state_bucket,
+    queue_filename,
 ):
 
     # Ripal's code: creates a json file of approved books from queue-state list containing these details:
     # collection_id, style, version, server, uuid
 
-    # apply aws credentials to access s3 buckets
+    # apply aws credentials from .env (if set) to access s3 buckets or set these credentials via export
+    # and comment these 2 lines out
     os.environ["AWS_ACCESS_KEY_ID"] = aws_access_key_id_value
     os.environ["AWS_SECRET_ACCESS_KEY"] = aws_secret_access_key_value
 
@@ -38,9 +44,6 @@ def test_create_queue_state_books_list(
 
     # code tag of each new deployment in s3 bucket. Can be applied by --code_tag code.number
     code_tag = code_tag
-
-    # queue filename set in the bakery environment, same for both staging and production
-    queue_filename = "distribution-queue.json"
 
     json_output_filename = f"{os.getcwd()}/fixtures/data/webview/s3_bucket_books.json"
 
@@ -63,16 +66,32 @@ def test_create_queue_state_books_list(
         json.dump(s3_bucket_books, json_output_file)
 
 
-def test_s3_bucket_books(s3_queue_state_bucket_books, approved_books_full_url, s3_archive_folder):
+def test_s3_bucket_books(s3_queue_state_bucket_books, s3_archive_folder):
 
     successful_books = []
+    tested_books = []
+    tested_book_hashes = set()
 
-    for url in approved_books_full_url:
+    json_data = json.loads(s3_queue_state_bucket_books)
+
+    for book in json_data:
+        # FIXME: This version logic to remove the "1." prefix won't work for git pipelines
+        book_hash = f"{book['uuid']}@{book['version'][2:]}"
+        if book_hash in tested_book_hashes:
+            continue
+        else:
+            tested_book_hashes.add(book_hash)
+
+        url = f"{s3_archive_folder}{book_hash}.json"
+
         try:
             req_url = urllib.request.urlopen(url)
+
         except HTTPError as h_e:
             # Return code 404, 501, ...
-            print(">>> HTTPError (check concourse jobs): {}".format(h_e.code) + ", " + url)
+            book.update({"status": "FAILURE", "url": url})
+            tested_books.append(book)
+            print(">>> HTTPError: {}".format(h_e.code) + ", " + url)
 
         else:
             # Return code 200, ...
@@ -97,7 +116,6 @@ def test_s3_bucket_books(s3_queue_state_bucket_books, approved_books_full_url, s
 
             # verifies every 5th page url of each book
             for link in links[::5]:
-
                 links_replaced = link.replace("./", f"{s3_archive_folder}").replace(
                     ".xhtml", ".json"
                 )
@@ -112,3 +130,14 @@ def test_s3_bucket_books(s3_queue_state_bucket_books, approved_books_full_url, s
                 assert "<body>" and "</body>" in s3_pages_jdata["content"]
 
                 assert s3_pages_request.getcode() == 200
+
+            book.update({"status": "SUCCESS", "url": url})
+            tested_books.append(book)
+
+    # Write the report CSV (into the root folder of the repo)
+    with open("report.csv", "w") as csvfile:
+        fieldnames = tested_books[0].keys()
+
+        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+        writer.writeheader()
+        writer.writerows(tested_books)
