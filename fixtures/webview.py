@@ -776,7 +776,9 @@ def s3_queue_state_bucket_books(request):
 def aws_access_key_id_value(request):
     """Return value of the aws access key id"""
     config = request.config
-    awskeyvalue = config.getoption("aws_access_key_id_value")
+    awskeyvalue = config.getoption("aws_access_key_id_value") or config.getini(
+        "aws_access_key_id_value"
+    )
     if awskeyvalue is not None:
         return awskeyvalue
 
@@ -785,7 +787,9 @@ def aws_access_key_id_value(request):
 def aws_secret_access_key_value(request):
     """Return value of the aws secret access key value"""
     config = request.config
-    awssecretvalue = config.getoption("aws_secret_access_key_value")
+    awssecretvalue = config.getoption("aws_secret_access_key_value") or config.getini(
+        "aws_secret_access_key_value"
+    )
     if awssecretvalue is not None:
         return awssecretvalue
 
@@ -817,3 +821,12 @@ def queue_state_bucket(request):
     if queue_state_bucket is not None:
         skip_if_destructive_and_sensitive(request, queue_state_bucket)
         return queue_state_bucket
+
+
+@pytest.fixture
+def queue_filename(request):
+    """Return the queue filename json"""
+    config = request.config
+    queue_filename = config.getoption("queue_filename") or config.getini("queue_filename")
+    if queue_filename is not None:
+        return queue_filename

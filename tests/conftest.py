@@ -20,7 +20,6 @@ pytest_plugins = (
     "fixtures.webview",
     "fixtures.legacy",
     "fixtures.neb",
-    "fixtures.approved_books_full_url",
     "fixtures.git_content_repos",
     "fixtures.headers_data",
     "fixtures.github_tok",
@@ -146,6 +145,13 @@ def pytest_addoption(parser):
         metavar="tag",
         default=os.getenv("CODE_TAG", None),
         help="code tag for latest deployment in s3 bucket.",
+    )
+    parser.addini("queue_filename", help="archive or git queue filename json")
+    parser.addoption(
+        "--queue_filename",
+        metavar="tag",
+        default=os.getenv("QUEUE_FILENAME", None),
+        help="archive or git queue filename json",
     )
     parser.addini("queue_state_bucket", help="s3 queue state bucket name.")
     parser.addoption(
