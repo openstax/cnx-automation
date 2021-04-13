@@ -8,6 +8,7 @@ from urllib.error import HTTPError
 
 import pytest
 
+
 """
 Verifies content of collection.xml of every collection in github content repo.
 Latest update on March. 23nd, 2021
@@ -17,6 +18,8 @@ Latest update on March. 23nd, 2021
 def test_github_content_collections(git_content_repos, headers_data):
 
     for repo in git_content_repos:
+
+        print("\nNow verifying: ", repo)
 
         collections_dir = f"https://api.github.com/repos/openstax/{repo}/contents/collections/"
 
@@ -38,7 +41,7 @@ def test_github_content_collections(git_content_repos, headers_data):
                     # Ignore anything that may not be a file
                     continue
 
-                rel_path = item["path"]
+                rel_path = urllib.parse.quote(item["path"])
                 collections_url = (
                     f"https://api.github.com/repos/openstax/{repo}/contents/{rel_path}"
                 )

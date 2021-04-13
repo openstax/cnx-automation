@@ -18,6 +18,8 @@ def test_github_content_repos(git_content_repos, headers_data):
 
     for repo in git_content_repos:
 
+        print("\nNow verifying: ", repo)
+
         modules_dir = f"https://api.github.com/repos/openstax/{repo}/contents/modules/"
 
         try:
@@ -38,7 +40,7 @@ def test_github_content_repos(git_content_repos, headers_data):
                     # Ignore anything that may not be a directory
                     continue
 
-                rel_path = item["path"]
+                rel_path = urllib.parse.quote(item["path"])
                 modules_url = (
                     f"https://api.github.com/repos/openstax/{repo}/contents/{rel_path}/index.cnxml"
                 )
