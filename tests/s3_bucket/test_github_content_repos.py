@@ -10,13 +10,15 @@ import pytest
 
 """
 Verifies content of index.cnxml of every collection module of every github content repo.
-Latest update on March. 23nd, 2021
+Latest update on April 14th, 2021
 """
 
 
 def test_github_content_repos(git_content_repos, headers_data):
 
     for repo in git_content_repos:
+
+        print("\nNow verifying modules of: ", repo)
 
         modules_dir = f"https://api.github.com/repos/openstax/{repo}/contents/modules/"
 
@@ -38,7 +40,7 @@ def test_github_content_repos(git_content_repos, headers_data):
                     # Ignore anything that may not be a directory
                     continue
 
-                rel_path = item["path"]
+                rel_path = urllib.parse.quote(item["path"])
                 modules_url = (
                     f"https://api.github.com/repos/openstax/{repo}/contents/{rel_path}/index.cnxml"
                 )
