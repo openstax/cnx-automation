@@ -1,9 +1,6 @@
-import json
-import urllib
-import urllib.error
-import urllib.parse
-import urllib.request
+import requests
 
+import urllib.parse
 from urllib.error import HTTPError
 
 import pytest
@@ -24,8 +21,7 @@ def test_github_content_repos(git_content_repos, headers_data):
 
         try:
 
-            modules_req = urllib.request.Request(modules_dir, headers=headers_data)
-            modules_list = urllib.request.urlopen(modules_req).read()
+            modules_list = requests.get(modules_dir, headers=headers_data)
 
         except HTTPError as h_e:
             # Return code 404, 501, ... for incorrect modules url
@@ -33,7 +29,7 @@ def test_github_content_repos(git_content_repos, headers_data):
 
         else:
 
-            for item in json.loads(modules_list):
+            for item in modules_list.json():
 
                 if item["type"] != "dir":
 
@@ -47,8 +43,7 @@ def test_github_content_repos(git_content_repos, headers_data):
 
                 try:
 
-                    modules_req = urllib.request.Request(modules_url, headers=headers_data)
-                    module_resp = urllib.request.urlopen(modules_req)
+                    module_resp = requests.get(modules_url, headers=headers_data)
 
                 except HTTPError as h_e:
                     # Return code 404, 501, ... for incorrect/missing index.cnxml
@@ -58,11 +53,11 @@ def test_github_content_repos(git_content_repos, headers_data):
 
                 else:
 
-                    resp_content = module_resp.read()
+                    resp_content = module_resp.text
 
                     # Verifies index.cnxml files for presence of content
                     assert (
-                        resp_content.count(b"<md:") > 1
-                        and resp_content.count(b"<content") >= 1
-                        and resp_content.count(b"<title") >= 1
+                        resp_content.count("<md:") > 1
+                        and resp_content.count("<content") >= 1
+                        and resp_content.count("<title") >= 1
                     )

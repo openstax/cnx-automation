@@ -1,9 +1,6 @@
-import json
-import urllib
-import urllib.error
-import urllib.parse
-import urllib.request
+import requests
 
+import urllib.parse
 from urllib.error import HTTPError
 
 import pytest
@@ -31,8 +28,7 @@ def test_github_content_collections(git_content_repos, headers_data):
 
         try:
 
-            collections_req = urllib.request.Request(collections_dir, headers=headers_data)
-            collections_list = urllib.request.urlopen(collections_req).read()
+            collections_list = requests.get(collections_dir, headers=headers_data)
 
         except HTTPError as h_e:
             # Return code 404, 501, ... for incorrect repo url
@@ -40,7 +36,7 @@ def test_github_content_collections(git_content_repos, headers_data):
 
         else:
 
-            for item in json.loads(collections_list):
+            for item in collections_list.json():
 
                 if item["type"] != "file":
 
@@ -54,8 +50,7 @@ def test_github_content_collections(git_content_repos, headers_data):
 
                 try:
 
-                    collections_req = urllib.request.Request(collections_url, headers=headers_data)
-                    collections_resp = urllib.request.urlopen(collections_req)
+                    collections_resp = requests.get(collections_url, headers=headers_data)
 
                 except HTTPError as h_e:
                     # Return code 404, 501, ... for incorrect/missing .collection.xml
@@ -65,7 +60,7 @@ def test_github_content_collections(git_content_repos, headers_data):
 
                 else:
 
-                    resp_content = str(collections_resp.read())
+                    resp_content = collections_resp.text
 
                     # Verifies collection.xml files for presence of content
                     assert (
