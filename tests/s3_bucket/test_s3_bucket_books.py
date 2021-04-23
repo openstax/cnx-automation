@@ -29,10 +29,9 @@ def test_create_queue_state_books_list(
     # Ripal's code: creates a json file of approved books from queue-state list containing these details:
     # collection_id, style, version, server, uuid
 
-    # apply aws credentials from .env (if set) to access s3 buckets or set these credentials via export
-    # and comment these 2 lines out
-    os.environ["AWS_ACCESS_KEY_ID"] = aws_access_key_id_value
-    os.environ["AWS_SECRET_ACCESS_KEY"] = aws_secret_access_key_value
+    # First, set aws tokens via set_aws_creds every time you run these tests,
+    # assuming that 'aws configure' was already run to set your credentials for openstax-users
+    # (follow steps in https://github.com/openstax/aws-access#assuming-a-role)
 
     client = boto3.client("s3")
 
