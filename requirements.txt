@@ -245,7 +245,7 @@ python-memcached==1.59
     # via
     #   -r requirements.in
     #   cnx-epub
-python-slugify==4.0.1
+python-slugify==5.0.0
     # via cnx-common
 pyyaml==5.4.1
     # via
