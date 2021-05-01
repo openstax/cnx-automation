@@ -349,7 +349,7 @@ zope.hookable==5.0.1
     # via
     #   -r requirements.in
     #   zope.component
-zope.interface==5.3.0
+zope.interface==5.4.0
     # via
     #   -r requirements.in
     #   pypom
