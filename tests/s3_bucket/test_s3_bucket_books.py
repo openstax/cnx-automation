@@ -14,16 +14,12 @@ import boto3
 
 """
 Verifies pages of collections in the aws s3 bucket folder
-Latest update on April 9th, 2021
+Latest update on May 20th, 2021
 """
 
 
 def test_create_queue_state_books_list(
-    aws_access_key_id_value,
-    aws_secret_access_key_value,
-    code_tag,
-    queue_state_bucket,
-    queue_filename,
+    code_tag, queue_state_bucket, queue_filename,
 ):
 
     # Ripal's code: creates a json file of approved books from queue-state list containing these details:
