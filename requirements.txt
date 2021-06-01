@@ -62,7 +62,7 @@ chardet==4.0.0
     #   requests
 chromedriver-binary==91.0.4472.19.0
     # via -r requirements.in
-click==7.1.2
+click==8.0.1
     # via
     #   -r requirements.in
     #   cnx-rex-redirects
