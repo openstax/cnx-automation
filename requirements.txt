@@ -282,7 +282,7 @@ selenium==3.141.0
     #   pytest-selenium
 simplejson==3.17.2
     # via -r requirements.in
-six==1.15.0
+six==1.16.0
     # via
     #   -r requirements.in
     #   docker
