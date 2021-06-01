@@ -55,7 +55,7 @@ cfgv==3.3.0
     # via
     #   -r requirements.in
     #   pre-commit
-chardet==3.0.4
+chardet==4.0.0
     # via
     #   -r requirements.in
     #   aiohttp
