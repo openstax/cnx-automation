@@ -1125,3 +1125,20 @@ def test_intell_prop_uri_redirect_to_rex(webview_base_url, rex_base_url, intell_
     # THEN we are redirected to rex
     assert response.url.startswith(rex_base_url)
     assert response.url.endswith(cnx_page_slug)
+
+
+@markers.test_case("C624690")
+@markers.slow
+@markers.rex
+@markers.nondestructive
+def test_intro_to_soc3_uri_redirect_to_rex(webview_base_url, rex_base_url, intro_to_soc3_uri):
+    # GIVEN a webview_base_url, rex_base_url and an intro to soc 3 uri
+
+    # WHEN we go to a page based on the webview_base_url and uri
+    cnx_page_slug = intro_to_soc3_uri.split("/")[-1]
+    cnx_url = f"{webview_base_url}{intro_to_soc3_uri}"
+    response = get_url(cnx_url)
+
+    # THEN we are redirected to rex
+    assert response.url.startswith(rex_base_url)
+    assert response.url.endswith(cnx_page_slug)
