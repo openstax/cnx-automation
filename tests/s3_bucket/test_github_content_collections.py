@@ -63,9 +63,12 @@ def test_github_content_collections(git_content_repos, headers_data):
                     resp_content = collections_resp.text
 
                     # Verifies collection.xml files for presence of content
+                    assert resp_content.count("<md:") >= 1
                     assert (
-                        resp_content.count("<md:") >= 1 and resp_content.count("<col:content") >= 1
+                        resp_content.count("<col:content") >= 1
+                        or resp_content.count("<content") >= 1
                     )
+                    assert resp_content.count("<col:collection") == 1
                     # Verifies collection.xml files for presence of a license
                     # (from a list of 3 licenses used by openstax)
                     assert any(substring in resp_content for substring in license_list)
