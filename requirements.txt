@@ -307,7 +307,7 @@ uritemplate==3.0.1
     # via
     #   -r requirements.in
     #   github3.py
-urllib3==1.26.5
+urllib3==1.26.6
     # via
     #   -r requirements.in
     #   botocore
