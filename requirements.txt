@@ -137,7 +137,7 @@ jwcrypto==0.9.1
     # via
     #   -r requirements.in
     #   github3.py
-lxml==4.4.3
+lxml==4.6.3
     # via
     #   -r requirements.in
     #   cnx-epub
