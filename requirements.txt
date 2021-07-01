@@ -133,7 +133,7 @@ jmespath==0.10.0
     # via
     #   boto3
     #   botocore
-jwcrypto==0.8
+jwcrypto==0.9.1
     # via
     #   -r requirements.in
     #   github3.py
