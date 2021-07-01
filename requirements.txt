@@ -100,7 +100,7 @@ docker==5.0.0
     # via
     #   -r requirements.in
     #   nebuchadnezzar
-execnet==1.8.1
+execnet==1.9.0
     # via
     #   -r requirements.in
     #   pytest-xdist
