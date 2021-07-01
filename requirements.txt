@@ -155,7 +155,7 @@ multidict==5.1.0
     # via
     #   aiohttp
     #   yarl
-nebuchadnezzar==9.8.7
+nebuchadnezzar==9.8.10
     # via -r requirements.in
 nodeenv==1.6.0
     # via
