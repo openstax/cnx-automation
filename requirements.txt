@@ -237,7 +237,7 @@ python-dateutil==2.8.1
     #   github3.py
 python-dotenv==0.18.0
     # via -r requirements.in
-python-magic==0.4.22
+python-magic==0.4.24
     # via
     #   -r requirements.in
     #   cnx-litezip
