@@ -58,7 +58,10 @@ def test_create_queue_state_books_list(
 
     # writes the json file with required book details (see the top message)
     with open(json_output_filename, "w") as json_output_file:
-        json.dump(s3_bucket_books, json_output_file)
+        # Note: We reverse the books when writing them so they end up in the
+        # build order since list_object_versions will return items from
+        # most recent to latest
+        json.dump(list(reversed(s3_bucket_books)), json_output_file)
 
 
 def test_s3_bucket_books(s3_queue_state_bucket_books, s3_archive_folder):
@@ -69,7 +72,16 @@ def test_s3_bucket_books(s3_queue_state_bucket_books, s3_archive_folder):
 
     json_data = json.loads(s3_queue_state_bucket_books)
 
+    # TODO: This should be brought in as a fixture / configuration variable via
+    # the .env file
+    CONCOURSE_PREFIX = "https://concourse-v6.openstax.org/teams/CE/pipelines/webhost-prod-20210623.195337/jobs/bakery/builds/"
+
+    # We start with one to account for the fact that job ID 1 is the "burn job"
+    # in the pipeline and the first "real" job has ID 2
+    job_id = 1
+
     for book in json_data:
+        job_id += 1
         # FIXME: This version logic to remove the "1." prefix won't work for git pipelines
         book_hash = f"{book['uuid']}@{book['version'][2:]}"
         if book_hash in tested_book_hashes:
@@ -84,7 +96,12 @@ def test_s3_bucket_books(s3_queue_state_bucket_books, s3_archive_folder):
 
         except HTTPError as h_e:
             # Return code 404, 501, ...
-            book.update({"status": "FAILURE", "url": url})
+            book.update({
+                "status": "FAILURE",
+                # If a book failed, we include the job URL for the first failure
+                "job_url": f"{CONCOURSE_PREFIX}{job_id}",
+                "url": url,
+            })
             tested_books.append(book)
             print(">>> HTTPError: {}".format(h_e.code) + ", " + url)
 
@@ -126,7 +143,16 @@ def test_s3_bucket_books(s3_queue_state_bucket_books, s3_archive_folder):
 
                 assert s3_pages_request.getcode() == 200
 
-            book.update({"status": "SUCCESS", "url": url})
+            book.update({
+                "status": "SUCCESS",
+                # We'll assume this was the successful job URL, but it may be
+                # the book failed in this job and succeeded in a subsequent
+                # retry job. This is just for simplicity since we probably
+                # don't care much about successful job details but can be
+                # better addressed in the future if needed.
+                "job_url": f"{CONCOURSE_PREFIX}{job_id}",
+                "url": url
+            })
             tested_books.append(book)
 
     # Write the report CSV (into the root folder of the repo)
