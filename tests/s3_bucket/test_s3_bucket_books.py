@@ -64,17 +64,13 @@ def test_create_queue_state_books_list(
         json.dump(list(reversed(s3_bucket_books)), json_output_file)
 
 
-def test_s3_bucket_books(s3_queue_state_bucket_books, s3_archive_folder):
+def test_s3_bucket_books(s3_queue_state_bucket_books, s3_archive_folder, concourse_prefix):
 
     successful_books = []
     tested_books = []
     tested_book_hashes = set()
 
     json_data = json.loads(s3_queue_state_bucket_books)
-
-    # TODO: This should be brought in as a fixture / configuration variable via
-    # the .env file
-    CONCOURSE_PREFIX = "https://concourse-v6.openstax.org/teams/CE/pipelines/webhost-prod-20210623.195337/jobs/bakery/builds/"
 
     # We start with one to account for the fact that job ID 1 is the "burn job"
     # in the pipeline and the first "real" job has ID 2
@@ -96,12 +92,14 @@ def test_s3_bucket_books(s3_queue_state_bucket_books, s3_archive_folder):
 
         except HTTPError as h_e:
             # Return code 404, 501, ...
-            book.update({
-                "status": "FAILURE",
-                # If a book failed, we include the job URL for the first failure
-                "job_url": f"{CONCOURSE_PREFIX}{job_id}",
-                "url": url,
-            })
+            book.update(
+                {
+                    "status": "FAILURE",
+                    # If a book failed, we include the job URL for the first failure
+                    "job_url": f"{concourse_prefix}{job_id}",
+                    "url": url,
+                }
+            )
             tested_books.append(book)
             print(">>> HTTPError: {}".format(h_e.code) + ", " + url)
 
@@ -143,16 +141,18 @@ def test_s3_bucket_books(s3_queue_state_bucket_books, s3_archive_folder):
 
                 assert s3_pages_request.getcode() == 200
 
-            book.update({
-                "status": "SUCCESS",
-                # We'll assume this was the successful job URL, but it may be
-                # the book failed in this job and succeeded in a subsequent
-                # retry job. This is just for simplicity since we probably
-                # don't care much about successful job details but can be
-                # better addressed in the future if needed.
-                "job_url": f"{CONCOURSE_PREFIX}{job_id}",
-                "url": url
-            })
+            book.update(
+                {
+                    "status": "SUCCESS",
+                    # We'll assume this was the successful job URL, but it may be
+                    # the book failed in this job and succeeded in a subsequent
+                    # retry job. This is just for simplicity since we probably
+                    # don't care much about successful job details but can be
+                    # better addressed in the future if needed.
+                    "job_url": f"{concourse_prefix}{job_id}",
+                    "url": url,
+                }
+            )
             tested_books.append(book)
 
     # Write the report CSV (into the root folder of the repo)
