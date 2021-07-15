@@ -828,11 +828,19 @@ def code_tag(request):
 
 
 @pytest.fixture
+def web_hosting_env(request):
+    """Return a web hosting environment name (prod or staging)"""
+    config = request.config
+    web_hosting_env = config.getoption("web_hosting_env") or config.getini("web_hosting_env")
+    if web_hosting_env is not None:
+        skip_if_destructive_and_sensitive(request, web_hosting_env)
+        return web_hosting_env
+
+
+@pytest.fixture
 def concourse_prefix(code_tag):
     """Return a concourse build url including code tag"""
-    concourse_prefix = (
-        f"{concourse_base_url}/teams/CE/pipelines/webhost-prod-{code_tag}/jobs/bakery/builds/"
-    )
+    concourse_prefix = f"{concourse_base_url}/{web_hosting_env}-{code_tag}/jobs/bakery/builds/"
     return concourse_prefix
 
 
