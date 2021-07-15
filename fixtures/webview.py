@@ -806,6 +806,18 @@ def aws_secret_access_key_value(request):
 
 
 @pytest.fixture
+def concourse_base_url(request):
+    """Return a concourse base url"""
+    config = request.config
+    concourse_base_url = config.getoption("concourse_base_url") or config.getini(
+        "concourse_base_url"
+    )
+    if concourse_base_url is not None:
+        skip_if_destructive_and_sensitive(request, concourse_base_url)
+        return concourse_base_url
+
+
+@pytest.fixture
 def code_tag(request):
     """Return a deployment code tag"""
     config = request.config
@@ -813,6 +825,15 @@ def code_tag(request):
     if code_tag is not None:
         skip_if_destructive_and_sensitive(request, code_tag)
         return code_tag
+
+
+@pytest.fixture
+def concourse_prefix(code_tag):
+    """Return a concourse build url including code tag"""
+    concourse_prefix = (
+        f"{concourse_base_url}/teams/CE/pipelines/webhost-prod-{code_tag}/jobs/bakery/builds/"
+    )
+    return concourse_prefix
 
 
 @pytest.fixture
