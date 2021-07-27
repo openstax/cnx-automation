@@ -838,7 +838,7 @@ def web_hosting_env(request):
 
 
 @pytest.fixture
-def concourse_prefix(code_tag):
+def concourse_prefix(code_tag, web_hosting_env, concourse_base_url):
     """Return a concourse build url including code tag"""
     concourse_prefix = f"{concourse_base_url}/{web_hosting_env}-{code_tag}/jobs/bakery/builds/"
     return concourse_prefix
