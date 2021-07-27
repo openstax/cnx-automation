@@ -146,6 +146,20 @@ def pytest_addoption(parser):
         default=os.getenv("CODE_TAG", None),
         help="code tag for latest deployment in s3 bucket.",
     )
+    parser.addini("concourse_base_url", help="concourse base url.")
+    parser.addoption(
+        "--concourse_base_url",
+        metavar="tag",
+        default=os.getenv("CONCOURSE_BASE_URL", None),
+        help="concourse base url.",
+    )
+    parser.addini("web_hosting_env", help="web hosting env.")
+    parser.addoption(
+        "--web_hosting_env",
+        metavar="tag",
+        default=os.getenv("WEB_HOSTING_ENV", None),
+        help="web hosting env.",
+    )
     parser.addini("queue_filename", help="archive or git queue filename json")
     parser.addoption(
         "--queue_filename",
