@@ -5,7 +5,7 @@ from tests import markers
 
 @markers.archive
 @markers.nondestructive
-@markers.parametrize("uuid", [("fea3130c-6e57-41b2-a00f-0267ffae273c")])
+@markers.parametrize("uuid", ["36004586-651c-4ded-af87-203aca22d946"])
 def test_location_header_applied_to_redirect(archive_base_url, uuid):
     # GIVEN an "archive" URL and Host Header
     url = f"{archive_base_url}/contents/{uuid}"
@@ -20,7 +20,7 @@ def test_location_header_applied_to_redirect(archive_base_url, uuid):
 
 @markers.archive
 @markers.nondestructive
-@markers.parametrize("uuid, version", [("fea3130c-6e57-41b2-a00f-0267ffae273c", 5)])
+@markers.parametrize("uuid, version", [("36004586-651c-4ded-af87-203aca22d946", 5)])
 def test_redirect_headers_for_google_results(archive_base_url, uuid, version):
     # end-to-end integration test for redirecting google away from archive URLs
     # see: https://github.com/openstax/cnx/issues/209
