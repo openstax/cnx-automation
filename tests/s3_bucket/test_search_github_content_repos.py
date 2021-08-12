@@ -6,59 +6,70 @@ from urllib.error import HTTPError
 import pytest
 
 """
-Searches for an input string in index.cnxml of every collection module of every github content repo.
-Latest update on April 19th, 2021
+Searches for a string in all index.cnxml of a particular content repo or all existing osbooks- content repos
+Latest update on August 12th, 2021
 """
 
 
 def test_search_github_content_repos(git_content_repos, headers_data):
 
-    tosearch = input("\nEnter string: ")
+    string_to_search = input("\nEnter string to search for: ")
+
+    repo_to_search = input(
+        "\nEnter content repo name (or press ENTER to search through all osbooks- repos): "
+    )
 
     for repo in git_content_repos:
 
-        print("\nNow searching modules of: ", repo)
+        if repo_to_search not in repo:
 
-        modules_dir = f"https://api.github.com/repos/openstax/{repo}/contents/modules/"
-
-        try:
-
-            modules_list = requests.get(modules_dir, headers=headers_data)
-
-        except HTTPError as h_e:
-            # Return code 404, 501, ... for incorrect modules url
-            pytest.fail(f"HTTP Error {h_e.code}: incorrect modules url {modules_dir}")
+            continue
 
         else:
 
-            for item in modules_list.json():
+            print(f'\nSearching for "{string_to_search}" in modules of: ', repo)
 
-                if item["type"] != "dir":
+            modules_dir = f"https://api.github.com/repos/openstax/{repo}/contents/modules/"
 
-                    # Ignore anything that may not be a directory
-                    continue
+            try:
 
-                rel_path = urllib.parse.quote(item["path"])
-                modules_url = (
-                    f"https://api.github.com/repos/openstax/{repo}/contents/{rel_path}/index.cnxml"
-                )
+                modules_list = requests.get(modules_dir, headers=headers_data)
 
-                try:
-                    module_resp = requests.get(modules_url, headers=headers_data)
+            except HTTPError as h_e:
+                # Return code 404, 501, ... for incorrect modules url
+                pytest.fail(f"HTTP Error {h_e.code}: incorrect modules url {modules_dir}")
 
-                except HTTPError as h_e:
-                    # Return code 404, 501, ... for incorrect/missing index.cnxml
-                    pytest.fail(
-                        f"HTTP Error {h_e.code}: incorrect/missing index.cnxml {modules_url}"
-                    )
+            else:
 
-                else:
-                    xhtml_data = module_resp.text
-                    found_data = xhtml_data.find(tosearch)
+                for item in modules_list.json():
 
-                    if found_data >= 1:
+                    if item["type"] != "dir":
 
-                        print(f'String "{tosearch}" found in {modules_url}: ', found_data)
+                        # Ignore anything that may not be a directory
+                        continue
+
+                    rel_path = urllib.parse.quote(item["path"])
+                    modules_url = f"https://api.github.com/repos/openstax/{repo}/contents/{rel_path}/index.cnxml"
+
+                    try:
+                        module_resp = requests.get(modules_url, headers=headers_data)
+
+                    except HTTPError as h_e:
+                        # Return code 404, 501, ... for incorrect/missing index.cnxml
+                        pytest.fail(
+                            f"HTTP Error {h_e.code}: incorrect/missing index.cnxml {modules_url}"
+                        )
 
                     else:
-                        continue
+                        xhtml_data = module_resp.text
+                        found_data = xhtml_data.find(string_to_search)
+
+                        if found_data >= 1:
+
+                            print(
+                                f'String "{string_to_search}" found in {modules_url}: ', found_data
+                            )
+
+                        else:
+
+                            continue
