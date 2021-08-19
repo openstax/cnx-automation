@@ -7,7 +7,7 @@ import pytest
 
 """
 Searches for a string in all index.cnxml of a particular content repo or all existing osbooks- content repos
-Latest update on August 12th, 2021
+Latest update on August 19th, 2021
 """
 
 
@@ -51,6 +51,11 @@ def test_search_github_content_repos(git_content_repos, headers_data):
                     rel_path = urllib.parse.quote(item["path"])
                     modules_url = f"https://api.github.com/repos/openstax/{repo}/contents/{rel_path}/index.cnxml"
 
+                    clickable_url = modules_url.replace(
+                        f"api.github.com/repos/openstax/{repo}/contents/",
+                        f"github.com/openstax/{repo}/blob/main/",
+                    )
+
                     try:
                         module_resp = requests.get(modules_url, headers=headers_data)
 
@@ -67,7 +72,8 @@ def test_search_github_content_repos(git_content_repos, headers_data):
                         if found_data >= 1:
 
                             print(
-                                f'String "{string_to_search}" found in {modules_url}: ', found_data
+                                f'String "{string_to_search}" found in {clickable_url}: ',
+                                found_data,
                             )
 
                         else:
