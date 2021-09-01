@@ -331,7 +331,7 @@ zipp==3.5.0
     # via
     #   -r requirements.in
     #   importlib-metadata
-zope.component==5.0.0
+zope.component==5.0.1
     # via
     #   -r requirements.in
     #   pypom
