@@ -273,7 +273,7 @@ rhaptos.cnxmlutils==2.2.0
     # via
     #   -r requirements.in
     #   cnx-transforms
-s3transfer==0.4.2
+s3transfer==0.5.0
     # via boto3
 selenium==3.141.0
     # via
