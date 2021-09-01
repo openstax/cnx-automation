@@ -327,7 +327,7 @@ websocket-client==1.2.1
     #   docker
 yarl==1.6.3
     # via aiohttp
-zipp==3.4.1
+zipp==3.5.0
     # via
     #   -r requirements.in
     #   importlib-metadata
