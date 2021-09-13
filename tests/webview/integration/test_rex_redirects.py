@@ -4,12 +4,25 @@ import requests
 from tests import markers
 from pages.webview.home import Home
 
-"""Tests pages of redirecting collections for correct rex url and page slug titles"""
+import csv
+import pytest
+
+"""Tests pages of redirecting collections for correct rex url and status code"""
 
 
 @backoff.on_exception(backoff.expo, requests.exceptions.ConnectionError)
 def get_url(url):
     return requests.get(url)
+
+
+def log_failures_to_csv(status_code, cnx_url):
+    dict_urls_errors = {"ERROR": status_code, "PAGE URL": cnx_url}
+
+    with open("url_failures_report.csv", "a") as urlerr:
+        writer = csv.DictWriter(urlerr, dict_urls_errors.keys())
+        if urlerr.tell() == 0:
+            writer.writeheader()
+        writer.writerow(dict_urls_errors)
 
 
 @markers.rex
@@ -69,7 +82,7 @@ def test_minimal_view_for_android_apps(webview_base_url, rex_base_url):
 @markers.slow
 @markers.rex
 @markers.nondestructive
-def test_chemistry_2e_uris_redirect_to_rex(webview_base_url, rex_base_url, chemistry_2e_uri):
+def test_chemistry_2e_uri_redirect_to_rex(webview_base_url, rex_base_url, chemistry_2e_uri):
     # GIVEN a webview_base_url, rex_base_url and a chemistry_2e_uri
 
     # WHEN we go to a page based on the webview_base_url and uri
@@ -78,15 +91,20 @@ def test_chemistry_2e_uris_redirect_to_rex(webview_base_url, rex_base_url, chemi
     response = get_url(cnx_url)
 
     # THEN we are redirected to rex
-    assert response.url.startswith(rex_base_url)
-    assert response.url.endswith(cnx_page_slug)
+    if response.status_code != 200:
+        log_failures_to_csv(response.status_code, cnx_url)
+
+        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
+
+    else:
+        assert response.url.startswith(rex_base_url)
 
 
 @markers.test_case("C616758")
 @markers.slow
 @markers.rex
 @markers.nondestructive
-def test_chemistry_uris_redirect_to_rex(webview_base_url, rex_base_url, chemistry_uri):
+def test_chemistry_uri_redirect_to_rex(webview_base_url, rex_base_url, chemistry_uri):
     # GIVEN a webview_base_url, rex_base_url and a chemistry_uri
 
     # WHEN we go to a page based on the webview_base_url and uri
@@ -95,15 +113,20 @@ def test_chemistry_uris_redirect_to_rex(webview_base_url, rex_base_url, chemistr
     response = get_url(cnx_url)
 
     # THEN we are redirected to rex
-    assert response.url.startswith(rex_base_url)
-    assert response.url.endswith(cnx_page_slug)
+    if response.status_code != 200:
+        log_failures_to_csv(response.status_code, cnx_url)
+
+        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
+
+    else:
+        assert response.url.startswith(rex_base_url)
 
 
 @markers.test_case("C553085")
 @markers.slow
 @markers.rex
 @markers.nondestructive
-def test_biology_2e_uris_redirect_to_rex(webview_base_url, rex_base_url, biology_2e_uri):
+def test_biology_2e_uri_redirect_to_rex(webview_base_url, rex_base_url, biology_2e_uri):
     # GIVEN a webview_base_url, rex_base_url and a biology_2e_uri
 
     # WHEN we go to a page based on the webview_base_url and uri
@@ -112,15 +135,20 @@ def test_biology_2e_uris_redirect_to_rex(webview_base_url, rex_base_url, biology
     response = get_url(cnx_url)
 
     # THEN we are redirected to rex
-    assert response.url.startswith(rex_base_url)
-    assert response.url.endswith(cnx_page_slug)
+    if response.status_code != 200:
+        log_failures_to_csv(response.status_code, cnx_url)
+
+        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
+
+    else:
+        assert response.url.startswith(rex_base_url)
 
 
 @markers.test_case("C618400")
 @markers.slow
 @markers.rex
 @markers.nondestructive
-def test_biology_uris_redirect_to_rex(webview_base_url, rex_base_url, biology_uri):
+def test_biology_uri_redirect_to_rex(webview_base_url, rex_base_url, biology_uri):
     # GIVEN a webview_base_url, rex_base_url and a biology_uri
 
     # WHEN we go to a page based on the webview_base_url and uri
@@ -129,15 +157,20 @@ def test_biology_uris_redirect_to_rex(webview_base_url, rex_base_url, biology_ur
     response = get_url(cnx_url)
 
     # THEN we are redirected to rex
-    assert response.url.startswith(rex_base_url)
-    assert response.url.endswith(cnx_page_slug)
+    if response.status_code != 200:
+        log_failures_to_csv(response.status_code, cnx_url)
+
+        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
+
+    else:
+        assert response.url.startswith(rex_base_url)
 
 
 @markers.test_case("C553519")
 @markers.slow
 @markers.rex
 @markers.nondestructive
-def test_microbiology_uris_redirect_to_rex(webview_base_url, rex_base_url, microbiology_uri):
+def test_microbiology_uri_redirect_to_rex(webview_base_url, rex_base_url, microbiology_uri):
     # GIVEN a webview_base_url, rex_base_url and a microbiology_uri
 
     # WHEN we go to a page based on the webview_base_url and uri
@@ -146,8 +179,13 @@ def test_microbiology_uris_redirect_to_rex(webview_base_url, rex_base_url, micro
     response = get_url(cnx_url)
 
     # THEN we are redirected to rex
-    assert response.url.startswith(rex_base_url)
-    assert response.url.endswith(cnx_page_slug)
+    if response.status_code != 200:
+        log_failures_to_csv(response.status_code, cnx_url)
+
+        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
+
+    else:
+        assert response.url.startswith(rex_base_url)
 
 
 @markers.test_case("C553520")
@@ -165,8 +203,13 @@ def test_conceptsofbiology_uri_redirect_to_rex(
     response = get_url(cnx_url)
 
     # THEN we are redirected to rex
-    assert response.url.startswith(rex_base_url)
-    assert response.url.endswith(cnx_page_slug)
+    if response.status_code != 200:
+        log_failures_to_csv(response.status_code, cnx_url)
+
+        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
+
+    else:
+        assert response.url.startswith(rex_base_url)
 
 
 @markers.test_case("C559358")
@@ -182,8 +225,13 @@ def test_astronomy_uri_redirect_to_rex(webview_base_url, rex_base_url, astronomy
     response = get_url(cnx_url)
 
     # THEN we are redirected to rex
-    assert response.url.startswith(rex_base_url)
-    assert response.url.endswith(cnx_page_slug)
+    if response.status_code != 200:
+        log_failures_to_csv(response.status_code, cnx_url)
+
+        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
+
+    else:
+        assert response.url.startswith(rex_base_url)
 
 
 @markers.test_case("C559363")
@@ -199,8 +247,13 @@ def test_biology_ap_uri_redirect_to_rex(webview_base_url, rex_base_url, biology_
     response = get_url(cnx_url)
 
     # THEN we are redirected to rex
-    assert response.url.startswith(rex_base_url)
-    assert response.url.endswith(cnx_page_slug)
+    if response.status_code != 200:
+        log_failures_to_csv(response.status_code, cnx_url)
+
+        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
+
+    else:
+        assert response.url.startswith(rex_base_url)
 
 
 @markers.test_case("C559362")
@@ -218,8 +271,13 @@ def test_college_physics_ap_courses_uri_redirect_to_rex(
     response = get_url(cnx_url)
 
     # THEN we are redirected to rex
-    assert response.url.startswith(rex_base_url)
-    assert response.url.endswith(cnx_page_slug)
+    if response.status_code != 200:
+        log_failures_to_csv(response.status_code, cnx_url)
+
+        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
+
+    else:
+        assert response.url.startswith(rex_base_url)
 
 
 @markers.test_case("C559360")
@@ -235,8 +293,13 @@ def test_college_physics_uri_redirect_to_rex(webview_base_url, rex_base_url, col
     response = get_url(cnx_url)
 
     # THEN we are redirected to rex
-    assert response.url.startswith(rex_base_url)
-    assert response.url.endswith(cnx_page_slug)
+    if response.status_code != 200:
+        log_failures_to_csv(response.status_code, cnx_url)
+
+        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
+
+    else:
+        assert response.url.startswith(rex_base_url)
 
 
 @markers.test_case("C559359")
@@ -254,8 +317,13 @@ def test_chemistry_atoms_first_2e_uri_redirect_to_rex(
     response = get_url(cnx_url)
 
     # THEN we are redirected to rex
-    assert response.url.startswith(rex_base_url)
-    assert response.url.endswith(cnx_page_slug)
+    if response.status_code != 200:
+        log_failures_to_csv(response.status_code, cnx_url)
+
+        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
+
+    else:
+        assert response.url.startswith(rex_base_url)
 
 
 @markers.test_case("C616758")
@@ -273,8 +341,13 @@ def test_chemistry_atoms_first_uri_redirect_to_rex(
     response = get_url(cnx_url)
 
     # THEN we are redirected to rex
-    assert response.url.startswith(rex_base_url)
-    assert response.url.endswith(cnx_page_slug)
+    if response.status_code != 200:
+        log_failures_to_csv(response.status_code, cnx_url)
+
+        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
+
+    else:
+        assert response.url.startswith(rex_base_url)
 
 
 @markers.test_case("C568292")
@@ -290,8 +363,13 @@ def test_calculus_vol_1_uri_redirect_to_rex(webview_base_url, rex_base_url, calc
     response = get_url(cnx_url)
 
     # THEN we are redirected to rex
-    assert response.url.startswith(rex_base_url)
-    assert response.url.endswith(cnx_page_slug)
+    if response.status_code != 200:
+        log_failures_to_csv(response.status_code, cnx_url)
+
+        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
+
+    else:
+        assert response.url.startswith(rex_base_url)
 
 
 @markers.test_case("C568293")
@@ -307,8 +385,13 @@ def test_calculus_vol_2_uri_redirect_to_rex(webview_base_url, rex_base_url, calc
     response = get_url(cnx_url)
 
     # THEN we are redirected to rex
-    assert response.url.startswith(rex_base_url)
-    assert response.url.endswith(cnx_page_slug)
+    if response.status_code != 200:
+        log_failures_to_csv(response.status_code, cnx_url)
+
+        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
+
+    else:
+        assert response.url.startswith(rex_base_url)
 
 
 @markers.test_case("C568294")
@@ -324,8 +407,13 @@ def test_calculus_vol_3_uri_redirect_to_rex(webview_base_url, rex_base_url, calc
     response = get_url(cnx_url)
 
     # THEN we are redirected to rex
-    assert response.url.startswith(rex_base_url)
-    assert response.url.endswith(cnx_page_slug)
+    if response.status_code != 200:
+        log_failures_to_csv(response.status_code, cnx_url)
+
+        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
+
+    else:
+        assert response.url.startswith(rex_base_url)
 
 
 @markers.test_case("C568295")
@@ -341,8 +429,13 @@ def test_univ_phys_1_uri_redirect_to_rex(webview_base_url, rex_base_url, univ_ph
     response = get_url(cnx_url)
 
     # THEN we are redirected to rex
-    assert response.url.startswith(rex_base_url)
-    assert response.url.endswith(cnx_page_slug)
+    if response.status_code != 200:
+        log_failures_to_csv(response.status_code, cnx_url)
+
+        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
+
+    else:
+        assert response.url.startswith(rex_base_url)
 
 
 @markers.test_case("C568296")
@@ -358,8 +451,13 @@ def test_univ_phys_2_uri_redirect_to_rex(webview_base_url, rex_base_url, univ_ph
     response = get_url(cnx_url)
 
     # THEN we are redirected to rex
-    assert response.url.startswith(rex_base_url)
-    assert response.url.endswith(cnx_page_slug)
+    if response.status_code != 200:
+        log_failures_to_csv(response.status_code, cnx_url)
+
+        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
+
+    else:
+        assert response.url.startswith(rex_base_url)
 
 
 @markers.test_case("C568297")
@@ -375,8 +473,13 @@ def test_univ_phys_3_uri_redirect_to_rex(webview_base_url, rex_base_url, univ_ph
     response = get_url(cnx_url)
 
     # THEN we are redirected to rex
-    assert response.url.startswith(rex_base_url)
-    assert response.url.endswith(cnx_page_slug)
+    if response.status_code != 200:
+        log_failures_to_csv(response.status_code, cnx_url)
+
+        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
+
+    else:
+        assert response.url.startswith(rex_base_url)
 
 
 @markers.test_case("C568719")
@@ -394,8 +497,13 @@ def test_american_government_2e_uri_redirect_to_rex(
     response = get_url(cnx_url)
 
     # THEN we are redirected to rex
-    assert response.url.startswith(rex_base_url)
-    assert response.url.endswith(cnx_page_slug)
+    if response.status_code != 200:
+        log_failures_to_csv(response.status_code, cnx_url)
+
+        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
+
+    else:
+        assert response.url.startswith(rex_base_url)
 
 
 @markers.test_case("C568718")
@@ -413,8 +521,13 @@ def test_introductory_business_statistics_uri_redirect_to_rex(
     response = get_url(cnx_url)
 
     # THEN we are redirected to rex
-    assert response.url.startswith(rex_base_url)
-    assert response.url.endswith(cnx_page_slug)
+    if response.status_code != 200:
+        log_failures_to_csv(response.status_code, cnx_url)
+
+        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
+
+    else:
+        assert response.url.startswith(rex_base_url)
 
 
 @markers.test_case("C568717")
@@ -432,8 +545,13 @@ def test_introductory_statistics_uri_redirect_to_rex(
     response = get_url(cnx_url)
 
     # THEN we are redirected to rex
-    assert response.url.startswith(rex_base_url)
-    assert response.url.endswith(cnx_page_slug)
+    if response.status_code != 200:
+        log_failures_to_csv(response.status_code, cnx_url)
+
+        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
+
+    else:
+        assert response.url.startswith(rex_base_url)
 
 
 @markers.test_case("C568721")
@@ -451,8 +569,13 @@ def test_principles_of_accounting_1_uri_redirect_to_rex(
     response = get_url(cnx_url)
 
     # THEN we are redirected to rex
-    assert response.url.startswith(rex_base_url)
-    assert response.url.endswith(cnx_page_slug)
+    if response.status_code != 200:
+        log_failures_to_csv(response.status_code, cnx_url)
+
+        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
+
+    else:
+        assert response.url.startswith(rex_base_url)
 
 
 @markers.test_case("C568722")
@@ -470,8 +593,13 @@ def test_principles_of_accounting_2_uri_redirect_to_rex(
     response = get_url(cnx_url)
 
     # THEN we are redirected to rex
-    assert response.url.startswith(rex_base_url)
-    assert response.url.endswith(cnx_page_slug)
+    if response.status_code != 200:
+        log_failures_to_csv(response.status_code, cnx_url)
+
+        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
+
+    else:
+        assert response.url.startswith(rex_base_url)
 
 
 @markers.test_case("C568720")
@@ -487,8 +615,13 @@ def test_us_history_uri_redirect_to_rex(webview_base_url, rex_base_url, us_histo
     response = get_url(cnx_url)
 
     # THEN we are redirected to rex
-    assert response.url.startswith(rex_base_url)
-    assert response.url.endswith(cnx_page_slug)
+    if response.status_code != 200:
+        log_failures_to_csv(response.status_code, cnx_url)
+
+        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
+
+    else:
+        assert response.url.startswith(rex_base_url)
 
 
 @markers.test_case("C597392")
@@ -504,8 +637,13 @@ def test_economics_2e_uri_redirect_to_rex(webview_base_url, rex_base_url, econom
     response = get_url(cnx_url)
 
     # THEN we are redirected to rex
-    assert response.url.startswith(rex_base_url)
-    assert response.url.endswith(cnx_page_slug)
+    if response.status_code != 200:
+        log_failures_to_csv(response.status_code, cnx_url)
+
+        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
+
+    else:
+        assert response.url.startswith(rex_base_url)
 
 
 @markers.test_case("C618400")
@@ -521,8 +659,13 @@ def test_economics_uri_redirect_to_rex(webview_base_url, rex_base_url, economics
     response = get_url(cnx_url)
 
     # THEN we are redirected to rex
-    assert response.url.startswith(rex_base_url)
-    assert response.url.endswith(cnx_page_slug)
+    if response.status_code != 200:
+        log_failures_to_csv(response.status_code, cnx_url)
+
+        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
+
+    else:
+        assert response.url.startswith(rex_base_url)
 
 
 @markers.test_case("C597392")
@@ -540,8 +683,13 @@ def test_microeconomics_2e_uri_redirect_to_rex(
     response = get_url(cnx_url)
 
     # THEN we are redirected to rex
-    assert response.url.startswith(rex_base_url)
-    assert response.url.endswith(cnx_page_slug)
+    if response.status_code != 200:
+        log_failures_to_csv(response.status_code, cnx_url)
+
+        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
+
+    else:
+        assert response.url.startswith(rex_base_url)
 
 
 @markers.test_case("C618400")
@@ -557,8 +705,13 @@ def test_microeconomics_uri_redirect_to_rex(webview_base_url, rex_base_url, micr
     response = get_url(cnx_url)
 
     # THEN we are redirected to rex
-    assert response.url.startswith(rex_base_url)
-    assert response.url.endswith(cnx_page_slug)
+    if response.status_code != 200:
+        log_failures_to_csv(response.status_code, cnx_url)
+
+        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
+
+    else:
+        assert response.url.startswith(rex_base_url)
 
 
 @markers.test_case("C597392")
@@ -576,8 +729,13 @@ def test_macroeconomics_2e_uri_redirect_to_rex(
     response = get_url(cnx_url)
 
     # THEN we are redirected to rex
-    assert response.url.startswith(rex_base_url)
-    assert response.url.endswith(cnx_page_slug)
+    if response.status_code != 200:
+        log_failures_to_csv(response.status_code, cnx_url)
+
+        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
+
+    else:
+        assert response.url.startswith(rex_base_url)
 
 
 @markers.test_case("C618400")
@@ -593,8 +751,13 @@ def test_macroeconomics_uri_redirect_to_rex(webview_base_url, rex_base_url, macr
     response = get_url(cnx_url)
 
     # THEN we are redirected to rex
-    assert response.url.startswith(rex_base_url)
-    assert response.url.endswith(cnx_page_slug)
+    if response.status_code != 200:
+        log_failures_to_csv(response.status_code, cnx_url)
+
+        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
+
+    else:
+        assert response.url.startswith(rex_base_url)
 
 
 @markers.test_case("C597392")
@@ -610,8 +773,13 @@ def test_entrepreneurship_uri_redirect_to_rex(webview_base_url, rex_base_url, en
     response = get_url(cnx_url)
 
     # THEN we are redirected to rex
-    assert response.url.startswith(rex_base_url)
-    assert response.url.endswith(cnx_page_slug)
+    if response.status_code != 200:
+        log_failures_to_csv(response.status_code, cnx_url)
+
+        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
+
+    else:
+        assert response.url.startswith(rex_base_url)
 
 
 @markers.test_case("C597392")
@@ -627,8 +795,13 @@ def test_sociology_2e_uri_redirect_to_rex(webview_base_url, rex_base_url, sociol
     response = get_url(cnx_url)
 
     # THEN we are redirected to rex
-    assert response.url.startswith(rex_base_url)
-    assert response.url.endswith(cnx_page_slug)
+    if response.status_code != 200:
+        log_failures_to_csv(response.status_code, cnx_url)
+
+        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
+
+    else:
+        assert response.url.startswith(rex_base_url)
 
 
 @markers.test_case("C597392")
@@ -644,8 +817,13 @@ def test_intro_business_uri_redirect_to_rex(webview_base_url, rex_base_url, intr
     response = get_url(cnx_url)
 
     # THEN we are redirected to rex
-    assert response.url.startswith(rex_base_url)
-    assert response.url.endswith(cnx_page_slug)
+    if response.status_code != 200:
+        log_failures_to_csv(response.status_code, cnx_url)
+
+        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
+
+    else:
+        assert response.url.startswith(rex_base_url)
 
 
 @markers.test_case("C597392")
@@ -661,8 +839,13 @@ def test_business_ethics_uri_redirect_to_rex(webview_base_url, rex_base_url, bus
     response = get_url(cnx_url)
 
     # THEN we are redirected to rex
-    assert response.url.startswith(rex_base_url)
-    assert response.url.endswith(cnx_page_slug)
+    if response.status_code != 200:
+        log_failures_to_csv(response.status_code, cnx_url)
+
+        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
+
+    else:
+        assert response.url.startswith(rex_base_url)
 
 
 @markers.test_case("C597392")
@@ -680,8 +863,13 @@ def test_principles_of_mgnt_uri_redirect_to_rex(
     response = get_url(cnx_url)
 
     # THEN we are redirected to rex
-    assert response.url.startswith(rex_base_url)
-    assert response.url.endswith(cnx_page_slug)
+    if response.status_code != 200:
+        log_failures_to_csv(response.status_code, cnx_url)
+
+        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
+
+    else:
+        assert response.url.startswith(rex_base_url)
 
 
 @markers.test_case("C597392")
@@ -699,8 +887,13 @@ def test_organizational_behavior_uri_redirect_to_rex(
     response = get_url(cnx_url)
 
     # THEN we are redirected to rex
-    assert response.url.startswith(rex_base_url)
-    assert response.url.endswith(cnx_page_slug)
+    if response.status_code != 200:
+        log_failures_to_csv(response.status_code, cnx_url)
+
+        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
+
+    else:
+        assert response.url.startswith(rex_base_url)
 
 
 @markers.test_case("C600020")
@@ -718,8 +911,13 @@ def test_business_law_i_ess_uri_redirect_to_rex(
     response = get_url(cnx_url)
 
     # THEN we are redirected to rex
-    assert response.url.startswith(rex_base_url)
-    assert response.url.endswith(cnx_page_slug)
+    if response.status_code != 200:
+        log_failures_to_csv(response.status_code, cnx_url)
+
+        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
+
+    else:
+        assert response.url.startswith(rex_base_url)
 
 
 @markers.test_case("C600020")
@@ -735,8 +933,13 @@ def test_college_algebra_uri_redirect_to_rex(webview_base_url, rex_base_url, col
     response = get_url(cnx_url)
 
     # THEN we are redirected to rex
-    assert response.url.startswith(rex_base_url)
-    assert response.url.endswith(cnx_page_slug)
+    if response.status_code != 200:
+        log_failures_to_csv(response.status_code, cnx_url)
+
+        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
+
+    else:
+        assert response.url.startswith(rex_base_url)
 
 
 @markers.test_case("C600020")
@@ -754,8 +957,13 @@ def test_principles_microecon_ap_courses_2e_uri_redirect_to_rex(
     response = get_url(cnx_url)
 
     # THEN we are redirected to rex
-    assert response.url.startswith(rex_base_url)
-    assert response.url.endswith(cnx_page_slug)
+    if response.status_code != 200:
+        log_failures_to_csv(response.status_code, cnx_url)
+
+        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
+
+    else:
+        assert response.url.startswith(rex_base_url)
 
 
 @markers.test_case("C618400")
@@ -773,8 +981,13 @@ def test_principles_microecon_ap_courses_uri_redirect_to_rex(
     response = get_url(cnx_url)
 
     # THEN we are redirected to rex
-    assert response.url.startswith(rex_base_url)
-    assert response.url.endswith(cnx_page_slug)
+    if response.status_code != 200:
+        log_failures_to_csv(response.status_code, cnx_url)
+
+        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
+
+    else:
+        assert response.url.startswith(rex_base_url)
 
 
 @markers.test_case("C600020")
@@ -792,8 +1005,13 @@ def test_principles_macroecon_ap_courses_2e_uri_redirect_to_rex(
     response = get_url(cnx_url)
 
     # THEN we are redirected to rex
-    assert response.url.startswith(rex_base_url)
-    assert response.url.endswith(cnx_page_slug)
+    if response.status_code != 200:
+        log_failures_to_csv(response.status_code, cnx_url)
+
+        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
+
+    else:
+        assert response.url.startswith(rex_base_url)
 
 
 @markers.test_case("C618400")
@@ -811,8 +1029,13 @@ def test_principles_macroecon_ap_courses_uri_redirect_to_rex(
     response = get_url(cnx_url)
 
     # THEN we are redirected to rex
-    assert response.url.startswith(rex_base_url)
-    assert response.url.endswith(cnx_page_slug)
+    if response.status_code != 200:
+        log_failures_to_csv(response.status_code, cnx_url)
+
+        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
+
+    else:
+        assert response.url.startswith(rex_base_url)
 
 
 @markers.test_case("C600020")
@@ -828,8 +1051,13 @@ def test_prealgebra_2e_uri_redirect_to_rex(webview_base_url, rex_base_url, preal
     response = get_url(cnx_url)
 
     # THEN we are redirected to rex
-    assert response.url.startswith(rex_base_url)
-    assert response.url.endswith(cnx_page_slug)
+    if response.status_code != 200:
+        log_failures_to_csv(response.status_code, cnx_url)
+
+        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
+
+    else:
+        assert response.url.startswith(rex_base_url)
 
 
 @markers.test_case("C616758")
@@ -845,8 +1073,13 @@ def test_prealgebra_uri_redirect_to_rex(webview_base_url, rex_base_url, prealgeb
     response = get_url(cnx_url)
 
     # THEN we are redirected to rex
-    assert response.url.startswith(rex_base_url)
-    assert response.url.endswith(cnx_page_slug)
+    if response.status_code != 200:
+        log_failures_to_csv(response.status_code, cnx_url)
+
+        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
+
+    else:
+        assert response.url.startswith(rex_base_url)
 
 
 @markers.test_case("C602857")
@@ -862,8 +1095,13 @@ def test_elem_algebra_2e_uri_redirect_to_rex(webview_base_url, rex_base_url, ele
     response = get_url(cnx_url)
 
     # THEN we are redirected to rex
-    assert response.url.startswith(rex_base_url)
-    assert response.url.endswith(cnx_page_slug)
+    if response.status_code != 200:
+        log_failures_to_csv(response.status_code, cnx_url)
+
+        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
+
+    else:
+        assert response.url.startswith(rex_base_url)
 
 
 @markers.test_case("C616758")
@@ -879,8 +1117,13 @@ def test_elem_algebra_uri_redirect_to_rex(webview_base_url, rex_base_url, elem_a
     response = get_url(cnx_url)
 
     # THEN we are redirected to rex
-    assert response.url.startswith(rex_base_url)
-    assert response.url.endswith(cnx_page_slug)
+    if response.status_code != 200:
+        log_failures_to_csv(response.status_code, cnx_url)
+
+        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
+
+    else:
+        assert response.url.startswith(rex_base_url)
 
 
 @markers.test_case("C602857")
@@ -896,8 +1139,13 @@ def test_stats_hs_uri_redirect_to_rex(webview_base_url, rex_base_url, stats_hs_u
     response = get_url(cnx_url)
 
     # THEN we are redirected to rex
-    assert response.url.startswith(rex_base_url)
-    assert response.url.endswith(cnx_page_slug)
+    if response.status_code != 200:
+        log_failures_to_csv(response.status_code, cnx_url)
+
+        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
+
+    else:
+        assert response.url.startswith(rex_base_url)
 
 
 @markers.test_case("C602857")
@@ -913,8 +1161,13 @@ def test_co_success_uri_redirect_to_rex(webview_base_url, rex_base_url, cosu_uri
     response = get_url(cnx_url)
 
     # THEN we are redirected to rex
-    assert response.url.startswith(rex_base_url)
-    assert response.url.endswith(cnx_page_slug)
+    if response.status_code != 200:
+        log_failures_to_csv(response.status_code, cnx_url)
+
+        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
+
+    else:
+        assert response.url.startswith(rex_base_url)
 
 
 @markers.test_case("C602857")
@@ -930,8 +1183,13 @@ def test_psych_2e_uri_redirect_to_rex(webview_base_url, rex_base_url, psych_2e_u
     response = get_url(cnx_url)
 
     # THEN we are redirected to rex
-    assert response.url.startswith(rex_base_url)
-    assert response.url.endswith(cnx_page_slug)
+    if response.status_code != 200:
+        log_failures_to_csv(response.status_code, cnx_url)
+
+        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
+
+    else:
+        assert response.url.startswith(rex_base_url)
 
 
 @markers.test_case("C605719")
@@ -949,8 +1207,13 @@ def test_interm_algebra_2e_uri_redirect_to_rex(
     response = get_url(cnx_url)
 
     # THEN we are redirected to rex
-    assert response.url.startswith(rex_base_url)
-    assert response.url.endswith(cnx_page_slug)
+    if response.status_code != 200:
+        log_failures_to_csv(response.status_code, cnx_url)
+
+        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
+
+    else:
+        assert response.url.startswith(rex_base_url)
 
 
 @markers.test_case("C616758")
@@ -966,8 +1229,13 @@ def test_interm_algebra_uri_redirect_to_rex(webview_base_url, rex_base_url, inte
     response = get_url(cnx_url)
 
     # THEN we are redirected to rex
-    assert response.url.startswith(rex_base_url)
-    assert response.url.endswith(cnx_page_slug)
+    if response.status_code != 200:
+        log_failures_to_csv(response.status_code, cnx_url)
+
+        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
+
+    else:
+        assert response.url.startswith(rex_base_url)
 
 
 @markers.test_case("C608129")
@@ -983,8 +1251,13 @@ def test_psychology_uri_redirect_to_rex(webview_base_url, rex_base_url, psycholo
     response = get_url(cnx_url)
 
     # THEN we are redirected to rex
-    assert response.url.startswith(rex_base_url)
-    assert response.url.endswith(cnx_page_slug)
+    if response.status_code != 200:
+        log_failures_to_csv(response.status_code, cnx_url)
+
+        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
+
+    else:
+        assert response.url.startswith(rex_base_url)
 
 
 @markers.test_case("C608129")
@@ -1000,8 +1273,13 @@ def test_physics_hs_uri_redirect_to_rex(webview_base_url, rex_base_url, physics_
     response = get_url(cnx_url)
 
     # THEN we are redirected to rex
-    assert response.url.startswith(rex_base_url)
-    assert response.url.endswith(cnx_page_slug)
+    if response.status_code != 200:
+        log_failures_to_csv(response.status_code, cnx_url)
+
+        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
+
+    else:
+        assert response.url.startswith(rex_base_url)
 
 
 @markers.test_case("C600020")
@@ -1017,8 +1295,13 @@ def test_precalculus_uri_redirect_to_rex(webview_base_url, rex_base_url, precalc
     response = get_url(cnx_url)
 
     # THEN we are redirected to rex
-    assert response.url.startswith(rex_base_url)
-    assert response.url.endswith(cnx_page_slug)
+    if response.status_code != 200:
+        log_failures_to_csv(response.status_code, cnx_url)
+
+        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
+
+    else:
+        assert response.url.startswith(rex_base_url)
 
 
 @markers.test_case("C600020")
@@ -1034,8 +1317,13 @@ def test_algebra_and_trig_uri_redirect_to_rex(webview_base_url, rex_base_url, al
     response = get_url(cnx_url)
 
     # THEN we are redirected to rex
-    assert response.url.startswith(rex_base_url)
-    assert response.url.endswith(cnx_page_slug)
+    if response.status_code != 200:
+        log_failures_to_csv(response.status_code, cnx_url)
+
+        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
+
+    else:
+        assert response.url.startswith(rex_base_url)
 
 
 @markers.test_case("C559361")
@@ -1053,8 +1341,13 @@ def test_anatomy_and_physiology_uri_redirect_to_rex(
     response = get_url(cnx_url)
 
     # THEN we are redirected to rex
-    assert response.url.startswith(rex_base_url)
-    assert response.url.endswith(cnx_page_slug)
+    if response.status_code != 200:
+        log_failures_to_csv(response.status_code, cnx_url)
+
+        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
+
+    else:
+        assert response.url.startswith(rex_base_url)
 
 
 @markers.test_case("C615597")
@@ -1070,8 +1363,13 @@ def test_amer_gov_1e_uri_redirect_to_rex(webview_base_url, rex_base_url, amer_go
     response = get_url(cnx_url)
 
     # THEN we are redirected to rex
-    assert response.url.startswith(rex_base_url)
-    assert response.url.endswith(cnx_page_slug)
+    if response.status_code != 200:
+        log_failures_to_csv(response.status_code, cnx_url)
+
+        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
+
+    else:
+        assert response.url.startswith(rex_base_url)
 
 
 @markers.test_case("C615597")
@@ -1089,8 +1387,13 @@ def test_col_alg_with_coreq_uri_redirect_to_rex(
     response = get_url(cnx_url)
 
     # THEN we are redirected to rex
-    assert response.url.startswith(rex_base_url)
-    assert response.url.endswith(cnx_page_slug)
+    if response.status_code != 200:
+        log_failures_to_csv(response.status_code, cnx_url)
+
+        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
+
+    else:
+        assert response.url.startswith(rex_base_url)
 
 
 @markers.test_case("C616758")
@@ -1098,7 +1401,7 @@ def test_col_alg_with_coreq_uri_redirect_to_rex(
 @markers.rex
 @markers.nondestructive
 def test_intro_to_soc_uri_redirect_to_rex(webview_base_url, rex_base_url, intro_to_soc_uri):
-    # GIVEN a webview_base_url, rex_base_url and a sociology_2e_uri
+    # GIVEN a webview_base_url, rex_base_url and an intro to sociology uri
 
     # WHEN we go to a page based on the webview_base_url and uri
     cnx_page_slug = intro_to_soc_uri.split("/")[-1]
@@ -1106,8 +1409,13 @@ def test_intro_to_soc_uri_redirect_to_rex(webview_base_url, rex_base_url, intro_
     response = get_url(cnx_url)
 
     # THEN we are redirected to rex
-    assert response.url.startswith(rex_base_url)
-    assert response.url.endswith(cnx_page_slug)
+    if response.status_code != 200:
+        log_failures_to_csv(response.status_code, cnx_url)
+
+        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
+
+    else:
+        assert response.url.startswith(rex_base_url)
 
 
 @markers.test_case("C624690")
@@ -1123,8 +1431,13 @@ def test_intell_prop_uri_redirect_to_rex(webview_base_url, rex_base_url, intell_
     response = get_url(cnx_url)
 
     # THEN we are redirected to rex
-    assert response.url.startswith(rex_base_url)
-    assert response.url.endswith(cnx_page_slug)
+    if response.status_code != 200:
+        log_failures_to_csv(response.status_code, cnx_url)
+
+        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
+
+    else:
+        assert response.url.startswith(rex_base_url)
 
 
 @markers.test_case("C624690")
@@ -1140,5 +1453,10 @@ def test_intro_to_soc3_uri_redirect_to_rex(webview_base_url, rex_base_url, intro
     response = get_url(cnx_url)
 
     # THEN we are redirected to rex
-    assert response.url.startswith(rex_base_url)
-    assert response.url.endswith(cnx_page_slug)
+    if response.status_code != 200:
+        log_failures_to_csv(response.status_code, cnx_url)
+
+        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
+
+    else:
+        assert response.url.startswith(rex_base_url)
