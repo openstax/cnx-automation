@@ -8,7 +8,7 @@ import pytest
 
 """
 Verifies content of collection.xml of every collection in github content repo.
-Latest update on April 14th, 2021
+Latest update on September 16th, 2021
 """
 
 
@@ -26,13 +26,12 @@ def test_github_content_collections(git_content_repos, headers_data):
 
         collections_dir = f"https://api.github.com/repos/openstax/{repo}/contents/collections/"
 
-        try:
+        collections_list = requests.get(collections_dir, headers=headers_data)
 
-            collections_list = requests.get(collections_dir, headers=headers_data)
+        if collections_list.status_code != 200:
 
-        except HTTPError as h_e:
-            # Return code 404, 501, ... for incorrect repo url
-            pytest.fail(f"HTTP Error {h_e.code}: incorrect repo url {collections_dir}")
+            # Return code 404, 501, ... for incorrect collections url
+            print(f">>>>> FAILED {collections_list.status_code}: no collections folder in {repo}")
 
         else:
 
@@ -53,7 +52,7 @@ def test_github_content_collections(git_content_repos, headers_data):
                     collections_resp = requests.get(collections_url, headers=headers_data)
 
                 except HTTPError as h_e:
-                    # Return code 404, 501, ... for incorrect/missing .collection.xml
+                    # Return code 404, 501, ... for incorrect/missing collection.xml
                     pytest.fail(
                         f"HTTP Error {h_e.code}: incorrect/missing .collection.xml {collections_url}"
                     )
