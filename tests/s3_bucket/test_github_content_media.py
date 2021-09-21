@@ -2,15 +2,15 @@ import requests
 
 """
 Verifies that media folder in every github content repo exists and is not empty.
-Latest update on September 16th, 2021
+Latest update on September 21st, 2021
 """
 
 
 def test_github_content_media(git_content_repos, headers_data):
 
-    html_url_count = []
-
     for repo in git_content_repos:
+
+        html_url_list = []
 
         print("\nNow verifying: ", repo)
 
@@ -34,6 +34,13 @@ def test_github_content_media(git_content_repos, headers_data):
 
                 else:
 
-                    html_url_count.append(item["html_url"])
+                    html_url_list.append(item["html_url"])
 
-        assert sum(".jpg" in s for s in html_url_count) > 0
+        if len(html_url_list) > 1:
+            assert any(".jpg" in s for s in html_url_list) or any(
+                ".png" in s for s in html_url_list
+            )
+
+        else:
+            print("No media files found")
+            assert all(".gitkeep" in s for s in html_url_list)
