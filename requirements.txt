@@ -96,7 +96,7 @@ deepdiff==5.5.0
     # via -r requirements.in
 distlib==0.3.3
     # via virtualenv
-docker==5.0.0
+docker==5.0.2
     # via
     #   -r requirements.in
     #   nebuchadnezzar
