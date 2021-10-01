@@ -94,7 +94,7 @@ cryptography==35.0.0
     #   jwcrypto
 deepdiff==5.5.0
     # via -r requirements.in
-distlib==0.3.2
+distlib==0.3.3
     # via virtualenv
 docker==5.0.0
     # via
