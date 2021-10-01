@@ -269,7 +269,7 @@ requests==2.26.0
     #   pytest-testrail
     #   requests-file
     #   tldextract
-rhaptos.cnxmlutils==2.1.1
+rhaptos.cnxmlutils==2.3.0
     # via
     #   -r requirements.in
     #   cnx-transforms
