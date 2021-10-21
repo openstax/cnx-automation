@@ -1460,3 +1460,47 @@ def test_intro_to_soc3_uri_redirect_to_rex(webview_base_url, rex_base_url, intro
 
     else:
         assert response.url.startswith(rex_base_url)
+
+
+@markers.test_case("C640319")
+@markers.slow
+@markers.rex
+@markers.nondestructive
+def test_fisica_univ_1_uri_redirect_to_rex(webview_base_url, rex_base_url, fisica_univ_1_uri):
+    # GIVEN a webview_base_url, rex_base_url and an intro to soc 3 uri
+
+    # WHEN we go to a page based on the webview_base_url and uri
+    cnx_page_slug = fisica_univ_1_uri.split("/")[-1]
+    cnx_url = f"{webview_base_url}{fisica_univ_1_uri}"
+    response = get_url(cnx_url)
+
+    # THEN we are redirected to rex
+    if response.status_code != 200:
+        log_failures_to_csv(response.status_code, cnx_url)
+
+        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
+
+    else:
+        assert response.url.startswith(rex_base_url)
+
+
+@markers.test_case("C640319")
+@markers.slow
+@markers.rex
+@markers.nondestructive
+def test_psychologia_uri_redirect_to_rex(webview_base_url, rex_base_url, psychologia_uri):
+    # GIVEN a webview_base_url, rex_base_url and an intro to soc 3 uri
+
+    # WHEN we go to a page based on the webview_base_url and uri
+    cnx_page_slug = psychologia_uri.split("/")[-1]
+    cnx_url = f"{webview_base_url}{psychologia_uri}"
+    response = get_url(cnx_url)
+
+    # THEN we are redirected to rex
+    if response.status_code != 200:
+        log_failures_to_csv(response.status_code, cnx_url)
+
+        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
+
+    else:
+        assert response.url.startswith(rex_base_url)

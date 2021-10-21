@@ -1027,3 +1027,35 @@ def test_intro_to_soc3_uri_redirect_to_rex(webview_base_url, rex_base_url, intro
     # THEN we are redirected to rex
     assert rex_base_url in response.headers["Location"]
     assert 301 == response.status_code
+
+
+@markers.test_case("C568716")
+@markers.slow
+@markers.rex
+@markers.nondestructive
+def test_fisica_univ_1_uri_redirect_to_rex(webview_base_url, rex_base_url, fisica_univ_1_uri):
+    # GIVEN a webview_base_url, rex_base_url and a col..._uri
+
+    # WHEN we go to a page based on the webview_base_url and uri
+    cnx_url = f"{webview_base_url}{fisica_univ_1_uri}"
+    response = requests.get(cnx_url, allow_redirects=False)
+
+    # THEN we are redirected to rex
+    assert rex_base_url in response.headers["Location"]
+    assert 301 == response.status_code
+
+
+@markers.test_case("C568716")
+@markers.slow
+@markers.rex
+@markers.nondestructive
+def test_psychologia_uri_redirect_to_rex(webview_base_url, rex_base_url, psychologia_uri):
+    # GIVEN a webview_base_url, rex_base_url and a col..._uri
+
+    # WHEN we go to a page based on the webview_base_url and uri
+    cnx_url = f"{webview_base_url}{psychologia_uri}"
+    response = requests.get(cnx_url, allow_redirects=False)
+
+    # THEN we are redirected to rex
+    assert rex_base_url in response.headers["Location"]
+    assert 301 == response.status_code
