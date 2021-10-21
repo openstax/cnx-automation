@@ -696,6 +696,28 @@ def intro_to_soc3_uri(request):
     yield request.param
 
 
+@pytest.fixture(
+    params=gen_from_file(os.path.join(DATA_DIR, "175c88b6-f89b-4eba-9514-bc45e2139a1d.txt"))
+)
+def fisica_univ_1_uri(request):
+    """Yields a URI from collection
+
+    Example: /contents/f8zJz5tx@0.0:2po7o99e/1-essential-ideas
+        """
+    yield request.param
+
+
+@pytest.fixture(
+    params=gen_from_file(os.path.join(DATA_DIR, "728df0bb-e07f-489d-91e3-4734a5932f92.txt"))
+)
+def psychologia_uri(request):
+    """Yields a URI from collection
+
+    Example: /contents/f8zJz5tx@0.0:2po7o99e/1-essential-ideas
+        """
+    yield request.param
+
+
 @pytest.fixture
 def robots_txt_production():
     """Returns the text file location which includes all the robots.txt lines for production env
