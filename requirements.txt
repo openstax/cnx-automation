@@ -303,7 +303,7 @@ toml==0.10.2
     #   pytest
 typing-extensions==3.10.0.2
     # via aiohttp
-uritemplate==3.0.1
+uritemplate==4.1.1
     # via
     #   -r requirements.in
     #   github3.py
