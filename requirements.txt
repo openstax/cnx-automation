@@ -104,7 +104,7 @@ execnet==1.9.0
     # via
     #   -r requirements.in
     #   pytest-xdist
-filelock==3.0.12
+filelock==3.3.2
     # via
     #   -r requirements.in
     #   tldextract
