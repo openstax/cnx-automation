@@ -280,7 +280,7 @@ selenium==4.0.0
     #   -r requirements.in
     #   pypom
     #   pytest-selenium
-simplejson==3.17.2
+simplejson==3.17.5
     # via -r requirements.in
 six==1.16.0
     # via
