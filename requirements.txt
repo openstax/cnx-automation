@@ -125,7 +125,7 @@ importlib-metadata==4.8.1
     # via -r requirements.in
 iniconfig==1.1.1
     # via pytest
-jinja2==3.0.1
+jinja2==3.0.2
     # via
     #   -r requirements.in
     #   cnx-epub
