@@ -27,7 +27,7 @@ attrs==21.2.0
     #   -r requirements.in
     #   aiohttp
     #   pytest
-backoff==1.10.0
+backoff==1.11.1
     # via -r requirements.in
 boto3==1.17.103
     # via -r requirements.in
