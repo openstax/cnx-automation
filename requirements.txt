@@ -176,7 +176,7 @@ pluggy==1.0.0
     #   pytest
 pre-commit==2.16.0
     # via -r requirements.in
-py==1.10.0
+py==1.11.0
     # via
     #   -r requirements.in
     #   pytest
