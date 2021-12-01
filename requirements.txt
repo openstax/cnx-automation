@@ -275,7 +275,7 @@ rhaptos.cnxmlutils==2.5.0
     #   cnx-transforms
 s3transfer==0.5.0
     # via boto3
-selenium==3.141.0
+selenium==4.1.0
     # via
     #   -r requirements.in
     #   pypom
