@@ -8,7 +8,7 @@ aiodns==3.0.0
     # via aiohttp
 aiohttp[speedups]==3.8.1
     # via nebuchadnezzar
-apipkg==1.5
+apipkg==2.1.0
     # via
     #   -r requirements.in
     #   execnet
