@@ -353,7 +353,7 @@ zope.interface==5.4.0
     #   pypom
     #   zope.component
     #   zope.proxy
-zope.proxy==4.3.5
+zope.proxy==4.5.0
     # via
     #   -r requirements.in
     #   zope.deferredimport
