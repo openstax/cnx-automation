@@ -191,7 +191,7 @@ pyparsing==3.0.6
     # via
     #   -r requirements.in
     #   packaging
-pypom==2.2.0
+pypom==2.2.3
     # via -r requirements.in
 pytest-base-url==1.4.1
     # via
