@@ -708,6 +708,28 @@ def fisica_univ_1_uri(request):
 
 
 @pytest.fixture(
+    params=gen_from_file(os.path.join(DATA_DIR, "da02605d-6d69-447c-a9b9-caf06dc4f413.txt"))
+)
+def fisica_univ_2_uri(request):
+    """Yields a URI from collection
+
+    Example: /contents/f8zJz5tx@0.0:2po7o99e/1-essential-ideas
+        """
+    yield request.param
+
+
+@pytest.fixture(
+    params=gen_from_file(os.path.join(DATA_DIR, "b647a9b9-7631-45a1-a8e7-5acc3a44fc01.txt"))
+)
+def fisica_univ_3_uri(request):
+    """Yields a URI from collection
+
+    Example: /contents/f8zJz5tx@0.0:2po7o99e/1-essential-ideas
+        """
+    yield request.param
+
+
+@pytest.fixture(
     params=gen_from_file(os.path.join(DATA_DIR, "728df0bb-e07f-489d-91e3-4734a5932f92.txt"))
 )
 def psychologia_uri(request):
