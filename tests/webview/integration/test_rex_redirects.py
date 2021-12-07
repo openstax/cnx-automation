@@ -111,31 +111,9 @@ def test_chemistry_2e_uri_redirect_to_rex(webview_base_url, rex_base_url, chemis
     summary = re.findall(r"(.summary*)", cnx_page_slug)
     questions = re.findall(r"(.questions*)", cnx_page_slug)
 
-    if intro and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
+    is_interesting = intro or subchapters or appendix or key or exercises or summary or questions
 
-    elif subchapters and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif appendix and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif key and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif exercises and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif summary and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif questions and response.status_code != 200:
+    if is_interesting and response.status_code != 200:
         log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
         pytest.fail(f"{response.status_code} in {cnx_page_slug}")
 
@@ -167,31 +145,9 @@ def test_chemistry_uri_redirect_to_rex(webview_base_url, rex_base_url, chemistry
     summary = re.findall(r"(.summary*)", cnx_page_slug)
     questions = re.findall(r"(.questions*)", cnx_page_slug)
 
-    if intro and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
+    is_interesting = intro or subchapters or appendix or key or exercises or summary or questions
 
-    elif subchapters and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif appendix and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif key and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif exercises and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif summary and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif questions and response.status_code != 200:
+    if is_interesting and response.status_code != 200:
         log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
         pytest.fail(f"{response.status_code} in {cnx_page_slug}")
 
@@ -223,31 +179,9 @@ def test_biology_2e_uri_redirect_to_rex(webview_base_url, rex_base_url, biology_
     summary = re.findall(r"(.summary*)", cnx_page_slug)
     questions = re.findall(r"(.questions*)", cnx_page_slug)
 
-    if intro and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
+    is_interesting = intro or subchapters or appendix or key or exercises or summary or questions
 
-    elif subchapters and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif appendix and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif key and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif exercises and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif summary and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif questions and response.status_code != 200:
+    if is_interesting and response.status_code != 200:
         log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
         pytest.fail(f"{response.status_code} in {cnx_page_slug}")
 
@@ -279,31 +213,9 @@ def test_biology_uri_redirect_to_rex(webview_base_url, rex_base_url, biology_uri
     summary = re.findall(r"(.summary*)", cnx_page_slug)
     questions = re.findall(r"(.questions*)", cnx_page_slug)
 
-    if intro and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
+    is_interesting = intro or subchapters or appendix or key or exercises or summary or questions
 
-    elif subchapters and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif appendix and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif key and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif exercises and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif summary and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif questions and response.status_code != 200:
+    if is_interesting and response.status_code != 200:
         log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
         pytest.fail(f"{response.status_code} in {cnx_page_slug}")
 
@@ -335,31 +247,9 @@ def test_microbiology_uri_redirect_to_rex(webview_base_url, rex_base_url, microb
     summary = re.findall(r"(.summary*)", cnx_page_slug)
     questions = re.findall(r"(.questions*)", cnx_page_slug)
 
-    if intro and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
+    is_interesting = intro or subchapters or appendix or key or exercises or summary or questions
 
-    elif subchapters and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif appendix and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif key and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif exercises and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif summary and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif questions and response.status_code != 200:
+    if is_interesting and response.status_code != 200:
         log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
         pytest.fail(f"{response.status_code} in {cnx_page_slug}")
 
@@ -393,31 +283,9 @@ def test_conceptsofbiology_uri_redirect_to_rex(
     summary = re.findall(r"(.summary*)", cnx_page_slug)
     questions = re.findall(r"(.questions*)", cnx_page_slug)
 
-    if intro and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
+    is_interesting = intro or subchapters or appendix or key or exercises or summary or questions
 
-    elif subchapters and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif appendix and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif key and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif exercises and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif summary and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif questions and response.status_code != 200:
+    if is_interesting and response.status_code != 200:
         log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
         pytest.fail(f"{response.status_code} in {cnx_page_slug}")
 
@@ -449,31 +317,9 @@ def test_astronomy_uri_redirect_to_rex(webview_base_url, rex_base_url, astronomy
     summary = re.findall(r"(.summary*)", cnx_page_slug)
     questions = re.findall(r"(.questions*)", cnx_page_slug)
 
-    if intro and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
+    is_interesting = intro or subchapters or appendix or key or exercises or summary or questions
 
-    elif subchapters and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif appendix and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif key and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif exercises and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif summary and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif questions and response.status_code != 200:
+    if is_interesting and response.status_code != 200:
         log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
         pytest.fail(f"{response.status_code} in {cnx_page_slug}")
 
@@ -505,31 +351,9 @@ def test_biology_ap_uri_redirect_to_rex(webview_base_url, rex_base_url, biology_
     summary = re.findall(r"(.summary*)", cnx_page_slug)
     questions = re.findall(r"(.questions*)", cnx_page_slug)
 
-    if intro and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
+    is_interesting = intro or subchapters or appendix or key or exercises or summary or questions
 
-    elif subchapters and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif appendix and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif key and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif exercises and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif summary and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif questions and response.status_code != 200:
+    if is_interesting and response.status_code != 200:
         log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
         pytest.fail(f"{response.status_code} in {cnx_page_slug}")
 
@@ -563,31 +387,9 @@ def test_college_physics_ap_courses_uri_redirect_to_rex(
     summary = re.findall(r"(.summary*)", cnx_page_slug)
     questions = re.findall(r"(.questions*)", cnx_page_slug)
 
-    if intro and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
+    is_interesting = intro or subchapters or appendix or key or exercises or summary or questions
 
-    elif subchapters and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif appendix and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif key and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif exercises and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif summary and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif questions and response.status_code != 200:
+    if is_interesting and response.status_code != 200:
         log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
         pytest.fail(f"{response.status_code} in {cnx_page_slug}")
 
@@ -619,31 +421,9 @@ def test_college_physics_uri_redirect_to_rex(webview_base_url, rex_base_url, col
     summary = re.findall(r"(.summary*)", cnx_page_slug)
     questions = re.findall(r"(.questions*)", cnx_page_slug)
 
-    if intro and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
+    is_interesting = intro or subchapters or appendix or key or exercises or summary or questions
 
-    elif subchapters and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif appendix and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif key and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif exercises and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif summary and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif questions and response.status_code != 200:
+    if is_interesting and response.status_code != 200:
         log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
         pytest.fail(f"{response.status_code} in {cnx_page_slug}")
 
@@ -677,31 +457,9 @@ def test_chemistry_atoms_first_2e_uri_redirect_to_rex(
     summary = re.findall(r"(.summary*)", cnx_page_slug)
     questions = re.findall(r"(.questions*)", cnx_page_slug)
 
-    if intro and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
+    is_interesting = intro or subchapters or appendix or key or exercises or summary or questions
 
-    elif subchapters and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif appendix and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif key and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif exercises and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif summary and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif questions and response.status_code != 200:
+    if is_interesting and response.status_code != 200:
         log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
         pytest.fail(f"{response.status_code} in {cnx_page_slug}")
 
@@ -735,31 +493,9 @@ def test_chemistry_atoms_first_uri_redirect_to_rex(
     summary = re.findall(r"(.summary*)", cnx_page_slug)
     questions = re.findall(r"(.questions*)", cnx_page_slug)
 
-    if intro and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
+    is_interesting = intro or subchapters or appendix or key or exercises or summary or questions
 
-    elif subchapters and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif appendix and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif key and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif exercises and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif summary and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif questions and response.status_code != 200:
+    if is_interesting and response.status_code != 200:
         log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
         pytest.fail(f"{response.status_code} in {cnx_page_slug}")
 
@@ -791,31 +527,9 @@ def test_calculus_vol_1_uri_redirect_to_rex(webview_base_url, rex_base_url, calc
     summary = re.findall(r"(.summary*)", cnx_page_slug)
     questions = re.findall(r"(.questions*)", cnx_page_slug)
 
-    if intro and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
+    is_interesting = intro or subchapters or appendix or key or exercises or summary or questions
 
-    elif subchapters and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif appendix and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif key and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif exercises and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif summary and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif questions and response.status_code != 200:
+    if is_interesting and response.status_code != 200:
         log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
         pytest.fail(f"{response.status_code} in {cnx_page_slug}")
 
@@ -847,31 +561,9 @@ def test_calculus_vol_2_uri_redirect_to_rex(webview_base_url, rex_base_url, calc
     summary = re.findall(r"(.summary*)", cnx_page_slug)
     questions = re.findall(r"(.questions*)", cnx_page_slug)
 
-    if intro and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
+    is_interesting = intro or subchapters or appendix or key or exercises or summary or questions
 
-    elif subchapters and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif appendix and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif key and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif exercises and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif summary and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif questions and response.status_code != 200:
+    if is_interesting and response.status_code != 200:
         log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
         pytest.fail(f"{response.status_code} in {cnx_page_slug}")
 
@@ -903,31 +595,9 @@ def test_calculus_vol_3_uri_redirect_to_rex(webview_base_url, rex_base_url, calc
     summary = re.findall(r"(.summary*)", cnx_page_slug)
     questions = re.findall(r"(.questions*)", cnx_page_slug)
 
-    if intro and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
+    is_interesting = intro or subchapters or appendix or key or exercises or summary or questions
 
-    elif subchapters and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif appendix and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif key and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif exercises and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif summary and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif questions and response.status_code != 200:
+    if is_interesting and response.status_code != 200:
         log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
         pytest.fail(f"{response.status_code} in {cnx_page_slug}")
 
@@ -959,31 +629,9 @@ def test_univ_phys_1_uri_redirect_to_rex(webview_base_url, rex_base_url, univ_ph
     summary = re.findall(r"(.summary*)", cnx_page_slug)
     questions = re.findall(r"(.questions*)", cnx_page_slug)
 
-    if intro and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
+    is_interesting = intro or subchapters or appendix or key or exercises or summary or questions
 
-    elif subchapters and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif appendix and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif key and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif exercises and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif summary and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif questions and response.status_code != 200:
+    if is_interesting and response.status_code != 200:
         log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
         pytest.fail(f"{response.status_code} in {cnx_page_slug}")
 
@@ -1015,31 +663,9 @@ def test_univ_phys_2_uri_redirect_to_rex(webview_base_url, rex_base_url, univ_ph
     summary = re.findall(r"(.summary*)", cnx_page_slug)
     questions = re.findall(r"(.questions*)", cnx_page_slug)
 
-    if intro and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
+    is_interesting = intro or subchapters or appendix or key or exercises or summary or questions
 
-    elif subchapters and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif appendix and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif key and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif exercises and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif summary and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif questions and response.status_code != 200:
+    if is_interesting and response.status_code != 200:
         log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
         pytest.fail(f"{response.status_code} in {cnx_page_slug}")
 
@@ -1071,31 +697,9 @@ def test_univ_phys_3_uri_redirect_to_rex(webview_base_url, rex_base_url, univ_ph
     summary = re.findall(r"(.summary*)", cnx_page_slug)
     questions = re.findall(r"(.questions*)", cnx_page_slug)
 
-    if intro and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
+    is_interesting = intro or subchapters or appendix or key or exercises or summary or questions
 
-    elif subchapters and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif appendix and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif key and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif exercises and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif summary and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif questions and response.status_code != 200:
+    if is_interesting and response.status_code != 200:
         log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
         pytest.fail(f"{response.status_code} in {cnx_page_slug}")
 
@@ -1129,31 +733,9 @@ def test_american_government_2e_uri_redirect_to_rex(
     summary = re.findall(r"(.summary*)", cnx_page_slug)
     questions = re.findall(r"(.questions*)", cnx_page_slug)
 
-    if intro and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
+    is_interesting = intro or subchapters or appendix or key or exercises or summary or questions
 
-    elif subchapters and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif appendix and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif key and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif exercises and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif summary and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif questions and response.status_code != 200:
+    if is_interesting and response.status_code != 200:
         log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
         pytest.fail(f"{response.status_code} in {cnx_page_slug}")
 
@@ -1187,31 +769,9 @@ def test_introductory_business_statistics_uri_redirect_to_rex(
     summary = re.findall(r"(.summary*)", cnx_page_slug)
     questions = re.findall(r"(.questions*)", cnx_page_slug)
 
-    if intro and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
+    is_interesting = intro or subchapters or appendix or key or exercises or summary or questions
 
-    elif subchapters and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif appendix and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif key and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif exercises and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif summary and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif questions and response.status_code != 200:
+    if is_interesting and response.status_code != 200:
         log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
         pytest.fail(f"{response.status_code} in {cnx_page_slug}")
 
@@ -1245,31 +805,9 @@ def test_introductory_statistics_uri_redirect_to_rex(
     summary = re.findall(r"(.summary*)", cnx_page_slug)
     questions = re.findall(r"(.questions*)", cnx_page_slug)
 
-    if intro and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
+    is_interesting = intro or subchapters or appendix or key or exercises or summary or questions
 
-    elif subchapters and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif appendix and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif key and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif exercises and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif summary and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif questions and response.status_code != 200:
+    if is_interesting and response.status_code != 200:
         log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
         pytest.fail(f"{response.status_code} in {cnx_page_slug}")
 
@@ -1303,31 +841,9 @@ def test_principles_of_accounting_1_uri_redirect_to_rex(
     summary = re.findall(r"(.summary*)", cnx_page_slug)
     questions = re.findall(r"(.questions*)", cnx_page_slug)
 
-    if intro and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
+    is_interesting = intro or subchapters or appendix or key or exercises or summary or questions
 
-    elif subchapters and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif appendix and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif key and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif exercises and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif summary and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif questions and response.status_code != 200:
+    if is_interesting and response.status_code != 200:
         log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
         pytest.fail(f"{response.status_code} in {cnx_page_slug}")
 
@@ -1361,31 +877,9 @@ def test_principles_of_accounting_2_uri_redirect_to_rex(
     summary = re.findall(r"(.summary*)", cnx_page_slug)
     questions = re.findall(r"(.questions*)", cnx_page_slug)
 
-    if intro and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
+    is_interesting = intro or subchapters or appendix or key or exercises or summary or questions
 
-    elif subchapters and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif appendix and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif key and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif exercises and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif summary and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif questions and response.status_code != 200:
+    if is_interesting and response.status_code != 200:
         log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
         pytest.fail(f"{response.status_code} in {cnx_page_slug}")
 
@@ -1417,31 +911,9 @@ def test_us_history_uri_redirect_to_rex(webview_base_url, rex_base_url, us_histo
     summary = re.findall(r"(.summary*)", cnx_page_slug)
     questions = re.findall(r"(.questions*)", cnx_page_slug)
 
-    if intro and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
+    is_interesting = intro or subchapters or appendix or key or exercises or summary or questions
 
-    elif subchapters and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif appendix and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif key and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif exercises and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif summary and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif questions and response.status_code != 200:
+    if is_interesting and response.status_code != 200:
         log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
         pytest.fail(f"{response.status_code} in {cnx_page_slug}")
 
@@ -1473,31 +945,9 @@ def test_economics_2e_uri_redirect_to_rex(webview_base_url, rex_base_url, econom
     summary = re.findall(r"(.summary*)", cnx_page_slug)
     questions = re.findall(r"(.questions*)", cnx_page_slug)
 
-    if intro and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
+    is_interesting = intro or subchapters or appendix or key or exercises or summary or questions
 
-    elif subchapters and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif appendix and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif key and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif exercises and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif summary and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif questions and response.status_code != 200:
+    if is_interesting and response.status_code != 200:
         log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
         pytest.fail(f"{response.status_code} in {cnx_page_slug}")
 
@@ -1529,31 +979,9 @@ def test_economics_uri_redirect_to_rex(webview_base_url, rex_base_url, economics
     summary = re.findall(r"(.summary*)", cnx_page_slug)
     questions = re.findall(r"(.questions*)", cnx_page_slug)
 
-    if intro and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
+    is_interesting = intro or subchapters or appendix or key or exercises or summary or questions
 
-    elif subchapters and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif appendix and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif key and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif exercises and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif summary and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif questions and response.status_code != 200:
+    if is_interesting and response.status_code != 200:
         log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
         pytest.fail(f"{response.status_code} in {cnx_page_slug}")
 
@@ -1587,31 +1015,9 @@ def test_microeconomics_2e_uri_redirect_to_rex(
     summary = re.findall(r"(.summary*)", cnx_page_slug)
     questions = re.findall(r"(.questions*)", cnx_page_slug)
 
-    if intro and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
+    is_interesting = intro or subchapters or appendix or key or exercises or summary or questions
 
-    elif subchapters and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif appendix and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif key and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif exercises and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif summary and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif questions and response.status_code != 200:
+    if is_interesting and response.status_code != 200:
         log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
         pytest.fail(f"{response.status_code} in {cnx_page_slug}")
 
@@ -1643,31 +1049,9 @@ def test_microeconomics_uri_redirect_to_rex(webview_base_url, rex_base_url, micr
     summary = re.findall(r"(.summary*)", cnx_page_slug)
     questions = re.findall(r"(.questions*)", cnx_page_slug)
 
-    if intro and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
+    is_interesting = intro or subchapters or appendix or key or exercises or summary or questions
 
-    elif subchapters and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif appendix and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif key and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif exercises and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif summary and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif questions and response.status_code != 200:
+    if is_interesting and response.status_code != 200:
         log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
         pytest.fail(f"{response.status_code} in {cnx_page_slug}")
 
@@ -1701,31 +1085,9 @@ def test_macroeconomics_2e_uri_redirect_to_rex(
     summary = re.findall(r"(.summary*)", cnx_page_slug)
     questions = re.findall(r"(.questions*)", cnx_page_slug)
 
-    if intro and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
+    is_interesting = intro or subchapters or appendix or key or exercises or summary or questions
 
-    elif subchapters and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif appendix and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif key and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif exercises and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif summary and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif questions and response.status_code != 200:
+    if is_interesting and response.status_code != 200:
         log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
         pytest.fail(f"{response.status_code} in {cnx_page_slug}")
 
@@ -1757,31 +1119,9 @@ def test_macroeconomics_uri_redirect_to_rex(webview_base_url, rex_base_url, macr
     summary = re.findall(r"(.summary*)", cnx_page_slug)
     questions = re.findall(r"(.questions*)", cnx_page_slug)
 
-    if intro and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
+    is_interesting = intro or subchapters or appendix or key or exercises or summary or questions
 
-    elif subchapters and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif appendix and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif key and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif exercises and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif summary and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif questions and response.status_code != 200:
+    if is_interesting and response.status_code != 200:
         log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
         pytest.fail(f"{response.status_code} in {cnx_page_slug}")
 
@@ -1813,31 +1153,9 @@ def test_entrepreneurship_uri_redirect_to_rex(webview_base_url, rex_base_url, en
     summary = re.findall(r"(.summary*)", cnx_page_slug)
     questions = re.findall(r"(.questions*)", cnx_page_slug)
 
-    if intro and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
+    is_interesting = intro or subchapters or appendix or key or exercises or summary or questions
 
-    elif subchapters and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif appendix and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif key and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif exercises and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif summary and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif questions and response.status_code != 200:
+    if is_interesting and response.status_code != 200:
         log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
         pytest.fail(f"{response.status_code} in {cnx_page_slug}")
 
@@ -1869,31 +1187,9 @@ def test_sociology_2e_uri_redirect_to_rex(webview_base_url, rex_base_url, sociol
     summary = re.findall(r"(.summary*)", cnx_page_slug)
     questions = re.findall(r"(.questions*)", cnx_page_slug)
 
-    if intro and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
+    is_interesting = intro or subchapters or appendix or key or exercises or summary or questions
 
-    elif subchapters and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif appendix and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif key and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif exercises and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif summary and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif questions and response.status_code != 200:
+    if is_interesting and response.status_code != 200:
         log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
         pytest.fail(f"{response.status_code} in {cnx_page_slug}")
 
@@ -1925,31 +1221,9 @@ def test_intro_business_uri_redirect_to_rex(webview_base_url, rex_base_url, intr
     summary = re.findall(r"(.summary*)", cnx_page_slug)
     questions = re.findall(r"(.questions*)", cnx_page_slug)
 
-    if intro and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
+    is_interesting = intro or subchapters or appendix or key or exercises or summary or questions
 
-    elif subchapters and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif appendix and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif key and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif exercises and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif summary and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif questions and response.status_code != 200:
+    if is_interesting and response.status_code != 200:
         log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
         pytest.fail(f"{response.status_code} in {cnx_page_slug}")
 
@@ -1981,31 +1255,9 @@ def test_business_ethics_uri_redirect_to_rex(webview_base_url, rex_base_url, bus
     summary = re.findall(r"(.summary*)", cnx_page_slug)
     questions = re.findall(r"(.questions*)", cnx_page_slug)
 
-    if intro and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
+    is_interesting = intro or subchapters or appendix or key or exercises or summary or questions
 
-    elif subchapters and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif appendix and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif key and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif exercises and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif summary and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif questions and response.status_code != 200:
+    if is_interesting and response.status_code != 200:
         log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
         pytest.fail(f"{response.status_code} in {cnx_page_slug}")
 
@@ -2039,31 +1291,9 @@ def test_principles_of_mgnt_uri_redirect_to_rex(
     summary = re.findall(r"(.summary*)", cnx_page_slug)
     questions = re.findall(r"(.questions*)", cnx_page_slug)
 
-    if intro and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
+    is_interesting = intro or subchapters or appendix or key or exercises or summary or questions
 
-    elif subchapters and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif appendix and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif key and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif exercises and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif summary and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif questions and response.status_code != 200:
+    if is_interesting and response.status_code != 200:
         log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
         pytest.fail(f"{response.status_code} in {cnx_page_slug}")
 
@@ -2097,31 +1327,9 @@ def test_organizational_behavior_uri_redirect_to_rex(
     summary = re.findall(r"(.summary*)", cnx_page_slug)
     questions = re.findall(r"(.questions*)", cnx_page_slug)
 
-    if intro and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
+    is_interesting = intro or subchapters or appendix or key or exercises or summary or questions
 
-    elif subchapters and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif appendix and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif key and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif exercises and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif summary and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif questions and response.status_code != 200:
+    if is_interesting and response.status_code != 200:
         log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
         pytest.fail(f"{response.status_code} in {cnx_page_slug}")
 
@@ -2155,31 +1363,9 @@ def test_business_law_i_ess_uri_redirect_to_rex(
     summary = re.findall(r"(.summary*)", cnx_page_slug)
     questions = re.findall(r"(.questions*)", cnx_page_slug)
 
-    if intro and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
+    is_interesting = intro or subchapters or appendix or key or exercises or summary or questions
 
-    elif subchapters and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif appendix and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif key and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif exercises and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif summary and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif questions and response.status_code != 200:
+    if is_interesting and response.status_code != 200:
         log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
         pytest.fail(f"{response.status_code} in {cnx_page_slug}")
 
@@ -2211,31 +1397,9 @@ def test_college_algebra_uri_redirect_to_rex(webview_base_url, rex_base_url, col
     summary = re.findall(r"(.summary*)", cnx_page_slug)
     questions = re.findall(r"(.questions*)", cnx_page_slug)
 
-    if intro and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
+    is_interesting = intro or subchapters or appendix or key or exercises or summary or questions
 
-    elif subchapters and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif appendix and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif key and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif exercises and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif summary and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif questions and response.status_code != 200:
+    if is_interesting and response.status_code != 200:
         log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
         pytest.fail(f"{response.status_code} in {cnx_page_slug}")
 
@@ -2269,31 +1433,9 @@ def test_principles_microecon_ap_courses_2e_uri_redirect_to_rex(
     summary = re.findall(r"(.summary*)", cnx_page_slug)
     questions = re.findall(r"(.questions*)", cnx_page_slug)
 
-    if intro and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
+    is_interesting = intro or subchapters or appendix or key or exercises or summary or questions
 
-    elif subchapters and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif appendix and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif key and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif exercises and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif summary and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif questions and response.status_code != 200:
+    if is_interesting and response.status_code != 200:
         log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
         pytest.fail(f"{response.status_code} in {cnx_page_slug}")
 
@@ -2327,31 +1469,9 @@ def test_principles_microecon_ap_courses_uri_redirect_to_rex(
     summary = re.findall(r"(.summary*)", cnx_page_slug)
     questions = re.findall(r"(.questions*)", cnx_page_slug)
 
-    if intro and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
+    is_interesting = intro or subchapters or appendix or key or exercises or summary or questions
 
-    elif subchapters and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif appendix and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif key and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif exercises and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif summary and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif questions and response.status_code != 200:
+    if is_interesting and response.status_code != 200:
         log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
         pytest.fail(f"{response.status_code} in {cnx_page_slug}")
 
@@ -2385,31 +1505,9 @@ def test_principles_macroecon_ap_courses_2e_uri_redirect_to_rex(
     summary = re.findall(r"(.summary*)", cnx_page_slug)
     questions = re.findall(r"(.questions*)", cnx_page_slug)
 
-    if intro and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
+    is_interesting = intro or subchapters or appendix or key or exercises or summary or questions
 
-    elif subchapters and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif appendix and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif key and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif exercises and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif summary and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif questions and response.status_code != 200:
+    if is_interesting and response.status_code != 200:
         log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
         pytest.fail(f"{response.status_code} in {cnx_page_slug}")
 
@@ -2443,31 +1541,9 @@ def test_principles_macroecon_ap_courses_uri_redirect_to_rex(
     summary = re.findall(r"(.summary*)", cnx_page_slug)
     questions = re.findall(r"(.questions*)", cnx_page_slug)
 
-    if intro and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
+    is_interesting = intro or subchapters or appendix or key or exercises or summary or questions
 
-    elif subchapters and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif appendix and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif key and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif exercises and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif summary and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif questions and response.status_code != 200:
+    if is_interesting and response.status_code != 200:
         log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
         pytest.fail(f"{response.status_code} in {cnx_page_slug}")
 
@@ -2499,31 +1575,9 @@ def test_prealgebra_2e_uri_redirect_to_rex(webview_base_url, rex_base_url, preal
     summary = re.findall(r"(.summary*)", cnx_page_slug)
     questions = re.findall(r"(.questions*)", cnx_page_slug)
 
-    if intro and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
+    is_interesting = intro or subchapters or appendix or key or exercises or summary or questions
 
-    elif subchapters and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif appendix and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif key and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif exercises and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif summary and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif questions and response.status_code != 200:
+    if is_interesting and response.status_code != 200:
         log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
         pytest.fail(f"{response.status_code} in {cnx_page_slug}")
 
@@ -2555,31 +1609,9 @@ def test_prealgebra_uri_redirect_to_rex(webview_base_url, rex_base_url, prealgeb
     summary = re.findall(r"(.summary*)", cnx_page_slug)
     questions = re.findall(r"(.questions*)", cnx_page_slug)
 
-    if intro and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
+    is_interesting = intro or subchapters or appendix or key or exercises or summary or questions
 
-    elif subchapters and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif appendix and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif key and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif exercises and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif summary and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif questions and response.status_code != 200:
+    if is_interesting and response.status_code != 200:
         log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
         pytest.fail(f"{response.status_code} in {cnx_page_slug}")
 
@@ -2611,31 +1643,9 @@ def test_elem_algebra_2e_uri_redirect_to_rex(webview_base_url, rex_base_url, ele
     summary = re.findall(r"(.summary*)", cnx_page_slug)
     questions = re.findall(r"(.questions*)", cnx_page_slug)
 
-    if intro and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
+    is_interesting = intro or subchapters or appendix or key or exercises or summary or questions
 
-    elif subchapters and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif appendix and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif key and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif exercises and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif summary and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif questions and response.status_code != 200:
+    if is_interesting and response.status_code != 200:
         log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
         pytest.fail(f"{response.status_code} in {cnx_page_slug}")
 
@@ -2667,31 +1677,9 @@ def test_elem_algebra_uri_redirect_to_rex(webview_base_url, rex_base_url, elem_a
     summary = re.findall(r"(.summary*)", cnx_page_slug)
     questions = re.findall(r"(.questions*)", cnx_page_slug)
 
-    if intro and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
+    is_interesting = intro or subchapters or appendix or key or exercises or summary or questions
 
-    elif subchapters and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif appendix and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif key and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif exercises and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif summary and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif questions and response.status_code != 200:
+    if is_interesting and response.status_code != 200:
         log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
         pytest.fail(f"{response.status_code} in {cnx_page_slug}")
 
@@ -2723,31 +1711,9 @@ def test_stats_hs_uri_redirect_to_rex(webview_base_url, rex_base_url, stats_hs_u
     summary = re.findall(r"(.summary*)", cnx_page_slug)
     questions = re.findall(r"(.questions*)", cnx_page_slug)
 
-    if intro and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
+    is_interesting = intro or subchapters or appendix or key or exercises or summary or questions
 
-    elif subchapters and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif appendix and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif key and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif exercises and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif summary and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif questions and response.status_code != 200:
+    if is_interesting and response.status_code != 200:
         log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
         pytest.fail(f"{response.status_code} in {cnx_page_slug}")
 
@@ -2779,31 +1745,9 @@ def test_co_success_uri_redirect_to_rex(webview_base_url, rex_base_url, cosu_uri
     summary = re.findall(r"(.summary*)", cnx_page_slug)
     questions = re.findall(r"(.questions*)", cnx_page_slug)
 
-    if intro and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
+    is_interesting = intro or subchapters or appendix or key or exercises or summary or questions
 
-    elif subchapters and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif appendix and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif key and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif exercises and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif summary and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif questions and response.status_code != 200:
+    if is_interesting and response.status_code != 200:
         log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
         pytest.fail(f"{response.status_code} in {cnx_page_slug}")
 
@@ -2835,31 +1779,9 @@ def test_psych_2e_uri_redirect_to_rex(webview_base_url, rex_base_url, psych_2e_u
     summary = re.findall(r"(.summary*)", cnx_page_slug)
     questions = re.findall(r"(.questions*)", cnx_page_slug)
 
-    if intro and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
+    is_interesting = intro or subchapters or appendix or key or exercises or summary or questions
 
-    elif subchapters and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif appendix and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif key and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif exercises and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif summary and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif questions and response.status_code != 200:
+    if is_interesting and response.status_code != 200:
         log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
         pytest.fail(f"{response.status_code} in {cnx_page_slug}")
 
@@ -2893,31 +1815,9 @@ def test_interm_algebra_2e_uri_redirect_to_rex(
     summary = re.findall(r"(.summary*)", cnx_page_slug)
     questions = re.findall(r"(.questions*)", cnx_page_slug)
 
-    if intro and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
+    is_interesting = intro or subchapters or appendix or key or exercises or summary or questions
 
-    elif subchapters and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif appendix and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif key and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif exercises and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif summary and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif questions and response.status_code != 200:
+    if is_interesting and response.status_code != 200:
         log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
         pytest.fail(f"{response.status_code} in {cnx_page_slug}")
 
@@ -2949,31 +1849,9 @@ def test_interm_algebra_uri_redirect_to_rex(webview_base_url, rex_base_url, inte
     summary = re.findall(r"(.summary*)", cnx_page_slug)
     questions = re.findall(r"(.questions*)", cnx_page_slug)
 
-    if intro and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
+    is_interesting = intro or subchapters or appendix or key or exercises or summary or questions
 
-    elif subchapters and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif appendix and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif key and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif exercises and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif summary and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif questions and response.status_code != 200:
+    if is_interesting and response.status_code != 200:
         log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
         pytest.fail(f"{response.status_code} in {cnx_page_slug}")
 
@@ -3005,31 +1883,9 @@ def test_psychology_uri_redirect_to_rex(webview_base_url, rex_base_url, psycholo
     summary = re.findall(r"(.summary*)", cnx_page_slug)
     questions = re.findall(r"(.questions*)", cnx_page_slug)
 
-    if intro and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
+    is_interesting = intro or subchapters or appendix or key or exercises or summary or questions
 
-    elif subchapters and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif appendix and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif key and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif exercises and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif summary and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif questions and response.status_code != 200:
+    if is_interesting and response.status_code != 200:
         log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
         pytest.fail(f"{response.status_code} in {cnx_page_slug}")
 
@@ -3061,31 +1917,9 @@ def test_physics_hs_uri_redirect_to_rex(webview_base_url, rex_base_url, physics_
     summary = re.findall(r"(.summary*)", cnx_page_slug)
     questions = re.findall(r"(.questions*)", cnx_page_slug)
 
-    if intro and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
+    is_interesting = intro or subchapters or appendix or key or exercises or summary or questions
 
-    elif subchapters and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif appendix and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif key and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif exercises and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif summary and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif questions and response.status_code != 200:
+    if is_interesting and response.status_code != 200:
         log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
         pytest.fail(f"{response.status_code} in {cnx_page_slug}")
 
@@ -3117,31 +1951,9 @@ def test_precalculus_uri_redirect_to_rex(webview_base_url, rex_base_url, precalc
     summary = re.findall(r"(.summary*)", cnx_page_slug)
     questions = re.findall(r"(.questions*)", cnx_page_slug)
 
-    if intro and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
+    is_interesting = intro or subchapters or appendix or key or exercises or summary or questions
 
-    elif subchapters and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif appendix and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif key and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif exercises and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif summary and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif questions and response.status_code != 200:
+    if is_interesting and response.status_code != 200:
         log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
         pytest.fail(f"{response.status_code} in {cnx_page_slug}")
 
@@ -3173,31 +1985,9 @@ def test_algebra_and_trig_uri_redirect_to_rex(webview_base_url, rex_base_url, al
     summary = re.findall(r"(.summary*)", cnx_page_slug)
     questions = re.findall(r"(.questions*)", cnx_page_slug)
 
-    if intro and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
+    is_interesting = intro or subchapters or appendix or key or exercises or summary or questions
 
-    elif subchapters and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif appendix and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif key and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif exercises and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif summary and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif questions and response.status_code != 200:
+    if is_interesting and response.status_code != 200:
         log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
         pytest.fail(f"{response.status_code} in {cnx_page_slug}")
 
@@ -3231,31 +2021,9 @@ def test_anatomy_and_physiology_uri_redirect_to_rex(
     summary = re.findall(r"(.summary*)", cnx_page_slug)
     questions = re.findall(r"(.questions*)", cnx_page_slug)
 
-    if intro and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
+    is_interesting = intro or subchapters or appendix or key or exercises or summary or questions
 
-    elif subchapters and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif appendix and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif key and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif exercises and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif summary and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif questions and response.status_code != 200:
+    if is_interesting and response.status_code != 200:
         log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
         pytest.fail(f"{response.status_code} in {cnx_page_slug}")
 
@@ -3287,31 +2055,9 @@ def test_amer_gov_1e_uri_redirect_to_rex(webview_base_url, rex_base_url, amer_go
     summary = re.findall(r"(.summary*)", cnx_page_slug)
     questions = re.findall(r"(.questions*)", cnx_page_slug)
 
-    if intro and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
+    is_interesting = intro or subchapters or appendix or key or exercises or summary or questions
 
-    elif subchapters and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif appendix and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif key and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif exercises and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif summary and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif questions and response.status_code != 200:
+    if is_interesting and response.status_code != 200:
         log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
         pytest.fail(f"{response.status_code} in {cnx_page_slug}")
 
@@ -3345,31 +2091,9 @@ def test_col_alg_with_coreq_uri_redirect_to_rex(
     summary = re.findall(r"(.summary*)", cnx_page_slug)
     questions = re.findall(r"(.questions*)", cnx_page_slug)
 
-    if intro and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
+    is_interesting = intro or subchapters or appendix or key or exercises or summary or questions
 
-    elif subchapters and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif appendix and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif key and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif exercises and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif summary and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif questions and response.status_code != 200:
+    if is_interesting and response.status_code != 200:
         log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
         pytest.fail(f"{response.status_code} in {cnx_page_slug}")
 
@@ -3401,31 +2125,9 @@ def test_intro_to_soc_uri_redirect_to_rex(webview_base_url, rex_base_url, intro_
     summary = re.findall(r"(.summary*)", cnx_page_slug)
     questions = re.findall(r"(.questions*)", cnx_page_slug)
 
-    if intro and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
+    is_interesting = intro or subchapters or appendix or key or exercises or summary or questions
 
-    elif subchapters and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif appendix and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif key and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif exercises and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif summary and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif questions and response.status_code != 200:
+    if is_interesting and response.status_code != 200:
         log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
         pytest.fail(f"{response.status_code} in {cnx_page_slug}")
 
@@ -3457,31 +2159,9 @@ def test_intell_prop_uri_redirect_to_rex(webview_base_url, rex_base_url, intell_
     summary = re.findall(r"(.summary*)", cnx_page_slug)
     questions = re.findall(r"(.questions*)", cnx_page_slug)
 
-    if intro and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
+    is_interesting = intro or subchapters or appendix or key or exercises or summary or questions
 
-    elif subchapters and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif appendix and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif key and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif exercises and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif summary and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif questions and response.status_code != 200:
+    if is_interesting and response.status_code != 200:
         log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
         pytest.fail(f"{response.status_code} in {cnx_page_slug}")
 
@@ -3513,31 +2193,9 @@ def test_intro_to_soc3_uri_redirect_to_rex(webview_base_url, rex_base_url, intro
     summary = re.findall(r"(.summary*)", cnx_page_slug)
     questions = re.findall(r"(.questions*)", cnx_page_slug)
 
-    if intro and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
+    is_interesting = intro or subchapters or appendix or key or exercises or summary or questions
 
-    elif subchapters and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif appendix and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif key and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif exercises and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif summary and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif questions and response.status_code != 200:
+    if is_interesting and response.status_code != 200:
         log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
         pytest.fail(f"{response.status_code} in {cnx_page_slug}")
 
@@ -3569,31 +2227,9 @@ def test_fisica_univ_1_uri_redirect_to_rex(webview_base_url, rex_base_url, fisic
     summary = re.findall(r"(.summary*)", cnx_page_slug)
     questions = re.findall(r"(.questions*)", cnx_page_slug)
 
-    if intro and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
+    is_interesting = intro or subchapters or appendix or key or exercises or summary or questions
 
-    elif subchapters and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif appendix and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif key and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif exercises and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif summary and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif questions and response.status_code != 200:
+    if is_interesting and response.status_code != 200:
         log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
         pytest.fail(f"{response.status_code} in {cnx_page_slug}")
 
@@ -3625,31 +2261,9 @@ def test_psychologia_uri_redirect_to_rex(webview_base_url, rex_base_url, psychol
     summary = re.findall(r"(.summary*)", cnx_page_slug)
     questions = re.findall(r"(.questions*)", cnx_page_slug)
 
-    if intro and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
+    is_interesting = intro or subchapters or appendix or key or exercises or summary or questions
 
-    elif subchapters and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif appendix and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif key and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif exercises and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif summary and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif questions and response.status_code != 200:
+    if is_interesting and response.status_code != 200:
         log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
         pytest.fail(f"{response.status_code} in {cnx_page_slug}")
 
@@ -3681,31 +2295,9 @@ def test_fisica_univ_2_uri_redirect_to_rex(webview_base_url, rex_base_url, fisic
     summary = re.findall(r"(.summary*)", cnx_page_slug)
     questions = re.findall(r"(.questions*)", cnx_page_slug)
 
-    if intro and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
+    is_interesting = intro or subchapters or appendix or key or exercises or summary or questions
 
-    elif subchapters and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif appendix and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif key and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif exercises and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif summary and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif questions and response.status_code != 200:
+    if is_interesting and response.status_code != 200:
         log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
         pytest.fail(f"{response.status_code} in {cnx_page_slug}")
 
@@ -3737,31 +2329,9 @@ def test_fisica_univ_3_uri_redirect_to_rex(webview_base_url, rex_base_url, fisic
     summary = re.findall(r"(.summary*)", cnx_page_slug)
     questions = re.findall(r"(.questions*)", cnx_page_slug)
 
-    if intro and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
+    is_interesting = intro or subchapters or appendix or key or exercises or summary or questions
 
-    elif subchapters and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif appendix and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif key and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif exercises and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif summary and response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
-        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
-
-    elif questions and response.status_code != 200:
+    if is_interesting and response.status_code != 200:
         log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
         pytest.fail(f"{response.status_code} in {cnx_page_slug}")
 
