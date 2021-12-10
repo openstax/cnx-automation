@@ -7,6 +7,8 @@ from pages.webview.home import Home
 import csv
 import pytest
 
+import re
+
 """Tests pages of redirecting collections for correct rex url and status code"""
 
 
@@ -15,14 +17,24 @@ def get_url(url):
     return requests.get(url)
 
 
-def log_failures_to_csv(status_code, cnx_url):
-    dict_urls_errors = {"ERROR": status_code, "PAGE URL": cnx_url}
+def log_failures_to_csv(status_code, cnx_page_slugs, cnx_url):
+    dict_urls_errors = {"ERROR": status_code, "PAGE SLUG": cnx_page_slugs, "PAGE URL": cnx_url}
 
     with open("url_failures_report.csv", "a") as urlerr:
         writer = csv.DictWriter(urlerr, dict_urls_errors.keys())
         if urlerr.tell() == 0:
             writer.writeheader()
         writer.writerow(dict_urls_errors)
+
+
+def log_others_to_csv(status_code, cnx_page_slugs, cnx_url):
+    dict_urls_others = {"CODE": status_code, "PAGE SLUG": cnx_page_slugs, "PAGE URL": cnx_url}
+
+    with open("url_others_report.csv", "a") as urlerr:
+        writer = csv.DictWriter(urlerr, dict_urls_others.keys())
+        if urlerr.tell() == 0:
+            writer.writeheader()
+        writer.writerow(dict_urls_others)
 
 
 @markers.rex
@@ -91,13 +103,25 @@ def test_chemistry_2e_uri_redirect_to_rex(webview_base_url, rex_base_url, chemis
     response = get_url(cnx_url)
 
     # THEN we are redirected to rex
-    if response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_url)
+    subchapters = re.findall(r"(^\d+-\d+-\w+)", cnx_page_slug)
+    appendix = re.findall(r"(^appendix)", cnx_page_slug)
+    intro = re.findall(r"(^\d+-introduction)", cnx_page_slug)
+    key = re.findall(r"(.key*)", cnx_page_slug)
+    exercises = re.findall(r"(.exercises*)", cnx_page_slug)
+    summary = re.findall(r"(.summary*)", cnx_page_slug)
+    questions = re.findall(r"(.questions*)", cnx_page_slug)
 
+    is_interesting = intro or subchapters or appendix or key or exercises or summary or questions
+
+    if is_interesting and response.status_code != 200:
+        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
         pytest.fail(f"{response.status_code} in {cnx_page_slug}")
 
     else:
-        assert response.url.startswith(rex_base_url)
+        if response.status_code != 200:
+            log_others_to_csv(response.status_code, cnx_page_slug, cnx_url)
+
+            assert response.url.startswith(rex_base_url)
 
 
 @markers.test_case("C616758")
@@ -113,13 +137,25 @@ def test_chemistry_uri_redirect_to_rex(webview_base_url, rex_base_url, chemistry
     response = get_url(cnx_url)
 
     # THEN we are redirected to rex
-    if response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_url)
+    subchapters = re.findall(r"(^\d+-\d+-\w+)", cnx_page_slug)
+    appendix = re.findall(r"(^appendix)", cnx_page_slug)
+    intro = re.findall(r"(^\d+-introduction)", cnx_page_slug)
+    key = re.findall(r"(.key*)", cnx_page_slug)
+    exercises = re.findall(r"(.exercises*)", cnx_page_slug)
+    summary = re.findall(r"(.summary*)", cnx_page_slug)
+    questions = re.findall(r"(.questions*)", cnx_page_slug)
 
+    is_interesting = intro or subchapters or appendix or key or exercises or summary or questions
+
+    if is_interesting and response.status_code != 200:
+        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
         pytest.fail(f"{response.status_code} in {cnx_page_slug}")
 
     else:
-        assert response.url.startswith(rex_base_url)
+        if response.status_code != 200:
+            log_others_to_csv(response.status_code, cnx_page_slug, cnx_url)
+
+            assert response.url.startswith(rex_base_url)
 
 
 @markers.test_case("C553085")
@@ -135,13 +171,25 @@ def test_biology_2e_uri_redirect_to_rex(webview_base_url, rex_base_url, biology_
     response = get_url(cnx_url)
 
     # THEN we are redirected to rex
-    if response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_url)
+    subchapters = re.findall(r"(^\d+-\d+-\w+)", cnx_page_slug)
+    appendix = re.findall(r"(^appendix)", cnx_page_slug)
+    intro = re.findall(r"(^\d+-introduction)", cnx_page_slug)
+    key = re.findall(r"(.key*)", cnx_page_slug)
+    exercises = re.findall(r"(.exercises*)", cnx_page_slug)
+    summary = re.findall(r"(.summary*)", cnx_page_slug)
+    questions = re.findall(r"(.questions*)", cnx_page_slug)
 
+    is_interesting = intro or subchapters or appendix or key or exercises or summary or questions
+
+    if is_interesting and response.status_code != 200:
+        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
         pytest.fail(f"{response.status_code} in {cnx_page_slug}")
 
     else:
-        assert response.url.startswith(rex_base_url)
+        if response.status_code != 200:
+            log_others_to_csv(response.status_code, cnx_page_slug, cnx_url)
+
+            assert response.url.startswith(rex_base_url)
 
 
 @markers.test_case("C618400")
@@ -157,13 +205,25 @@ def test_biology_uri_redirect_to_rex(webview_base_url, rex_base_url, biology_uri
     response = get_url(cnx_url)
 
     # THEN we are redirected to rex
-    if response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_url)
+    subchapters = re.findall(r"(^\d+-\d+-\w+)", cnx_page_slug)
+    appendix = re.findall(r"(^appendix)", cnx_page_slug)
+    intro = re.findall(r"(^\d+-introduction)", cnx_page_slug)
+    key = re.findall(r"(.key*)", cnx_page_slug)
+    exercises = re.findall(r"(.exercises*)", cnx_page_slug)
+    summary = re.findall(r"(.summary*)", cnx_page_slug)
+    questions = re.findall(r"(.questions*)", cnx_page_slug)
 
+    is_interesting = intro or subchapters or appendix or key or exercises or summary or questions
+
+    if is_interesting and response.status_code != 200:
+        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
         pytest.fail(f"{response.status_code} in {cnx_page_slug}")
 
     else:
-        assert response.url.startswith(rex_base_url)
+        if response.status_code != 200:
+            log_others_to_csv(response.status_code, cnx_page_slug, cnx_url)
+
+            assert response.url.startswith(rex_base_url)
 
 
 @markers.test_case("C553519")
@@ -179,13 +239,25 @@ def test_microbiology_uri_redirect_to_rex(webview_base_url, rex_base_url, microb
     response = get_url(cnx_url)
 
     # THEN we are redirected to rex
-    if response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_url)
+    subchapters = re.findall(r"(^\d+-\d+-\w+)", cnx_page_slug)
+    appendix = re.findall(r"(^appendix)", cnx_page_slug)
+    intro = re.findall(r"(^\d+-introduction)", cnx_page_slug)
+    key = re.findall(r"(.key*)", cnx_page_slug)
+    exercises = re.findall(r"(.exercises*)", cnx_page_slug)
+    summary = re.findall(r"(.summary*)", cnx_page_slug)
+    questions = re.findall(r"(.questions*)", cnx_page_slug)
 
+    is_interesting = intro or subchapters or appendix or key or exercises or summary or questions
+
+    if is_interesting and response.status_code != 200:
+        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
         pytest.fail(f"{response.status_code} in {cnx_page_slug}")
 
     else:
-        assert response.url.startswith(rex_base_url)
+        if response.status_code != 200:
+            log_others_to_csv(response.status_code, cnx_page_slug, cnx_url)
+
+            assert response.url.startswith(rex_base_url)
 
 
 @markers.test_case("C553520")
@@ -203,13 +275,25 @@ def test_conceptsofbiology_uri_redirect_to_rex(
     response = get_url(cnx_url)
 
     # THEN we are redirected to rex
-    if response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_url)
+    subchapters = re.findall(r"(^\d+-\d+-\w+)", cnx_page_slug)
+    appendix = re.findall(r"(^appendix)", cnx_page_slug)
+    intro = re.findall(r"(^\d+-introduction)", cnx_page_slug)
+    key = re.findall(r"(.key*)", cnx_page_slug)
+    exercises = re.findall(r"(.exercises*)", cnx_page_slug)
+    summary = re.findall(r"(.summary*)", cnx_page_slug)
+    questions = re.findall(r"(.questions*)", cnx_page_slug)
 
+    is_interesting = intro or subchapters or appendix or key or exercises or summary or questions
+
+    if is_interesting and response.status_code != 200:
+        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
         pytest.fail(f"{response.status_code} in {cnx_page_slug}")
 
     else:
-        assert response.url.startswith(rex_base_url)
+        if response.status_code != 200:
+            log_others_to_csv(response.status_code, cnx_page_slug, cnx_url)
+
+            assert response.url.startswith(rex_base_url)
 
 
 @markers.test_case("C559358")
@@ -225,13 +309,25 @@ def test_astronomy_uri_redirect_to_rex(webview_base_url, rex_base_url, astronomy
     response = get_url(cnx_url)
 
     # THEN we are redirected to rex
-    if response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_url)
+    subchapters = re.findall(r"(^\d+-\d+-\w+)", cnx_page_slug)
+    appendix = re.findall(r"(^appendix)", cnx_page_slug)
+    intro = re.findall(r"(^\d+-introduction)", cnx_page_slug)
+    key = re.findall(r"(.key*)", cnx_page_slug)
+    exercises = re.findall(r"(.exercises*)", cnx_page_slug)
+    summary = re.findall(r"(.summary*)", cnx_page_slug)
+    questions = re.findall(r"(.questions*)", cnx_page_slug)
 
+    is_interesting = intro or subchapters or appendix or key or exercises or summary or questions
+
+    if is_interesting and response.status_code != 200:
+        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
         pytest.fail(f"{response.status_code} in {cnx_page_slug}")
 
     else:
-        assert response.url.startswith(rex_base_url)
+        if response.status_code != 200:
+            log_others_to_csv(response.status_code, cnx_page_slug, cnx_url)
+
+            assert response.url.startswith(rex_base_url)
 
 
 @markers.test_case("C559363")
@@ -247,13 +343,25 @@ def test_biology_ap_uri_redirect_to_rex(webview_base_url, rex_base_url, biology_
     response = get_url(cnx_url)
 
     # THEN we are redirected to rex
-    if response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_url)
+    subchapters = re.findall(r"(^\d+-\d+-\w+)", cnx_page_slug)
+    appendix = re.findall(r"(^appendix)", cnx_page_slug)
+    intro = re.findall(r"(^\d+-introduction)", cnx_page_slug)
+    key = re.findall(r"(.key*)", cnx_page_slug)
+    exercises = re.findall(r"(.exercises*)", cnx_page_slug)
+    summary = re.findall(r"(.summary*)", cnx_page_slug)
+    questions = re.findall(r"(.questions*)", cnx_page_slug)
 
+    is_interesting = intro or subchapters or appendix or key or exercises or summary or questions
+
+    if is_interesting and response.status_code != 200:
+        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
         pytest.fail(f"{response.status_code} in {cnx_page_slug}")
 
     else:
-        assert response.url.startswith(rex_base_url)
+        if response.status_code != 200:
+            log_others_to_csv(response.status_code, cnx_page_slug, cnx_url)
+
+            assert response.url.startswith(rex_base_url)
 
 
 @markers.test_case("C559362")
@@ -271,13 +379,25 @@ def test_college_physics_ap_courses_uri_redirect_to_rex(
     response = get_url(cnx_url)
 
     # THEN we are redirected to rex
-    if response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_url)
+    subchapters = re.findall(r"(^\d+-\d+-\w+)", cnx_page_slug)
+    appendix = re.findall(r"(^appendix)", cnx_page_slug)
+    intro = re.findall(r"(^\d+-introduction)", cnx_page_slug)
+    key = re.findall(r"(.key*)", cnx_page_slug)
+    exercises = re.findall(r"(.exercises*)", cnx_page_slug)
+    summary = re.findall(r"(.summary*)", cnx_page_slug)
+    questions = re.findall(r"(.questions*)", cnx_page_slug)
 
+    is_interesting = intro or subchapters or appendix or key or exercises or summary or questions
+
+    if is_interesting and response.status_code != 200:
+        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
         pytest.fail(f"{response.status_code} in {cnx_page_slug}")
 
     else:
-        assert response.url.startswith(rex_base_url)
+        if response.status_code != 200:
+            log_others_to_csv(response.status_code, cnx_page_slug, cnx_url)
+
+            assert response.url.startswith(rex_base_url)
 
 
 @markers.test_case("C559360")
@@ -293,13 +413,25 @@ def test_college_physics_uri_redirect_to_rex(webview_base_url, rex_base_url, col
     response = get_url(cnx_url)
 
     # THEN we are redirected to rex
-    if response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_url)
+    subchapters = re.findall(r"(^\d+-\d+-\w+)", cnx_page_slug)
+    appendix = re.findall(r"(^appendix)", cnx_page_slug)
+    intro = re.findall(r"(^\d+-introduction)", cnx_page_slug)
+    key = re.findall(r"(.key*)", cnx_page_slug)
+    exercises = re.findall(r"(.exercises*)", cnx_page_slug)
+    summary = re.findall(r"(.summary*)", cnx_page_slug)
+    questions = re.findall(r"(.questions*)", cnx_page_slug)
 
+    is_interesting = intro or subchapters or appendix or key or exercises or summary or questions
+
+    if is_interesting and response.status_code != 200:
+        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
         pytest.fail(f"{response.status_code} in {cnx_page_slug}")
 
     else:
-        assert response.url.startswith(rex_base_url)
+        if response.status_code != 200:
+            log_others_to_csv(response.status_code, cnx_page_slug, cnx_url)
+
+            assert response.url.startswith(rex_base_url)
 
 
 @markers.test_case("C559359")
@@ -317,13 +449,25 @@ def test_chemistry_atoms_first_2e_uri_redirect_to_rex(
     response = get_url(cnx_url)
 
     # THEN we are redirected to rex
-    if response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_url)
+    subchapters = re.findall(r"(^\d+-\d+-\w+)", cnx_page_slug)
+    appendix = re.findall(r"(^appendix)", cnx_page_slug)
+    intro = re.findall(r"(^\d+-introduction)", cnx_page_slug)
+    key = re.findall(r"(.key*)", cnx_page_slug)
+    exercises = re.findall(r"(.exercises*)", cnx_page_slug)
+    summary = re.findall(r"(.summary*)", cnx_page_slug)
+    questions = re.findall(r"(.questions*)", cnx_page_slug)
 
+    is_interesting = intro or subchapters or appendix or key or exercises or summary or questions
+
+    if is_interesting and response.status_code != 200:
+        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
         pytest.fail(f"{response.status_code} in {cnx_page_slug}")
 
     else:
-        assert response.url.startswith(rex_base_url)
+        if response.status_code != 200:
+            log_others_to_csv(response.status_code, cnx_page_slug, cnx_url)
+
+            assert response.url.startswith(rex_base_url)
 
 
 @markers.test_case("C616758")
@@ -341,13 +485,25 @@ def test_chemistry_atoms_first_uri_redirect_to_rex(
     response = get_url(cnx_url)
 
     # THEN we are redirected to rex
-    if response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_url)
+    subchapters = re.findall(r"(^\d+-\d+-\w+)", cnx_page_slug)
+    appendix = re.findall(r"(^appendix)", cnx_page_slug)
+    intro = re.findall(r"(^\d+-introduction)", cnx_page_slug)
+    key = re.findall(r"(.key*)", cnx_page_slug)
+    exercises = re.findall(r"(.exercises*)", cnx_page_slug)
+    summary = re.findall(r"(.summary*)", cnx_page_slug)
+    questions = re.findall(r"(.questions*)", cnx_page_slug)
 
+    is_interesting = intro or subchapters or appendix or key or exercises or summary or questions
+
+    if is_interesting and response.status_code != 200:
+        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
         pytest.fail(f"{response.status_code} in {cnx_page_slug}")
 
     else:
-        assert response.url.startswith(rex_base_url)
+        if response.status_code != 200:
+            log_others_to_csv(response.status_code, cnx_page_slug, cnx_url)
+
+            assert response.url.startswith(rex_base_url)
 
 
 @markers.test_case("C568292")
@@ -363,13 +519,25 @@ def test_calculus_vol_1_uri_redirect_to_rex(webview_base_url, rex_base_url, calc
     response = get_url(cnx_url)
 
     # THEN we are redirected to rex
-    if response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_url)
+    subchapters = re.findall(r"(^\d+-\d+-\w+)", cnx_page_slug)
+    appendix = re.findall(r"(^appendix)", cnx_page_slug)
+    intro = re.findall(r"(^\d+-introduction)", cnx_page_slug)
+    key = re.findall(r"(.key*)", cnx_page_slug)
+    exercises = re.findall(r"(.exercises*)", cnx_page_slug)
+    summary = re.findall(r"(.summary*)", cnx_page_slug)
+    questions = re.findall(r"(.questions*)", cnx_page_slug)
 
+    is_interesting = intro or subchapters or appendix or key or exercises or summary or questions
+
+    if is_interesting and response.status_code != 200:
+        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
         pytest.fail(f"{response.status_code} in {cnx_page_slug}")
 
     else:
-        assert response.url.startswith(rex_base_url)
+        if response.status_code != 200:
+            log_others_to_csv(response.status_code, cnx_page_slug, cnx_url)
+
+            assert response.url.startswith(rex_base_url)
 
 
 @markers.test_case("C568293")
@@ -385,13 +553,25 @@ def test_calculus_vol_2_uri_redirect_to_rex(webview_base_url, rex_base_url, calc
     response = get_url(cnx_url)
 
     # THEN we are redirected to rex
-    if response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_url)
+    subchapters = re.findall(r"(^\d+-\d+-\w+)", cnx_page_slug)
+    appendix = re.findall(r"(^appendix)", cnx_page_slug)
+    intro = re.findall(r"(^\d+-introduction)", cnx_page_slug)
+    key = re.findall(r"(.key*)", cnx_page_slug)
+    exercises = re.findall(r"(.exercises*)", cnx_page_slug)
+    summary = re.findall(r"(.summary*)", cnx_page_slug)
+    questions = re.findall(r"(.questions*)", cnx_page_slug)
 
+    is_interesting = intro or subchapters or appendix or key or exercises or summary or questions
+
+    if is_interesting and response.status_code != 200:
+        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
         pytest.fail(f"{response.status_code} in {cnx_page_slug}")
 
     else:
-        assert response.url.startswith(rex_base_url)
+        if response.status_code != 200:
+            log_others_to_csv(response.status_code, cnx_page_slug, cnx_url)
+
+            assert response.url.startswith(rex_base_url)
 
 
 @markers.test_case("C568294")
@@ -407,13 +587,25 @@ def test_calculus_vol_3_uri_redirect_to_rex(webview_base_url, rex_base_url, calc
     response = get_url(cnx_url)
 
     # THEN we are redirected to rex
-    if response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_url)
+    subchapters = re.findall(r"(^\d+-\d+-\w+)", cnx_page_slug)
+    appendix = re.findall(r"(^appendix)", cnx_page_slug)
+    intro = re.findall(r"(^\d+-introduction)", cnx_page_slug)
+    key = re.findall(r"(.key*)", cnx_page_slug)
+    exercises = re.findall(r"(.exercises*)", cnx_page_slug)
+    summary = re.findall(r"(.summary*)", cnx_page_slug)
+    questions = re.findall(r"(.questions*)", cnx_page_slug)
 
+    is_interesting = intro or subchapters or appendix or key or exercises or summary or questions
+
+    if is_interesting and response.status_code != 200:
+        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
         pytest.fail(f"{response.status_code} in {cnx_page_slug}")
 
     else:
-        assert response.url.startswith(rex_base_url)
+        if response.status_code != 200:
+            log_others_to_csv(response.status_code, cnx_page_slug, cnx_url)
+
+            assert response.url.startswith(rex_base_url)
 
 
 @markers.test_case("C568295")
@@ -429,13 +621,25 @@ def test_univ_phys_1_uri_redirect_to_rex(webview_base_url, rex_base_url, univ_ph
     response = get_url(cnx_url)
 
     # THEN we are redirected to rex
-    if response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_url)
+    subchapters = re.findall(r"(^\d+-\d+-\w+)", cnx_page_slug)
+    appendix = re.findall(r"(^appendix)", cnx_page_slug)
+    intro = re.findall(r"(^\d+-introduction)", cnx_page_slug)
+    key = re.findall(r"(.key*)", cnx_page_slug)
+    exercises = re.findall(r"(.exercises*)", cnx_page_slug)
+    summary = re.findall(r"(.summary*)", cnx_page_slug)
+    questions = re.findall(r"(.questions*)", cnx_page_slug)
 
+    is_interesting = intro or subchapters or appendix or key or exercises or summary or questions
+
+    if is_interesting and response.status_code != 200:
+        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
         pytest.fail(f"{response.status_code} in {cnx_page_slug}")
 
     else:
-        assert response.url.startswith(rex_base_url)
+        if response.status_code != 200:
+            log_others_to_csv(response.status_code, cnx_page_slug, cnx_url)
+
+            assert response.url.startswith(rex_base_url)
 
 
 @markers.test_case("C568296")
@@ -451,13 +655,25 @@ def test_univ_phys_2_uri_redirect_to_rex(webview_base_url, rex_base_url, univ_ph
     response = get_url(cnx_url)
 
     # THEN we are redirected to rex
-    if response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_url)
+    subchapters = re.findall(r"(^\d+-\d+-\w+)", cnx_page_slug)
+    appendix = re.findall(r"(^appendix)", cnx_page_slug)
+    intro = re.findall(r"(^\d+-introduction)", cnx_page_slug)
+    key = re.findall(r"(.key*)", cnx_page_slug)
+    exercises = re.findall(r"(.exercises*)", cnx_page_slug)
+    summary = re.findall(r"(.summary*)", cnx_page_slug)
+    questions = re.findall(r"(.questions*)", cnx_page_slug)
 
+    is_interesting = intro or subchapters or appendix or key or exercises or summary or questions
+
+    if is_interesting and response.status_code != 200:
+        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
         pytest.fail(f"{response.status_code} in {cnx_page_slug}")
 
     else:
-        assert response.url.startswith(rex_base_url)
+        if response.status_code != 200:
+            log_others_to_csv(response.status_code, cnx_page_slug, cnx_url)
+
+            assert response.url.startswith(rex_base_url)
 
 
 @markers.test_case("C568297")
@@ -473,13 +689,25 @@ def test_univ_phys_3_uri_redirect_to_rex(webview_base_url, rex_base_url, univ_ph
     response = get_url(cnx_url)
 
     # THEN we are redirected to rex
-    if response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_url)
+    subchapters = re.findall(r"(^\d+-\d+-\w+)", cnx_page_slug)
+    appendix = re.findall(r"(^appendix)", cnx_page_slug)
+    intro = re.findall(r"(^\d+-introduction)", cnx_page_slug)
+    key = re.findall(r"(.key*)", cnx_page_slug)
+    exercises = re.findall(r"(.exercises*)", cnx_page_slug)
+    summary = re.findall(r"(.summary*)", cnx_page_slug)
+    questions = re.findall(r"(.questions*)", cnx_page_slug)
 
+    is_interesting = intro or subchapters or appendix or key or exercises or summary or questions
+
+    if is_interesting and response.status_code != 200:
+        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
         pytest.fail(f"{response.status_code} in {cnx_page_slug}")
 
     else:
-        assert response.url.startswith(rex_base_url)
+        if response.status_code != 200:
+            log_others_to_csv(response.status_code, cnx_page_slug, cnx_url)
+
+            assert response.url.startswith(rex_base_url)
 
 
 @markers.test_case("C568719")
@@ -497,13 +725,25 @@ def test_american_government_2e_uri_redirect_to_rex(
     response = get_url(cnx_url)
 
     # THEN we are redirected to rex
-    if response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_url)
+    subchapters = re.findall(r"(^\d+-\d+-\w+)", cnx_page_slug)
+    appendix = re.findall(r"(^appendix)", cnx_page_slug)
+    intro = re.findall(r"(^\d+-introduction)", cnx_page_slug)
+    key = re.findall(r"(.key*)", cnx_page_slug)
+    exercises = re.findall(r"(.exercises*)", cnx_page_slug)
+    summary = re.findall(r"(.summary*)", cnx_page_slug)
+    questions = re.findall(r"(.questions*)", cnx_page_slug)
 
+    is_interesting = intro or subchapters or appendix or key or exercises or summary or questions
+
+    if is_interesting and response.status_code != 200:
+        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
         pytest.fail(f"{response.status_code} in {cnx_page_slug}")
 
     else:
-        assert response.url.startswith(rex_base_url)
+        if response.status_code != 200:
+            log_others_to_csv(response.status_code, cnx_page_slug, cnx_url)
+
+            assert response.url.startswith(rex_base_url)
 
 
 @markers.test_case("C568718")
@@ -521,13 +761,25 @@ def test_introductory_business_statistics_uri_redirect_to_rex(
     response = get_url(cnx_url)
 
     # THEN we are redirected to rex
-    if response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_url)
+    subchapters = re.findall(r"(^\d+-\d+-\w+)", cnx_page_slug)
+    appendix = re.findall(r"(^appendix)", cnx_page_slug)
+    intro = re.findall(r"(^\d+-introduction)", cnx_page_slug)
+    key = re.findall(r"(.key*)", cnx_page_slug)
+    exercises = re.findall(r"(.exercises*)", cnx_page_slug)
+    summary = re.findall(r"(.summary*)", cnx_page_slug)
+    questions = re.findall(r"(.questions*)", cnx_page_slug)
 
+    is_interesting = intro or subchapters or appendix or key or exercises or summary or questions
+
+    if is_interesting and response.status_code != 200:
+        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
         pytest.fail(f"{response.status_code} in {cnx_page_slug}")
 
     else:
-        assert response.url.startswith(rex_base_url)
+        if response.status_code != 200:
+            log_others_to_csv(response.status_code, cnx_page_slug, cnx_url)
+
+            assert response.url.startswith(rex_base_url)
 
 
 @markers.test_case("C568717")
@@ -545,13 +797,25 @@ def test_introductory_statistics_uri_redirect_to_rex(
     response = get_url(cnx_url)
 
     # THEN we are redirected to rex
-    if response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_url)
+    subchapters = re.findall(r"(^\d+-\d+-\w+)", cnx_page_slug)
+    appendix = re.findall(r"(^appendix)", cnx_page_slug)
+    intro = re.findall(r"(^\d+-introduction)", cnx_page_slug)
+    key = re.findall(r"(.key*)", cnx_page_slug)
+    exercises = re.findall(r"(.exercises*)", cnx_page_slug)
+    summary = re.findall(r"(.summary*)", cnx_page_slug)
+    questions = re.findall(r"(.questions*)", cnx_page_slug)
 
+    is_interesting = intro or subchapters or appendix or key or exercises or summary or questions
+
+    if is_interesting and response.status_code != 200:
+        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
         pytest.fail(f"{response.status_code} in {cnx_page_slug}")
 
     else:
-        assert response.url.startswith(rex_base_url)
+        if response.status_code != 200:
+            log_others_to_csv(response.status_code, cnx_page_slug, cnx_url)
+
+            assert response.url.startswith(rex_base_url)
 
 
 @markers.test_case("C568721")
@@ -569,13 +833,25 @@ def test_principles_of_accounting_1_uri_redirect_to_rex(
     response = get_url(cnx_url)
 
     # THEN we are redirected to rex
-    if response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_url)
+    subchapters = re.findall(r"(^\d+-\d+-\w+)", cnx_page_slug)
+    appendix = re.findall(r"(^appendix)", cnx_page_slug)
+    intro = re.findall(r"(^\d+-introduction)", cnx_page_slug)
+    key = re.findall(r"(.key*)", cnx_page_slug)
+    exercises = re.findall(r"(.exercises*)", cnx_page_slug)
+    summary = re.findall(r"(.summary*)", cnx_page_slug)
+    questions = re.findall(r"(.questions*)", cnx_page_slug)
 
+    is_interesting = intro or subchapters or appendix or key or exercises or summary or questions
+
+    if is_interesting and response.status_code != 200:
+        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
         pytest.fail(f"{response.status_code} in {cnx_page_slug}")
 
     else:
-        assert response.url.startswith(rex_base_url)
+        if response.status_code != 200:
+            log_others_to_csv(response.status_code, cnx_page_slug, cnx_url)
+
+            assert response.url.startswith(rex_base_url)
 
 
 @markers.test_case("C568722")
@@ -593,13 +869,25 @@ def test_principles_of_accounting_2_uri_redirect_to_rex(
     response = get_url(cnx_url)
 
     # THEN we are redirected to rex
-    if response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_url)
+    subchapters = re.findall(r"(^\d+-\d+-\w+)", cnx_page_slug)
+    appendix = re.findall(r"(^appendix)", cnx_page_slug)
+    intro = re.findall(r"(^\d+-introduction)", cnx_page_slug)
+    key = re.findall(r"(.key*)", cnx_page_slug)
+    exercises = re.findall(r"(.exercises*)", cnx_page_slug)
+    summary = re.findall(r"(.summary*)", cnx_page_slug)
+    questions = re.findall(r"(.questions*)", cnx_page_slug)
 
+    is_interesting = intro or subchapters or appendix or key or exercises or summary or questions
+
+    if is_interesting and response.status_code != 200:
+        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
         pytest.fail(f"{response.status_code} in {cnx_page_slug}")
 
     else:
-        assert response.url.startswith(rex_base_url)
+        if response.status_code != 200:
+            log_others_to_csv(response.status_code, cnx_page_slug, cnx_url)
+
+            assert response.url.startswith(rex_base_url)
 
 
 @markers.test_case("C568720")
@@ -615,13 +903,25 @@ def test_us_history_uri_redirect_to_rex(webview_base_url, rex_base_url, us_histo
     response = get_url(cnx_url)
 
     # THEN we are redirected to rex
-    if response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_url)
+    subchapters = re.findall(r"(^\d+-\d+-\w+)", cnx_page_slug)
+    appendix = re.findall(r"(^appendix)", cnx_page_slug)
+    intro = re.findall(r"(^\d+-introduction)", cnx_page_slug)
+    key = re.findall(r"(.key*)", cnx_page_slug)
+    exercises = re.findall(r"(.exercises*)", cnx_page_slug)
+    summary = re.findall(r"(.summary*)", cnx_page_slug)
+    questions = re.findall(r"(.questions*)", cnx_page_slug)
 
+    is_interesting = intro or subchapters or appendix or key or exercises or summary or questions
+
+    if is_interesting and response.status_code != 200:
+        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
         pytest.fail(f"{response.status_code} in {cnx_page_slug}")
 
     else:
-        assert response.url.startswith(rex_base_url)
+        if response.status_code != 200:
+            log_others_to_csv(response.status_code, cnx_page_slug, cnx_url)
+
+            assert response.url.startswith(rex_base_url)
 
 
 @markers.test_case("C597392")
@@ -637,13 +937,25 @@ def test_economics_2e_uri_redirect_to_rex(webview_base_url, rex_base_url, econom
     response = get_url(cnx_url)
 
     # THEN we are redirected to rex
-    if response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_url)
+    subchapters = re.findall(r"(^\d+-\d+-\w+)", cnx_page_slug)
+    appendix = re.findall(r"(^appendix)", cnx_page_slug)
+    intro = re.findall(r"(^\d+-introduction)", cnx_page_slug)
+    key = re.findall(r"(.key*)", cnx_page_slug)
+    exercises = re.findall(r"(.exercises*)", cnx_page_slug)
+    summary = re.findall(r"(.summary*)", cnx_page_slug)
+    questions = re.findall(r"(.questions*)", cnx_page_slug)
 
+    is_interesting = intro or subchapters or appendix or key or exercises or summary or questions
+
+    if is_interesting and response.status_code != 200:
+        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
         pytest.fail(f"{response.status_code} in {cnx_page_slug}")
 
     else:
-        assert response.url.startswith(rex_base_url)
+        if response.status_code != 200:
+            log_others_to_csv(response.status_code, cnx_page_slug, cnx_url)
+
+            assert response.url.startswith(rex_base_url)
 
 
 @markers.test_case("C618400")
@@ -659,13 +971,25 @@ def test_economics_uri_redirect_to_rex(webview_base_url, rex_base_url, economics
     response = get_url(cnx_url)
 
     # THEN we are redirected to rex
-    if response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_url)
+    subchapters = re.findall(r"(^\d+-\d+-\w+)", cnx_page_slug)
+    appendix = re.findall(r"(^appendix)", cnx_page_slug)
+    intro = re.findall(r"(^\d+-introduction)", cnx_page_slug)
+    key = re.findall(r"(.key*)", cnx_page_slug)
+    exercises = re.findall(r"(.exercises*)", cnx_page_slug)
+    summary = re.findall(r"(.summary*)", cnx_page_slug)
+    questions = re.findall(r"(.questions*)", cnx_page_slug)
 
+    is_interesting = intro or subchapters or appendix or key or exercises or summary or questions
+
+    if is_interesting and response.status_code != 200:
+        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
         pytest.fail(f"{response.status_code} in {cnx_page_slug}")
 
     else:
-        assert response.url.startswith(rex_base_url)
+        if response.status_code != 200:
+            log_others_to_csv(response.status_code, cnx_page_slug, cnx_url)
+
+            assert response.url.startswith(rex_base_url)
 
 
 @markers.test_case("C597392")
@@ -683,13 +1007,25 @@ def test_microeconomics_2e_uri_redirect_to_rex(
     response = get_url(cnx_url)
 
     # THEN we are redirected to rex
-    if response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_url)
+    subchapters = re.findall(r"(^\d+-\d+-\w+)", cnx_page_slug)
+    appendix = re.findall(r"(^appendix)", cnx_page_slug)
+    intro = re.findall(r"(^\d+-introduction)", cnx_page_slug)
+    key = re.findall(r"(.key*)", cnx_page_slug)
+    exercises = re.findall(r"(.exercises*)", cnx_page_slug)
+    summary = re.findall(r"(.summary*)", cnx_page_slug)
+    questions = re.findall(r"(.questions*)", cnx_page_slug)
 
+    is_interesting = intro or subchapters or appendix or key or exercises or summary or questions
+
+    if is_interesting and response.status_code != 200:
+        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
         pytest.fail(f"{response.status_code} in {cnx_page_slug}")
 
     else:
-        assert response.url.startswith(rex_base_url)
+        if response.status_code != 200:
+            log_others_to_csv(response.status_code, cnx_page_slug, cnx_url)
+
+            assert response.url.startswith(rex_base_url)
 
 
 @markers.test_case("C618400")
@@ -705,13 +1041,25 @@ def test_microeconomics_uri_redirect_to_rex(webview_base_url, rex_base_url, micr
     response = get_url(cnx_url)
 
     # THEN we are redirected to rex
-    if response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_url)
+    subchapters = re.findall(r"(^\d+-\d+-\w+)", cnx_page_slug)
+    appendix = re.findall(r"(^appendix)", cnx_page_slug)
+    intro = re.findall(r"(^\d+-introduction)", cnx_page_slug)
+    key = re.findall(r"(.key*)", cnx_page_slug)
+    exercises = re.findall(r"(.exercises*)", cnx_page_slug)
+    summary = re.findall(r"(.summary*)", cnx_page_slug)
+    questions = re.findall(r"(.questions*)", cnx_page_slug)
 
+    is_interesting = intro or subchapters or appendix or key or exercises or summary or questions
+
+    if is_interesting and response.status_code != 200:
+        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
         pytest.fail(f"{response.status_code} in {cnx_page_slug}")
 
     else:
-        assert response.url.startswith(rex_base_url)
+        if response.status_code != 200:
+            log_others_to_csv(response.status_code, cnx_page_slug, cnx_url)
+
+            assert response.url.startswith(rex_base_url)
 
 
 @markers.test_case("C597392")
@@ -729,13 +1077,25 @@ def test_macroeconomics_2e_uri_redirect_to_rex(
     response = get_url(cnx_url)
 
     # THEN we are redirected to rex
-    if response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_url)
+    subchapters = re.findall(r"(^\d+-\d+-\w+)", cnx_page_slug)
+    appendix = re.findall(r"(^appendix)", cnx_page_slug)
+    intro = re.findall(r"(^\d+-introduction)", cnx_page_slug)
+    key = re.findall(r"(.key*)", cnx_page_slug)
+    exercises = re.findall(r"(.exercises*)", cnx_page_slug)
+    summary = re.findall(r"(.summary*)", cnx_page_slug)
+    questions = re.findall(r"(.questions*)", cnx_page_slug)
 
+    is_interesting = intro or subchapters or appendix or key or exercises or summary or questions
+
+    if is_interesting and response.status_code != 200:
+        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
         pytest.fail(f"{response.status_code} in {cnx_page_slug}")
 
     else:
-        assert response.url.startswith(rex_base_url)
+        if response.status_code != 200:
+            log_others_to_csv(response.status_code, cnx_page_slug, cnx_url)
+
+            assert response.url.startswith(rex_base_url)
 
 
 @markers.test_case("C618400")
@@ -751,13 +1111,25 @@ def test_macroeconomics_uri_redirect_to_rex(webview_base_url, rex_base_url, macr
     response = get_url(cnx_url)
 
     # THEN we are redirected to rex
-    if response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_url)
+    subchapters = re.findall(r"(^\d+-\d+-\w+)", cnx_page_slug)
+    appendix = re.findall(r"(^appendix)", cnx_page_slug)
+    intro = re.findall(r"(^\d+-introduction)", cnx_page_slug)
+    key = re.findall(r"(.key*)", cnx_page_slug)
+    exercises = re.findall(r"(.exercises*)", cnx_page_slug)
+    summary = re.findall(r"(.summary*)", cnx_page_slug)
+    questions = re.findall(r"(.questions*)", cnx_page_slug)
 
+    is_interesting = intro or subchapters or appendix or key or exercises or summary or questions
+
+    if is_interesting and response.status_code != 200:
+        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
         pytest.fail(f"{response.status_code} in {cnx_page_slug}")
 
     else:
-        assert response.url.startswith(rex_base_url)
+        if response.status_code != 200:
+            log_others_to_csv(response.status_code, cnx_page_slug, cnx_url)
+
+            assert response.url.startswith(rex_base_url)
 
 
 @markers.test_case("C597392")
@@ -773,13 +1145,25 @@ def test_entrepreneurship_uri_redirect_to_rex(webview_base_url, rex_base_url, en
     response = get_url(cnx_url)
 
     # THEN we are redirected to rex
-    if response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_url)
+    subchapters = re.findall(r"(^\d+-\d+-\w+)", cnx_page_slug)
+    appendix = re.findall(r"(^appendix)", cnx_page_slug)
+    intro = re.findall(r"(^\d+-introduction)", cnx_page_slug)
+    key = re.findall(r"(.key*)", cnx_page_slug)
+    exercises = re.findall(r"(.exercises*)", cnx_page_slug)
+    summary = re.findall(r"(.summary*)", cnx_page_slug)
+    questions = re.findall(r"(.questions*)", cnx_page_slug)
 
+    is_interesting = intro or subchapters or appendix or key or exercises or summary or questions
+
+    if is_interesting and response.status_code != 200:
+        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
         pytest.fail(f"{response.status_code} in {cnx_page_slug}")
 
     else:
-        assert response.url.startswith(rex_base_url)
+        if response.status_code != 200:
+            log_others_to_csv(response.status_code, cnx_page_slug, cnx_url)
+
+            assert response.url.startswith(rex_base_url)
 
 
 @markers.test_case("C597392")
@@ -795,13 +1179,25 @@ def test_sociology_2e_uri_redirect_to_rex(webview_base_url, rex_base_url, sociol
     response = get_url(cnx_url)
 
     # THEN we are redirected to rex
-    if response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_url)
+    subchapters = re.findall(r"(^\d+-\d+-\w+)", cnx_page_slug)
+    appendix = re.findall(r"(^appendix)", cnx_page_slug)
+    intro = re.findall(r"(^\d+-introduction)", cnx_page_slug)
+    key = re.findall(r"(.key*)", cnx_page_slug)
+    exercises = re.findall(r"(.exercises*)", cnx_page_slug)
+    summary = re.findall(r"(.summary*)", cnx_page_slug)
+    questions = re.findall(r"(.questions*)", cnx_page_slug)
 
+    is_interesting = intro or subchapters or appendix or key or exercises or summary or questions
+
+    if is_interesting and response.status_code != 200:
+        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
         pytest.fail(f"{response.status_code} in {cnx_page_slug}")
 
     else:
-        assert response.url.startswith(rex_base_url)
+        if response.status_code != 200:
+            log_others_to_csv(response.status_code, cnx_page_slug, cnx_url)
+
+            assert response.url.startswith(rex_base_url)
 
 
 @markers.test_case("C597392")
@@ -817,13 +1213,25 @@ def test_intro_business_uri_redirect_to_rex(webview_base_url, rex_base_url, intr
     response = get_url(cnx_url)
 
     # THEN we are redirected to rex
-    if response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_url)
+    subchapters = re.findall(r"(^\d+-\d+-\w+)", cnx_page_slug)
+    appendix = re.findall(r"(^appendix)", cnx_page_slug)
+    intro = re.findall(r"(^\d+-introduction)", cnx_page_slug)
+    key = re.findall(r"(.key*)", cnx_page_slug)
+    exercises = re.findall(r"(.exercises*)", cnx_page_slug)
+    summary = re.findall(r"(.summary*)", cnx_page_slug)
+    questions = re.findall(r"(.questions*)", cnx_page_slug)
 
+    is_interesting = intro or subchapters or appendix or key or exercises or summary or questions
+
+    if is_interesting and response.status_code != 200:
+        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
         pytest.fail(f"{response.status_code} in {cnx_page_slug}")
 
     else:
-        assert response.url.startswith(rex_base_url)
+        if response.status_code != 200:
+            log_others_to_csv(response.status_code, cnx_page_slug, cnx_url)
+
+            assert response.url.startswith(rex_base_url)
 
 
 @markers.test_case("C597392")
@@ -839,13 +1247,25 @@ def test_business_ethics_uri_redirect_to_rex(webview_base_url, rex_base_url, bus
     response = get_url(cnx_url)
 
     # THEN we are redirected to rex
-    if response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_url)
+    subchapters = re.findall(r"(^\d+-\d+-\w+)", cnx_page_slug)
+    appendix = re.findall(r"(^appendix)", cnx_page_slug)
+    intro = re.findall(r"(^\d+-introduction)", cnx_page_slug)
+    key = re.findall(r"(.key*)", cnx_page_slug)
+    exercises = re.findall(r"(.exercises*)", cnx_page_slug)
+    summary = re.findall(r"(.summary*)", cnx_page_slug)
+    questions = re.findall(r"(.questions*)", cnx_page_slug)
 
+    is_interesting = intro or subchapters or appendix or key or exercises or summary or questions
+
+    if is_interesting and response.status_code != 200:
+        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
         pytest.fail(f"{response.status_code} in {cnx_page_slug}")
 
     else:
-        assert response.url.startswith(rex_base_url)
+        if response.status_code != 200:
+            log_others_to_csv(response.status_code, cnx_page_slug, cnx_url)
+
+            assert response.url.startswith(rex_base_url)
 
 
 @markers.test_case("C597392")
@@ -863,13 +1283,25 @@ def test_principles_of_mgnt_uri_redirect_to_rex(
     response = get_url(cnx_url)
 
     # THEN we are redirected to rex
-    if response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_url)
+    subchapters = re.findall(r"(^\d+-\d+-\w+)", cnx_page_slug)
+    appendix = re.findall(r"(^appendix)", cnx_page_slug)
+    intro = re.findall(r"(^\d+-introduction)", cnx_page_slug)
+    key = re.findall(r"(.key*)", cnx_page_slug)
+    exercises = re.findall(r"(.exercises*)", cnx_page_slug)
+    summary = re.findall(r"(.summary*)", cnx_page_slug)
+    questions = re.findall(r"(.questions*)", cnx_page_slug)
 
+    is_interesting = intro or subchapters or appendix or key or exercises or summary or questions
+
+    if is_interesting and response.status_code != 200:
+        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
         pytest.fail(f"{response.status_code} in {cnx_page_slug}")
 
     else:
-        assert response.url.startswith(rex_base_url)
+        if response.status_code != 200:
+            log_others_to_csv(response.status_code, cnx_page_slug, cnx_url)
+
+            assert response.url.startswith(rex_base_url)
 
 
 @markers.test_case("C597392")
@@ -887,13 +1319,25 @@ def test_organizational_behavior_uri_redirect_to_rex(
     response = get_url(cnx_url)
 
     # THEN we are redirected to rex
-    if response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_url)
+    subchapters = re.findall(r"(^\d+-\d+-\w+)", cnx_page_slug)
+    appendix = re.findall(r"(^appendix)", cnx_page_slug)
+    intro = re.findall(r"(^\d+-introduction)", cnx_page_slug)
+    key = re.findall(r"(.key*)", cnx_page_slug)
+    exercises = re.findall(r"(.exercises*)", cnx_page_slug)
+    summary = re.findall(r"(.summary*)", cnx_page_slug)
+    questions = re.findall(r"(.questions*)", cnx_page_slug)
 
+    is_interesting = intro or subchapters or appendix or key or exercises or summary or questions
+
+    if is_interesting and response.status_code != 200:
+        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
         pytest.fail(f"{response.status_code} in {cnx_page_slug}")
 
     else:
-        assert response.url.startswith(rex_base_url)
+        if response.status_code != 200:
+            log_others_to_csv(response.status_code, cnx_page_slug, cnx_url)
+
+            assert response.url.startswith(rex_base_url)
 
 
 @markers.test_case("C600020")
@@ -911,13 +1355,25 @@ def test_business_law_i_ess_uri_redirect_to_rex(
     response = get_url(cnx_url)
 
     # THEN we are redirected to rex
-    if response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_url)
+    subchapters = re.findall(r"(^\d+-\d+-\w+)", cnx_page_slug)
+    appendix = re.findall(r"(^appendix)", cnx_page_slug)
+    intro = re.findall(r"(^\d+-introduction)", cnx_page_slug)
+    key = re.findall(r"(.key*)", cnx_page_slug)
+    exercises = re.findall(r"(.exercises*)", cnx_page_slug)
+    summary = re.findall(r"(.summary*)", cnx_page_slug)
+    questions = re.findall(r"(.questions*)", cnx_page_slug)
 
+    is_interesting = intro or subchapters or appendix or key or exercises or summary or questions
+
+    if is_interesting and response.status_code != 200:
+        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
         pytest.fail(f"{response.status_code} in {cnx_page_slug}")
 
     else:
-        assert response.url.startswith(rex_base_url)
+        if response.status_code != 200:
+            log_others_to_csv(response.status_code, cnx_page_slug, cnx_url)
+
+            assert response.url.startswith(rex_base_url)
 
 
 @markers.test_case("C600020")
@@ -933,13 +1389,25 @@ def test_college_algebra_uri_redirect_to_rex(webview_base_url, rex_base_url, col
     response = get_url(cnx_url)
 
     # THEN we are redirected to rex
-    if response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_url)
+    subchapters = re.findall(r"(^\d+-\d+-\w+)", cnx_page_slug)
+    appendix = re.findall(r"(^appendix)", cnx_page_slug)
+    intro = re.findall(r"(^\d+-introduction)", cnx_page_slug)
+    key = re.findall(r"(.key*)", cnx_page_slug)
+    exercises = re.findall(r"(.exercises*)", cnx_page_slug)
+    summary = re.findall(r"(.summary*)", cnx_page_slug)
+    questions = re.findall(r"(.questions*)", cnx_page_slug)
 
+    is_interesting = intro or subchapters or appendix or key or exercises or summary or questions
+
+    if is_interesting and response.status_code != 200:
+        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
         pytest.fail(f"{response.status_code} in {cnx_page_slug}")
 
     else:
-        assert response.url.startswith(rex_base_url)
+        if response.status_code != 200:
+            log_others_to_csv(response.status_code, cnx_page_slug, cnx_url)
+
+            assert response.url.startswith(rex_base_url)
 
 
 @markers.test_case("C600020")
@@ -957,13 +1425,25 @@ def test_principles_microecon_ap_courses_2e_uri_redirect_to_rex(
     response = get_url(cnx_url)
 
     # THEN we are redirected to rex
-    if response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_url)
+    subchapters = re.findall(r"(^\d+-\d+-\w+)", cnx_page_slug)
+    appendix = re.findall(r"(^appendix)", cnx_page_slug)
+    intro = re.findall(r"(^\d+-introduction)", cnx_page_slug)
+    key = re.findall(r"(.key*)", cnx_page_slug)
+    exercises = re.findall(r"(.exercises*)", cnx_page_slug)
+    summary = re.findall(r"(.summary*)", cnx_page_slug)
+    questions = re.findall(r"(.questions*)", cnx_page_slug)
 
+    is_interesting = intro or subchapters or appendix or key or exercises or summary or questions
+
+    if is_interesting and response.status_code != 200:
+        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
         pytest.fail(f"{response.status_code} in {cnx_page_slug}")
 
     else:
-        assert response.url.startswith(rex_base_url)
+        if response.status_code != 200:
+            log_others_to_csv(response.status_code, cnx_page_slug, cnx_url)
+
+            assert response.url.startswith(rex_base_url)
 
 
 @markers.test_case("C618400")
@@ -981,13 +1461,25 @@ def test_principles_microecon_ap_courses_uri_redirect_to_rex(
     response = get_url(cnx_url)
 
     # THEN we are redirected to rex
-    if response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_url)
+    subchapters = re.findall(r"(^\d+-\d+-\w+)", cnx_page_slug)
+    appendix = re.findall(r"(^appendix)", cnx_page_slug)
+    intro = re.findall(r"(^\d+-introduction)", cnx_page_slug)
+    key = re.findall(r"(.key*)", cnx_page_slug)
+    exercises = re.findall(r"(.exercises*)", cnx_page_slug)
+    summary = re.findall(r"(.summary*)", cnx_page_slug)
+    questions = re.findall(r"(.questions*)", cnx_page_slug)
 
+    is_interesting = intro or subchapters or appendix or key or exercises or summary or questions
+
+    if is_interesting and response.status_code != 200:
+        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
         pytest.fail(f"{response.status_code} in {cnx_page_slug}")
 
     else:
-        assert response.url.startswith(rex_base_url)
+        if response.status_code != 200:
+            log_others_to_csv(response.status_code, cnx_page_slug, cnx_url)
+
+            assert response.url.startswith(rex_base_url)
 
 
 @markers.test_case("C600020")
@@ -1005,13 +1497,25 @@ def test_principles_macroecon_ap_courses_2e_uri_redirect_to_rex(
     response = get_url(cnx_url)
 
     # THEN we are redirected to rex
-    if response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_url)
+    subchapters = re.findall(r"(^\d+-\d+-\w+)", cnx_page_slug)
+    appendix = re.findall(r"(^appendix)", cnx_page_slug)
+    intro = re.findall(r"(^\d+-introduction)", cnx_page_slug)
+    key = re.findall(r"(.key*)", cnx_page_slug)
+    exercises = re.findall(r"(.exercises*)", cnx_page_slug)
+    summary = re.findall(r"(.summary*)", cnx_page_slug)
+    questions = re.findall(r"(.questions*)", cnx_page_slug)
 
+    is_interesting = intro or subchapters or appendix or key or exercises or summary or questions
+
+    if is_interesting and response.status_code != 200:
+        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
         pytest.fail(f"{response.status_code} in {cnx_page_slug}")
 
     else:
-        assert response.url.startswith(rex_base_url)
+        if response.status_code != 200:
+            log_others_to_csv(response.status_code, cnx_page_slug, cnx_url)
+
+            assert response.url.startswith(rex_base_url)
 
 
 @markers.test_case("C618400")
@@ -1029,13 +1533,25 @@ def test_principles_macroecon_ap_courses_uri_redirect_to_rex(
     response = get_url(cnx_url)
 
     # THEN we are redirected to rex
-    if response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_url)
+    subchapters = re.findall(r"(^\d+-\d+-\w+)", cnx_page_slug)
+    appendix = re.findall(r"(^appendix)", cnx_page_slug)
+    intro = re.findall(r"(^\d+-introduction)", cnx_page_slug)
+    key = re.findall(r"(.key*)", cnx_page_slug)
+    exercises = re.findall(r"(.exercises*)", cnx_page_slug)
+    summary = re.findall(r"(.summary*)", cnx_page_slug)
+    questions = re.findall(r"(.questions*)", cnx_page_slug)
 
+    is_interesting = intro or subchapters or appendix or key or exercises or summary or questions
+
+    if is_interesting and response.status_code != 200:
+        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
         pytest.fail(f"{response.status_code} in {cnx_page_slug}")
 
     else:
-        assert response.url.startswith(rex_base_url)
+        if response.status_code != 200:
+            log_others_to_csv(response.status_code, cnx_page_slug, cnx_url)
+
+            assert response.url.startswith(rex_base_url)
 
 
 @markers.test_case("C600020")
@@ -1051,13 +1567,25 @@ def test_prealgebra_2e_uri_redirect_to_rex(webview_base_url, rex_base_url, preal
     response = get_url(cnx_url)
 
     # THEN we are redirected to rex
-    if response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_url)
+    subchapters = re.findall(r"(^\d+-\d+-\w+)", cnx_page_slug)
+    appendix = re.findall(r"(^appendix)", cnx_page_slug)
+    intro = re.findall(r"(^\d+-introduction)", cnx_page_slug)
+    key = re.findall(r"(.key*)", cnx_page_slug)
+    exercises = re.findall(r"(.exercises*)", cnx_page_slug)
+    summary = re.findall(r"(.summary*)", cnx_page_slug)
+    questions = re.findall(r"(.questions*)", cnx_page_slug)
 
+    is_interesting = intro or subchapters or appendix or key or exercises or summary or questions
+
+    if is_interesting and response.status_code != 200:
+        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
         pytest.fail(f"{response.status_code} in {cnx_page_slug}")
 
     else:
-        assert response.url.startswith(rex_base_url)
+        if response.status_code != 200:
+            log_others_to_csv(response.status_code, cnx_page_slug, cnx_url)
+
+            assert response.url.startswith(rex_base_url)
 
 
 @markers.test_case("C616758")
@@ -1073,13 +1601,25 @@ def test_prealgebra_uri_redirect_to_rex(webview_base_url, rex_base_url, prealgeb
     response = get_url(cnx_url)
 
     # THEN we are redirected to rex
-    if response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_url)
+    subchapters = re.findall(r"(^\d+-\d+-\w+)", cnx_page_slug)
+    appendix = re.findall(r"(^appendix)", cnx_page_slug)
+    intro = re.findall(r"(^\d+-introduction)", cnx_page_slug)
+    key = re.findall(r"(.key*)", cnx_page_slug)
+    exercises = re.findall(r"(.exercises*)", cnx_page_slug)
+    summary = re.findall(r"(.summary*)", cnx_page_slug)
+    questions = re.findall(r"(.questions*)", cnx_page_slug)
 
+    is_interesting = intro or subchapters or appendix or key or exercises or summary or questions
+
+    if is_interesting and response.status_code != 200:
+        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
         pytest.fail(f"{response.status_code} in {cnx_page_slug}")
 
     else:
-        assert response.url.startswith(rex_base_url)
+        if response.status_code != 200:
+            log_others_to_csv(response.status_code, cnx_page_slug, cnx_url)
+
+            assert response.url.startswith(rex_base_url)
 
 
 @markers.test_case("C602857")
@@ -1095,13 +1635,25 @@ def test_elem_algebra_2e_uri_redirect_to_rex(webview_base_url, rex_base_url, ele
     response = get_url(cnx_url)
 
     # THEN we are redirected to rex
-    if response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_url)
+    subchapters = re.findall(r"(^\d+-\d+-\w+)", cnx_page_slug)
+    appendix = re.findall(r"(^appendix)", cnx_page_slug)
+    intro = re.findall(r"(^\d+-introduction)", cnx_page_slug)
+    key = re.findall(r"(.key*)", cnx_page_slug)
+    exercises = re.findall(r"(.exercises*)", cnx_page_slug)
+    summary = re.findall(r"(.summary*)", cnx_page_slug)
+    questions = re.findall(r"(.questions*)", cnx_page_slug)
 
+    is_interesting = intro or subchapters or appendix or key or exercises or summary or questions
+
+    if is_interesting and response.status_code != 200:
+        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
         pytest.fail(f"{response.status_code} in {cnx_page_slug}")
 
     else:
-        assert response.url.startswith(rex_base_url)
+        if response.status_code != 200:
+            log_others_to_csv(response.status_code, cnx_page_slug, cnx_url)
+
+            assert response.url.startswith(rex_base_url)
 
 
 @markers.test_case("C616758")
@@ -1117,13 +1669,25 @@ def test_elem_algebra_uri_redirect_to_rex(webview_base_url, rex_base_url, elem_a
     response = get_url(cnx_url)
 
     # THEN we are redirected to rex
-    if response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_url)
+    subchapters = re.findall(r"(^\d+-\d+-\w+)", cnx_page_slug)
+    appendix = re.findall(r"(^appendix)", cnx_page_slug)
+    intro = re.findall(r"(^\d+-introduction)", cnx_page_slug)
+    key = re.findall(r"(.key*)", cnx_page_slug)
+    exercises = re.findall(r"(.exercises*)", cnx_page_slug)
+    summary = re.findall(r"(.summary*)", cnx_page_slug)
+    questions = re.findall(r"(.questions*)", cnx_page_slug)
 
+    is_interesting = intro or subchapters or appendix or key or exercises or summary or questions
+
+    if is_interesting and response.status_code != 200:
+        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
         pytest.fail(f"{response.status_code} in {cnx_page_slug}")
 
     else:
-        assert response.url.startswith(rex_base_url)
+        if response.status_code != 200:
+            log_others_to_csv(response.status_code, cnx_page_slug, cnx_url)
+
+            assert response.url.startswith(rex_base_url)
 
 
 @markers.test_case("C602857")
@@ -1139,13 +1703,25 @@ def test_stats_hs_uri_redirect_to_rex(webview_base_url, rex_base_url, stats_hs_u
     response = get_url(cnx_url)
 
     # THEN we are redirected to rex
-    if response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_url)
+    subchapters = re.findall(r"(^\d+-\d+-\w+)", cnx_page_slug)
+    appendix = re.findall(r"(^appendix)", cnx_page_slug)
+    intro = re.findall(r"(^\d+-introduction)", cnx_page_slug)
+    key = re.findall(r"(.key*)", cnx_page_slug)
+    exercises = re.findall(r"(.exercises*)", cnx_page_slug)
+    summary = re.findall(r"(.summary*)", cnx_page_slug)
+    questions = re.findall(r"(.questions*)", cnx_page_slug)
 
+    is_interesting = intro or subchapters or appendix or key or exercises or summary or questions
+
+    if is_interesting and response.status_code != 200:
+        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
         pytest.fail(f"{response.status_code} in {cnx_page_slug}")
 
     else:
-        assert response.url.startswith(rex_base_url)
+        if response.status_code != 200:
+            log_others_to_csv(response.status_code, cnx_page_slug, cnx_url)
+
+            assert response.url.startswith(rex_base_url)
 
 
 @markers.test_case("C602857")
@@ -1161,13 +1737,25 @@ def test_co_success_uri_redirect_to_rex(webview_base_url, rex_base_url, cosu_uri
     response = get_url(cnx_url)
 
     # THEN we are redirected to rex
-    if response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_url)
+    subchapters = re.findall(r"(^\d+-\d+-\w+)", cnx_page_slug)
+    appendix = re.findall(r"(^appendix)", cnx_page_slug)
+    intro = re.findall(r"(^\d+-introduction)", cnx_page_slug)
+    key = re.findall(r"(.key*)", cnx_page_slug)
+    exercises = re.findall(r"(.exercises*)", cnx_page_slug)
+    summary = re.findall(r"(.summary*)", cnx_page_slug)
+    questions = re.findall(r"(.questions*)", cnx_page_slug)
 
+    is_interesting = intro or subchapters or appendix or key or exercises or summary or questions
+
+    if is_interesting and response.status_code != 200:
+        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
         pytest.fail(f"{response.status_code} in {cnx_page_slug}")
 
     else:
-        assert response.url.startswith(rex_base_url)
+        if response.status_code != 200:
+            log_others_to_csv(response.status_code, cnx_page_slug, cnx_url)
+
+            assert response.url.startswith(rex_base_url)
 
 
 @markers.test_case("C602857")
@@ -1183,13 +1771,25 @@ def test_psych_2e_uri_redirect_to_rex(webview_base_url, rex_base_url, psych_2e_u
     response = get_url(cnx_url)
 
     # THEN we are redirected to rex
-    if response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_url)
+    subchapters = re.findall(r"(^\d+-\d+-\w+)", cnx_page_slug)
+    appendix = re.findall(r"(^appendix)", cnx_page_slug)
+    intro = re.findall(r"(^\d+-introduction)", cnx_page_slug)
+    key = re.findall(r"(.key*)", cnx_page_slug)
+    exercises = re.findall(r"(.exercises*)", cnx_page_slug)
+    summary = re.findall(r"(.summary*)", cnx_page_slug)
+    questions = re.findall(r"(.questions*)", cnx_page_slug)
 
+    is_interesting = intro or subchapters or appendix or key or exercises or summary or questions
+
+    if is_interesting and response.status_code != 200:
+        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
         pytest.fail(f"{response.status_code} in {cnx_page_slug}")
 
     else:
-        assert response.url.startswith(rex_base_url)
+        if response.status_code != 200:
+            log_others_to_csv(response.status_code, cnx_page_slug, cnx_url)
+
+            assert response.url.startswith(rex_base_url)
 
 
 @markers.test_case("C605719")
@@ -1207,13 +1807,25 @@ def test_interm_algebra_2e_uri_redirect_to_rex(
     response = get_url(cnx_url)
 
     # THEN we are redirected to rex
-    if response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_url)
+    subchapters = re.findall(r"(^\d+-\d+-\w+)", cnx_page_slug)
+    appendix = re.findall(r"(^appendix)", cnx_page_slug)
+    intro = re.findall(r"(^\d+-introduction)", cnx_page_slug)
+    key = re.findall(r"(.key*)", cnx_page_slug)
+    exercises = re.findall(r"(.exercises*)", cnx_page_slug)
+    summary = re.findall(r"(.summary*)", cnx_page_slug)
+    questions = re.findall(r"(.questions*)", cnx_page_slug)
 
+    is_interesting = intro or subchapters or appendix or key or exercises or summary or questions
+
+    if is_interesting and response.status_code != 200:
+        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
         pytest.fail(f"{response.status_code} in {cnx_page_slug}")
 
     else:
-        assert response.url.startswith(rex_base_url)
+        if response.status_code != 200:
+            log_others_to_csv(response.status_code, cnx_page_slug, cnx_url)
+
+            assert response.url.startswith(rex_base_url)
 
 
 @markers.test_case("C616758")
@@ -1229,13 +1841,25 @@ def test_interm_algebra_uri_redirect_to_rex(webview_base_url, rex_base_url, inte
     response = get_url(cnx_url)
 
     # THEN we are redirected to rex
-    if response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_url)
+    subchapters = re.findall(r"(^\d+-\d+-\w+)", cnx_page_slug)
+    appendix = re.findall(r"(^appendix)", cnx_page_slug)
+    intro = re.findall(r"(^\d+-introduction)", cnx_page_slug)
+    key = re.findall(r"(.key*)", cnx_page_slug)
+    exercises = re.findall(r"(.exercises*)", cnx_page_slug)
+    summary = re.findall(r"(.summary*)", cnx_page_slug)
+    questions = re.findall(r"(.questions*)", cnx_page_slug)
 
+    is_interesting = intro or subchapters or appendix or key or exercises or summary or questions
+
+    if is_interesting and response.status_code != 200:
+        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
         pytest.fail(f"{response.status_code} in {cnx_page_slug}")
 
     else:
-        assert response.url.startswith(rex_base_url)
+        if response.status_code != 200:
+            log_others_to_csv(response.status_code, cnx_page_slug, cnx_url)
+
+            assert response.url.startswith(rex_base_url)
 
 
 @markers.test_case("C608129")
@@ -1251,13 +1875,25 @@ def test_psychology_uri_redirect_to_rex(webview_base_url, rex_base_url, psycholo
     response = get_url(cnx_url)
 
     # THEN we are redirected to rex
-    if response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_url)
+    subchapters = re.findall(r"(^\d+-\d+-\w+)", cnx_page_slug)
+    appendix = re.findall(r"(^appendix)", cnx_page_slug)
+    intro = re.findall(r"(^\d+-introduction)", cnx_page_slug)
+    key = re.findall(r"(.key*)", cnx_page_slug)
+    exercises = re.findall(r"(.exercises*)", cnx_page_slug)
+    summary = re.findall(r"(.summary*)", cnx_page_slug)
+    questions = re.findall(r"(.questions*)", cnx_page_slug)
 
+    is_interesting = intro or subchapters or appendix or key or exercises or summary or questions
+
+    if is_interesting and response.status_code != 200:
+        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
         pytest.fail(f"{response.status_code} in {cnx_page_slug}")
 
     else:
-        assert response.url.startswith(rex_base_url)
+        if response.status_code != 200:
+            log_others_to_csv(response.status_code, cnx_page_slug, cnx_url)
+
+            assert response.url.startswith(rex_base_url)
 
 
 @markers.test_case("C608129")
@@ -1273,13 +1909,25 @@ def test_physics_hs_uri_redirect_to_rex(webview_base_url, rex_base_url, physics_
     response = get_url(cnx_url)
 
     # THEN we are redirected to rex
-    if response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_url)
+    subchapters = re.findall(r"(^\d+-\d+-\w+)", cnx_page_slug)
+    appendix = re.findall(r"(^appendix)", cnx_page_slug)
+    intro = re.findall(r"(^\d+-introduction)", cnx_page_slug)
+    key = re.findall(r"(.key*)", cnx_page_slug)
+    exercises = re.findall(r"(.exercises*)", cnx_page_slug)
+    summary = re.findall(r"(.summary*)", cnx_page_slug)
+    questions = re.findall(r"(.questions*)", cnx_page_slug)
 
+    is_interesting = intro or subchapters or appendix or key or exercises or summary or questions
+
+    if is_interesting and response.status_code != 200:
+        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
         pytest.fail(f"{response.status_code} in {cnx_page_slug}")
 
     else:
-        assert response.url.startswith(rex_base_url)
+        if response.status_code != 200:
+            log_others_to_csv(response.status_code, cnx_page_slug, cnx_url)
+
+            assert response.url.startswith(rex_base_url)
 
 
 @markers.test_case("C600020")
@@ -1295,13 +1943,25 @@ def test_precalculus_uri_redirect_to_rex(webview_base_url, rex_base_url, precalc
     response = get_url(cnx_url)
 
     # THEN we are redirected to rex
-    if response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_url)
+    subchapters = re.findall(r"(^\d+-\d+-\w+)", cnx_page_slug)
+    appendix = re.findall(r"(^appendix)", cnx_page_slug)
+    intro = re.findall(r"(^\d+-introduction)", cnx_page_slug)
+    key = re.findall(r"(.key*)", cnx_page_slug)
+    exercises = re.findall(r"(.exercises*)", cnx_page_slug)
+    summary = re.findall(r"(.summary*)", cnx_page_slug)
+    questions = re.findall(r"(.questions*)", cnx_page_slug)
 
+    is_interesting = intro or subchapters or appendix or key or exercises or summary or questions
+
+    if is_interesting and response.status_code != 200:
+        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
         pytest.fail(f"{response.status_code} in {cnx_page_slug}")
 
     else:
-        assert response.url.startswith(rex_base_url)
+        if response.status_code != 200:
+            log_others_to_csv(response.status_code, cnx_page_slug, cnx_url)
+
+            assert response.url.startswith(rex_base_url)
 
 
 @markers.test_case("C600020")
@@ -1317,13 +1977,25 @@ def test_algebra_and_trig_uri_redirect_to_rex(webview_base_url, rex_base_url, al
     response = get_url(cnx_url)
 
     # THEN we are redirected to rex
-    if response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_url)
+    subchapters = re.findall(r"(^\d+-\d+-\w+)", cnx_page_slug)
+    appendix = re.findall(r"(^appendix)", cnx_page_slug)
+    intro = re.findall(r"(^\d+-introduction)", cnx_page_slug)
+    key = re.findall(r"(.key*)", cnx_page_slug)
+    exercises = re.findall(r"(.exercises*)", cnx_page_slug)
+    summary = re.findall(r"(.summary*)", cnx_page_slug)
+    questions = re.findall(r"(.questions*)", cnx_page_slug)
 
+    is_interesting = intro or subchapters or appendix or key or exercises or summary or questions
+
+    if is_interesting and response.status_code != 200:
+        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
         pytest.fail(f"{response.status_code} in {cnx_page_slug}")
 
     else:
-        assert response.url.startswith(rex_base_url)
+        if response.status_code != 200:
+            log_others_to_csv(response.status_code, cnx_page_slug, cnx_url)
+
+            assert response.url.startswith(rex_base_url)
 
 
 @markers.test_case("C559361")
@@ -1341,13 +2013,25 @@ def test_anatomy_and_physiology_uri_redirect_to_rex(
     response = get_url(cnx_url)
 
     # THEN we are redirected to rex
-    if response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_url)
+    subchapters = re.findall(r"(^\d+-\d+-\w+)", cnx_page_slug)
+    appendix = re.findall(r"(^appendix)", cnx_page_slug)
+    intro = re.findall(r"(^\d+-introduction)", cnx_page_slug)
+    key = re.findall(r"(.key*)", cnx_page_slug)
+    exercises = re.findall(r"(.exercises*)", cnx_page_slug)
+    summary = re.findall(r"(.summary*)", cnx_page_slug)
+    questions = re.findall(r"(.questions*)", cnx_page_slug)
 
+    is_interesting = intro or subchapters or appendix or key or exercises or summary or questions
+
+    if is_interesting and response.status_code != 200:
+        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
         pytest.fail(f"{response.status_code} in {cnx_page_slug}")
 
     else:
-        assert response.url.startswith(rex_base_url)
+        if response.status_code != 200:
+            log_others_to_csv(response.status_code, cnx_page_slug, cnx_url)
+
+            assert response.url.startswith(rex_base_url)
 
 
 @markers.test_case("C615597")
@@ -1363,13 +2047,25 @@ def test_amer_gov_1e_uri_redirect_to_rex(webview_base_url, rex_base_url, amer_go
     response = get_url(cnx_url)
 
     # THEN we are redirected to rex
-    if response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_url)
+    subchapters = re.findall(r"(^\d+-\d+-\w+)", cnx_page_slug)
+    appendix = re.findall(r"(^appendix)", cnx_page_slug)
+    intro = re.findall(r"(^\d+-introduction)", cnx_page_slug)
+    key = re.findall(r"(.key*)", cnx_page_slug)
+    exercises = re.findall(r"(.exercises*)", cnx_page_slug)
+    summary = re.findall(r"(.summary*)", cnx_page_slug)
+    questions = re.findall(r"(.questions*)", cnx_page_slug)
 
+    is_interesting = intro or subchapters or appendix or key or exercises or summary or questions
+
+    if is_interesting and response.status_code != 200:
+        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
         pytest.fail(f"{response.status_code} in {cnx_page_slug}")
 
     else:
-        assert response.url.startswith(rex_base_url)
+        if response.status_code != 200:
+            log_others_to_csv(response.status_code, cnx_page_slug, cnx_url)
+
+            assert response.url.startswith(rex_base_url)
 
 
 @markers.test_case("C615597")
@@ -1387,13 +2083,25 @@ def test_col_alg_with_coreq_uri_redirect_to_rex(
     response = get_url(cnx_url)
 
     # THEN we are redirected to rex
-    if response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_url)
+    subchapters = re.findall(r"(^\d+-\d+-\w+)", cnx_page_slug)
+    appendix = re.findall(r"(^appendix)", cnx_page_slug)
+    intro = re.findall(r"(^\d+-introduction)", cnx_page_slug)
+    key = re.findall(r"(.key*)", cnx_page_slug)
+    exercises = re.findall(r"(.exercises*)", cnx_page_slug)
+    summary = re.findall(r"(.summary*)", cnx_page_slug)
+    questions = re.findall(r"(.questions*)", cnx_page_slug)
 
+    is_interesting = intro or subchapters or appendix or key or exercises or summary or questions
+
+    if is_interesting and response.status_code != 200:
+        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
         pytest.fail(f"{response.status_code} in {cnx_page_slug}")
 
     else:
-        assert response.url.startswith(rex_base_url)
+        if response.status_code != 200:
+            log_others_to_csv(response.status_code, cnx_page_slug, cnx_url)
+
+            assert response.url.startswith(rex_base_url)
 
 
 @markers.test_case("C616758")
@@ -1409,13 +2117,25 @@ def test_intro_to_soc_uri_redirect_to_rex(webview_base_url, rex_base_url, intro_
     response = get_url(cnx_url)
 
     # THEN we are redirected to rex
-    if response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_url)
+    subchapters = re.findall(r"(^\d+-\d+-\w+)", cnx_page_slug)
+    appendix = re.findall(r"(^appendix)", cnx_page_slug)
+    intro = re.findall(r"(^\d+-introduction)", cnx_page_slug)
+    key = re.findall(r"(.key*)", cnx_page_slug)
+    exercises = re.findall(r"(.exercises*)", cnx_page_slug)
+    summary = re.findall(r"(.summary*)", cnx_page_slug)
+    questions = re.findall(r"(.questions*)", cnx_page_slug)
 
+    is_interesting = intro or subchapters or appendix or key or exercises or summary or questions
+
+    if is_interesting and response.status_code != 200:
+        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
         pytest.fail(f"{response.status_code} in {cnx_page_slug}")
 
     else:
-        assert response.url.startswith(rex_base_url)
+        if response.status_code != 200:
+            log_others_to_csv(response.status_code, cnx_page_slug, cnx_url)
+
+            assert response.url.startswith(rex_base_url)
 
 
 @markers.test_case("C624690")
@@ -1431,13 +2151,25 @@ def test_intell_prop_uri_redirect_to_rex(webview_base_url, rex_base_url, intell_
     response = get_url(cnx_url)
 
     # THEN we are redirected to rex
-    if response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_url)
+    subchapters = re.findall(r"(^\d+-\d+-\w+)", cnx_page_slug)
+    appendix = re.findall(r"(^appendix)", cnx_page_slug)
+    intro = re.findall(r"(^\d+-introduction)", cnx_page_slug)
+    key = re.findall(r"(.key*)", cnx_page_slug)
+    exercises = re.findall(r"(.exercises*)", cnx_page_slug)
+    summary = re.findall(r"(.summary*)", cnx_page_slug)
+    questions = re.findall(r"(.questions*)", cnx_page_slug)
 
+    is_interesting = intro or subchapters or appendix or key or exercises or summary or questions
+
+    if is_interesting and response.status_code != 200:
+        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
         pytest.fail(f"{response.status_code} in {cnx_page_slug}")
 
     else:
-        assert response.url.startswith(rex_base_url)
+        if response.status_code != 200:
+            log_others_to_csv(response.status_code, cnx_page_slug, cnx_url)
+
+            assert response.url.startswith(rex_base_url)
 
 
 @markers.test_case("C624690")
@@ -1453,13 +2185,25 @@ def test_intro_to_soc3_uri_redirect_to_rex(webview_base_url, rex_base_url, intro
     response = get_url(cnx_url)
 
     # THEN we are redirected to rex
-    if response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_url)
+    subchapters = re.findall(r"(^\d+-\d+-\w+)", cnx_page_slug)
+    appendix = re.findall(r"(^appendix)", cnx_page_slug)
+    intro = re.findall(r"(^\d+-introduction)", cnx_page_slug)
+    key = re.findall(r"(.key*)", cnx_page_slug)
+    exercises = re.findall(r"(.exercises*)", cnx_page_slug)
+    summary = re.findall(r"(.summary*)", cnx_page_slug)
+    questions = re.findall(r"(.questions*)", cnx_page_slug)
 
+    is_interesting = intro or subchapters or appendix or key or exercises or summary or questions
+
+    if is_interesting and response.status_code != 200:
+        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
         pytest.fail(f"{response.status_code} in {cnx_page_slug}")
 
     else:
-        assert response.url.startswith(rex_base_url)
+        if response.status_code != 200:
+            log_others_to_csv(response.status_code, cnx_page_slug, cnx_url)
+
+            assert response.url.startswith(rex_base_url)
 
 
 @markers.test_case("C640319")
@@ -1467,7 +2211,7 @@ def test_intro_to_soc3_uri_redirect_to_rex(webview_base_url, rex_base_url, intro
 @markers.rex
 @markers.nondestructive
 def test_fisica_univ_1_uri_redirect_to_rex(webview_base_url, rex_base_url, fisica_univ_1_uri):
-    # GIVEN a webview_base_url, rex_base_url and an intro to soc 3 uri
+    # GIVEN a webview_base_url, rex_base_url and fisica 1
 
     # WHEN we go to a page based on the webview_base_url and uri
     cnx_page_slug = fisica_univ_1_uri.split("/")[-1]
@@ -1475,13 +2219,25 @@ def test_fisica_univ_1_uri_redirect_to_rex(webview_base_url, rex_base_url, fisic
     response = get_url(cnx_url)
 
     # THEN we are redirected to rex
-    if response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_url)
+    subchapters = re.findall(r"(^\d+-\d+-\w+)", cnx_page_slug)
+    appendix = re.findall(r"(^appendix)", cnx_page_slug)
+    intro = re.findall(r"(^\d+-introduction)", cnx_page_slug)
+    key = re.findall(r"(.key*)", cnx_page_slug)
+    exercises = re.findall(r"(.exercises*)", cnx_page_slug)
+    summary = re.findall(r"(.summary*)", cnx_page_slug)
+    questions = re.findall(r"(.questions*)", cnx_page_slug)
 
+    is_interesting = intro or subchapters or appendix or key or exercises or summary or questions
+
+    if is_interesting and response.status_code != 200:
+        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
         pytest.fail(f"{response.status_code} in {cnx_page_slug}")
 
     else:
-        assert response.url.startswith(rex_base_url)
+        if response.status_code != 200:
+            log_others_to_csv(response.status_code, cnx_page_slug, cnx_url)
+
+            assert response.url.startswith(rex_base_url)
 
 
 @markers.test_case("C640319")
@@ -1489,7 +2245,7 @@ def test_fisica_univ_1_uri_redirect_to_rex(webview_base_url, rex_base_url, fisic
 @markers.rex
 @markers.nondestructive
 def test_psychologia_uri_redirect_to_rex(webview_base_url, rex_base_url, psychologia_uri):
-    # GIVEN a webview_base_url, rex_base_url and an intro to soc 3 uri
+    # GIVEN a webview_base_url, rex_base_url and a ...uri file
 
     # WHEN we go to a page based on the webview_base_url and uri
     cnx_page_slug = psychologia_uri.split("/")[-1]
@@ -1497,10 +2253,90 @@ def test_psychologia_uri_redirect_to_rex(webview_base_url, rex_base_url, psychol
     response = get_url(cnx_url)
 
     # THEN we are redirected to rex
-    if response.status_code != 200:
-        log_failures_to_csv(response.status_code, cnx_url)
+    subchapters = re.findall(r"(^\d+-\d+-\w+)", cnx_page_slug)
+    appendix = re.findall(r"(^appendix)", cnx_page_slug)
+    intro = re.findall(r"(^\d+-introduction)", cnx_page_slug)
+    key = re.findall(r"(.key*)", cnx_page_slug)
+    exercises = re.findall(r"(.exercises*)", cnx_page_slug)
+    summary = re.findall(r"(.summary*)", cnx_page_slug)
+    questions = re.findall(r"(.questions*)", cnx_page_slug)
 
+    is_interesting = intro or subchapters or appendix or key or exercises or summary or questions
+
+    if is_interesting and response.status_code != 200:
+        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
         pytest.fail(f"{response.status_code} in {cnx_page_slug}")
 
     else:
-        assert response.url.startswith(rex_base_url)
+        if response.status_code != 200:
+            log_others_to_csv(response.status_code, cnx_page_slug, cnx_url)
+
+            assert response.url.startswith(rex_base_url)
+
+
+@markers.test_case("C641860")
+@markers.slow
+@markers.rex
+@markers.nondestructive
+def test_fisica_univ_2_uri_redirect_to_rex(webview_base_url, rex_base_url, fisica_univ_2_uri):
+    # GIVEN a webview_base_url, rex_base_url and fisica 2
+
+    # WHEN we go to a page based on the webview_base_url and uri
+    cnx_page_slug = fisica_univ_2_uri.split("/")[-1]
+    cnx_url = f"{webview_base_url}{fisica_univ_2_uri}"
+    response = get_url(cnx_url)
+
+    # THEN we are redirected to rex
+    subchapters = re.findall(r"(^\d+-\d+-\w+)", cnx_page_slug)
+    appendix = re.findall(r"(^appendix)", cnx_page_slug)
+    intro = re.findall(r"(^\d+-introduction)", cnx_page_slug)
+    key = re.findall(r"(.key*)", cnx_page_slug)
+    exercises = re.findall(r"(.exercises*)", cnx_page_slug)
+    summary = re.findall(r"(.summary*)", cnx_page_slug)
+    questions = re.findall(r"(.questions*)", cnx_page_slug)
+
+    is_interesting = intro or subchapters or appendix or key or exercises or summary or questions
+
+    if is_interesting and response.status_code != 200:
+        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
+        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
+
+    else:
+        if response.status_code != 200:
+            log_others_to_csv(response.status_code, cnx_page_slug, cnx_url)
+
+            assert response.url.startswith(rex_base_url)
+
+
+@markers.test_case("C641860")
+@markers.slow
+@markers.rex
+@markers.nondestructive
+def test_fisica_univ_3_uri_redirect_to_rex(webview_base_url, rex_base_url, fisica_univ_3_uri):
+    # GIVEN a webview_base_url, rex_base_url and fisica 3
+
+    # WHEN we go to a page based on the webview_base_url and uri
+    cnx_page_slug = fisica_univ_3_uri.split("/")[-1]
+    cnx_url = f"{webview_base_url}{fisica_univ_3_uri}"
+    response = get_url(cnx_url)
+
+    # THEN we are redirected to rex
+    subchapters = re.findall(r"(^\d+-\d+-\w+)", cnx_page_slug)
+    appendix = re.findall(r"(^appendix)", cnx_page_slug)
+    intro = re.findall(r"(^\d+-introduction)", cnx_page_slug)
+    key = re.findall(r"(.key*)", cnx_page_slug)
+    exercises = re.findall(r"(.exercises*)", cnx_page_slug)
+    summary = re.findall(r"(.summary*)", cnx_page_slug)
+    questions = re.findall(r"(.questions*)", cnx_page_slug)
+
+    is_interesting = intro or subchapters or appendix or key or exercises or summary or questions
+
+    if is_interesting and response.status_code != 200:
+        log_failures_to_csv(response.status_code, cnx_page_slug, cnx_url)
+        pytest.fail(f"{response.status_code} in {cnx_page_slug}")
+
+    else:
+        if response.status_code != 200:
+            log_others_to_csv(response.status_code, cnx_page_slug, cnx_url)
+
+            assert response.url.startswith(rex_base_url)
