@@ -23,6 +23,7 @@ pytest_plugins = (
     "fixtures.git_content_repos",
     "fixtures.headers_data",
     "fixtures.github_tok",
+    "fixtures.git_content_repos_bundle",
 )
 
 
