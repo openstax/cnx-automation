@@ -8,11 +8,11 @@ import pytest
 
 """
 Verifies content of collection.xml of every collection in github content repo.
-Latest update on September 16th, 2021
+Latest update on December 13th, 2021
 """
 
 
-def test_github_content_collections(git_content_repos, headers_data):
+def test_github_content_collections(git_content_repos, git_content_repos_bundle, headers_data):
 
     license_list = [
         "http://creativecommons.org/licenses/by/4.0",
@@ -20,7 +20,7 @@ def test_github_content_collections(git_content_repos, headers_data):
         "http://creativecommons.org/licenses/by-sa/4.0",
     ]
 
-    for repo in git_content_repos:
+    for repo in git_content_repos + git_content_repos_bundle:
 
         print("\nNow verifying: ", repo)
 

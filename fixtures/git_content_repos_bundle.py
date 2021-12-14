@@ -3,9 +3,9 @@ import requests
 
 
 @pytest.fixture
-def git_content_repos(headers_data):
+def git_content_repos_bundle(headers_data):
 
-    """Returns all the collection content repos names in github (not ending with bundle)"""
+    """Returns all the collection content repos names in github (ending with bundle)"""
 
     repos = []
 
@@ -17,7 +17,7 @@ def git_content_repos(headers_data):
 
         for item in resp.json():
             for key, val in item.items():
-                if str(val).startswith("osbooks-") and not str(val).endswith("bundle"):
+                if str(val).startswith("osbooks-") and str(val).endswith("bundle"):
                     name_list = item["name"]
                     repos.append(name_list)
 

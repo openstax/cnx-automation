@@ -11,10 +11,10 @@ Latest update on December 13th, 2021
 """
 
 
-def test_github_content_modules(git_content_repos, headers_data):
+def test_github_content_modules(git_content_repos_bundle, headers_data):
 
-    # checks all the github content repos without bundle postfix
-    for repo in git_content_repos:
+    # checks all the github content repos with bundle postfix
+    for repo in git_content_repos_bundle:
 
         print("\nNow verifying: ", repo)
 
