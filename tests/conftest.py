@@ -175,6 +175,13 @@ def pytest_addoption(parser):
         default=os.getenv("QUEUE_STATE_BUCKET", None),
         help="s3 queue state bucket name.",
     )
+    parser.addini("abl_url", help="base url for abl json file")
+    parser.addoption(
+        "--abl_url",
+        metavar="url",
+        default=os.getenv("ABL_URL", None),
+        help="base url for abl json",
+    )
     parser.addoption(
         "--legacy_username", default=os.getenv("LEGACY_USERNAME"), help="username for CNX legacy."
     )

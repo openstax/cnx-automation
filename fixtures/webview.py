@@ -914,3 +914,21 @@ def queue_filename(request):
     queue_filename = config.getoption("queue_filename") or config.getini("queue_filename")
     if queue_filename is not None:
         return queue_filename
+
+
+@pytest.fixture
+def abl_url(request):
+    """Return ABL json url"""
+    config = request.config
+    base_url = config.getoption("abl_url") or config.getini("abl_url")
+    if base_url is not None:
+        skip_if_destructive_and_sensitive(request, base_url)
+        return base_url
+
+
+@pytest.fixture
+def abl_approved(abl_url):
+    """Return list of dictionaries of approved books in ABL json"""
+    abl_dict = requests.get(abl_url).json()
+    abl_approved = abl_dict["approved_books"]
+    return abl_approved
