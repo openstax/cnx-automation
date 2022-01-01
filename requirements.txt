@@ -301,7 +301,7 @@ toml==0.10.2
     #   -r requirements.in
     #   pre-commit
     #   pytest
-typing-extensions==3.10.0.0
+typing-extensions==4.0.1
     # via aiohttp
 uritemplate==3.0.1
     # via
