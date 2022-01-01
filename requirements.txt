@@ -83,7 +83,7 @@ cnx-transforms==1.5.0
     # via
     #   -r requirements.in
     #   nebuchadnezzar
-cnxml==3.1.5
+cnxml==3.1.6
     # via
     #   -r requirements.in
     #   cnx-litezip
