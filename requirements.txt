@@ -109,7 +109,7 @@ filelock==3.4.2
     #   -r requirements.in
     #   tldextract
     #   virtualenv
-github3.py==1.3.0
+github3.py==3.0.0
     # via -r requirements.in
 identify==2.2.10
     # via
