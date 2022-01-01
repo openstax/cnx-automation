@@ -41,7 +41,7 @@ cached-property==1.5.2
     # via -r requirements.in
 cchardet==2.1.7
     # via aiohttp
-certifi==2021.5.30
+certifi==2021.10.8
     # via
     #   -r requirements.in
     #   requests
