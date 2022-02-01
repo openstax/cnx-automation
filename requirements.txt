@@ -313,7 +313,7 @@ urllib3==1.26.8
     #   botocore
     #   requests
     #   selenium
-virtualenv==20.4.7
+virtualenv==20.13.0
     # via
     #   -r requirements.in
     #   pre-commit
