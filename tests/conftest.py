@@ -161,6 +161,10 @@ def pytest_addoption(parser):
         default=os.getenv("WEB_HOSTING_ENV", None),
         help="web hosting env.",
     )
+    parser.addini("jobs_folder", help="jobs folder")
+    parser.addoption(
+        "--jobs_folder", metavar="tag", default=os.getenv("JOBS_FOLDER", None), help="jobs folder",
+    )
     parser.addini("queue_filename", help="archive or git queue filename json")
     parser.addoption(
         "--queue_filename",

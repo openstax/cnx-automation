@@ -882,9 +882,19 @@ def web_hosting_env(request):
 
 
 @pytest.fixture
-def concourse_prefix(code_tag, web_hosting_env, concourse_base_url):
+def jobs_folder(request):
+    """Return a section of jobs folder (jobs/bakery or jobs/archive-bakery)"""
+    config = request.config
+    jobs_folder = config.getoption("jobs_folder") or config.getini("jobs_folder")
+    if jobs_folder is not None:
+        skip_if_destructive_and_sensitive(request, jobs_folder)
+        return jobs_folder
+
+
+@pytest.fixture
+def concourse_prefix(code_tag, jobs_folder, web_hosting_env, concourse_base_url):
     """Return a concourse build url including code tag"""
-    concourse_prefix = f"{concourse_base_url}/{web_hosting_env}-{code_tag}/jobs/bakery/builds/"
+    concourse_prefix = f"{concourse_base_url}/{web_hosting_env}/{jobs_folder}/builds/"
     return concourse_prefix
 
 
