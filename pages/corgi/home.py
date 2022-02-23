@@ -78,11 +78,15 @@ class Home:
         return self.page.locator("button.create-button-start-job")
 
     def click_create_button(self):
-        self.create_button_locator.locator("text=Create").click()
-        self.create_button_locator.locator("text=Create").click()
+        button = self.create_button_locator
+        if button:
+            button.click()
+            button.click()
 
     def click_create_button_pdf(self):
-        self.create_button_locator.locator("text=Create").click()
+        button = self.create_button_locator
+        if button:
+            button.click()
 
     @property
     def job_state_locator(self):
