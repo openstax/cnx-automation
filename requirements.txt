@@ -183,7 +183,7 @@ py==1.11.0
     #   pytest-forked
 pycares==4.1.2
     # via aiodns
-pycparser==2.20
+pycparser==2.21
     # via
     #   -r requirements.in
     #   cffi
