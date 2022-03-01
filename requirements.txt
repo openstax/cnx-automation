@@ -145,7 +145,7 @@ lxml==4.8.0
     #   cnxml
     #   nebuchadnezzar
     #   rhaptos.cnxmlutils
-markupsafe==2.0.1
+markupsafe==2.1.0
     # via
     #   -r requirements.in
     #   jinja2
