@@ -22,7 +22,7 @@ async-timeout==4.0.2
     # via aiohttp
 atomicwrites==1.4.0
     # via -r requirements.in
-attrs==21.2.0
+attrs==21.4.0
     # via
     #   -r requirements.in
     #   aiohttp
