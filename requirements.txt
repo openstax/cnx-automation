@@ -343,7 +343,7 @@ zope.event==4.5.0
     # via
     #   -r requirements.in
     #   zope.component
-zope.hookable==5.0.1
+zope.hookable==5.1.0
     # via
     #   -r requirements.in
     #   zope.component
