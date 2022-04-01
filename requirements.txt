@@ -92,7 +92,7 @@ cryptography==36.0.2
     # via
     #   -r requirements.in
     #   jwcrypto
-deepdiff==5.5.0
+deepdiff==5.7.0
     # via -r requirements.in
 distlib==0.3.2
     # via virtualenv
