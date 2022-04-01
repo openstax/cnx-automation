@@ -115,7 +115,7 @@ identify==2.4.12
     # via
     #   -r requirements.in
     #   pre-commit
-idna==3.2
+idna==3.3
     # via
     #   -r requirements.in
     #   requests
