@@ -149,7 +149,7 @@ markupsafe==2.1.1
     # via
     #   -r requirements.in
     #   jinja2
-more-itertools==8.8.0
+more-itertools==8.12.0
     # via -r requirements.in
 multidict==5.1.0
     # via
