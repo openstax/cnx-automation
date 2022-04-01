@@ -193,7 +193,7 @@ pyparsing==3.0.7
     #   packaging
 pypom==2.2.3
     # via -r requirements.in
-pytest-base-url==1.4.1
+pytest-base-url==2.0.0
     # via
     #   -r requirements.in
     #   pytest-selenium
