@@ -213,7 +213,7 @@ pytest-selenium==3.0.0
     # via -r requirements.in
 pytest-testrail==2.9.0
     # via -r requirements.in
-pytest-variables==1.9.0
+pytest-variables==2.0.0
     # via
     #   -r requirements.in
     #   pytest-selenium
