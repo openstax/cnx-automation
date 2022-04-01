@@ -217,7 +217,7 @@ pytest-variables==2.0.0
     # via
     #   -r requirements.in
     #   pytest-selenium
-pytest-xdist==2.3.0
+pytest-xdist==2.5.0
     # via -r requirements.in
 pytest==6.2.4
     # via
