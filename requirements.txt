@@ -161,7 +161,7 @@ nodeenv==1.6.0
     # via
     #   -r requirements.in
     #   pre-commit
-ordered-set==4.0.2
+ordered-set==4.1.0
     # via deepdiff
 packaging==20.9
     # via
