@@ -8,7 +8,7 @@ import pytest
 
 """
 Verifies content of collection.xml of every collection in github content repo.
-Latest update on December 13th, 2021
+Latest update on April 4th, 2022
 """
 
 
@@ -18,6 +18,7 @@ def test_github_content_collections(git_content_repos, git_content_repos_bundle,
         "http://creativecommons.org/licenses/by/4.0",
         "http://creativecommons.org/licenses/by-nc-sa/4.0",
         "http://creativecommons.org/licenses/by-sa/4.0",
+        "https://creativecommons.org/licenses/by/4.0/deed.pl",
     ]
 
     for repo in git_content_repos + git_content_repos_bundle:
