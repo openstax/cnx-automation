@@ -7,14 +7,14 @@ import pytest
 
 """
 Verifies content of index.cnxml of every collection module of every github content repo.
-Latest update on December 13th, 2021
+Latest update on April 4th, 2022
 """
 
 
-def test_github_content_modules(git_content_repos, headers_data):
+def test_github_content_modules_1(git_content_repos_1, headers_data):
 
-    # checks all the github content repos without bundle postfix
-    for repo in git_content_repos:
+    # checks all the github content repos within given index range
+    for repo in git_content_repos_1:
 
         print("\nNow verifying: ", repo)
 

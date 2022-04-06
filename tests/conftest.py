@@ -20,10 +20,11 @@ pytest_plugins = (
     "fixtures.webview",
     "fixtures.legacy",
     "fixtures.neb",
-    "fixtures.git_content_repos",
     "fixtures.headers_data",
     "fixtures.github_tok",
-    "fixtures.git_content_repos_bundle",
+    "fixtures.git_content_repos_1",
+    "fixtures.git_content_repos_2",
+    "fixtures.git_content_repos_3",
 )
 
 
