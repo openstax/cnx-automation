@@ -25,13 +25,12 @@ pytest_plugins = (
     "fixtures.git_content_repos_1",
     "fixtures.git_content_repos_2",
     "fixtures.git_content_repos_3",
+    "fixtures.git_content_repos",
 )
 
 
 def get_custom_markers():
-    """Function used to register custom markers.
-
-    """
+    """Function used to register custom markers."""
     return (
         "slow: mark tests that are slow",
         "smoke: mark tests used for smoke testing",
@@ -164,7 +163,10 @@ def pytest_addoption(parser):
     )
     parser.addini("jobs_folder", help="jobs folder")
     parser.addoption(
-        "--jobs_folder", metavar="tag", default=os.getenv("JOBS_FOLDER", None), help="jobs folder",
+        "--jobs_folder",
+        metavar="tag",
+        default=os.getenv("JOBS_FOLDER", None),
+        help="jobs folder",
     )
     parser.addini("queue_filename", help="archive or git queue filename json")
     parser.addoption(
