@@ -26,6 +26,7 @@ pytest_plugins = (
     "fixtures.git_content_repos_2",
     "fixtures.git_content_repos_3",
     "fixtures.git_content_repos",
+    "fixtures.corgi",
 )
 
 
@@ -214,6 +215,10 @@ def pytest_addoption(parser):
         "--aws-secret-access-key-value",
         default=os.getenv("AWS_SECRET_ACCESS_KEY_VALUE", None),
         help="value of the aws secret access key value",
+    )
+    parser.addoption("--corgi_user", default=os.getenv("CORGI_USER"), help="username for CORGI")
+    parser.addoption(
+        "--corgi_password", default=os.getenv("CORGI_PASSWORD"), help="password for CORGI"
     )
 
 
