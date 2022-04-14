@@ -4,7 +4,13 @@ import pytest
 
 @pytest.mark.parametrize(
     "colid, version, style",
-    [("osbooks-astronomy/astronomy-2e", "latest", "astronomy")],
+    [
+        ("osbooks-astronomy/astronomy-2e", "latest", "astronomy"),
+        ("osbooks-psychology/psychology-2e", "latest", "psychology"),
+        ("osbooks-physics/physics", "", "hs-physics"),
+        ("osbooks-university-physics-bundle/university-physics-volume-3", "", "u-physics"),
+        ("osbooks-introduccion-estadistica-bundle/introducción-estadística", "", "statistica"),
+    ],
 )
 def test_corgi_git_job_e2e(chrome_page, chrome_browser, corgi_base_url, colid, version, style):
 
@@ -27,7 +33,11 @@ def test_corgi_git_job_e2e(chrome_page, chrome_browser, corgi_base_url, colid, v
 
 @pytest.mark.parametrize(
     "colid, style",
-    [("osbooks-business-ethics/business-ethics", "business-ethics")],
+    [
+        ("osbooks-fizyka-bundle/fizyka-dla-szkół-wyższych-tom-3", "pl-u-physics"),
+        ("osbooks-introduction-sociology/introduction-sociology-3e", "sociology"),
+        ("osbooks-calculo-bundle/cálculo-volumen-1", "calculus"),
+    ],
 )
 def test_corgi_git_preview_job_e2e(chrome_page, chrome_browser, corgi_base_url, colid, style):
 

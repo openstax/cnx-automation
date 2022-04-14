@@ -5,7 +5,7 @@ import pytest
 @pytest.fixture
 def corgi_base_url():
     """Return local corgi url"""
-    corgi_base_url = "https://corgi.ce.openstax.org/"
+    corgi_base_url = "https://corgi-staging.ce.openstax.org/"
     return corgi_base_url
 
 
