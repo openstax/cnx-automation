@@ -9,7 +9,7 @@ import pytest
         ("osbooks-psychology/psychology-2e", "latest", "psychology"),
         ("osbooks-physics/physics", "", "hs-physics"),
         ("osbooks-university-physics-bundle/university-physics-volume-3", "", "u-physics"),
-        ("osbooks-introduccion-estadistica-bundle/introducción-estadística", "", "statistica"),
+        ("osbooks-introduccion-estadistica-bundle/introducción-estadística", "", "statistics"),
     ],
 )
 def test_corgi_git_job_e2e(chrome_page, chrome_browser, corgi_base_url, colid, version, style):
