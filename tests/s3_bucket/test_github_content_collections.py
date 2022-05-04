@@ -10,7 +10,7 @@ from bs4 import BeautifulSoup
 
 """
 Verifies content of collection.xml of every collection in github content repo.
-Latest update on April 29th, 2022
+Latest update on May 4th, 2022
 """
 
 
@@ -90,7 +90,7 @@ def test_github_content_collections(git_content_repos, headers_data, abl_books_u
                     slug_text = metadata[0].find_next("slug").text
 
                     try:
-
+                        # Verify slugs in collection.xml files (github repos) against slugs in ABL
                         assert slug_text in abl_books_uuids_slugs.values()
 
                     except AssertionError:
@@ -102,7 +102,7 @@ def test_github_content_collections(git_content_repos, headers_data, abl_books_u
                     uuid_text = metadata[0].find_next("uuid").text
 
                     try:
-
+                        # Verify uuids in collection.xml files (github repos) against uuids in ABL
                         assert uuid_text in abl_books_uuids_slugs.keys()
 
                     except AssertionError:
