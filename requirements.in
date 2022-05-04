@@ -35,7 +35,7 @@ more-itertools==8.8.0
 nebuchadnezzar==9.8.7
 nodeenv==1.6.0
 packaging==20.9
-pillow==8.2.0
+pillow==9.0.1
 pluggy==0.13.1
 pre-commit==2.13.0
 py==1.10.0
