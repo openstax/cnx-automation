@@ -5,13 +5,14 @@ atomicwrites==1.4.0
 attrs==21.2.0
 backoff==1.10.0
 boto3==1.17.84
+beautifulsoup4~=4.11.1
 cached-property==1.5.2
 certifi==2021.5.30
 cffi==1.14.5
 cfgv==3.3.0
 chardet==4.0.0
 chromedriver-binary==91.0.4472.19.0
-click==8.0.1
+click
 cnx-epub==0.26.2
 cnx-litezip==1.6.0
 git+https://github.com/openstax/cnx-rex-redirects.git#egg=cnx-rex-redirects
@@ -55,7 +56,7 @@ python-dotenv==0.17.1
 python-magic==0.4.22
 python-memcached==1.59
 PyYAML==5.4.1
-requests==2.25.1
+requests
 requests-file==1.5.1
 rhaptos.cnxmlutils==2.1.1
 selenium==3.141.0

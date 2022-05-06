@@ -56,13 +56,4 @@ workflows:
   test-neb:
     jobs:
       - test-neb
-  test-legacy-nightly:
-    triggers:
-      - schedule:
-          cron: "0 0 * * *"
-          filters:
-            branches:
-              only:
-                - master
-    jobs:
-      - test-legacy
+

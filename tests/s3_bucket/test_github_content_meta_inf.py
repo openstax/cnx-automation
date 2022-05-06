@@ -5,15 +5,19 @@ from urllib.error import HTTPError
 
 import pytest
 
+from bs4 import BeautifulSoup
+
+import re
+
 """
 Verifies that META-INF folder in every github content repo exists and is not empty.
-Latest update on December 13th, 2021
+Latest update on May 5th, 2022
 """
 
 
-def test_github_content_meta_inf(git_content_repos, git_content_repos_bundle, headers_data):
+def test_github_content_meta_inf(git_content_repos, headers_data):
 
-    for repo in git_content_repos + git_content_repos_bundle:
+    for repo in git_content_repos:
 
         print("\nNow verifying: ", repo)
 
@@ -56,5 +60,40 @@ def test_github_content_meta_inf(git_content_repos, git_content_repos_bundle, he
 
                         resp_content = meta_inf_resp.text
 
-                        # Verifies books.xml files for presence of content
-                        assert resp_content.count("<book") > 0
+                        soup = BeautifulSoup(resp_content, "xml")
+                        meta_inf = soup.find_all("book")
+
+                        for cid in meta_inf:
+
+                            try:
+                                # Verifies that href= in META-INF/books.xml contains strings
+                                href_result = re.search('href="(.*).xml', str(cid)).group(1)
+                                assert href_result is not None
+
+                            except AssertionError and AttributeError:
+                                print(f"href missing in META-INF/books.xml: {repo}")
+
+                            else:
+                                pass
+
+                            try:
+                                # Verifies that slug= in META-INF/books.xml contains strings
+                                slug_result = re.search('slug="(.*)" ', str(cid)).group(1)
+                                assert slug_result is not None
+
+                            except AssertionError and AttributeError:
+                                print(f"slug missing in META-INF/books.xml: {repo}")
+
+                            else:
+                                pass
+
+                            try:
+                                # Verifies that style= in META-INF/books.xml contains strings
+                                style_result = re.search('style="(.*)"', str(cid)).group(1)
+                                assert style_result is not None
+
+                            except AssertionError and AttributeError:
+                                print(f"style missing in META-INF/books.xml: {repo}")
+
+                            else:
+                                continue
