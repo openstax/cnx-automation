@@ -9,6 +9,14 @@ def git_content_repos_1(headers_data):
 
     repos = []
 
+    dels = [
+        "osbooks-testing",
+        "osbooks-otto-book",
+        "osbooks-poet-documentation",
+        "osbooks-ce-styles-test",
+        "osbooks-playground",
+    ]
+
     next_url = "https://api.github.com/orgs/openstax/repos?per_page=50&type=private"
 
     while next_url:
@@ -23,4 +31,6 @@ def git_content_repos_1(headers_data):
 
         next_url = resp.links.get("next", {}).get("url")
 
-    return repos[0:14]
+    repos_dels = [ele for ele in repos if ele not in dels]
+
+    return repos_dels[0:9]
