@@ -25,6 +25,7 @@ pytest_plugins = (
     "fixtures.git_content_repos_1",
     "fixtures.git_content_repos_2",
     "fixtures.git_content_repos_3",
+    "fixtures.git_content_repos_4",
     "fixtures.git_content_repos",
     "fixtures.abl_books_uuids_slugs",
 )
