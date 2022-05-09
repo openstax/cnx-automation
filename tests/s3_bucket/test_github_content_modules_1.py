@@ -5,9 +5,12 @@ from urllib.error import HTTPError
 
 import pytest
 
+from bs4 import BeautifulSoup
+
+
 """
 Verifies content of index.cnxml of every collection module of every github content repo.
-Latest update on April 4th, 2022
+Latest update on May 9th, 2022
 """
 
 
@@ -55,9 +58,47 @@ def test_github_content_modules_1(git_content_repos_1, headers_data):
 
                     resp_content = module_resp.text
 
-                    # Verifies index.cnxml files for presence of content
-                    assert (
-                        resp_content.count("<md:") > 1
-                        and resp_content.count("<content") >= 1
-                        and resp_content.count("<title") >= 1
-                    )
+                    soup = BeautifulSoup(resp_content, "xml")
+                    document = soup.find_all("document")
+                    content = soup.find_all("content")
+
+                    for doc in document:
+
+                        md_title = doc.find_all("md:title")
+                        md_content_id = doc.find_all("md:content-id")
+
+                        # Verifies index.cnxml for presence of md:title and md:uuid metadata
+                        try:
+                            assert len(md_title) > 0
+
+                        except (AssertionError, AttributeError):
+                            print(
+                                f"---> <md_title> tag is missing in index.cnxml: {repo}/{md_title}/{md_content_id}"
+                            )
+
+                        else:
+                            pass
+
+                        try:
+                            assert len(doc.find_all("md:uuid")) > 0
+
+                        except (AssertionError, AttributeError):
+                            print(
+                                f"---> <md_uuid> tag is missing in index.cnxml: {repo}/{md_title}/{md_content_id}"
+                            )
+
+                        else:
+                            pass
+
+                        try:
+                            # Verifies that <content> tag in index.cnxml is not empty
+                            for abc in content:
+                                assert len(abc.get_text()) > 1
+
+                        except (AssertionError, AttributeError):
+                            print(
+                                f"---> <content> is empty in index.cnxml: {repo}/{md_title}/{md_content_id}"
+                            )
+
+                        else:
+                            continue
