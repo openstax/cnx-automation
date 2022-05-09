@@ -9,6 +9,7 @@ def git_content_repos_1(headers_data):
 
     repos = []
 
+    # list of excluded test git repos
     dels = [
         "osbooks-testing",
         "osbooks-otto-book",
