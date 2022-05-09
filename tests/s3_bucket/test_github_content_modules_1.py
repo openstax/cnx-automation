@@ -69,7 +69,7 @@ def test_github_content_modules_1(git_content_repos_1, headers_data):
 
                         # Verifies index.cnxml for presence of md:title and md:uuid metadata
                         try:
-                            assert md_title is not None
+                            assert len(md_title) > 0
 
                         except (AssertionError, AttributeError):
                             print(
@@ -80,7 +80,7 @@ def test_github_content_modules_1(git_content_repos_1, headers_data):
                             pass
 
                         try:
-                            assert doc.find_all("md:uuid") is not None
+                            assert len(doc.find_all("md:uuid")) > 0
 
                         except (AssertionError, AttributeError):
                             print(
