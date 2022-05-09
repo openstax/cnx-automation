@@ -5,9 +5,18 @@ import requests
 @pytest.fixture
 def git_content_repos(headers_data):
 
-    """Returns all the collection content repos names in github within given index range"""
+    """Returns all the collection content repos names in github, excluding test repos"""
 
     repos = []
+
+    # list of excluded test git repos
+    dels = [
+        "osbooks-testing",
+        "osbooks-otto-book",
+        "osbooks-poet-documentation",
+        "osbooks-ce-styles-test",
+        "osbooks-playground",
+    ]
 
     next_url = "https://api.github.com/orgs/openstax/repos?per_page=50&type=private"
 
@@ -21,6 +30,8 @@ def git_content_repos(headers_data):
                     name_list = item["name"]
                     repos.append(name_list)
 
-        next_url = resp.links.get("next", {}).get("url")
+            next_url = resp.links.get("next", {}).get("url")
 
-    return repos
+    repos_dels = [ele for ele in repos if ele not in dels]
+
+    return repos_dels
