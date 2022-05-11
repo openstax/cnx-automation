@@ -70,7 +70,7 @@ def test_github_content_collections2(git_content_repos, headers_data, abl_books_
                     for col in col_collection:
 
                         try:
-                            assert col.find("md:title").text is not None
+                            assert len(col.find("md:title").text.strip()) > 0
 
                             assert any(substring in resp_content for substring in license_list)
 
@@ -83,7 +83,7 @@ def test_github_content_collections2(git_content_repos, headers_data, abl_books_
                             pass
 
                         try:
-                            assert col.find("content").text is not None
+                            assert len(col.find("content").text.strip()) > 0
 
                         except (AssertionError, AttributeError):
                             print("---> Assertion error: col:content tag is MISSING CONTENT")
