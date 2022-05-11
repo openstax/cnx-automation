@@ -10,11 +10,11 @@ from bs4 import BeautifulSoup
 
 """
 Verifies content of collection.xml of every collection in github content repo.
-Latest update on May 4th, 2022
+Latest update on May 10th, 2022
 """
 
 
-def test_github_content_collections(git_content_repos, headers_data, abl_books_uuids_slugs):
+def test_github_content_collections2(git_content_repos, headers_data, abl_books_uuids_slugs):
 
     license_list = [
         "http://creativecommons.org/licenses/by/4.0",
@@ -65,48 +65,52 @@ def test_github_content_collections(git_content_repos, headers_data, abl_books_u
                     resp_content = collections_resp.text
 
                     soup = BeautifulSoup(resp_content, "xml")
+                    col_collection = soup.find_all("collection")
 
-                    md_title = soup.find_all("md:title")
-                    md_license = soup.find_all("md:license")
-                    content = soup.find_all("col:content")
+                    for col in col_collection:
 
-                    try:
+                        try:
+                            assert len(col.find("md:title").text.strip()) > 0
 
-                        assert md_title is not None
-                        assert md_license is not None
-                        assert content is not None
+                            assert any(substring in resp_content for substring in license_list)
 
-                        assert any(substring in resp_content for substring in license_list)
+                        except (AssertionError, AttributeError):
+                            print(
+                                "---> Assertion error: md:title or md:license tags are MISSING CONTENT"
+                            )
 
-                    except AssertionError:
-                        print(
-                            "---> Assertion error: content, md_title or md_license tags are MISSING CONTENT"
-                        )
+                        else:
+                            pass
 
-                    else:
-                        pass
+                        try:
+                            assert len(col.find("content").text.strip()) > 0
 
-                    metadata = soup.find_all("metadata")
-                    slug_text = metadata[0].find_next("slug").text
+                        except (AssertionError, AttributeError):
+                            print("---> Assertion error: col:content tag is MISSING CONTENT")
 
-                    try:
-                        # Verify slugs in collection.xml files (github repos) against slugs in ABL
-                        assert slug_text in abl_books_uuids_slugs.values()
+                        else:
+                            pass
 
-                    except AssertionError:
-                        print(f"---> Assertion error (SLUG MISMATCH): {slug_text}")
+                        slug_text = col.find("slug").text
 
-                    else:
-                        pass
+                        try:
+                            # Verify slugs in collection.xml files (github repos) against slugs in ABL
+                            assert slug_text in abl_books_uuids_slugs.values()
 
-                    uuid_text = metadata[0].find_next("uuid").text
+                        except (AssertionError, AttributeError):
+                            print(f"---> Assertion error (SLUG MISMATCH): {slug_text}")
 
-                    try:
-                        # Verify uuids in collection.xml files (github repos) against uuids in ABL
-                        assert uuid_text in abl_books_uuids_slugs.keys()
+                        else:
+                            pass
 
-                    except AssertionError:
-                        print(f"---> Assertion error (UUID MISMATCH): {uuid_text}")
+                        uuid_text = col.find("uuid").text
 
-                    else:
-                        continue
+                        try:
+                            # Verify uuids in collection.xml files (github repos) against uuids in ABL
+                            assert uuid_text in abl_books_uuids_slugs.keys()
+
+                        except (AssertionError, AttributeError):
+                            print(f"---> Assertion error (UUID MISMATCH): {uuid_text}")
+
+                        else:
+                            continue
