@@ -6,9 +6,9 @@ Latest update on December 13th, 2021
 """
 
 
-def test_github_content_media(git_content_repos, git_content_repos_bundle, headers_data):
+def test_github_content_media(git_content_repos, headers_data):
 
-    for repo in git_content_repos + git_content_repos_bundle:
+    for repo in git_content_repos:
 
         html_url_list = []
 
