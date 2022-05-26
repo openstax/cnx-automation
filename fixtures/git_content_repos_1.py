@@ -18,7 +18,7 @@ def git_content_repos_1(headers_data):
         "osbooks-playground",
     ]
 
-    next_url = "https://api.github.com/orgs/openstax/repos?per_page=50&type=private"
+    next_url = "https://api.github.com/orgs/openstax/repos?per_page=50&type=public"
 
     while next_url:
 
