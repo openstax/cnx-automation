@@ -29,6 +29,7 @@ pytest_plugins = (
     "fixtures.git_content_repos_5",
     "fixtures.git_content_repos",
     "fixtures.abl_books_uuids_slugs",
+    "fixtures.abl_books_slugs_styles",
 )
 
 
