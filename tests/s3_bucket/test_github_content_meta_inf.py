@@ -9,7 +9,7 @@ from bs4 import BeautifulSoup
 
 """
 Verifies that META-INF folder in every github content repo exists and is not empty.
-Latest update on June 3rd, 2022
+Latest update on June 7th, 2022
 """
 
 
@@ -44,60 +44,77 @@ def test_github_content_meta_inf(git_content_repos, headers_data):
                         f"https://api.github.com/repos/openstax/{repo}/contents/{rel_path}"
                     )
 
-                    try:
-
-                        meta_inf_resp = requests.get(meta_inf_url, headers=headers_data)
-
-                    except HTTPError as h_e:
-                        # Return code 404, 501, ... for incorrect/missing books.xml
-                        pytest.fail(
-                            f"HTTP Error {h_e.code}: incorrect/missing books.xml {meta_inf_url}"
-                        )
+                    if "books.xml" not in meta_inf_url:
+                        print(f"!!! books.xml is missing in {repo}")
 
                     else:
 
-                        resp_content = meta_inf_resp.text
+                        try:
+                            meta_inf_resp = requests.get(meta_inf_url, headers=headers_data)
+                            meta_inf_resp.raise_for_status()
 
-                        soup = BeautifulSoup(resp_content, "xml")
-                        book_tags = soup.find_all("book")
+                        except HTTPError as h_e:
+                            # Return code 404, 501, ... for incorrect/missing books.xml
+                            pytest.fail(
+                                f"HTTP Error {h_e.code}: incorrect/missing books.xml {meta_inf_url}"
+                            )
 
-                        for btag in book_tags:
+                        else:
 
-                            try:
-                                btag["slug"]
+                            resp_content = meta_inf_resp.text
 
-                            except (KeyError, AttributeError):
-                                print(f"\n--- slug tag is MISSING in META-INF/books.xml: {repo}")
+                            soup = BeautifulSoup(resp_content, "xml")
+                            book_tags = soup.find_all("book")
 
-                            else:
+                            for btag in book_tags:
 
-                                if len(btag["slug"]) > 0:
-                                    pass
+                                try:
+                                    btag["slug"]
+
+                                except (KeyError, AttributeError):
+                                    print(
+                                        f"\n--- slug tag is MISSING in META-INF/books.xml: {repo}"
+                                    )
+
                                 else:
-                                    print(f"\n--- slug tag is EMPTY in META-INF/books.xml: {repo}")
 
-                            try:
-                                btag["style"]
+                                    if len(btag["slug"]) > 0:
+                                        pass
+                                    else:
+                                        print(
+                                            f"\n--- slug tag is EMPTY in META-INF/books.xml: {repo}"
+                                        )
 
-                            except (KeyError, AttributeError):
-                                print(f"\n--- style tag is MISSING in META-INF/books.xml: {repo}")
+                                try:
+                                    btag["style"]
 
-                            else:
+                                except (KeyError, AttributeError):
+                                    print(
+                                        f"\n--- style tag is MISSING in META-INF/books.xml: {repo}"
+                                    )
 
-                                if len(btag["style"]) > 0:
-                                    pass
                                 else:
-                                    print(f"\n--- style tag is EMPTY in META-INF/books.xml: {repo}")
 
-                            try:
-                                btag["href"]
+                                    if len(btag["style"]) > 0:
+                                        pass
+                                    else:
+                                        print(
+                                            f"\n--- style tag is EMPTY in META-INF/books.xml: {repo}"
+                                        )
 
-                            except (KeyError, AttributeError):
-                                print(f"\n--- href tag is MISSING in META-INF/books.xml: {repo}")
+                                try:
+                                    btag["href"]
 
-                            else:
+                                except (KeyError, AttributeError):
+                                    print(
+                                        f"\n--- href tag is MISSING in META-INF/books.xml: {repo}"
+                                    )
 
-                                if len(btag["href"]) > 0:
-                                    pass
                                 else:
-                                    print(f"\n--- href tag is EMPTY in META-INF/books.xml: {repo}")
+
+                                    if len(btag["href"]) > 0:
+                                        pass
+                                    else:
+                                        print(
+                                            f"\n--- href tag is EMPTY in META-INF/books.xml: {repo}"
+                                        )
