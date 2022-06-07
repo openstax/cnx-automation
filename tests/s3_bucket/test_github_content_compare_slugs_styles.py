@@ -10,7 +10,7 @@ from bs4 import BeautifulSoup
 
 """
 Compares slugs/styles between books.xml and ABL file of every collection in github content repo.
-Latest update on June 6th, 2022
+Latest update on June 7th, 2022
 """
 
 
@@ -47,61 +47,68 @@ def test_github_content_compare_slugs_styles(
                         f"https://api.github.com/repos/openstax/{repo}/contents/{rel_path}"
                     )
 
-                    try:
-
-                        meta_inf_resp = requests.get(meta_inf_url, headers=headers_data)
-
-                    except HTTPError as h_e:
-                        # Return code 404, 501, ... for incorrect/missing books.xml
-                        pytest.fail(
-                            f"HTTP Error {h_e.code}: incorrect/missing books.xml {meta_inf_url}"
-                        )
+                    if "books.xml" not in meta_inf_url:
+                        print(f"!!! boosk.xml is missing in {repo}")
 
                     else:
 
-                        resp_content = meta_inf_resp.text
+                        try:
+                            meta_inf_resp = requests.get(meta_inf_url, headers=headers_data)
+                            meta_inf_resp.raise_for_status()
 
-                        soup = BeautifulSoup(resp_content, "xml")
-                        book_tags = soup.find_all("book")
+                        except HTTPError as h_e:
+                            # Return code 404, 501, ... for incorrect/missing books.xml
+                            pytest.fail(
+                                f"HTTP Error {h_e.code}: incorrect/missing books.xml {meta_inf_url}"
+                            )
 
-                        for btag in book_tags:
+                        else:
 
-                            try:
-                                btag["slug"]
+                            meta_inf_resp = requests.get(meta_inf_url, headers=headers_data)
 
-                            except (KeyError, AttributeError):
-                                print("---> Key error - slug tag is missing")
+                            resp_content = meta_inf_resp.text
 
-                            else:
-                                slug_text = btag["slug"]
+                            soup = BeautifulSoup(resp_content, "xml")
+                            book_tags = soup.find_all("book")
 
-                                try:
-
-                                    # Compare slugs in books.xml against slugs in ABL
-                                    assert slug_text in abl_books_slugs_styles.keys()
-
-                                except (AssertionError, AttributeError):
-                                    print(f"slug mismatch: {slug_text}")
-
-                                else:
-                                    continue
-
-                            try:
-                                btag["style"]
-
-                            except (KeyError, AttributeError):
-                                print("---> Key error - style tag is missing")
-
-                            else:
-                                style_text = btag["style"]
+                            for btag in book_tags:
 
                                 try:
+                                    btag["slug"]
 
-                                    # Compare styles in books.xml against styles in ABL
-                                    assert style_text in abl_books_slugs_styles.values()
-
-                                except (AssertionError, AttributeError):
-                                    print(f"style mismatch: {style_text}")
+                                except (KeyError, AttributeError):
+                                    print("---> Key error - slug tag is missing")
 
                                 else:
-                                    continue
+                                    slug_text = btag["slug"]
+
+                                    try:
+
+                                        # Compare slugs in books.xml against slugs in ABL
+                                        assert slug_text in abl_books_slugs_styles.keys()
+
+                                    except (AssertionError, AttributeError):
+                                        print(f"slug mismatch: {slug_text}")
+
+                                    else:
+                                        continue
+
+                                try:
+                                    btag["style"]
+
+                                except (KeyError, AttributeError):
+                                    print("---> Key error - style tag is missing")
+
+                                else:
+                                    style_text = btag["style"]
+
+                                    try:
+
+                                        # Compare styles in books.xml against styles in ABL
+                                        assert style_text in abl_books_slugs_styles.values()
+
+                                    except (AssertionError, AttributeError):
+                                        print(f"style mismatch: {style_text}")
+
+                                    else:
+                                        continue
