@@ -44,15 +44,11 @@ def test_github_content_modules_1(git_content_repos_1, headers_data):
                     f"https://api.github.com/repos/openstax/{repo}/contents/{rel_path}/index.cnxml"
                 )
 
-                try:
+                module_resp = requests.get(modules_url, headers=headers_data)
 
-                    module_resp = requests.get(modules_url, headers=headers_data)
-
-                except HTTPError as h_e:
-                    # Return code 404, 501, ... for incorrect/missing index.cnxml
-                    pytest.fail(
-                        f"HTTP Error {h_e.code}: incorrect/missing index.cnxml {modules_url}"
-                    )
+                if module_resp.status_code in range(400, 501):
+                    print(f"!!! Incorrect/missing index file: {rel_path}")
+                    continue
 
                 else:
 
