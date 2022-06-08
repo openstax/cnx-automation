@@ -1,16 +1,13 @@
 import requests
 
 import urllib.parse
-from urllib.error import HTTPError
-
-import pytest
 
 from bs4 import BeautifulSoup
 
 
 """
 Verifies content of index.cnxml of every collection module of every github content repo.
-Latest update on May 9th, 2022
+Latest update on June 8th, 2022
 """
 
 
@@ -44,15 +41,13 @@ def test_github_content_modules_1(git_content_repos_1, headers_data):
                     f"https://api.github.com/repos/openstax/{repo}/contents/{rel_path}/index.cnxml"
                 )
 
-                try:
+                module_resp = requests.get(modules_url, headers=headers_data)
 
-                    module_resp = requests.get(modules_url, headers=headers_data)
-
-                except HTTPError as h_e:
-                    # Return code 404, 501, ... for incorrect/missing index.cnxml
-                    pytest.fail(
-                        f"HTTP Error {h_e.code}: incorrect/missing index.cnxml {modules_url}"
+                if module_resp.status_code in range(400, 501):
+                    print(
+                        f"Error code {module_resp.status_code}: Incorrect/missing index file in {rel_path}"
                     )
+                    continue
 
                 else:
 
