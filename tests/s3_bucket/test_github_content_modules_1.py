@@ -44,7 +44,9 @@ def test_github_content_modules_1(git_content_repos_1, headers_data):
                 module_resp = requests.get(modules_url, headers=headers_data)
 
                 if module_resp.status_code in range(400, 501):
-                    print(f"!!! Incorrect/missing index file: {rel_path}")
+                    print(
+                        f"Error code {module_resp.status_code}: Incorrect/missing index file in {rel_path}"
+                    )
                     continue
 
                 else:
