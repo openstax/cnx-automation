@@ -1,16 +1,13 @@
 import requests
 
 import urllib.parse
-from urllib.error import HTTPError
-
-import pytest
 
 from bs4 import BeautifulSoup
 
 
 """
 Verifies content of index.cnxml of every collection module of every github content repo.
-Latest update on May 9th, 2022
+Latest update on June 8th, 2022
 """
 
 
