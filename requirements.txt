@@ -184,7 +184,7 @@ py==1.10.0
     #   -r requirements.in
     #   pytest
     #   pytest-forked
-pycares==4.0.0
+pycares==4.2.0
     # via aiodns
 pycparser==2.20
     # via
