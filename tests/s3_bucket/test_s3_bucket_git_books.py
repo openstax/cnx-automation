@@ -7,8 +7,8 @@ from urllib.request import urlopen
 from urllib.error import HTTPError
 
 """
-Verifies collections in the aws s3 bucket folder (for git pipeline)
-Latest update on December 17th, 2021
+Verifies collections in the aws s3 bucket folder (git webhosting pipeline)
+Latest update on August 22nd, 2022
 """
 
 
@@ -19,6 +19,8 @@ def test_s3_bucket_git_books(s3_archive_folder, abl_approved):
 
     valid_urls = []
     invalid_urls = []
+    valid_url_slugs = []
+    invalid_url_slugs = []
 
     if repository_name:
         for ver in versions:
@@ -40,6 +42,7 @@ def test_s3_bucket_git_books(s3_archive_folder, abl_approved):
                         print(f"FAILED: {htp} {git_url} - {slug}")
 
                         invalid_urls.append(git_url)
+                        invalid_url_slugs.append(slug)
 
                     else:
                         print(f"SUCCEEDED: {git_url} - {slug}")
@@ -51,6 +54,7 @@ def test_s3_bucket_git_books(s3_archive_folder, abl_approved):
                         s3_git_books_tree = s3_git_books_jdata["tree"]
 
                         valid_urls.append(git_url)
+                        valid_url_slugs.append(slug)
 
                         try:
 
@@ -71,13 +75,18 @@ def test_s3_bucket_git_books(s3_archive_folder, abl_approved):
                             continue
 
                 # Write the report CSV (into the root folder of the repo)
-                with open("git_report.csv", "w", newline="") as csvfile:
+                with open("git_webhosting_report.csv", "w", newline="") as csvfile:
                     fields_s = ["VALID URLS"]
                     fields_f = ["INVALID URLS"]
 
                     writer = csv.writer(csvfile, delimiter="\n")
                     writer.writerow(fields_s)
-                    writer.writerow(valid_urls)
+                    writer = csv.writer(csvfile, delimiter="\t")
+                    writer.writerows(zip(valid_urls, valid_url_slugs))
 
                     writer.writerow(fields_f)
-                    writer.writerow(invalid_urls)
+                    writer = csv.writer(csvfile, delimiter="\t")
+                    writer.writerows(zip(invalid_urls, invalid_url_slugs))
+
+    print("Total successful books: ", len(valid_urls))
+    print("Total unsuccessful books: ", len(invalid_urls))
