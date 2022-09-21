@@ -97,6 +97,8 @@ cryptography==3.4.7
     #   jwcrypto
 deepdiff==5.5.0
     # via -r requirements.in
+deprecated==1.2.13
+    # via jwcrypto
 distlib==0.3.2
     # via virtualenv
 docker==5.0.0
@@ -136,7 +138,7 @@ jmespath==0.10.0
     # via
     #   boto3
     #   botocore
-jwcrypto==0.8
+jwcrypto==1.4
     # via
     #   -r requirements.in
     #   github3-py
@@ -330,6 +332,8 @@ websocket-client==1.0.1
     # via
     #   -r requirements.in
     #   docker
+wrapt==1.14.1
+    # via deprecated
 yarl==1.6.3
     # via aiohttp
 zipp==3.4.1
