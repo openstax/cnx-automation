@@ -27,6 +27,7 @@ pytest_plugins = (
     "fixtures.git_content_repos_3",
     "fixtures.git_content_repos_4",
     "fixtures.git_content_repos_5",
+    "fixtures.git_content_repos_6",
     "fixtures.git_content_repos",
     "fixtures.abl_books_uuids_slugs",
     "fixtures.abl_books_slugs_styles",
@@ -248,6 +249,6 @@ def pytest_terminal_summary(terminalreporter):
 
     for report in terminalreporter.getreports(""):
         if report.when == "teardown":
-            for (name, value) in report.user_properties:
+            for name, value in report.user_properties:
                 if name == "terminal_summary_message":
                     print(value)

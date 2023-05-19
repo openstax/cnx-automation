@@ -3,7 +3,7 @@ import requests
 
 
 @pytest.fixture
-def git_content_repos_4(headers_data):
+def git_content_repos_6(headers_data):
     """Returns all the collection content repos names in github within given index range"""
 
     repos = []
@@ -35,4 +35,4 @@ def git_content_repos_4(headers_data):
 
     repos_dels = [ele for ele in repos if ele not in dels]
 
-    return repos_dels[29:39]
+    return repos_dels[49:]
