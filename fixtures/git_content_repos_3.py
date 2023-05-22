@@ -4,7 +4,6 @@ import requests
 
 @pytest.fixture
 def git_content_repos_3(headers_data):
-
     """Returns all the collection content repos names in github within given index range"""
 
     repos = []
@@ -18,12 +17,12 @@ def git_content_repos_3(headers_data):
         "osbooks-playground",
         "osbooks-vadregenyes-alaszkaban",
         "minibook",
+        "osbooks-failing-test-book",
     ]
 
     next_url = "https://api.github.com/orgs/openstax/repos?per_page=50"
 
     while next_url:
-
         resp = requests.get(next_url, headers=headers_data)
 
         for item in resp.json():
