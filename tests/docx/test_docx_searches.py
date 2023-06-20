@@ -16,13 +16,15 @@ Searches through docx files for string(s) of interest. To run the search:
 3. make sure that base_to_dir, base_from_dir and patt_list variables are set correctly
 4. run 'pytest -k test_docx_searches.py tests/docx'
 
-Latest update on June 14th, 2023
+Latest update on June 20th, 2023
 """
 
 
 def test_docx_searches():
-    base_to_dir = "/Users/om9/Documents/Projects/cnx-automation/docx_search"
-    base_from_dir = "/Users/om9/downloads/"
+    base_to_dir = f"{os.getcwd()}/docx_search"
+
+    home_dir = os.path.expanduser("~")
+    base_from_dir = f"{home_dir}/downloads/"
 
     patt_list = ["\\\\sqrt", "{{", "\\\\pi", "\\\\frac", "\\\\text"]
 
