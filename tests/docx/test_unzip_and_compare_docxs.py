@@ -12,11 +12,18 @@ import pytest
 
 from collections import OrderedDict
 
+"""
+Compares docx files. To run:
+1. run two docx jobs in corgi
+2. download the docx zip files from corgi (by default to Downloads folder on Mac)
+3. make sure that base_to_dir and base_from_dir variables are set correctly
+4. run 'pytest -k test_unzip_and_compare_docxs.py tests/docx'
+
+Latest update on June 23rd, 2023
+"""
+
 
 def test_unzip_and_compare_docxs():
-    # Part 0: Run two corgi docx jobs for the same collection, one for the latest version, one for a previous version
-    # and download the docx zip files
-
     # Part 1: Copies docx zip files and unzips them into two different folders
     home_dir = os.path.expanduser("~")
 
@@ -40,7 +47,7 @@ def test_unzip_and_compare_docxs():
             unzip_dirs.append(f"{base_to_dir}/%d" % i)
 
         else:
-            pytest.fail(f"Two zip files required: {len(docx_zips_only)} file available")
+            pytest.fail(f"Two zip files required: {len(docx_zips_only)} file(s) available")
 
     for j in unzip_dirs:
         os.chdir(j)
@@ -86,4 +93,3 @@ def test_unzip_and_compare_docxs():
     else:
         ddiffs = DeepDiff(dict_old, dict_new, verbose_level=2).pretty()
         print(f"FOUND DIFFERENCES:\n{ddiffs}")
-        print(f"Length:{len(ddiffs)}")
