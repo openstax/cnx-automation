@@ -17,6 +17,7 @@ Compares docx files. To run:
 1. run two docx jobs in corgi
 2. download the docx zip files from corgi (by default to Downloads folder on Mac)
 3. make sure that base_to_dir and base_from_dir variables are set correctly
+- required folder structure is: root folder docx_old_new and its two subfolders 0 and 1
 4. run 'pytest -k test_unzip_and_compare_docxs.py tests/docx'
 
 Latest update on June 23rd, 2023
