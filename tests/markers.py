@@ -11,19 +11,10 @@ from pytest_testrail.plugin import pytestrail
 
 nondestructive = mark.nondestructive
 parametrize = mark.parametrize
-test_case = pytestrail.case
 xfail = mark.xfail
-vendor = mark.vendor
 
-slow = mark.slow
-smoke = mark.smoke
-
-webview = mark.webview
-legacy = mark.legacy
 neb = mark.neb
-rex = mark.rex
 awss3 = mark.awss3
-archive = mark.archive
 
 requires_complete_dataset = mark.requires_complete_dataset
 requires_deployment = mark.requires_deployment
