@@ -16,9 +16,6 @@ pytest_plugins = (
     "fixtures.base",
     "fixtures.github",
     "fixtures.snapshot",
-    "fixtures.archive",
-    "fixtures.webview",
-    "fixtures.legacy",
     "fixtures.neb",
     "fixtures.headers_data",
     "fixtures.github_tok",
@@ -31,6 +28,7 @@ pytest_plugins = (
     "fixtures.git_content_repos",
     "fixtures.abl_books_uuids_slugs",
     "fixtures.abl_books_slugs_styles",
+    "fixtures.webview",
 )
 
 
@@ -39,8 +37,6 @@ def get_custom_markers():
     return (
         "slow: mark tests that are slow",
         "smoke: mark tests used for smoke testing",
-        "webview: mark tests that target cnx.org",
-        "legacy: mark tests that are for legacy",
         "neb: mark tests that use the neb cli",
         "rex: mark tests that are REX specific",
         "visual: mark tests that use applitools and screenshots",
@@ -48,9 +44,7 @@ def get_custom_markers():
         "requires_varnish_routing: mark tests that require varnish routing",
         "requires_complete_dataset: mark tests that require the complete dataset",
         "requires_deployment: mark tests that require deployment",
-        "vendor: mark tests that target vendor.cnx.org",
         "awss3: mark tests that target collections in aws s3 bucket",
-        "archive: mark tests that target archive",
     )
 
 
