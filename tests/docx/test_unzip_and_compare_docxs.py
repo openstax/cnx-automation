@@ -4,13 +4,13 @@ import shutil
 
 import zipfile
 
-from docx import Document
-
 from deepdiff import DeepDiff
 
 import pytest
 
 from collections import OrderedDict
+
+import docx2txt
 
 """
 Compares docx files. To run:
@@ -18,9 +18,9 @@ Compares docx files. To run:
 2. download the docx zip files from corgi (by default to Downloads folder on Mac)
 3. make sure that base_to_dir and base_from_dir variables are set correctly
 - required folder structure is: root folder docx_old_new and its two subfolders 0 and 1
-4. run 'pytest -k test_unzip_and_compare_docxs.py tests/docx'
+4. run 'pytest -k test_unzip_and_compare_docxs.py tests/docx > diffs_report.txt'
 
-Latest update on June 23rd, 2023
+Latest update on July 21st, 2023
 """
 
 
@@ -50,6 +50,8 @@ def test_unzip_and_compare_docxs():
         else:
             pytest.fail(f"Two zip files required: {len(docx_zips_only)} file(s) available")
 
+    subs = []
+
     for j in unzip_dirs:
         os.chdir(j)
 
@@ -59,13 +61,16 @@ def test_unzip_and_compare_docxs():
                 with zipfile.ZipFile(file) as item:
                     item.extractall()
 
-        subs_dirs = os.listdir(j)
+        subs.append(os.listdir(j))
 
-        for sub in subs_dirs:
-            old_dir.append(f"{unzip_dirs[0]}/{sub}")
-            new_dir.append(f"{unzip_dirs[1]}/{sub}")
+    for sub in subs[0]:
+        old_dir.append(f"{unzip_dirs[0]}/{sub}")
 
     old_dir_am = [val for val in old_dir if not val.endswith(".zip")]
+
+    for sub in subs[1]:
+        new_dir.append(f"{unzip_dirs[1]}/{sub}")
+
     new_dir_am = [val for val in new_dir if not val.endswith(".zip")]
 
     # Part 2: Compares text of all docx files
@@ -74,23 +79,26 @@ def test_unzip_and_compare_docxs():
     dict_new = {}
 
     for old in list(OrderedDict.fromkeys(old_dir_am)):
+        old_books = old.split("/0")[1].lstrip().split(" ")[0]
+        dict_old[old_books] = {}
         for ofile in os.listdir(old):
-            f = os.path.join(old_dir_am[1], ofile)
+            f = os.path.join(old, ofile)
             if os.path.isfile(f):
-                doc = Document(f)
-                for docpara in doc.paragraphs:
-                    dict_old.setdefault(docpara.text, ofile)
+                odoc = docx2txt.process(f)
+                dict_old[old_books][ofile] = odoc
 
     for new in list(OrderedDict.fromkeys(new_dir_am)):
+        new_books = new.split("/1")[1].lstrip().split(" ")[0]
+        dict_new[new_books] = {}
         for nfile in os.listdir(new):
-            f = os.path.join(new_dir_am[1], nfile)
+            f = os.path.join(new, nfile)
             if os.path.isfile(f):
-                doc = Document(f)
-                for docpara in doc.paragraphs:
-                    dict_new.setdefault(docpara.text, nfile)
+                ndoc = docx2txt.process(f)
+                dict_new[new_books][nfile] = ndoc
 
-    if not DeepDiff(dict_old, dict_new):
+    if not DeepDiff(dict_new.values(), dict_old.values()):
         print("------>>>>> NO DIFFERENCES <<<<<------")
     else:
-        ddiffs = DeepDiff(dict_old, dict_new, verbose_level=2).pretty()
+        ddiffs = DeepDiff(dict_new, dict_old, verbose_level=2).pretty()
+
         print(f"FOUND DIFFERENCES:\n{ddiffs}")
