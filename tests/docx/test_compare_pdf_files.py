@@ -32,7 +32,7 @@ def test_compare_pdf_files():
         pdf_files_paths = []
 
         for afile in os.listdir(base_from_dir):
-            if afile.endswith(".pdf") and "-git-" in afile:
+            if afile.startswith("openstax-osbooks-") and afile.endswith(".pdf"):
                 from_dir = os.path.join(base_from_dir, afile)
                 to_dir = os.path.join(base_to_dir, afile)
 
