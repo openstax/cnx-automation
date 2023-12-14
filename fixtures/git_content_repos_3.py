@@ -18,6 +18,7 @@ def git_content_repos_3(headers_data):
         "osbooks-vadregenyes-alaszkaban",
         "minibook",
         "osbooks-failing-test-book",
+        "osbooks-test-content",
     ]
 
     next_url = "https://api.github.com/orgs/openstax/repos?per_page=50"
