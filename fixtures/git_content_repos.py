@@ -18,6 +18,14 @@ def git_content_repos(headers_data):
         "osbooks-vadregenyes-alaszkaban",
         "minibook",
         "osbooks-failing-test-book",
+        "osbooks-test-content",
+        "osbooks-makroekonomia-test",
+        "osbooks-mikroekonomia",
+        "osbooks-life-liberty-and-pursuit-happiness",
+        "osbooks-fizyka-bundle",
+        "osbooks-psychologia",
+        "osbooks-pl-marketing",
+        "osbooks-makroekonomia",
     ]
 
     next_url = "https://api.github.com/orgs/openstax/repos?per_page=50"
