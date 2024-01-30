@@ -19,7 +19,6 @@ def git_content_repos(headers_data):
         "minibook",
         "osbooks-failing-test-book",
         "osbooks-test-content",
-        "osbooks-makroekonomia-test",
         "osbooks-mikroekonomia",
         "osbooks-life-liberty-and-pursuit-happiness",
         "osbooks-fizyka-bundle",
