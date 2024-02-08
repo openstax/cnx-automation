@@ -22,7 +22,10 @@ def test_github_content_repo_links(git_content_repos, headers_data):
         contents_dir = f"https://api.github.com/repos/openstax/{repo}/contents"
         modules_dir = f"{contents_dir}/modules/"
 
-        user_agent_list = "Mozilla/5.0 (X11; Ubuntu; Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36"
+        user_agent_list = (
+            "Mozilla/5.0 (X11; Ubuntu; Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 "
+            "(KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36"
+        )
 
         modules_list = requests.get(modules_dir, headers=headers_data)
 
