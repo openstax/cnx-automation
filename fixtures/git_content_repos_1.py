@@ -19,6 +19,13 @@ def git_content_repos_1(headers_data):
         "minibook",
         "osbooks-failing-test-book",
         "osbooks-test-content",
+        "osbooks-mikroekonomia",
+        "osbooks-life-liberty-and-pursuit-happiness",
+        "osbooks-fizyka-bundle",
+        "osbooks-psychologia",
+        "osbooks-pl-marketing",
+        "osbooks-makroekonomia",
+        "cat-private-submodule",
     ]
 
     next_url = "https://api.github.com/orgs/openstax/repos?per_page=50"
