@@ -17,7 +17,7 @@ Compares two pdf files. To run:
 5. run 'pytest -k test_compare_pdf_files.py tests/docx'
 6. to get a log file of differences, run 'pytest -k test_compare_pdf_files.py tests/docx | tee docx_diffs.txt'
 
-Latest update on June 23rd, 2023
+Latest update on May 3rd, 2024
 """
 
 
@@ -32,7 +32,7 @@ def test_compare_pdf_files():
         pdf_files_paths = []
 
         for afile in os.listdir(base_from_dir):
-            if afile.startswith("openstax-osbooks-") and afile.endswith(".pdf"):
+            if afile.endswith(".pdf"):
                 from_dir = os.path.join(base_from_dir, afile)
                 to_dir = os.path.join(base_to_dir, afile)
 
