@@ -166,8 +166,7 @@ def abl_url(request):
 
 
 @pytest.fixture
-def abl_approved(abl_url):
+def abl_api_approved(abl_url):
     """Return list of dictionaries of approved books in ABL json"""
     abl_dict = requests.get(abl_url).json()
-    abl_approved = abl_dict["approved_books"]
-    return abl_approved
+    return abl_dict
