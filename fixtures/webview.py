@@ -6,8 +6,6 @@ import os
 import pytest
 import requests
 
-from rex_redirects import get_rex_release_json_url
-
 from tests.utils import gen_from_file, skip_if_destructive_and_sensitive
 
 DATA_DIR = os.path.join(os.path.realpath(os.path.dirname(__file__)), "data", "webview")
@@ -25,9 +23,7 @@ def rex_base_url(request):
 
 @pytest.fixture
 def rex_released_books(rex_base_url):
-    rex_host = rex_base_url.split("://")[-1]
-
-    release_json_url = get_rex_release_json_url(rex_host)
+    release_json_url = rex_base_url + "/rex/release.json"
     response = requests.get(release_json_url)
     response.raise_for_status()
 

@@ -1,7 +1,7 @@
 """
 Compares uuids from rex/release.json and abl api
 Run: pytest -k test_github_repos_compare_rex_abl.py tests/s3_bucket --rex_base_url https://openstax.org
-Latest update on September 25, 2024
+Latest update on October 21, 2024
 """
 
 
