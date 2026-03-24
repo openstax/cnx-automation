@@ -12,12 +12,13 @@ import tempfile
 Compares two pdf files. To run:
 1. run two pdf jobs in corgi
 2. download the pdf files from corgi (by default to Downloads folder on Mac)
-3. make sure that base_from_dir variable is set correctly
-4. base_to_dir is a temp folder and is auto-deleted after each test run
-5. run 'pytest -k test_compare_pdf_files.py tests/docx'
-6. to get a log file of differences, run 'pytest -k test_compare_pdf_files.py tests/docx | tee docx_diffs.txt'
+3. copy them to 2pdfs folder in Downloads
+4. make sure that base_from_dir variable is set correctly
+5. base_to_dir is a temp folder and is auto-deleted after each test run
+6. run 'pytest -k test_compare_pdf_files.py tests/docx'
+7. to get a log file of differences, run 'pytest -k test_compare_pdf_files.py tests/docx | tee docx_diffs.txt'
 
-Latest update on May 3rd, 2024
+Latest update on March 24th, 2026
 """
 
 
@@ -27,7 +28,7 @@ def test_compare_pdf_files():
         base_to_dir = tmp_dir
 
         home_dir = os.path.expanduser("~")
-        base_from_dir = f"{home_dir}/downloads/"
+        base_from_dir = f"{home_dir}/downloads/2pdfs"
 
         pdf_files_paths = []
 
