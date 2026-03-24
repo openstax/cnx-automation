@@ -44,7 +44,7 @@ def test_compare_pdf_files():
         # Part 2: Compares pdf files
         if len(pdf_files_paths) == 2:
             try:
-                assert pdf_similar(pdf_files_paths[0], pdf_files_paths[1])
+                assert pdf_similar(pdf_files_paths[0], pdf_files_paths[1], threshold=0.95)
 
             except AssertionError:
                 pytest.exit("PDFS ARE NOT THE SAME")
